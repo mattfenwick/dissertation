@@ -113,19 +113,11 @@ restraints \cite{aria2003}.  Altogether, the structure determination
 process can often take several months \cite{guerry2011automated}.
 
 In general, while computational tools are able to deliver results relatively 
-quickly compared to manual analysis, they are not able to produce more 
-accurate results, especially in the case of low-quality, irregular, or 
-otherwise problematic data, resulting in false positives and false 
-negatives \cite{williamson2009automated}.  
-Examples of analysis stages where automated tools may be inadequate include:
-\begin{itemize}
- \item peak-picking
- \item GSS construction
- \item sequential GSS assignment
- \item resonance-peak dimension assignment
- \item resonance-atomtype assignment
- \item sequence-specific GSS assignment
-\end{itemize}
+quickly compared to manual analysis, they may not be able to produce more 
+accurate results, especially when the input data is low-quality, irregular, or 
+otherwise problematic; this can result in false positives and negatives
+\cite{williamson2009automated}.  This is a problem at every stage of spectral
+analysis.
 
 This has the consequence that NMR structure determination data analysis 
 processes cannot be fully automated if high-quality results are required.  
@@ -148,7 +140,7 @@ Manual analysis follows a general pattern:
   for interpreting the feature based on his/her domain knowledge of NMR and 
   experience with interpretation of previous data sets.  For example, such 
   methods may take the form of deductive rules:  if <the data matches a 
-  certain pattern> , then <it could be interpreted a certain way>.
+  certain pattern>, then <it could be interpreted a certain way>.
   \item application of the rule to the data feature.  The chosen rule is 
   applied, and the result of the interpretation is included back into the 
   data set.  The result may now be used to drive further deductions.
@@ -187,18 +179,11 @@ scientific method".  These techniques share many characteristics, most notably:
 
 For example, one way to arrange these components is in an iterative cycle.  
 Here is an arbitrary ordering in which the output of each step is the input 
-for the following step:
-\begin{itemize}
-  \item data collection
-  \item data analysis
-  \item hypothesis
-  \item experimental design
-  \item data collection (repeat cycle from beginning)
-\end{itemize}
-
-Of course, such an ordering does not capture the full relationships between 
-the various components.  For example, experiments are designed to test 
-specific hypotheses.  However, in general, by iteratively designing, 
+for the following step: 1) data collection, 2) data analysis, 3) hypothesis,
+4) experimental design, and 5) data collection (repeat cycle from beginning).
+While such an ordering does not capture the full relationships between 
+the various components -- for example, experiments are designed to test 
+specific hypotheses -- in general, by iteratively designing, 
 performing, and analysing experiments, and using the results to reach new 
 conclusions, which lead to new hypotheses, and new experiments, scientists 
 are able to build such knowledge.  The conclusions then lead to ideas for 
@@ -215,57 +200,48 @@ reproducible.  These include:
   have evolved along with our experimental methods.  Lab notebooks and journal 
   publications are typical media for enabling reproducibility of experimental 
   designs.  
-  \begin{itemize}
-     \item is the experimental design recorded in sufficient detail to share 
-       it fully with other scientists?
-     \item does the experimental design acknowledge the possibility of 
-       confounding variables, and take measures to control for them?
-     \item given an experimental design, can it be repeatedly executed and 
-       identical results obtained (within expected deviations due to experimental 
-       error and variables outside the control of the experiment)?
-       \cite{drummond2012reproducible}
-  \end{itemize}
+  The design must be recorded in sufficient detail to convey the key
+  points to other scientists.  It may also acknowledge the possibility of 
+  confounding variables, and take measures to control for them.
+  The appropriate level of detail is neither too much nor too little:
+  it should be repeatedly executable such that similar results are obtained 
+  -- within expected deviations due to experimental error and variables 
+  outside the control of the experiment \cite{drummond2012reproducible}.
 
   \item Experimental execution.  Lab notebooks and Library Information Systems 
   (LIMS) are also important for recording the details of experiments, including 
   any problems such as contamination.
-  \begin{itemize}
-     \item is the actual procedure executed recorded in sufficient detail, 
-     including any deviations from the given experimental design?
-     \item is the sampling biased? \cite{savovic2012influence, simmons2011false}
-  \end{itemize}
+  When carrying out an experiment, the actual procedure followed should be
+  recorded in sufficient detail, including any deviations from the given 
+  experimental design and justifications for those changes.
+  Biased sampling should also be recognized if possible
+  \cite{savovic2012influence, simmons2011false}.
 
   \item Computational.  As computers continue to play an ever-growing role in 
   science, scientists have noted the problems that indiscriminate computational 
   use poses for reproducibility \cite{donoho2009, peng2011reproducible}.  
   By the early 1990's, researchers began defining reproducible 
-  computational analysis \cite{donoho_wavelab}, and 
-  describing strategies for achieving it. 
-  \begin{itemize}
-     \item are all tools, scripts, platforms and code available, including the 
-       exact versions used? 
-       \cite{ince2012open, nekrutenko2012next, blankenberg2014dissemination}
-     \item were all parameterizations recorded? \cite{landis2012call}
-     \item was all input and output data recorded?
-  \end{itemize}
+  computational analysis \cite{donoho_wavelab}, and describing strategies for 
+  achieving it.  A key point is that all tools, scripts, platforms and code 
+  available, including the exact versions used
+   \cite{ince2012open, nekrutenko2012next, blankenberg2014dissemination}.
+  In addition, all parameterizations \cite{landis2012call}, as well
+  as input and output data should be recorded.
 
   \item Analysis.  A further concern of reproducibility is with 
   non-computational analysis; failing to recognize analytical bias and to 
   use appropriate statistical measures has long been a source of 
   irreproducibility in scientific endeavors \cite{sackett1979bias}.
   This has also been previously noted in \cite{ioannidis2005most} 
-  and in \cite{nuzzo2014statistical, begley2013reproducibility}, 
+  in \cite{nuzzo2014statistical, begley2013reproducibility}, 
   and was the focus of a recent Nature special 
   (http://www.nature.com/nature/focus/reproducibility/).
-  \begin{itemize}
-     \item were all manual changes to data sets recorded?
-     \item were necessary and sufficient statistical measures used?
-       \cite{pashler2012replicability}
-     \item were appropriate statistical measures used? 
-       \cite{vaux2012numbers}
-     \item were sources of bias recognized and handled? 
-       \cite{macarthur2012reproducibility, wagenmakers2012agenda}
-  \end{itemize}
+  To ensure reproducibility of analysis, appropriate, necessary, and sufficient
+  statistical measures should be used
+  \cite{pashler2012replicability, vaux2012numbers}.
+  If bias is present in the experimental data, its sources should be recognized
+  and accounted for \cite{macarthur2012reproducibility, wagenmakers2012agenda}.
+  Additionally, manual changes made during analysis should be recorded.
 
 \end{itemize}
 
