@@ -22,41 +22,16 @@ binding partners based on surfaces as well as actual binding partners based on
 chemical shifts, and understanding biological processes.
 
 In order to study proteins in solution using NMR, multi-step processes are 
-employed to collect and analyze data.  An example process is described here 
-as a series of independent stages.  Here is a brief outline of the example 
-process \cite{guerry2011automated}:
+employed to collect and analyze data.  An example process is shown in 
+Figure-\ref{nmr_overview} as a series of independent stages 
+\cite{guerry2011automated}.
 
-\begin{itemize}
-  \item data collection
-  \begin{itemize}
-     \item isolation and purification of sample of interest
-     \item collection of time-domain data in an NMR spectrometer
-  \end{itemize}
-  \item spectral processing
-  \begin{itemize}
-     \item processing of time-domain data to frequency-domain spectra
-  \end{itemize}
-  \item spectral analysis
-  \begin{itemize}
-     \item peak-picking of through-bond frequency-domain spectra
-     \item build Generic Spin Systems \cite{autoassign1997} (GSSs) by 
-       analysis of peak chemical shifts
-     \item build sequential GSS chains
-     \item amino acid types of GSSs
-     \item peaktypes of peaks
-     \item resonances to peak dimensions
-     \item resonances to atoms
-     \item GSSs to residues
-  \end{itemize}
-  \item structure determination
-  \begin{itemize}
-    \item peak-picking of NOESY spectra
-    \item assignment of resonances to NOESY peaks
-    \item structure calculation
-    \item stereospecific resonance assignment
-    \item structure refinement
-  \end{itemize}
-\end{itemize}
+\begin{figure}
+  \includegraphics[scale=0.45]{figures/nmr_overview}
+  \caption{An overview of the NMR process for protein structure determination}
+  \label{nmr_overview}
+\end{figure}
+
 
 First, the protein/molecule of interest is isolated and a concentrated solution 
 is obtained.  Then, the solution is placed in an NMR spectrometer and an array 
