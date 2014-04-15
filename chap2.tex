@@ -1,6 +1,5 @@
 \section{Spectral processing}
 
-
 The raw data collected from an NMR spectrometer is referred to as 
 time-domain data.  In a typical NMR experiment, these data represent the 
 sum of multiple decaying sinusoids.  These FIDs are converted to 
@@ -146,9 +145,9 @@ H-N-rooted GSS would be expected to have:
 The difficulty in constructing these GSSs correctly and unambiguously stems 
 from the inherent nature of NMR data.  First, the success of the standard 
 suite of experiments rooted in H-N -- NHSQC, HNCO, HNCACB, etc. -- depends 
-on: [reference p600 “reliability” autoassign montelione]
+on: [reference p600 `reliability' autoassign montelione]
 \begin{enumerate}
-  \item good dispersion, i.e. no overlap, otherwise it’s hard to tell which 
+  \item good dispersion, i.e. no overlap, otherwise it's hard to tell which 
   peaks belong with which H-N-rooted spin system.
   \item the H-N chemical shifts being nearly identical across all spectra.  
   This may not be the case if there are variations in the sample or the 
@@ -160,8 +159,8 @@ on: [reference p600 “reliability” autoassign montelione]
   different resonances.
   \item the presence of an H-N group -- Proline is a notable exception, and 
   so it does not show up in experiments which rely on the presence of an H-N group
-  \item extraneous peaks which don’t seem to fit into a spin system, or 
-  peaks which don’t seem to match peaks in other spectra
+  \item extraneous peaks which don't seem to fit into a spin system, or 
+  peaks which don't seem to match peaks in other spectra
   \item accurate (or at least consistent) spectral referencing.  
   Misreferenced spectra will cause the same atom to show up at different 
   chemical shifts across multiple spectra.
@@ -224,7 +223,7 @@ interacts strongly with the assignment of atomtypes to resonances, in
 that the possible atomtypes to which a resonance may be assigned depends 
 on the amino acid type, and the expected chemical shift ranges for various 
 atomtypes depends on amino acid type as well.  For instance, GSSs assigned 
-to the Glycine amino acid type should not have a CB; and the CB resonance’s 
+to the Glycine amino acid type should not have a CB; and the CB resonance's 
 chemical shift of a GSS assigned to Alanine is expected to be very different 
 from all other CB chemical shifts.  Backbone amino acid types may be split 
 into several categories [reference: Saga crippen] based on BMRB statistics for 
@@ -240,7 +239,7 @@ CA and CB chemical shifts \cite{bmrb}:
 However, GSS typings are complicated by several factors.  First, GSS typing 
 requires correct and complete GSS construction.  Second, correctly assembled 
 GSSs may include overlapped or extraneous peaks, expected peaks (based on a 
-spectrum’s typical results) may also be missing.  Third, most GSSs can not 
+spectrum's typical results) may also be missing.  Third, most GSSs can not 
 be uniquely typed based solely on CA and CB chemical shifts, as groups 5 and 
 6 (above) as well as 4 are ambiguous.  Fourth, sidechain GSSs must be 
 identified and separated.
@@ -288,7 +287,7 @@ based on matching of atomtypes.  When a typical GSS is assigned to a residue,
 the H, N, C, C(i-1), CA, CA(i-1), CB, and CB(i-1) atoms will be assigned 
 resonances as well.  Sequence-specific assignment interacts heavily with 
 sequential GSS assignment, because the protein sequence must be compatible 
-with the GSS sequence, where “compatible” means that the amino acid types 
+with the GSS sequence, where `compatible' means that the amino acid types 
 of the GSS match those of the protein sequence.  Note that full assignment 
 of amino acid type to GSS is not a prerequisite for GSS-residue assignment; 
 in fact, GSS-residue assignment may lead to GSS-amino acid type assignment 

@@ -7,6 +7,11 @@
  - copy pasting
    - `'` characters show up strangely in PDF -- perhaps they're outside the encoding I used?
    - solution: just delete and retype the characters in gedit
+   - substitution:
+        
+        “  -->  `  or  ``
+        ”  -->  '  or  ''
+        ’  -->  '
  
  - title page needs special formatting
    - solution: ?????
