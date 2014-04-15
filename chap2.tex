@@ -26,7 +26,8 @@ the process to create generates several intermediate data sets, several
 intermediate metadata sets, and the sequence of functions used along with 
 their parameterizations.  Previous work from our lab has enabled the 
 convenient collection of necessary metadata during spectral 
-processing [reference: unpublished work (Connjur)].
+processing \cite{connjur-wb}.
+
 
 \section{Peak picking}
 
@@ -43,9 +44,12 @@ perfectly, the final peak lists would only contain true signal peaks, and
 would contain all true signal peaks.  
 [example] [example with noise] [example with artifacts] [example with small signal peaks]  
 In addition, for each peak, all of the following should be true: 
-1) the correct frequency position for each dimension are determined; 
-2) the correct lineshape and linewidth are obtained; 
-3) the correct intensity is measured.  
+\begin{itemize}
+  \item the correct frequency position for each dimension are determined
+  \item the correct lineshape and linewidth are obtained
+  \item the correct intensity is measured
+\end{itemize}
+
 Correct results are important because they form the basis for the construction 
 of GSSs, the assignment of chemical shifts to atoms, and the interpretation of 
 NOESY spectra which give rise to distance restraints as a preliminary to 
@@ -64,14 +68,16 @@ of overlap can even cause multiple peaks to appear as a single one.  Another
 difficulty of peak picking is low-intensity peaks, which causes them to be 
 nearly indistinguishable from the noise and baseline; this may be due to 
 sample instability such as aggregation or precipitation, or low sample 
-concentration. 
-[references: picky, munin, apart, autopsy; also see pine2009; and reviews by: 
-1) craven and williamson, 2) guentert, 3) altieri and byrd, 4) montelione2004].  
+concentration
+\cite{picky, munin, korzhnev2001munin, apart,
+autopsy, pine}
+\cite{williamson2009automated, guntert2009automated, altieri2004automation,
+baran2004automated}.
 In such cases, a naive peak picker based on intensity will necessarily 
 generate either false positives or false negatives.
 
 Estimates of the amount of false positive and false negative peaks picked 
-range from very low (10-40\%) to very high (70-135\%) [reference: pine2009].  
+range from very low (10-40\%) to very high (70-135\%) \cite{pine}. 
 The quality of the results generally depends on characteristics of the 
 spectrum, especially the signal/noise ratio, and resolution, as well as 
 characteristics of the molecule including T2 (which has an effect on peak 
@@ -80,35 +86,36 @@ peaks, which means a higher chance of overlap.
 
 In order to address these problems, various approaches have been tried.  
 Programs have been implemented which analyze peak shape and intensity as 
-well as local noise level [reference: Munin, AUTOPSY]  Other approaches 
+well as local noise level \cite{munin, autopsy}.  Other approaches 
 apply more advanced mathematical models to identifying peaks correctly.  
 Deposited data available in public archives may also be used 
-[reference: craven, herrmann, and the tools themselves].  These approaches 
-have been implemented as computational tools [reference: craven, herrmann, 
-and the tools themselves]  However, none of these approaches yields perfect 
-results [reference: guerry and herrmann].  Manual intervention during peak picking 
+These approaches have been implemented as computational tools 
+\cite{williamson2009automated, guerry2011automated}.
+However, none of these approaches yields perfect 
+results \cite{guerry2011automated}.  Manual intervention during peak picking 
 is still preferred, at least to a certain extent, and most peak picking 
 programs allow and encourage semi-automated interaction in order to clear 
 up troublesome features.  Manual intervention is useful for identifying 
-overlap, noise, artifactual, and extraneous peaks [reference: guentert2009], 
+overlap, noise, artifactual, and extraneous peaks, 
 and plays an important role in ensuring that the quality of the peak picking 
-is sufficiently high to enable further analysis [reference: guenter2009].  
+is sufficiently high to enable further analysis \cite{guntert2009automated}.  
 Manual intervention is often accomplished based on knowledge outside of the 
 spectrum: existence, position, and shape of peaks in other spectra, knowledge 
 of the solvent, characteristic artifactual patterns caused by a specific 
 processing scheme, knowledge of the local dynamics of a small region of the 
-protein.  [reference: all the automation reviews]  Because of this, 
-peak picking can often not be completely finished until later analysis has 
-been accomplished.
+protein.  \cite{williamson2009automated, guntert2009automated, 
+altieri2004automation, baran2004automated}
+Because of this, peak picking can often not be completely finished until 
+later analysis has been accomplished.
 
 
 \section{Spin system and resonance construction}
 
 After collecting and peak-picking a specific set of spectra designed to 
 capture the chemical shifts of the backbone H, N, C, CA as well as the CB, 
-the peaks are grouped into what is known as pseudoresidues [reference: mars] 
-or generic spin systems (GSS) [reference: saga crippen, autoassign montelione, 
-autoassign moseley, mars zweckstetter, hamid pistachio, ezassign zuiderweg].  
+the peaks are grouped into what is known as pseudoresidues \cite{mars} 
+or generic spin systems (GSS) 
+\cite{saga, ezassign, pistachio, autoassign1997, autoassign2001}.  
 A GSS is the NMR-visible incarnation of covalently bonded, magnetically 
 interacting nuclei through j-coupling.  GSSs are defined as having a root 
 resonance or resonances -- typically an amide H-N group due to the high 
@@ -145,42 +152,42 @@ H-N-rooted GSS would be expected to have:
 The difficulty in constructing these GSSs correctly and unambiguously stems 
 from the inherent nature of NMR data.  First, the success of the standard 
 suite of experiments rooted in H-N -- NHSQC, HNCO, HNCACB, etc. -- depends 
-on: [reference p600 `reliability' autoassign montelione]
+on \cite{autoassign1997}: % page 600 -- `reliability`
 \begin{enumerate}
-  \item good dispersion, i.e. no overlap, otherwise it's hard to tell which 
+  \item good dispersion, i.e. no overlap, otherwise it is hard to tell which 
   peaks belong with which H-N-rooted spin system.
   \item the H-N chemical shifts being nearly identical across all spectra.  
   This may not be the case if there are variations in the sample or the 
   temperature.  The Block-Siegert shift and experimental error also can have 
   an effect on chemical shift.
   \item atoms appearing at a single chemical shift.  If there are multiple 
-  conformations or chemical heterogeneity [reference autoassign montelione], 
+  conformations or chemical heterogeneity \cite{autoassign1997}, 
   an atom may appear at multiple chemical shifts and appear to be two 
   different resonances.
   \item the presence of an H-N group -- Proline is a notable exception, and 
   so it does not show up in experiments which rely on the presence of an H-N group
-  \item extraneous peaks which don't seem to fit into a spin system, or 
-  peaks which don't seem to match peaks in other spectra
+  \item extraneous peaks which do not seem to fit into a spin system, or 
+  peaks which do not seem to match peaks in other spectra
   \item accurate (or at least consistent) spectral referencing.  
   Misreferenced spectra will cause the same atom to show up at different 
   chemical shifts across multiple spectra.
-  \item quality of peak-picking [reference autoassign montelione]: 
+  \item quality of peak-picking \cite{autoassign1997}: 
   chemical shifts, false positives, false negatives, extraneous peaks
 \end{enumerate}
 
 Relatively complete and correct peak-picking is a prerequisite for GSS 
-construction [reference mars zweckstetter].  Computational approaches 
+construction \cite{mars}.  Computational approaches 
 for GSS construction tend to require manual assistance in some cases 
-[reference: montelione autoassign, mars zweckstetter].  Incorrect or 
+\cite{autoassign1997, mars}.  Incorrect or 
 incomplete GSSs will have negative effects on the quality of later 
 analysis, and so it is important to obtain correct GSSs; many such 
 tools assume that manual intervention will verify and, if necessary, 
 correct the GSSs; this allows the tools to be conservative in their 
-predictions [reference autoassign montelione].  However, it may not be 
+predictions \cite{autoassign1997}.  However, it may not be 
 possible to unambiguously and completely construct GSSs until the results 
 of later analysis are available: some approaches use NOESY peaks and 
 assignments as well as structure results to verify and correct GSSs 
-[reference autoassign montelione].
+\cite{autoassign1997}.
 
 
 \section{Backbone spin systems and resonances: typing and sequence-specific assignment}
@@ -226,7 +233,7 @@ atomtypes depends on amino acid type as well.  For instance, GSSs assigned
 to the Glycine amino acid type should not have a CB; and the CB resonance's 
 chemical shift of a GSS assigned to Alanine is expected to be very different 
 from all other CB chemical shifts.  Backbone amino acid types may be split 
-into several categories [reference: Saga crippen] based on BMRB statistics for 
+into several categories \cite{saga} based on BMRB statistics for 
 CA and CB chemical shifts \cite{bmrb}:
 \begin{enumerate}
   \item Ala
@@ -274,8 +281,8 @@ Sequential GSS assignment is complicated by:
   \item degeneracy of chemical shifts:  given two GSSs with identical CA(i-1) 
   and CB(i-1) resonances, as well as a third GSS with matching CA and CB 
   resonances, it is impossible to unambiguously assign sequentially solely 
-  on the basis of chemical shift   matching between the two GSSs 
-  [reference: autoassign montelione].
+  on the basis of chemical shift matching between the two GSSs 
+  \cite{autoassign1997}.
 \end{enumerate}
 
 \subsection{Assignment of GSS to specific residue of sample of interest}
@@ -294,7 +301,7 @@ in fact, GSS-residue assignment may lead to GSS-amino acid type assignment
 for sequentially connected GSSs.  GSS-residue assignment is facilitated by 
 long chains of sequential GSSs in which some of the GSSs are typed as Serine, 
 Threonine, Glycine, or Alanine.  The longer a GSS chain, the fewer places it 
-might possibly fit into the protein sequence [reference: saga crippen].  Also, 
+might possibly fit into the protein sequence \cite{saga}.  Also, 
 as sequence-specific assignment proceeds, the number of unassigned GSSs and 
 residues decreases; the result is that initially ambiguous assignments become 
 unambiguous as choices are removed.  Conversely, complications arise from 
@@ -326,7 +333,7 @@ many closing matching chemical shifts; overlap between resonances within the
 same GSS, especially in Leu and Ile; missing and extraneous data; and the 
 difficulty of both obtaining and unambiguously interpreting aromatic data.  
 New approaches for sidechain data collection and assignment have recently 
-been developed [reference: mobli2010, apsy wider 2008] which seek to address 
+been developed \cite{mobli2010non, hiller2008apsy} which seek to address 
 these issues by reducing ambiguity of chemical shifts.
 
 
@@ -353,20 +360,20 @@ the ambiguity
   \item incorrect or incomplete chemical shift assignments
 \end{enumerate}
 
-NOESY assignment is generally done automatically [reference: Cyana, Aria].  
-NOESY peak-picking may be automated as well [reference: korzhnev Munin, orekhov Munin].
+NOESY assignment is generally done automatically \cite{cyana2004, aria2003}.  
+NOESY peak-picking may be automated as well \cite{munin, korzhnev2001munin}.
 
 
 \section{Structure calculation}
 
 Cyana is able to calculate a three-dimensional structure from NOESY peaks, 
-chemical shift assignments, and distance restraints  [reference Cyana and Aria] 
+chemical shift assignments, and distance restraints \cite{cyana2004, aria2003} 
 using an iterative approach to NOESY peak assignment and building structural 
 models.  It also requires secondary structure information as input, which can 
 be calculated from chemical shift assignments using a program such as 
-[reference: Talos+].  Chemical shift assignments may also be used to 
-calculate potential structures [reference: CS-Rosetta].  Additional programs 
-may be used to refine structures [reference: Amber, NIH-XPlor].  This phase 
+\cite{talos+}.  Chemical shift assignments may also be used to 
+calculate potential structures \cite{cs-rosetta}.  Additional programs 
+may be used to refine structures \cite{amber, xplor-nih}.  This phase 
 generally does not require manual intervention.
 
 
@@ -375,35 +382,44 @@ generally does not require manual intervention.
 The inherent NMR issues of ambiguous, missing, and extraneous data cause 
 problems throughout the entire analysis process.  Correctly dealing with 
 these issues is difficult, but absolutely critical in order to obtain 
-high-quality results [reference: the reviews].  As yet, computational tools 
-are not able to deal perfectly with these issues [reference: all the reviews].  
-Most tools have several basic limitations: 1) they require high-quality input 
-in order to function correctly [reference: Saga, ABACUS, etc.]; this input is 
-generally assumed to have been manually prepared in order to meet the 
-stringent quality requirements of completeness and absence of extraneous 
-results; 2) even with high-quality input data, tools are not able to produce 
-perfect results; 3) tools perform differently in different contexts, although 
-performance generally decreases as protein size increases and spectral quality 
-decreases; 4) manual verification and correction of the results is assumed, 
-even for tools that claim to be fully automated [reference: guentert, other reviews].
+high-quality results \cite{williamson2009automated, guntert2009automated, 
+altieri2004automation, baran2004automated}.  As yet, computational tools 
+are not able to deal perfectly with these issues.  
+Most tools have several basic limitations: 
+\begin{enumerate}
+  \item they require high-quality input in order to function correctly 
+  \cite{saga, abacus_assignment, mars, autoassign2001, ezassign, pine, cyana2004}; 
+  this input is generally assumed to have been manually prepared in order 
+  to meet the stringent quality requirements of completeness and absence of 
+  extraneous results
+  \item even with high-quality input data, tools are not able to produce 
+  perfect results 
+  \item tools perform differently in different contexts, although 
+  performance generally decreases as protein size increases and spectral quality 
+  decreases
+  \item manual verification and correction of the results is assumed, 
+  even for tools that claim to be fully automated 
+  \cite{williamson2009automated, guntert2009automated, altieri2004automation,
+  baran2004automated}
+\end{enumerate}
 
 A key limitation of many analysis tools is that they are viewed as part of a 
 pipeline: input is transformed into output, which becomes the input for the 
-next stage, and so on [reference: pine2009].  This may explain why these tools 
+next stage, and so on \cite{pine}.  This may explain why these tools 
 are not able to produce better results:  full analysis, including peak-picking, 
 GSS construction, assignment, and so on, can make use of information from 
 multiple stages.  Humans, performing manual interventions, are able to bring 
 this additional information to bear to make specific interpretations; however, 
-many of these tools do not.  Thus, PINE and related efforts [reference: pine2009] 
+many of these tools do not.  Thus, PINE and related efforts  
 are an exciting effort to loosen these artificial restrictions.  Initial 
 results are promising, and show a marked improvement, although manual 
 intervention is still assumed to be necessary in order to obtain the best 
-results [reference: pine2009].  Further tools such as [reference: ShiftX2, Cheshire], 
+results \cite{pine}.  Further tools such as \cite{shiftx2, cheshire}, 
 which calculate chemical shifts from structure, provide additional means 
 for bringing additional information to bear, helping to validate assignments.
 
 Another exciting development is the rise of probabilistic methods 
-[reference: Saga, Pine].  These methods reflect the reality that the 
+\cite{saga, pine}.  These methods reflect the reality that the 
 confidence of a specific interpretation depends on the exact state of the 
 data; in other words, an assignment which is 50\% confident given only an 
 HNCA spectrum may become 90\% confident if an HN(CO)CA spectrum is added.  
@@ -416,7 +432,7 @@ uncertainty is tracked as a confidence level, further interpretations based
 on a highly uncertain datum will also receive low confidence levels.  In 
 addition, confidence levels are an alternative to the inherent balance 
 between completeness and correctness -- it is no longer necessary to 
-sacrifice one for the other [reference: AutoASSIGN, PINE].
+sacrifice one for the other \cite{autoassign2001, pine}.
 
 
 \section{Conclusions}
@@ -430,7 +446,7 @@ completely automated.  Manual intervention is assumed to be necessary by
 most tools, even automated ones, to ensure the completeness and correctness 
 of results.  However, despite the importance that manual intervention plays 
 in analysis, the specific modifications made and their reasons for -- 
-which may be quite complicated -- are not captured [reference: guentert2009].  
+which may be quite complicated -- are not captured \cite{guntert2009automated}.  
 Thus, the metadata of manual intervention is lost, and analysis is 
 irreproducible.
 
