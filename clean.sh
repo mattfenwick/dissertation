@@ -1,1 +1,1 @@
-rm *.aux *.log *.bbl *.blg *.lot *.lof *.out
+rm *.aux *.log *.bbl *.blg *.lot *.lof *.out *.toc
