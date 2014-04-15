@@ -1,0 +1,437 @@
+\section{Spectral processing}
+
+
+The raw data collected from an NMR spectrometer is referred to as 
+time-domain data.  In a typical NMR experiment, these data represent the 
+sum of multiple decaying sinusoids.  These FIDs are converted to 
+frequency-domain spectra which are used in further analysis.  The goal of 
+this phase is to construct a frequency spectrum which indicates the resonance 
+frequencies of the atoms that were observed in the experiment.  A common tool 
+for such a transformation is the Fourier Transform, which is able to convert 
+a data set consisting of multiple overlapped signals to a frequency spectrum.  
+Due to relaxation decreasing the amplitude of an NMR signal over time, peaks 
+have an intrinsic linewidth in the frequency spectrum.
+
+Considerations include:  minimization of processing artifacts; signal-to-noise 
+ratio; accounting for water lines; avoiding rolling baselines and baseline 
+offsets; linewidth; phasing; lineshape; sync wiggles.  Multiple software 
+packages exist for carrying out this conversion \cite{nmrpipe, rnmrtk}.
+These packages include functions for processing the data in specific ways to 
+guarantee desirable qualities.  A typical procedure for spectral processing 
+involves the sequential application of multiple functions from one of these 
+packages.  At each stage, the input is a data set and associated metadata, 
+which includes information such as spectral width, dwell time, and number of 
+points.  Each function may require the setting of one or more parameters in 
+order to proceed.  Thus, in addition to the final frequency-domain spectrum, 
+the process to create generates several intermediate data sets, several 
+intermediate metadata sets, and the sequence of functions used along with 
+their parameterizations.  Previous work from our lab has enabled the 
+convenient collection of necessary metadata during spectral 
+processing [reference: unpublished work (Connjur)].
+
+\section{Peak picking}
+
+The Fourier Transform of a decaying sinusoid produces a frequency-domain 
+spectrum with a peak at a frequency matching the oscillation frequency of 
+the sinusoid.  Since NMR time-domain data consists of multiple decaying 
+sinusoids caused by atoms resonating at characteristic chemical shifts, 
+the frequency domain spectrum will contain peaks for every oscillating 
+sinusoid present in the time-domain data.  Identification of the positions 
+of these peaks and of their attributes such as shape, intensity, and width 
+is the next important step after spectral processing.  The goal of peak 
+picking is to build collections of peaks.  Thus, if peak picking proceeded 
+perfectly, the final peak lists would only contain true signal peaks, and 
+would contain all true signal peaks.  
+[example] [example with noise] [example with artifacts] [example with small signal peaks]  
+In addition, for each peak, all of the following should be true: 
+1) the correct frequency position for each dimension are determined; 
+2) the correct lineshape and linewidth are obtained; 
+3) the correct intensity is measured.  
+Correct results are important because they form the basis for the construction 
+of GSSs, the assignment of chemical shifts to atoms, and the interpretation of 
+NOESY spectra which give rise to distance restraints as a preliminary to 
+structure calculation.  Incorrect peak identification or position can result 
+in misinterpretation of NOESY spectra, which could lead to false distance 
+restraints between atoms which are in fact very far apart in the actual 
+protein structure.
+	
+However, correct and complete peak picking is complicated by false peaks, 
+such as random noise and artifacts of the processing and/or sampling schemes, 
+as well as peaks caused by contaminant molecules or the solution itself if it 
+contains NMR-active nuclei.  peak picking is further complicated by overlap -- 
+when two or more peaks are closer than the spectral resolution, resulting in 
+distortion of lineshape, position, and intensity measurements; severe cases 
+of overlap can even cause multiple peaks to appear as a single one.  Another 
+difficulty of peak picking is low-intensity peaks, which causes them to be 
+nearly indistinguishable from the noise and baseline; this may be due to 
+sample instability such as aggregation or precipitation, or low sample 
+concentration. 
+[references: picky, munin, apart, autopsy; also see pine2009; and reviews by: 
+1) craven and williamson, 2) guentert, 3) altieri and byrd, 4) montelione2004].  
+In such cases, a naive peak picker based on intensity will necessarily 
+generate either false positives or false negatives.
+
+Estimates of the amount of false positive and false negative peaks picked 
+range from very low (10-40\%) to very high (70-135\%) [reference: pine2009].  
+The quality of the results generally depends on characteristics of the 
+spectrum, especially the signal/noise ratio, and resolution, as well as 
+characteristics of the molecule including T2 (which has an effect on peak 
+width) and number of atoms -- the issue being that more atoms means more 
+peaks, which means a higher chance of overlap.
+
+In order to address these problems, various approaches have been tried.  
+Programs have been implemented which analyze peak shape and intensity as 
+well as local noise level [reference: Munin, AUTOPSY]  Other approaches 
+apply more advanced mathematical models to identifying peaks correctly.  
+Deposited data available in public archives may also be used 
+[reference: craven, herrmann, and the tools themselves].  These approaches 
+have been implemented as computational tools [reference: craven, herrmann, 
+and the tools themselves]  However, none of these approaches yields perfect 
+results [reference: guerry and herrmann].  Manual intervention during peak picking 
+is still preferred, at least to a certain extent, and most peak picking 
+programs allow and encourage semi-automated interaction in order to clear 
+up troublesome features.  Manual intervention is useful for identifying 
+overlap, noise, artifactual, and extraneous peaks [reference: guentert2009], 
+and plays an important role in ensuring that the quality of the peak picking 
+is sufficiently high to enable further analysis [reference: guenter2009].  
+Manual intervention is often accomplished based on knowledge outside of the 
+spectrum: existence, position, and shape of peaks in other spectra, knowledge 
+of the solvent, characteristic artifactual patterns caused by a specific 
+processing scheme, knowledge of the local dynamics of a small region of the 
+protein.  [reference: all the automation reviews]  Because of this, 
+peak picking can often not be completely finished until later analysis has 
+been accomplished.
+
+
+\section{Spin system and resonance construction}
+
+After collecting and peak-picking a specific set of spectra designed to 
+capture the chemical shifts of the backbone H, N, C, CA as well as the CB, 
+the peaks are grouped into what is known as pseudoresidues [reference: mars] 
+or generic spin systems (GSS) [reference: saga crippen, autoassign montelione, 
+autoassign moseley, mars zweckstetter, hamid pistachio, ezassign zuiderweg].  
+A GSS is the NMR-visible incarnation of covalently bonded, magnetically 
+interacting nuclei through j-coupling.  GSSs are defined as having a root 
+resonance or resonances -- typically an amide H-N group due to the high 
+dispersion in resonance frequency of such groups which enables easier 
+unambiguous identification of each H-N group, and the relatively high 
+sensitivity of H-N groups in NMR experiments -- and additional 
+covalently-bonded resonances.  The precise extent of a GSS is in principle 
+determined by the available NMR experiments which exploit the network of 
+covalently bonded, coupled nuclei.  In practice, a GSS often is initially 
+comprised of a backbone H-N, CO, CA, CB, CO(i-1), CA(i-1), and CB(i-1).  
+At a later stage, GSSs are often augmented with additional sidechain resonances.  
+In addition to GSSs of backbone resonances, H-N-rooted GSSs typically are 
+visible for Asparagine and Glutamine sidechains, and smaller GSSs of 
+Tryptophan sidechains are visible.  Arginine sidechains may also give rise 
+to an H-N-rooted GSS under certain experimental conditions. 
+	
+Typical NMR experiments for observing CO, CA, and CB nuclei also include H-N.  
+This is the practical reason for treating GSSs as H-N-rooted: across multiple 
+spectra, the same H-N group will appear at approximately the same frequency.  
+Based on the consistency of of H-N chemical shifts, the peaks can be grouped; 
+given an NHSQC, HNCO, HN(CA)CO, HNCACB, and HN(CO)CACB spectrum, each backbone 
+H-N-rooted GSS would be expected to have:
+\begin{itemize}
+ \item H: 10 measurements, NHSQCx1, HNCOx1, HN(CA)COx2, HNCACBx4, HN(CO)CACBx2
+ \item N: 10 measurements, NHSQCx1, HNCOx1, HN(CA)COx2, HNCACBx4, HN(CO)CACBx2
+ \item CO: 1 measurement, HN(CA)COx1
+ \item CO(i-1): 2 measurements, HNCOx1, HN(CA)COx1
+ \item CA: 1 measurement, HNCACBx1
+ \item CA(i-1): 2 measurements, HNCACBx1, HN(CO)CACBx1
+ \item CB: 1 measurement, HNCACBx1
+ \item CB(i-1): 2 measurements, HNCACBx1, HN(CO)CACBx1
+\end{itemize}
+
+The difficulty in constructing these GSSs correctly and unambiguously stems 
+from the inherent nature of NMR data.  First, the success of the standard 
+suite of experiments rooted in H-N -- NHSQC, HNCO, HNCACB, etc. -- depends 
+on: [reference p600 “reliability” autoassign montelione]
+\begin{enumerate}
+  \item good dispersion, i.e. no overlap, otherwise it’s hard to tell which 
+  peaks belong with which H-N-rooted spin system.
+  \item the H-N chemical shifts being nearly identical across all spectra.  
+  This may not be the case if there are variations in the sample or the 
+  temperature.  The Block-Siegert shift and experimental error also can have 
+  an effect on chemical shift.
+  \item atoms appearing at a single chemical shift.  If there are multiple 
+  conformations or chemical heterogeneity [reference autoassign montelione], 
+  an atom may appear at multiple chemical shifts and appear to be two 
+  different resonances.
+  \item the presence of an H-N group -- Proline is a notable exception, and 
+  so it does not show up in experiments which rely on the presence of an H-N group
+  \item extraneous peaks which don’t seem to fit into a spin system, or 
+  peaks which don’t seem to match peaks in other spectra
+  \item accurate (or at least consistent) spectral referencing.  
+  Misreferenced spectra will cause the same atom to show up at different 
+  chemical shifts across multiple spectra.
+  \item quality of peak-picking [reference autoassign montelione]: 
+  chemical shifts, false positives, false negatives, extraneous peaks
+\end{enumerate}
+
+Relatively complete and correct peak-picking is a prerequisite for GSS 
+construction [reference mars zweckstetter].  Computational approaches 
+for GSS construction tend to require manual assistance in some cases 
+[reference: montelione autoassign, mars zweckstetter].  Incorrect or 
+incomplete GSSs will have negative effects on the quality of later 
+analysis, and so it is important to obtain correct GSSs; many such 
+tools assume that manual intervention will verify and, if necessary, 
+correct the GSSs; this allows the tools to be conservative in their 
+predictions [reference autoassign montelione].  However, it may not be 
+possible to unambiguously and completely construct GSSs until the results 
+of later analysis are available: some approaches use NOESY peaks and 
+assignments as well as structure results to verify and correct GSSs 
+[reference autoassign montelione].
+
+
+\section{Backbone spin systems and resonances: typing and sequence-specific assignment}
+
+Once GSSs have been constructed, analysis continues with four simultaneous subtasks:
+\begin{enumerate}
+  \item assignment of resonance to atomtype
+  \item assignment of amino acid type to GSS
+  \item assignment of GSS to GSS sequentially
+  \item assignment of GSS to specific residue of sample of interest
+\end{enumerate}
+
+\subsection{Assignment of resonance to atomtype}
+GSSs are composed of resonances \cite{ccpn}.  Resonances are 
+similar to GSSs in their relationships to atoms and residues: resonances can 
+be identified consistently across spectra without reference to a specific 
+atom; later interpretation is expected to assign the resonance to an atom.  
+The resonance datatype captures this concept, an intermediate between 
+frequency spectra and atoms.  Before assigning a resonance to a specific 
+atom, the atomtype of a resonance may be assigned.  In an HNCO experiment, 
+this is typically straightforward, because for each backbone spin system, 
+the H dimension always corresponds to the backbone H, the N dimension always 
+corresponds to the backbone N, and the C dimension always corresponds to the 
+backbone C(i-1).  However, the situation is more complicated in an HNCACB 
+experiment, as there are generally four choices of atomtype assignment for 
+the C dimension:  CA, CB, CA(i-1), and CB(i-1).  Thus, the resonance given 
+by the C dimension of each peak must be assigned one of these choices.  
+Reasons for choosing a specific assignment include peak sign, as well as 
+chemical shift compared to statistics available in the BMRB.  In addition, 
+the overlap between experiment pairs such as the HNCACB and CBCA(CO)NH 
+facilitates resonance-atomtype assignment: while the CA(i-1) and CB(i-1) 
+are expected to appear in both experiments at the same chemical shift for 
+a given backbone H-N root, the CA and CB are expected to appear only in the 
+HNCACB spectrum.
+
+\subsection{Assignment of amino acid type to GSS}
+
+Correspondingly, GSSs are also assigned amino acid types.  This phase 
+interacts strongly with the assignment of atomtypes to resonances, in 
+that the possible atomtypes to which a resonance may be assigned depends 
+on the amino acid type, and the expected chemical shift ranges for various 
+atomtypes depends on amino acid type as well.  For instance, GSSs assigned 
+to the Glycine amino acid type should not have a CB; and the CB resonance’s 
+chemical shift of a GSS assigned to Alanine is expected to be very different 
+from all other CB chemical shifts.  Backbone amino acid types may be split 
+into several categories [reference: Saga crippen] based on BMRB statistics for 
+CA and CB chemical shifts \cite{bmrb}:
+\begin{enumerate}
+  \item Ala
+  \item Gly 
+  \item Pro
+  \item Ser, Thr
+  \item Val, Met, Lys, His, Arg, Glu, Gln, Trp, Cys
+  \item Asp, Asn, Ile, Leu, Phe, Tyr
+\end{enumerate}
+However, GSS typings are complicated by several factors.  First, GSS typing 
+requires correct and complete GSS construction.  Second, correctly assembled 
+GSSs may include overlapped or extraneous peaks, expected peaks (based on a 
+spectrum’s typical results) may also be missing.  Third, most GSSs can not 
+be uniquely typed based solely on CA and CB chemical shifts, as groups 5 and 
+6 (above) as well as 4 are ambiguous.  Fourth, sidechain GSSs must be 
+identified and separated.
+
+\subsection{Assignment of GSS to GSS sequentially}
+
+Sequential GSS assignments are made using an important feature of common NMR 
+experiments such as the HNCACB and HN(CA)CO: natural overlap between 
+sequential GSSs.  This phenomenon is enabled by the similar coupling 
+constants between the backbone N and the CA and CA(i-1) nuclei, which allows 
+a single experiment to simultaneously correlate the H-N with both nearby CAs, 
+and through CAs covalent bonds to additional atoms.  This phenomenon is 
+exploited such that, in principle, each CA, CB, and C atom is observable 
+through standard NMR experiments from two backbone H-Ns;  sequential GSSs 
+are expected to have CA/CA(i-1), CB/CB(i-1), and CO/CO(i-1) resonances at 
+identical chemical shifts.  This duplication enables sequential assignment 
+of GSSs.  Note that there is substantial interaction between atomtype-resonance 
+assignment and sequential GSS assignment: assigning two GSSs sequentially 
+implies the CB vs CB(i-1), CA vs CA(i-1), and C vs C(i-1) atomtype assignments 
+of the resonances in both GSSs; knowing the atomtype-resonance assignments of 
+two spin systems can prevent their sequential assignment (if, for example, the 
+matching resonances are both CB(i-1)); and not knowing the atomtype-resonance 
+assignment implies that the sequential GSS assignment may be invalid.  
+Sequential GSS assignment is complicated by: 
+\begin{enumerate}
+  \item missing peaks, possibly caused 
+  by local dynamics, which reduce the number of overlapping resonances between 
+  potential sequential GSSs, and can also disrupt atomtype assignments of 
+  resonances; 
+  \item extraneous peaks, which may be false positives or caused by 
+  multiple conformations of the protein, causing incorrect matches
+  \item degeneracy of chemical shifts:  given two GSSs with identical CA(i-1) 
+  and CB(i-1) resonances, as well as a third GSS with matching CA and CB 
+  resonances, it is impossible to unambiguously assign sequentially solely 
+  on the basis of chemical shift   matching between the two GSSs 
+  [reference: autoassign montelione].
+\end{enumerate}
+
+\subsection{Assignment of GSS to specific residue of sample of interest}
+
+The final piece of backbone analysis is assignment of GSSs to specific 
+residues.  Since backbone GSSs are H-N-rooted, a GSS is assigned to a 
+backbone-amide; this implies the assignment of resonances to atoms as well, 
+based on matching of atomtypes.  When a typical GSS is assigned to a residue, 
+the H, N, C, C(i-1), CA, CA(i-1), CB, and CB(i-1) atoms will be assigned 
+resonances as well.  Sequence-specific assignment interacts heavily with 
+sequential GSS assignment, because the protein sequence must be compatible 
+with the GSS sequence, where “compatible” means that the amino acid types 
+of the GSS match those of the protein sequence.  Note that full assignment 
+of amino acid type to GSS is not a prerequisite for GSS-residue assignment; 
+in fact, GSS-residue assignment may lead to GSS-amino acid type assignment 
+for sequentially connected GSSs.  GSS-residue assignment is facilitated by 
+long chains of sequential GSSs in which some of the GSSs are typed as Serine, 
+Threonine, Glycine, or Alanine.  The longer a GSS chain, the fewer places it 
+might possibly fit into the protein sequence [reference: saga crippen].  Also, 
+as sequence-specific assignment proceeds, the number of unassigned GSSs and 
+residues decreases; the result is that initially ambiguous assignments become 
+unambiguous as choices are removed.  Conversely, complications arise from 
+incomplete sequential GSS assignments resulting in short, ambiguous chains.  
+The presence of prolines generally ends chains due to the lack of a backbone 
+H-N group.  Missing GSSs also terminate chains.  Relatively few Ser, Thr, Gly, 
+and Ala residues means the number of unambiguous anchor points will be lower.
+
+
+\section{Sidechain: spin system and resonance assignment}
+
+The next group of experiments collects chemical shifts of sidechain atoms.  
+These experiments include the HBHA(CO)NH, C(CO)NH-Tocsy, HC(CO)NH-Tocsy, 
+HCCH-Tocsy, and aromatic Tocsys.  The purpose of these experiments is to 
+obtain the chemical shift values of sidechain resonances of protons, since 
+proton frequencies are necessary in order to interpret NOESY spectra.  To 
+interpret these spectra, the peaks must be assigned to GSSs and atomtypes 
+must be assigned to the new resonances. While several of these experiments 
+are also rooted in backbone H-N groups, facilitating the addition of peaks 
+to the correct GSS, others -- such as the HCCH-Tocsy -- are not.  These are 
+analyzed by the matching of resonance chemical shifts with those from other 
+experiments targeting sidechains.  Atomtype-resonance assignments can generally 
+be made with reference to compiled BMRB statistics.  Complications in this 
+phase include: stereospecificity -- atoms such as HA2 and HA3 may give rise 
+to different chemical shifts, but resolving the correspondence may be 
+impossible without further data; overlap -- especially in the HCCH-Tocsy 
+where sidechains of the same amino acid type but different residue may have 
+many closing matching chemical shifts; overlap between resonances within the 
+same GSS, especially in Leu and Ile; missing and extraneous data; and the 
+difficulty of both obtaining and unambiguously interpreting aromatic data.  
+New approaches for sidechain data collection and assignment have recently 
+been developed [reference: mobli2010, apsy wider 2008] which seek to address 
+these issues by reducing ambiguity of chemical shifts.
+
+
+\section{NOESY peak-picking and assignment}
+
+In NOESY spectra, each true peak indicates a pair of protons within 
+approximately 5 Angstroms of each other.  This is different from the 
+correlation spectra discussed earlier, in which peaks indicate covalently 
+bonded atoms; NOESY spectra do not depend on covalent bonds but rather 
+depend on spatial proximity.  Thus, each NOESY peak contains some information 
+about the actual three-dimensional structure of a molecule, if it can be 
+determined which protons give rise to the peak.  Analysis of NOESY spectra 
+requires chemical shift assignments of atoms, and uses that information to 
+determine the protons involved in a peak.  Considerations used to analyze 
+NOESY spectra include: symmetry -- a peak is expected to correspond to a 
+matching peak with the frequencies of the two 1H dimensions swapped; patterns 
+based on known proximity of atoms from the primary sequence giving rise to 
+many short-distance NOE peaks; network anchoring.  Complications include: 
+\begin{enumerate}
+  \item overlap caused by degenerate chemical shifts of protons, leading to 
+ambiguous interpretations of peak assignments; this can be greatly mitigated 
+by the use of an extra dimension:  15N- or 13C-edited NOESY spectra reduce 
+the ambiguity
+  \item incorrect or incomplete chemical shift assignments
+\end{enumerate}
+
+NOESY assignment is generally done automatically [reference: Cyana, Aria].  
+NOESY peak-picking may be automated as well [reference: korzhnev Munin, orekhov Munin].
+
+
+\section{Structure calculation}
+
+Cyana is able to calculate a three-dimensional structure from NOESY peaks, 
+chemical shift assignments, and distance restraints  [reference Cyana and Aria] 
+using an iterative approach to NOESY peak assignment and building structural 
+models.  It also requires secondary structure information as input, which can 
+be calculated from chemical shift assignments using a program such as 
+[reference: Talos+].  Chemical shift assignments may also be used to 
+calculate potential structures [reference: CS-Rosetta].  Additional programs 
+may be used to refine structures [reference: Amber, NIH-XPlor].  This phase 
+generally does not require manual intervention.
+
+
+\section{Discussion}
+
+The inherent NMR issues of ambiguous, missing, and extraneous data cause 
+problems throughout the entire analysis process.  Correctly dealing with 
+these issues is difficult, but absolutely critical in order to obtain 
+high-quality results [reference: the reviews].  As yet, computational tools 
+are not able to deal perfectly with these issues [reference: all the reviews].  
+Most tools have several basic limitations: 1) they require high-quality input 
+in order to function correctly [reference: Saga, ABACUS, etc.]; this input is 
+generally assumed to have been manually prepared in order to meet the 
+stringent quality requirements of completeness and absence of extraneous 
+results; 2) even with high-quality input data, tools are not able to produce 
+perfect results; 3) tools perform differently in different contexts, although 
+performance generally decreases as protein size increases and spectral quality 
+decreases; 4) manual verification and correction of the results is assumed, 
+even for tools that claim to be fully automated [reference: guentert, other reviews].
+
+A key limitation of many analysis tools is that they are viewed as part of a 
+pipeline: input is transformed into output, which becomes the input for the 
+next stage, and so on [reference: pine2009].  This may explain why these tools 
+are not able to produce better results:  full analysis, including peak-picking, 
+GSS construction, assignment, and so on, can make use of information from 
+multiple stages.  Humans, performing manual interventions, are able to bring 
+this additional information to bear to make specific interpretations; however, 
+many of these tools do not.  Thus, PINE and related efforts [reference: pine2009] 
+are an exciting effort to loosen these artificial restrictions.  Initial 
+results are promising, and show a marked improvement, although manual 
+intervention is still assumed to be necessary in order to obtain the best 
+results [reference: pine2009].  Further tools such as [reference: ShiftX2, Cheshire], 
+which calculate chemical shifts from structure, provide additional means 
+for bringing additional information to bear, helping to validate assignments.
+
+Another exciting development is the rise of probabilistic methods 
+[reference: Saga, Pine].  These methods reflect the reality that the 
+confidence of a specific interpretation depends on the exact state of the 
+data; in other words, an assignment which is 50\% confident given only an 
+HNCA spectrum may become 90\% confident if an HN(CO)CA spectrum is added.  
+The significance of this confidence level is that it enables easy tracking 
+of ambiguous and/or low-confidence interpretations -- i.e. those that stand 
+to benefit from collecting additional data sets.  By including confidence 
+values on all assignments, an understanding of the troublesome areas is 
+facilitated.  This helps to reduce the cost of cascading errors -- if the 
+uncertainty is tracked as a confidence level, further interpretations based 
+on a highly uncertain datum will also receive low confidence levels.  In 
+addition, confidence levels are an alternative to the inherent balance 
+between completeness and correctness -- it is no longer necessary to 
+sacrifice one for the other [reference: AutoASSIGN, PINE].
+
+
+\section{Conclusions}
+
+Manual analysis plays a critical role in NMR data analysis, due to the inherent 
+issues involved in analysis and to the large amount of information which must 
+be brought to bear to solve difficult cases.  Although spectral processing, 
+NOESY assignment, and structure calculation have been automated, peak-picking, 
+GSS construction, and assignment of both resonances and GSSs have not been 
+completely automated.  Manual intervention is assumed to be necessary by 
+most tools, even automated ones, to ensure the completeness and correctness 
+of results.  However, despite the importance that manual intervention plays 
+in analysis, the specific modifications made and their reasons for -- 
+which may be quite complicated -- are not captured [reference: guentert2009].  
+Thus, the metadata of manual intervention is lost, and analysis is 
+irreproducible.
+
