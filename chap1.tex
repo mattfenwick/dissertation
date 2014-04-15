@@ -341,13 +341,13 @@ because of:
   manual analysis, and the state of the data before and after deductions during 
   manual analysis
   \item uncaptured meta data:  the deductive reasoning used during manual analysis
-  \item undeposited primary and meta data: while contemporary NMR databases, 
+  \item uncaptured primary and meta data: while contemporary NMR databases, 
   such as the BMRB, archive, persist, and disseminate data and analysis 
   results of completed structural, dynamics, and binding studies, the 
   archived data and analysis do not include full information on GSSs 
   and resonances, nor the meta data of manual analysis.  This is because the 
   data is thrown away during the analysis process and not available for deposition.
-  \item undeposited meta data: notes of odd, ambiguous, abnormal, or 
+  \item uncaptured meta data: notes of odd, ambiguous, abnormal, or 
   otherwise unexpected situations noticed during analysis
 \end{itemize}
 
@@ -364,15 +364,17 @@ is not captured.
 
 Other significant efforts include SPINS \cite{baran2006spins}, 
 Sesame \cite{sesame}, and 
-the NESG's efforts \cite{nesg2005nmr}.  However, much of the previous 
+the NESG \cite{nesg2005nmr}.  However, much of the previous 
 work in this area has focused on project management rather than reproducibility.
-SPINS: claims to "organize and archive intermediate and final results", but 
-this only refers to output files.  Sesame:  project management for 
-high-throughput studies.  NESG's platform describes a suite of software for 
-automated NMR analysis, a bit of integration, and the need for occasional 
-manual validation and editing.  No current systems provide functionality for 
-the process of sequential deduction.
+SPINS claims to "organize and archive intermediate and final results", but 
+only for output files -- it is not designed to capture the key meta data
+mentioned above.  Sesame is capable of project management; however, it is 
+intended for use in high-throughput studies.  
 
+While the need for integration of automation with occasional manual 
+validation and editing has been recognized \cite{baran2006spins}, no 
+current systems are capable of combining these features with full 
+meta data capturing.  
 What is still missing is an approach and tooling for collecting all the primary 
 data and meta data of NMR spectral analysis and structure determination.  Much 
 time and effort is expended in these stages, but the data is not recorded.  The 
@@ -532,7 +534,10 @@ First, a Sparky reproducibility extension has been developed.  Sparky
 \cite{sparky} is a popular tool for analysis of NMR data.  One of the major 
 strengths of Sparky is its extensibility through user-defined Python modules.  
 While its core is written in C++ and is not extensible, a Python module can 
-be added without needing to touch the C++ core.  This extension .... % TODO 
+be added without needing to touch the C++ core.  This extension allows
+simple data snapshotting, annotation, and capture of extraneous results,
+without disrupting the standard Sparky user experience.  The increase in
+workload is minimal due to Sparky's keyboard accelerators.
 
 Second, a library for reading and writing of NMR-Star files was implemented.  
 NMR-Star is the standard format used by the BMRB for the deposition and 
