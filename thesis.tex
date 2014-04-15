@@ -1,0 +1,204 @@
+\documentclass[a4paper]{report}
+\usepackage[top=30mm, bottom=30mm, left=30mm, right=30mm]{geometry}
+\usepackage{times} % ???
+\usepackage{graphicx} % for pictures
+\usepackage{hyperref} % for internal links
+\linespread{2}
+\DeclareGraphicsExtensions{.jpg}
+
+\begin{document}
+
+\begin{abstract} % on the abstract page, we also need the title, my name, university of ..., graduation year
+Nuclear Magnetic Resonance (NMR) spectroscopy is a technique for studying 
+biological molecules such as proteins and metabolites at the atomic level.  
+The information obtained from NMR is used to identify metabolites, identify 
+binding partners, locate active sites and binding pockets, and obtain 
+structural and dynamics information which can be used in drug design.  In 
+order to study molecules using NMR, an NMR spectrometer is used to collect 
+free-induction decay (FID) data sets from a pure, high-concentration sample 
+of the molecule(s) of interest.  In subsequent analysis, the FID data is 
+processed to frequency-domain spectra, which are then analysed to find peaks 
+and assign the peaks to specific atoms in the molecule, in a process known as 
+chemical shift assignment.  The typical process makes use of automated tools to 
+speed up simple and tedious tasks where possible, but relies upon manual 
+analysis for complicated and difficult cases.  Spectroscopists use a deductive 
+strategy of iteratively applying previously identified rules to make analyses 
+of specific cases.  Ambiguous cases are noted and deferred, or the highest 
+probability interpretation is made.  Following chemical shift assignment, 
+NOESY spectra are peak-picked and assigned, and finally a structure is 
+calculated and refined.  During the analysis process, large amounts of data 
+and metadata are generated.  However, much of this is not recorded and thus 
+does not show up in archives such as the BMRB.  This raises serious 
+reproducibility concerns, since the data and metadata describing how the 
+analysis was carried out are lost.  Additional concerns include: how can 
+practitioners successfully collaborate when data is missing?  How can errors 
+be efficiently identified and corrected?  How can additional data be used to 
+augment the analysis without having to restart the process from the beginning?  
+The growing problems caused by irreproducibility in science have been noted 
+recently.  The main contribution of this project is a definition of 
+reproducibility within protein NMR, a strategy for rendering NMR analysis 
+reproducible, a software implementation to enable reproducible analysis, a 
+means for sharing reproducible data sets through a public archive; and a data 
+set analysed using fully reproducible means.
+\end{abstract}
+
+\begin{titlepage}
+
+Reproducible Protein NMR Data Analysis
+
+Matthew Fenwick
+
+B.S., University of Oklahoma, 2009
+
+A Dissertation 
+Submitted in Partial Fulfillment of the 
+Requirements for the Degree of Doctor of Philosophy 
+at the 
+University of Connecticut 
+
+2014
+\end{titlepage}
+
+\pagenumbering{roman}
+% do I need to add the approval page in here ??
+
+\tableofcontents
+
+\listoftables
+
+\listoffigures
+
+\chapter{Introduction}
+\pagenumbering{arabic}
+\section{Protein NMR}
+NMR (Nuclear Magnetic Resonance) spectroscopy is an experimental technique for 
+studying proteins and other biological molecules at atomic resolution.  In 
+comparison to other techniques for high-resolution characterization of 
+biological molecules, NMR’s significance as an experimental technique stems 
+from its ability to collect detailed molecular data, from which further 
+analysis can derive not only structural information but also dynamics, 
+activity, and interactions with other molecules.  The importance of NMR 
+spectroscopy to the structural biology community has steadily increased, as 
+measured by the number of biologically relevant molecules that have been 
+studied using the technique, and the corresponding data deposited into 
+publicly available databases -- since 1990, the structures of nearly 9,000 
+proteins that were solved using NMR have been deposited in the Protein Data 
+Bank (PDB) \cite{pdb}, a facility for the archival and sharing of protein-related 
+data, and NMR data is available for over 10,000 proteins in the BioMagnetic 
+Resonance Bank (BMRB) \cite{bmrb}, a facility for the archival and sharing of 
+specifically NMR-derived data.  The data collected using NMR techniques is 
+important to the field of drug design, as it can aid in identifying potential 
+binding partners based on surfaces as well as actual binding partners based on 
+chemical shifts, and understanding biological processes.
+
+In order to study proteins in solution using NMR, multi-step processes are 
+employed to collect and analyze data.  An example process is described here 
+as a series of independent stages.  Here is a brief outline of the example 
+process, which will be expanded upon later:
+
+\begin{itemize}
+  \item data collection
+  \begin{itemize}
+     \item isolation and purification of sample of interest
+     \item collection of time-domain data in an NMR spectrometer
+  \end{itemize}
+  \item spectral processing
+  \begin{itemize}
+     \item processing of time-domain data to frequency-domain spectra
+  \end{itemize}
+  \item spectral analysis
+  \begin{itemize}
+     \item peak-picking of through-bond frequency-domain spectra
+     \item build spin systems by analysis of peak chemical shifts
+     \item build sequential spin system chains
+     \item amino acid types of spin systems
+     \item peaktypes of peaks
+     \item resonances to peak dimensions
+     \item resonances to atoms
+     \item spin systems to residues
+  \end{itemize}
+  \item structure determination
+  \begin{itemize}
+    \item peak-picking of NOESY spectra
+    \item assignment of resonances to NOESY peaks
+    \item structure calculation
+    \item stereospecific resonance assignment
+    \item structure refinement
+  \end{itemize}
+\end{itemize}
+
+First, the protein/molecule of interest is isolated and a concentrated solution 
+is obtained.  Then, the solution is placed in an NMR spectrometer and an array 
+of time-domain free induction decay (FID)s are collected.  These experiments 
+exploit the coupling constants and characteristic chemical shifts of specific 
+atoms and functional groups in order to correlate chemical shifts of 
+covalently-bound atoms.
+
+Second, spectral processing operates on these FID data sets.  They are 
+converted to frequency-domain spectra using tools such as NMRPipe \cite{nmrpipe}
+and the Rowland NMR ToolKit \cite{rnmrtk}.  Functions such as 
+zero-fills, Fourier transforms, phase shifts, apodizations, and linear 
+predictions are applied to the data as a processing pipeline.  These 
+functions are used to ensure that the spectra are amenable to further 
+analysis, by optimizing peak size and shape and minimizing processing 
+artifacts.
+
+Third is the spectral analysis stage, in which the goal is to identify the 
+chemical shifts of individual atoms by process known as resonance assignment.
+The spectra may be analyzed using a tool such as XEasy \cite{xeasy}, 
+Sparky \cite{sparky}, NMRViewJ \cite{nmrviewj}, or CCPN Analysis \cite{ccpn}.  
+In each spectrum, peak-picking is performed, and true signal peaks must 
+be identified and separated from peaks caused by noise and artifacts.  
+Additionally, signal peaks caused by contaminants must be identified.  
+Next, spin systems are identified and constructed \cite{ccpn}. 
+A spin system is a network of covalently-bonded resonances visible through 
+overlapping NMR experiments.  Spin systems are composed of resonances; a 
+resonance is an NMR-visible signal that corresponds to an atom appearing 
+at a specific chemical shift in one or more experiments \cite{ccpn}.  
+The connectivity of resonances in a spin system is exploited 
+in through-bond experiments.  Spin systems then must be assigned 
+connectivities to other spin systems through overlap of mutual resonances, 
+amino acid types, and finally specific residues of the sample of interest. 
+Resonances must also be assigned to specific atoms \cite{ccpn}, 
+with the final result being that specific atoms in the sample of interest 
+are assigned chemical shift values.  Currently, 100\% assignments are not 
+achievable due to several factors [need reference]: 
+\begin{itemize}
+  \item data quality
+  \item ambiguity
+  \item missing resonances due to local dynamics
+  \item metal ions
+\end{itemize}
+However, 90-95\% completion is often sufficient [reference].
+
+In the fourth and final stage, the chemical shift assignments are used to interpret the other class of experimental NMR data, Nuclear Overhauser Effect spectroscopy (NOESY) experiments.  NOESY experiments use through-space transfer of magnetization to identify spatially near pairs of Hydrogen nuclei, regardless of the number of chemical bonds between them.  NOESY spectra are processed and peak-picked, similarly to through-bond spectra, and resonance assignments of peaks made.  The resonance assignments of the NOESY data are interpreted to obtain distance restraints, which are then used to calculate coarse-grained three-dimensional structures.  The structures may then be refined and fine-tuned using a computational tool such as Amber [citation].  Unambiguous resonance assignment of NOESY data purely on the basis of chemical shift assignments may often be impossible or impractical, due to degenerate chemical shifts and to non-stereospecific assignments.  While these ambiguities can often be resolved through the collection of additional NMR data, the expense involved in doing so may often make it more practical to attempt to resolve the ambiguities through a structure determination program such as CYANA.
+
+The massive amount of data involved in a structure determination process -- often on the order of gigabytes -- necessitates the use of computational tools for data management as well as efficiency of analysis.  To address specific problems in the NMR analysis process, many software implementations of useful data processing algorithms have been created, distributed, and maintained in recent years [citation].  Additionally, several groups have accelerated the process by producing software tools spanning and integrating multiple steps to decrease the necessity for time-consuming human intervention.  This allows automated or semi-automated structure determination [3] for small proteins.  Other groups have built integrated pipelines, using one specific tool for each step [4 and 5], and allowing manual intervention at traditionally difficult stages.  Many recent methods re-envision structure determination as an iterative process, where the results of a later stage may require the researcher to re-evaluate or re-perform an earlier stage [6]; this has been applied to interpretation of NOE-derived restraints [7].  Altogether, the structure determination process can often take several months [8].
+
+In general, while computational tools are able to deliver results relatively quickly compared to manual analysis, they are not able to produce more accurate results, especially in the case of low-quality, irregular, or otherwise problematic data, resulting in false positives and false negatives.  Examples of analysis stages where automated tools may be inadequate include:
+ - peak-picking
+ - spin system construction
+ - sequential spin system assignment
+ - resonance-peak dimension assignment
+ - resonance-atomtype assignment
+ - sequence-specific spin system assignment
+
+This has the consequence that NMR structure determination data analysis processes cannot be fully automated if high-quality results are required.  An effective solution to this problem combines the strengths of the automated and manual approaches, in a semi-automated fashion:  computational tools are used to quickly perform the majority of analyses such as peak-picking and spin system construction, and manual analysis is used to clear up the relatively small number of cases involving ambiguities and errors caused by problematic or unclear data.  Thus, some amount of manual analysis may be required at all stages of the data analysis process.  [14, 15]   Manual analysis follows a general pattern:
+  1. identification: a feature of the data is identified as amenable to interpretation.  For example, the feature may be a false negative (such as a signal peak misclassified as noise by the automated peak-picker), a false positive (such as an artifactual peak misclassified as signal), or an ambiguity (such as overlapped spin systems that a clustering algorithm was unable to separate into two distinct spin systems).
+  2. pattern recognition: the spectroscopist identifies a potential method for interpreting the feature based on his/her domain knowledge of NMR and experience with interpretation of previous data sets.  For example, such methods may take the form of deductive rules:  if <the data matches a certain pattern>, then <it could be interpreted a certain way>.
+  3. application of the rule to the data feature.  The chosen rule is applied, and the result of the interpretation is included back into the data set.  The result may now be used to drive further deductions.
+  4. repeat -- go to step 1 to identify features for further interpretations
+This method is a form of iterative, sequential deduction.  The key components are the ordered series of steps, the state of the data before and after each step, and the deductive rules used to make interpretations at each step.  In addition, it should be noted that the final data set can not be regenerated using automated tools alone if there are any manual modifications made to tool output.
+
+
+
+\chapter{NMR Data Analysis is Irreproducible}
+
+% not sure what the difference is between `unsrt` and `ieeetr`
+% also see `natbib` for another possible alternative
+%\bibliographystyle{unsrt}
+\bibliographystyle{ieeetr}
+\bibliography{thesis}
+
+\end{document}
+
