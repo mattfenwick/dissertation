@@ -193,8 +193,10 @@ tool output.
 
 \section{An Overview of Scientific Methods and Reproducibility}
 The term "science" can refer to both the enterprise of knowledge acquisition 
-through empirical means, and the body of knowledge acquired through such means. 
-The core of science is the notion of reproducibility -- that claims can be 
+through empirical means, and the body of knowledge acquired through such means 
+\cite{drummond2012reproducible}.
+The core of science is the notion of reproducibility 
+\cite{russell2013reproducibility, nih2014reproducibility} -- that claims can be 
 independently tested and verified.  In science, reproducible knowledge can be 
 obtained using a set of general techniques collectively known as "the 
 scientific method".  These techniques share many characteristics, most notably:
@@ -236,65 +238,80 @@ In order for scientific results to be reproducible, all components of the
 experimental design, data collection and data analysis steps must be 
 reproducible.  These include:
 \begin{itemize}
- \item Experimental design.  Our understanding of scientific methods, the 
- significance of reproducibility, and means of achieving reproducibility 
- have evolved along with our experimental methods.  Lab notebooks and journal 
- publications are typical media for enabling reproducibility of experimental 
- designs.  
+
+  \item Experimental design.  Our understanding of scientific methods, the 
+  significance of reproducibility, and means of achieving reproducibility 
+  have evolved along with our experimental methods.  Lab notebooks and journal 
+  publications are typical media for enabling reproducibility of experimental 
+  designs.  
   \begin{itemize}
      \item is the experimental design recorded in sufficient detail to share 
-     it fully with other scientists?
+       it fully with other scientists?
      \item does the experimental design acknowledge the possibility of 
-     confounding variables, and take measures to control for them?
+       confounding variables, and take measures to control for them?
      \item given an experimental design, can it be repeatedly executed and 
-     identical results obtained (within expected deviations due to experimental 
-     error and variables outside the control of the experiment)?
+       identical results obtained (within expected deviations due to experimental 
+       error and variables outside the control of the experiment)?
+       \cite{drummond2012reproducible}
   \end{itemize}
- \item Experimental execution.  Lab notebooks and Library Information Systems 
- (LIMS) are also important for recording the details of experiments, including 
- any problems such as contamination.
+
+  \item Experimental execution.  Lab notebooks and Library Information Systems 
+  (LIMS) are also important for recording the details of experiments, including 
+  any problems such as contamination.
   \begin{itemize}
      \item is the actual procedure executed recorded in sufficient detail, 
      including any deviations from the given experimental design?
-     \item is the sampling biased?
+     \item is the sampling biased? \cite{savovic2012influence, simmons2011false}
   \end{itemize}
+
   \item Computational.  As computers continue to play an ever-growing role in 
   science, scientists have noted the problems that indiscriminate computational 
-  use poses for reproducibility \cite{donoho_wavelab, peng2011reproducible}.  
-  By the early 
-  1990's, researchers began defining reproducible computational analysis, and 
+  use poses for reproducibility \cite{donoho2009, peng2011reproducible}.  
+  By the early 1990's, researchers began defining reproducible 
+  computational analysis \cite{donoho_wavelab}, and 
   describing strategies for achieving it. 
   \begin{itemize}
      \item are all tools, scripts, platforms and code available, including the 
-     exact versions used?
-     \item were all parameterizations recorded?
+       exact versions used? 
+       \cite{ince2012open, nekrutenko2012next, blankenberg2014dissemination}
+     \item were all parameterizations recorded? \cite{landis2012call}
      \item was all input and output data recorded?
   \end{itemize}
+
   \item Analysis.  A further concern of reproducibility is with 
   non-computational analysis; failing to recognize analytical bias and to 
   use appropriate statistical measures has long been a source of 
   irreproducibility in scientific endeavors \cite{sackett1979bias}.
   This has also been previously noted in \cite{ioannidis2005most} 
-  and in \cite{nuzzo2014statistical}, 
-  and was the focus of a Nature special [reference http://www.nature.com/nature/focus/reproducibility/].
+  and in \cite{nuzzo2014statistical, begley2013reproducibility}, 
+  and was the focus of a recent Nature special 
+  (http://www.nature.com/nature/focus/reproducibility/).
   \begin{itemize}
      \item were all manual changes to data sets recorded?
      \item were necessary and sufficient statistical measures used?
-     \item were inappropriate statistical measures used?
-     \item were sources of bias recognized and handled?
+       \cite{pashler2012replicability}
+     \item were appropriate statistical measures used? 
+       \cite{vaux2012numbers}
+     \item were sources of bias recognized and handled? 
+       \cite{macarthur2012reproducibility, wagenmakers2012agenda}
   \end{itemize}
+
 \end{itemize}
 
-Reproducibility is important to science for several reasons.  First, it 
+Reproducibility is important to science for several reasons 
+\cite{borgman2012conundrum}.  First, it 
 provides a means for measuring the quality and usefulness of a study or 
 claim.  Second, reproducibility facilitates knowledge transfer between 
 peers, which enables fellow researchers to build on the foundation provided 
 by a study, whether by extending the experimental design and data collection, 
 applying the experiment in a different context, or applying additional analyses 
 to existing data.  Third, reproducibility promotes collaboration between fellow 
-scientists by enabling sharing of data, information, knowledge and experimental 
+scientists by enabling sharing of data \cite{rung2013reuse}, 
+information, knowledge and experimental 
 designs.  Fourth, reproducibility reduces time wastage due to inability to 
-replicate results \cite{ioannidis2005most, mullard2011reliability}. 
+replicate results 
+\cite{ioannidis2005most, mullard2011reliability, prinz2011reproducibility,
+begley2012drug}. 
 
 
 \section{Reproducible Protein NMR:  Computation and Analysis}
@@ -566,7 +583,8 @@ and protocols are developed, requiring updates to old software or entirely
 new software to be written from scratch.  Open source software provides 
 additional value in the context of reproducibility: in order to replicate a
 study, one must have access to the exact same computational tools that the 
-original study used.  This involves both physical access -- in the sense of 
+original study used \cite{ince2012open}.  
+This involves both physical access -- in the sense of 
 being able to get a program loaded onto a computer -- as well as licensing 
 issues: does the second group have the rights to use the software in the 
 exact same way as in the original study.
