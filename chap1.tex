@@ -32,7 +32,6 @@ Figure-\ref{nmr_overview} as a series of independent stages
   \label{nmr_overview}
 \end{figure}
 
-
 First, the protein/molecule of interest is isolated and a concentrated solution 
 is obtained.  Then, the solution is placed in an NMR spectrometer and an array 
 of time-domain free induction decay (FID)s are collected.  These experiments 
@@ -168,26 +167,32 @@ scientific method".  These techniques share many characteristics, most notably:
  experiments are performed and the results quantified and recorded
  \item analysis, in which the data collected in an experiment is processed to 
  gain information, knowledge, and understanding
- \item experimental design: inventing and codifying a
- procedure for data collection which tests 
- specific variables of a system, while preventing other variables from 
- confounding the results
+ \item experimental design: inventing and codifying a procedure for data 
+ collection which tests specific variables of a system, while preventing 
+ other variables from confounding the results
  \item hypotheses, which synthesize and organize the information, knowledge, 
- and understanding gained in order to explain the observed results and predict 
- the results of further observations
+ and understanding gained in order to both explain the observed results and 
+ predict the outcomes of further experiments
 \end{itemize}
 
-For example, one way to arrange these components is in an iterative cycle.  
-Here is an arbitrary ordering in which the output of each step is the input 
-for the following step: 1) data collection, 2) data analysis, 3) hypothesis,
-4) experimental design, and 5) data collection (repeat cycle from beginning).
-While such an ordering does not capture the full relationships between 
-the various components -- for example, experiments are designed to test 
-specific hypotheses -- in general, by iteratively designing, 
-performing, and analysing experiments, and using the results to reach new 
-conclusions, which lead to new hypotheses, and new experiments, scientists 
-are able to build such knowledge.  The conclusions then lead to ideas for 
-new theories and experiments.  
+Two example orderings of these basic steps are shown in 
+Figure-\ref{scientific_method_pipeline}, in which a rigid structure is
+imposed as a sequential pipeline, and Figure-\ref{scientific_method}, which 
+is a more flexible method because it allows any step to influence any other 
+step.  In general, as both examples illustrate, the core of science is a
+method of iterative experimental designing, data collection, analysis, and 
+hypothesis formulation, which leads to new experiments, data and analysis,  
+and so on, resulting in the acquisition of knowledge about the natural world.
+\begin{figure}
+  \includegraphics[scale=0.5]{figures/scientific_method_pipeline}
+  \caption{A scientific method as a sequential, cyclic pipeline}
+  \label{scientific_method_pipeline}
+\end{figure}
+\begin{figure}
+  \includegraphics[scale=0.5]{figures/scientific_method}
+  \caption{A scientific method in which each step interacts with every other}
+  \label{scientific_method}
+\end{figure}
 
 A basic principle of scientific methods is that they enable reproducibility.  
 In order for scientific results to be reproducible, all components of the 
@@ -556,6 +561,6 @@ acquiring knowledge.  This work inspects reproducibility in the field of NMR,
 defines the requirements for data analysis that must be met in order to achieve 
 reproducibility, and identifies where current practices fall short.  To remedy 
 this situation, a strategy for reproducible data analysis is presented.  This 
-strategy is made practical by means of a formal model, support from the BMRB, 
-and a software implementation.
+strategy is made practical by means of a formal model, support from the BMRB 
+\cite{bmrb}, and a software implementation.
 
