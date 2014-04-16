@@ -29,3 +29,7 @@
  
  - separating chapters into individual files to make them easier to manage
    - solution: ?????
+ 
+ - if the abstract goes onto a second page: the 2nd page gets a page number
+   - solution: ?????
+
