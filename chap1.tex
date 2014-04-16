@@ -401,15 +401,15 @@ assignment possibilities based on matching amino acid type.  This shows that
 the state of the data determines what deductions can be made.  Therefore, it 
 is important to capture these intermediate states before and after deductions.
 The core of the strategy is based on that used by Version Control System (VCS) 
-software tools, which are commonly applied for managing source code bases of 
-software projects \cite{loeliger2012git}
-[references to CVS, SVN, Git, Mercurial, Darcs].  
+software tools \cite{vcs_concepts, hinsen2009vcs}, which are commonly 
+applied for managing source code of 
+software projects \cite{loeliger2012git, cvs, svn}.  
 
 These tools were originally implemented in order to manage the change in 
 source code over time, while retaining the ability to easily inspect past 
 states of the code.  It was found that application of such tools led to 
 large increases in productivity, robustness, correctness, and reduced 
-faults [reference].  The core of a VCS is a model for change in data 
+faults \cite{fischer2003vcs}.  The core of a VCS is a model for change in data 
 over time by storing multiple versions.  Versions are snapshotted, 
 descended from previous snapshots, and annotated with a commit message 
 which describes the what and the why of the change.  Similarly, in NMR 
