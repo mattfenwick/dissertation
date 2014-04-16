@@ -168,10 +168,10 @@ scientific method".  These techniques share many characteristics, most notably:
  experiments are performed and the results quantified and recorded
  \item analysis, in which the data collected in an experiment is processed to 
  gain information, knowledge, and understanding
- \item experimental design, in which a researcher invents an experiment 
- procedure for data collection which is intended to provide data testing 
- specific variables of a system, preventing other variables from confounding 
- the results
+ \item experimental design: inventing and codifying a
+ procedure for data collection which tests 
+ specific variables of a system, while preventing other variables from 
+ confounding the results
  \item hypotheses, which synthesize and organize the information, knowledge, 
  and understanding gained in order to explain the observed results and predict 
  the results of further observations
@@ -458,13 +458,14 @@ finish, including peak-picking, sequence-specific assignment, NOESY analysis
 and structure calculation.  Intermediate snapshots were captured and 
 appropriately annotated.  This data set may now be found deposited in the BMRB.
 
-The data model used was based on CCPN's data model \cite{ccpn}, with several 
+The data model used was based on the data models of the CCPN project \cite{ccpn}
+and of the BMRB \cite{bmrb}, with several 
 extensions as previously noted to enable reproducibility.  A library of NMR 
 phenomena and their use as deductive inferences rules was constructed.  
 These rules were applied for snapshot annotation.
 
 Whereas a single implementation of the previously described strategy is 
-here described, in principle, the approach is platform-agnostic and 
+here described, in principle the approach is platform-agnostic and 
 therefore could be implemented and used by other research group, or added 
 into an existing tool as an extension.
 
@@ -477,7 +478,8 @@ unreasonable time, effort, and education demands on potential users.  This
 section will explore a suite of software designed to enable and support 
 reproducibility of NMR analysis in various ways.
 	
-First, a Sparky reproducibility extension has been developed.  Sparky 
+First, a Sparky reproducibility extension has been developed.  This extension
+facilitates reproducible data capture during the spectral analysis stage. Sparky 
 \cite{sparky} is a popular tool for analysis of NMR data.  One of the major 
 strengths of Sparky is its extensibility through user-defined Python modules.  
 While its core is written in C++ and is not extensible, a Python module can 
@@ -510,16 +512,14 @@ creation of non-uniform sample schedules, which are used to collect time-domain
 data which are non-uniformly sampled in the indirect dimension(s).  Non-uniform 
 sampling can help decrease the amount of data collection time required, and 
 also help in avoiding the penalties imposed by the necessity of sampling past 
-the Rovnyak limit \cite{rovnyak2004accelerated}.  This project included:
-\begin{enumerate}
-  \item a novel data model of sample schedules which included non-uniformity not 
+the Rovnyak limit \cite{rovnyak2004accelerated}.  This project included,
+a novel data model of sample schedules which included non-uniformity not 
 only in the time dimensions but also in the number of transients per FID and 
-the quadrature
-  \item a collection of common algorithms, gathered from descriptions in the 
-literature and implemented
-  \item a reproducible and replicable approach to capturing the parameters of 
-sample schedule creation
-\end{enumerate}
+the quadrature, 
+a collection of common algorithms, gathered from descriptions in the 
+literature and implemented,
+and facilitated easy reproducibility of sample schedule creation by capturing
+the parameterization.
 
 
 \section{CONNJUR is Free and Open Source}
@@ -547,9 +547,7 @@ nascent software problem, by leading to adoption of a community development
 model and increased sharing, reducing the barriers to future progress in 
 the field.  We can only hope that other research groups place as much value 
 as we do on open source licenses, and that adoption of open source development 
-models will increase.  Too much scientific software has been placed under lock 
-and key and we have suffered as a result: suffered from inadequate software, 
-arrested progress, unfixable bugs, abandonware.
+models will increase.  
 
 
 \section{Scope and Significance}
