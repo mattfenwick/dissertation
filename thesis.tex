@@ -1,12 +1,14 @@
 \documentclass[11pt,a4paper]{report}
 \usepackage[top=30mm, bottom=30mm, left=30mm, right=30mm]{geometry}
-\usepackage{microtype}
+\usepackage{microtype} % makes things look nicer ??
 \usepackage{times} % ???
 \usepackage{graphicx} % for pictures
 \usepackage{hyperref} % for internal links
 \linespread{2}
 \DeclareGraphicsExtensions{.jpg, .png}
 \usepackage[T1]{fontenc} % see http://tex.stackexchange.com/questions/664/
+\newcommand{\mattftitle}{Reproducible Protein NMR Data Analysis}
+
 
 \begin{document}
 
@@ -18,9 +20,11 @@
 
 \pagenumbering{roman}
 
-% TODO approval page
+\input{approval}
 
-% TODO acknowledgements page
+\input{acknowledgements}
+
+% TODO optional dedication
 
 \tableofcontents
 
