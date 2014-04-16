@@ -7,9 +7,18 @@ frequency-domain spectra which are used in further analysis.  The goal of
 this phase is to construct a frequency spectrum which indicates the resonance 
 frequencies of the atoms that were observed in the experiment.  A common tool 
 for such a transformation is the Fourier Transform, which is able to convert 
-a data set consisting of multiple overlapped signals to a frequency spectrum.  
+a data set consisting of multiple signals to a frequency spectrum.  
+An example of an NMR spectrum of N-H groups is shown in Figure-\ref{nhsqc}.
 Due to relaxation decreasing the amplitude of an NMR signal over time, peaks 
 have an intrinsic linewidth in the frequency spectrum.
+
+\begin{figure}
+  \includegraphics[scale=0.35]{figures/nhsqc}
+  \caption[A frequency-domain NHSQC spectrum]
+          {A frequency-domain NHSQC spectrum. 
+           The x- and y-axes are nitrogen and proton, respectively.}
+  \label{nhsqc}
+\end{figure}
 
 Considerations include:  minimization of processing artifacts; signal-to-noise 
 ratio; accounting for water lines; avoiding rolling baselines and baseline 
@@ -42,18 +51,15 @@ is the next important step after spectral processing.  The goal of peak
 picking is to build collections of peaks.  Thus, if peak picking proceeded 
 perfectly, the final peak lists would only contain true signal peaks, and 
 would contain all true signal peaks.  
-[example] [example with noise] [example with artifacts] [example with small signal peaks]  
-In addition, for each peak, all of the following should be true: 
-\begin{itemize}
-  \item the correct frequency position for each dimension are determined
-  \item the correct lineshape and linewidth are obtained
-  \item the correct intensity is measured
-\end{itemize}
+In addition, for each peak, additional charactertics include frequency 
+position in each dimension, lineshape, linewidth, and intensity should be 
+determined.
 
 Correct results are important because they form the basis for the construction 
 of GSSs, the assignment of chemical shifts to atoms, and the interpretation of 
 NOESY spectra which give rise to distance restraints as a preliminary to 
-structure calculation.  Incorrect peak identification or position can result 
+structure calculation \cite{guerry2011automated}.  
+Incorrect peak identification or position can result 
 in misinterpretation of NOESY spectra, which could lead to false distance 
 restraints between atoms which are in fact very far apart in the actual 
 protein structure.
@@ -75,6 +81,16 @@ autopsy, pine}
 baran2004automated}.
 In such cases, a naive peak picker based on intensity will necessarily 
 generate either false positives or false negatives.
+Figure-\ref{nhsqc_peaks} shows a portion of a peak-picked
+NHSQC spectrum; note the overlap between some peaks, and that some -- but not
+all -- low-intensity spectral features have been identified as peaks.
+\begin{figure}
+  \includegraphics[scale=0.35]{figures/nhsqc_peaks}
+  \caption[A peak-picked NHSQC spectrum]
+          {A peak-picked NHSQC spectrum. 
+           Peaks are indicated by black squares and crosses.}
+  \label{nhsqc_peaks}
+\end{figure}
 
 Estimates of the amount of false positive and false negative peaks picked 
 range from very low (10-40\%) to very high (70-135\%) \cite{pine}. 
@@ -189,16 +205,25 @@ of later analysis are available: some approaches use NOESY peaks and
 assignments as well as structure results to verify and correct GSSs 
 \cite{autoassign1997}.
 
+Figure-\ref{nhsqc_hncacb} shows an example of matching peaks between two
+spectra.  The quality of the match -- how closely the chemical shifts line up,
+as well as the lack of overlapping peaks -- means the peaks are easily
+identified as members of the same GSS.
+\begin{figure}
+  \includegraphics[scale=0.35]{figures/nhsqc_hncacb}
+  \caption[Matching peaks between an NHSQC and an HNCACB spectrum]
+          {Matching peaks between an NHSQC and an HNCACB spectrum.
+           This likely indicates that the peaks belong to the same GSS.}
+  \label{nhsqc_hncacb}
+\end{figure}
+
+
 
 \section{Backbone spin systems and resonances: typing and sequence-specific assignment}
 
-Once GSSs have been constructed, analysis continues with four simultaneous subtasks:
-\begin{enumerate}
-  \item assignment of resonance to atomtype
-  \item assignment of amino acid type to GSS
-  \item assignment of GSS to GSS sequentially
-  \item assignment of GSS to specific residue of sample of interest
-\end{enumerate}
+Once GSSs have been constructed, analysis continues with four simultaneous 
+assignment subtasks: resonance to atomtype, GSS to amino acid type, GSS to
+GSS sequentially, and GSS to specific residues of the sample of interest.
 
 \subsection{Assignment of resonance to atomtype}
 GSSs are composed of resonances \cite{ccpn}.  Resonances are 
@@ -285,6 +310,16 @@ Sequential GSS assignment is complicated by:
   \cite{autoassign1997}.
 \end{enumerate}
 
+An example of GSS overlap is shown in Figure-\ref{hncacb_overlap}.  Green peaks
+are CA, and purple peaks are CB; note that one each of green and purple peaks
+match between the two GSSs.
+\begin{figure}
+  \includegraphics[scale=0.35]{figures/hncacb_overlap}
+  \caption{Overlap of Carbon resonances in an HNCACB spectrum.}
+  \label{hncacb_overlap}
+\end{figure}
+
+
 \subsection{Assignment of GSS to specific residue of sample of interest}
 
 The final piece of backbone analysis is assignment of GSSs to specific 
@@ -309,6 +344,21 @@ incomplete sequential GSS assignments resulting in short, ambiguous chains.
 The presence of prolines generally ends chains due to the lack of a backbone 
 H-N group.  Missing GSSs also terminate chains.  Relatively few Ser, Thr, Gly, 
 and Ala residues means the number of unambiguous anchor points will be lower.
+
+Figure-\ref{ss-residue} shows an example of sequence-specific GSS assignment.
+Although not all of the GSSs have been typed, the presence of a Glycine and
+Serine in the GSS chain reduces the possible assignments to residues.
+Additionally, the length of the GSS chain helps reduce the ambiguity compared
+to shorter GSS chains.
+\begin{figure}
+  \includegraphics[scale=0.45]{figures/ss-residue}
+  \caption[Assignment of a GSS chain to residues]
+          {Assignment of a GSS chain to residues.  The circles are residues,
+           black lines are peptide bonds, squares are GSSs, red lines are 
+           sequential GSS assignments, and green lines are GSS-residue 
+           assignments.}
+  \label{ss-residue}
+\end{figure}
 
 
 \section{Sidechain: spin system and resonance assignment}
