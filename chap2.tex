@@ -20,9 +20,9 @@ have an intrinsic linewidth in the frequency spectrum.
   \label{nhsqc}
 \end{figure}
 
-Considerations include:  minimization of processing artifacts; signal-to-noise 
-ratio; accounting for water lines; avoiding rolling baselines and baseline 
-offsets; linewidth; phasing; lineshape; sync wiggles.  Multiple software 
+Considerations include minimization of processing artifacts, signal-to-noise 
+ratio, accounting for water lines, avoiding rolling baselines and baseline 
+offsets, linewidth and shape, phasing, and apodization.  Multiple software 
 packages exist for carrying out this conversion \cite{nmrpipe, rnmrtk}.
 These packages include functions for processing the data in specific ways to 
 guarantee desirable qualities.  A typical procedure for spectral processing 
@@ -96,7 +96,7 @@ Estimates of the amount of false positive and false negative peaks picked
 range from very low (10-40\%) to very high (70-135\%) \cite{pine}. 
 The quality of the results generally depends on characteristics of the 
 spectrum, especially the signal/noise ratio, and resolution, as well as 
-characteristics of the molecule including T2 (which has an effect on peak 
+characteristics of the molecule including T_{2} (which has an effect on peak 
 width) and number of atoms -- the issue being that more atoms means more 
 peaks, which means a higher chance of overlap.
 
@@ -104,7 +104,7 @@ In order to address these problems, various approaches have been tried.
 Programs have been implemented which analyze peak shape and intensity as 
 well as local noise level \cite{munin, autopsy}.  Other approaches 
 apply more advanced mathematical models to identifying peaks correctly.  
-Deposited data available in public archives may also be used 
+Deposited data available in public archives may also be used. 
 These approaches have been implemented as computational tools 
 \cite{williamson2009automated, guerry2011automated}.
 However, none of these approaches yields perfect 
@@ -129,9 +129,8 @@ later analysis has been accomplished.
 
 After collecting and peak-picking a specific set of spectra designed to 
 capture the chemical shifts of the backbone H, N, C, CA as well as the CB, 
-the peaks are grouped into what is known as pseudoresidues \cite{mars} 
-or generic spin systems (GSS) 
-\cite{saga, ezassign, pistachio, autoassign1997, autoassign2001}.  
+the peaks are grouped into what are known as pseudoresidues \cite{mars} 
+or GSSs \cite{saga, ezassign, pistachio, autoassign1997, autoassign2001}.  
 A GSS is the NMR-visible incarnation of covalently bonded, magnetically 
 interacting nuclei through j-coupling.  GSSs are defined as having a root 
 resonance or resonances -- typically an amide H-N group due to the high 
