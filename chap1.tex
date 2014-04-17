@@ -32,14 +32,16 @@ Figure-\ref{nmr_overview} as a series of independent stages
   \label{nmr_overview}
 \end{figure}
 
-First, the protein/molecule of interest is isolated and a concentrated solution 
+In Figure-\ref{nmr_overview} panel A, 
+the protein/molecule of interest is isolated and a concentrated solution 
 is obtained.  Then, the solution is placed in an NMR spectrometer and an array 
 of time-domain free induction decay (FID)s are collected.  These experiments 
 exploit the coupling constants and characteristic chemical shifts of specific 
 atoms and functional groups in order to correlate chemical shifts of 
 covalently-bound atoms.
 
-Second, spectral processing operates on these FID data sets.  They are 
+In Figure-\ref{nmr_overview} panel B, 
+spectral processing operates on these FID data sets.  They are 
 converted to frequency-domain spectra using tools such as NMRPipe \cite{nmrpipe}
 and the Rowland NMR ToolKit \cite{rnmrtk}.  Functions such as 
 zero-fills, Fourier transforms, phase shifts, apodizations, and linear 
@@ -48,7 +50,8 @@ functions are used to ensure that the spectra are amenable to further
 analysis, by optimizing peak size and shape and minimizing processing 
 artifacts.
 
-Third is the spectral analysis stage, in which the goal is to identify the 
+In the spectral analysis stage, Figure-\ref{nmr_overview} panel C,
+the goal is to identify the 
 chemical shifts of individual atoms by process known as resonance assignment.
 The spectra may be analyzed using a tool such as XEasy \cite{xeasy}, 
 Sparky \cite{sparky}, NMRViewJ \cite{nmrviewj}, or CCPN Analysis \cite{ccpn}.  
@@ -72,7 +75,8 @@ missing resonances, and metal ions \cite{guerry2011automated}.
 Between 80\% and 95\% completion may be required \cite{williamson2009automated}
 for successful analysis at later stages.
 
-In the fourth and final stage, the chemical shift assignments are used to 
+In the final stage, Figure-\ref{nmr_overview} panel D,
+the chemical shift assignments are used to 
 interpret the other class of experimental NMR data, Nuclear Overhauser Effect 
 spectroscopy (NOESY) experiments \cite{noe_kaiser}.  
 NOESY experiments use through-space 
@@ -96,7 +100,11 @@ often on the order of gigabytes -- necessitates the use of computational
 tools for data management as well as efficiency of analysis.  To address
 specific problems in the NMR analysis process, many software implementations 
 of useful data processing algorithms have been created, distributed, and 
-maintained in recent years.  Additionally, several groups have 
+maintained in recent years 
+(http://nmrbox.org/NMRbox.org/Registry.html, 
+http://nmrwiki.org/wiki/index.php?title=Category:Software, 
+http://bmrb.wisc.edu/tools/prog_corner.shtml).  
+Additionally, several groups have 
 accelerated the process by producing software tools spanning and integrating 
 multiple steps to decrease the necessity for time-consuming human intervention
 \cite{abacus_assignment}.
