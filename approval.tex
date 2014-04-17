@@ -18,15 +18,19 @@
   
   \vspace{1cm}
   
-  \begin{tabular}{ l c }  
-% uh-oh -- looks like I new multirow.sty to do this -- then do \usepackage{multirow} in preamble
-%    \multirow{2}{1}{Major Advisor} & \\
-%      \hline
-%      & \\
-    Major Advisor     & a \\ % a is just a placeholder for now
-    Associate Advisor & b \\
-    Associate Advisor & c \\
-    Associate Advisor & d \\
+  \begin{tabular}{  l  p{0.5\linewidth}  }  
+    Major Advisor     &  \\
+                    \cline{2-2}
+                    & Michael Gryk \\
+    Associate Advisor &  \\
+                    \cline{2-2}
+                    & Mark Maciejewski \\
+    Associate Advisor &  \\
+                    \cline{2-2}
+                    & Dmitry Korzhnev \\
+    Associate Advisor &  \\
+                    \cline{2-2}
+                    & Jeffrey Hoch \\
   \end{tabular}
 
   \vfill
