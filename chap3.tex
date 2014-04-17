@@ -1,0 +1,119 @@
+\section{Background}
+% maybe cover the current state of NMR reproducibility again?
+% maybe talk about the culture of the lab notebook?
+
+
+\section{Missing Primary Data}
+need to cover what the data is, how it plays a role in NMR analysis, 
+why it's important to capture
+
+\subsection{Resonances and GSSs}
+ - what: already covered in earlier section
+ - how do we capture them: by adjusting the data model like CCPN, not going
+   down the xeasy destructive-towards-spin-systems road, and use the BMRB's
+   model for them when depositing
+ - why they're so important to capture: they're a key intermediary between
+   the experimental data and the atomic model
+
+\subsection{Intermediates}
+ - what: analysis data before analysis is complete
+ - how it plays a role: shows the process of analysis -- from tool output to
+   final results, as well as logical dependencies of derived data
+ - why: allows recapitulation of the actual process employed for analysis,
+   as well as fine-grained error detection and correction
+   % ^^ oops, looks like I'm mixing in my solution along with the problem
+ - the context of deductions is important: it determines what deductions
+   can be made.  therefore capturing the contexts is important
+ - I can come up with a simple example that demonstrates: 1) the dependence of
+   deductive ability on context, 2) the concept and utility of multiple 
+   snapshots, 3) the concept and utility of tracking logical dependencies
+ - maybe an aspect of reproducibility is to make explicit what the variables,
+   biases, input are.  so here, we're going to take the implicit context of
+   deductions and make it explicit
+
+\subsection{Extraneous Data}
+ - what: explicit identification of data features as being 'not of interest'
+   to this analysis
+   - peaks
+   - resonances
+   - GSSs
+ - how it plays a role: if they're not identified, you could get: wrong 
+   chemical shifts, wrong sequential GSS GSS, wrong GSS residue assignments
+ - why: provides a marker for future perusers
+ - allows separation of identifying a data feature vs. interpreting it -- which
+   matters because the way we do things is self-consistent, right?  
+   so if you have to come back and reinterpret -- and remember, PINE is great and the
+   lesson is that you *will* have to reinterpret -- you won't have to reidentify
+   features.  
+   and that's *good*, because that means that your feature identification
+   can be unbiased.  
+ - provides additional context for estimating the quality of an analysis,
+   where errors may be likely to come from (the borderline cases!), helps with
+   assigning confidence levels to datums by not forcing it to be a binary 
+   decision.  quality measures: \# of peaks found by peak-picker, \# of false
+   positives, \# of additional peaks picked, \# of peaks assigned to GSS, 
+   \# of GSS assigned to residue, etc.
+ - also, reporting these gives measures of, perhaps, contamination,
+   incompleteness, overcompleteness/overfitting, consistency.  
+ - remember another
+   lesson from PINE: there's a balance between false positives and false negatives,
+   and if you want to avoid false positives -- which I think we usually do -- 
+   you'll probably have some false negatives.  so they should be reported
+ - the fact that a peak was found, and later interpreted as noise does 
+   not show up in the final data set.
+
+
+\section{Missing Metadata}
+ - what is the difference between primary data and meta data?  or maybe
+   I should not use primary in that sense ....
+
+\subsection{Deductive Analysis}
+ - examples: what are they?  NMR-domain-specific rules for analyzing data
+ - examples: how do we use them?
+ - examples: how is recording them useful (to others)?
+   provides explanation of why something was done -- which adds semantic data
+   to a deduction; this semantic data provides additional meaning, which can
+   be used for checking, learning, etc.
+
+\subsection{Notes}
+ - examples: what are they?
+ - examples: how are they useful?  facilitates future reinterpretation if
+   additional data is made available.  similar to PINE -- use notes to mark
+   low-confidence portions of analysis
+   allows highlighting of known flaws, as well as indicating how a data set
+   may be improved
+
+
+\section{A Model for Reproducible NMR}
+ - what is a data model, and how is one used?
+ - builds on BMRB and CCPN
+
+
+\section{An Implementation of the Model}
+
+
+\section{Applying Reproducible Analysis}
+ - what to do -- tips and suggestions to be effective
+ - what not to do -- common roadblocks and problems
+% could this belong in its own chapter?
+% or in the software chapter, or in the 'reproducible data sets' chapter?
+
+
+\section{Archiving Reproducible Data Sets}
+ - the NMR-Star file format, my parser, and others
+ - the usefulness of NMR-Star files
+ - the NMR-Star data dictionary
+ - extending the NMR-Star data dic
+ - other efforts to provide this NMR-Star integration ???
+
+
+\section{Discussion}
+ - lab notebooks
+ - what data is missing
+ - extending existing models to support these data
+ - getting a handle on bias of data analysis
+
+
+\section{Conclusion}
+ - could go in with previous section
+
