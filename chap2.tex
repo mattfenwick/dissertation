@@ -27,14 +27,6 @@ An example of an NMR spectrum of N-H groups is shown in Figure-\ref{nhsqc}.
 Due to relaxation decreasing the amplitude of an NMR signal over time, peaks 
 have an intrinsic linewidth in the frequency spectrum.
 
-\begin{figure}
-  \includegraphics[scale=0.35]{figures/nhsqc}
-  \caption[A frequency-domain NHSQC spectrum]
-          {A frequency-domain NHSQC spectrum. 
-           The x- and y-axes are nitrogen and proton, respectively.}
-  \label{nhsqc}
-\end{figure}
-
 Considerations include minimization of processing artifacts, signal-to-noise 
 ratio, accounting for water lines, avoiding rolling baselines and baseline 
 offsets, linewidth and shape, phasing, and apodization.  Multiple software 
@@ -99,13 +91,6 @@ generate either false positives or false negatives.
 Figure-\ref{nhsqc_peaks} shows a portion of a peak-picked
 NHSQC spectrum; note the overlap between some peaks, and that some -- but not
 all -- low-intensity spectral features have been identified as peaks.
-\begin{figure}
-  \includegraphics[scale=0.35]{figures/nhsqc_peaks}
-  \caption[A peak-picked NHSQC spectrum]
-          {A peak-picked NHSQC spectrum. 
-           Peaks are indicated by black squares and crosses.}
-  \label{nhsqc_peaks}
-\end{figure}
 
 Estimates of the amount of false positive and false negative peaks picked 
 range from very low (10-40\%) to very high (70-135\%) \cite{pine}. 
@@ -179,37 +164,6 @@ while C* appear in only the HNCACB.  See Figure-\ref{ccpn_nhsqc},
 Figure-\ref{ccpn_hncacb}, Figure-\ref{ccpn_cbcaconh}, Figure-\ref{ccpn_hnco}, 
 Figure-\ref{ccpn_hncaco} for an illustration of the correlated nuclei.
 
-\begin{figure}
-  \includegraphics[scale=0.5]{figures/ccpn_nhsqc}
-  \caption[The nuclei correlated by an NHSQC.]
-          {The nuclei correlated (red) by an NHSQC.}
-  \label{ccpn_nhsqc}
-\end{figure}
-\begin{figure}
-  \includegraphics[scale=0.5]{figures/ccpn_hncacb}
-  \caption[The nuclei correlated by an HNCACB.]
-          {The nuclei correlated (red) by an HNCACB.}
-  \label{ccpn_hncacb}
-\end{figure}
-\begin{figure}
-  \includegraphics[scale=0.5]{figures/ccpn_cbcaconh}
-  \caption[The nuclei correlated by a CBCA(CO)NH.]
-          {The nuclei correlated (red) by a CBCA(CO)NH.}
-  \label{ccpn_cbcaconh}
-\end{figure}
-\begin{figure}
-  \includegraphics[scale=0.5]{figures/ccpn_hnco}
-  \caption[The nuclei correlated by an HNCO.]
-          {The nuclei correlated (red) by an HNCO.}
-  \label{ccpn_hnco}
-\end{figure}
-\begin{figure}
-  \includegraphics[scale=0.5]{figures/ccpn_hncaco}
-  \caption[The nuclei correlated by an HN(CA)CO.]
-          {The nuclei correlated (red) by an HN(CA)CO.}
-  \label{ccpn_hncaco}
-\end{figure}
-
 These characteristics lead to a definition of GSSs as as having a root 
 resonance or resonances, typically an amide H-N group, and additional 
 covalently-bonded resonances.  The precise extent of a GSS is in principle 
@@ -226,32 +180,6 @@ determined to belong to the same GSS.
 Table-\ref{pulse_sequences} shows that H-N chemical shifts are captured in 
 multiple spectra, and sometimes multiple times within a single spectrum.
 At a later stage, GSSs are often augmented with additional sidechain resonances.
-
-\begin{table}
-    \begin{tabular}{ | c || c | c | c | c | c |}
-    \hline
-              & NHSQC & HNCO & HN(CA)CO & HNCACB & CBCA(CO)NH \\
-    \hline
-      H       & 1 & 1 & 2 & 4 & 2 \\
-    \hline
-      N       & 1 & 1 & 2 & 4 & 2 \\
-    \hline
-      CO      & 0 & 1 & 0 & 0 & 0 \\
-    \hline
-      CO(i-1) & 0 & 1 & 1 & 0 & 0 \\
-    \hline
-      CA      & 0 & 0 & 0 & 1 & 0 \\
-    \hline
-      CA(i-1) & 0 & 0 & 0 & 1 & 1 \\
-    \hline
-      CB      & 0 & 0 & 0 & 1 & 0 \\
-    \hline
-      CB(i-1) & 0 & 0 & 0 & 1 & 1 \\
-    \hline
-    \end{tabular}
-    \caption{The number of times nuclei typically appear in pulse sequences}
-    \label{pulse_sequences}
-\end{table}
 	
 In addition to GSSs of backbone resonances, H-N-rooted GSSs typically are 
 visible for Asparagine and Glutamine sidechains, and smaller GSSs of 
@@ -301,13 +229,6 @@ Figure-\ref{nhsqc_hncacb} shows an example of matching peaks between two
 spectra.  The quality of the match -- how closely the chemical shifts line up,
 as well as the lack of overlapping peaks -- means the peaks are easily
 identified as members of the same GSS.
-\begin{figure}
-  \includegraphics[scale=0.3]{figures/nhsqc_hncacb}
-  \caption[Matching peaks between an NHSQC and an HNCACB spectrum]
-          {Matching peaks between an NHSQC and an HNCACB spectrum.
-           This likely indicates that the peaks belong to the same GSS.}
-  \label{nhsqc_hncacb}
-\end{figure}
 
 
 \section{Backbone spin systems and resonances: typing and sequence-specific assignment}
@@ -394,12 +315,6 @@ Sequential GSS assignment is complicated by:
 An example of GSS overlap is shown in Figure-\ref{hncacb_overlap}.  Green peaks
 are CA, and purple peaks are CB; note that one each of green and purple peaks
 match between the two GSSs.
-\begin{figure}
-  \includegraphics[scale=0.35]{figures/hncacb_overlap}
-  \caption{Overlap of Carbon resonances in an HNCACB spectrum.}
-  \label{hncacb_overlap}
-\end{figure}
-
 
 \subsection{Assignment of GSS to specific residue of sample of interest}
 
@@ -431,15 +346,6 @@ Although not all of the GSSs have been typed, the presence of a Glycine and
 Serine in the GSS chain reduces the possible assignments to residues.
 Additionally, the length of the GSS chain helps reduce the ambiguity compared
 to shorter GSS chains.
-\begin{figure}
-  \includegraphics[scale=0.45]{figures/ss-residue}
-  \caption[Assignment of a GSS chain to residues]
-          {Assignment of a GSS chain to residues.  The circles are residues,
-           black lines are peptide bonds, squares are GSSs, red lines are 
-           sequential GSS assignments, and green lines are GSS-residue 
-           assignments.}
-  \label{ss-residue}
-\end{figure}
 
 
 \section{Sidechain: spin system and resonance assignment}
@@ -470,30 +376,6 @@ difficulty of both obtaining and unambiguously interpreting aromatic data.
 New approaches for sidechain data collection and assignment have recently 
 been developed \cite{mobli2010non, hiller2008apsy} which seek to address 
 these issues by reducing ambiguity of chemical shifts.
-\begin{figure}
-  \includegraphics[scale=0.5]{figures/ccpn_hbhaconh}
-  \caption[The nuclei correlated by an HBHA(CO)NH.]
-          {The nuclei correlated (red) by an HBHA(CO)NH.}
-  \label{ccpn_hbhaconh}
-\end{figure}
-\begin{figure}
-  \includegraphics[scale=0.5]{figures/ccpn_hcconhtocsy}
-  \caption[The nuclei correlated by an H(CCO)NH-Tocsy.]
-          {The nuclei correlated (red) by an H(CCO)NH-Tocsy.}
-  \label{ccpn_hcconhtocsy}
-\end{figure}
-\begin{figure}
-  \includegraphics[scale=0.5]{figures/ccpn_cconhtocsy}
-  \caption[The nuclei correlated by a C(CO)NH-Tocsy.]
-          {The nuclei correlated (red) by a C(CO)NH-Tocsy.}
-  \label{ccpn_cconhtocsy}
-\end{figure}
-\begin{figure}
-  \includegraphics[scale=0.5]{figures/ccpn_hcchtocsy}
-  \caption[The nuclei correlated by an HCCH-Tocsy.]
-          {The nuclei correlated (red) by an HCCH-Tocsy.}
-  \label{ccpn_hcchtocsy}
-\end{figure}
 
 
 \section{NOESY peak-picking and assignment}
@@ -605,4 +487,143 @@ in analysis, the specific modifications made and their reasons for --
 which may be quite complicated -- are not captured \cite{guntert2009automated}.  
 Thus, the metadata of manual intervention is lost, and analysis is 
 irreproducible.
+
+
+% tables
+\clearpage
+\section{Tables}
+
+\begin{table}[h] % if I don't add the [h], the table comes before the section title
+    \begin{tabular}{ | c || c | c | c | c | c |}
+    \hline
+              & NHSQC & HNCO & HN(CA)CO & HNCACB & CBCA(CO)NH \\
+    \hline
+      H       & 1 & 1 & 2 & 4 & 2 \\
+    \hline
+      N       & 1 & 1 & 2 & 4 & 2 \\
+    \hline
+      CO      & 0 & 1 & 0 & 0 & 0 \\
+    \hline
+      CO(i-1) & 0 & 1 & 1 & 0 & 0 \\
+    \hline
+      CA      & 0 & 0 & 0 & 1 & 0 \\
+    \hline
+      CA(i-1) & 0 & 0 & 0 & 1 & 1 \\
+    \hline
+      CB      & 0 & 0 & 0 & 1 & 0 \\
+    \hline
+      CB(i-1) & 0 & 0 & 0 & 1 & 1 \\
+    \hline
+    \end{tabular}
+    \caption{The number of times nuclei typically appear in pulse sequences}
+    \label{pulse_sequences}
+\end{table}
+
+
+% figures
+\clearpage
+\section{Figures}
+
+\begin{figure}[h]
+  \includegraphics[scale=0.35]{figures/nhsqc}
+  \caption[A frequency-domain NHSQC spectrum]
+          {A frequency-domain NHSQC spectrum. 
+           The x- and y-axes are nitrogen and proton, respectively.}
+  \label{nhsqc}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.35]{figures/nhsqc_peaks}
+  \caption[A peak-picked NHSQC spectrum]
+          {A peak-picked NHSQC spectrum. 
+           Peaks are indicated by black squares and crosses.}
+  \label{nhsqc_peaks}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.75]{figures/ccpn_nhsqc}
+  \caption[The nuclei correlated by an NHSQC.]
+          {The nuclei correlated (red) by an NHSQC.}
+  \label{ccpn_nhsqc}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.75]{figures/ccpn_hncacb}
+  \caption[The nuclei correlated by an HNCACB.]
+          {The nuclei correlated (red) by an HNCACB.}
+  \label{ccpn_hncacb}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.75]{figures/ccpn_cbcaconh}
+  \caption[The nuclei correlated by a CBCA(CO)NH.]
+          {The nuclei correlated (red) by a CBCA(CO)NH.}
+  \label{ccpn_cbcaconh}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.75]{figures/ccpn_hnco}
+  \caption[The nuclei correlated by an HNCO.]
+          {The nuclei correlated (red) by an HNCO.}
+  \label{ccpn_hnco}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.75]{figures/ccpn_hncaco}
+  \caption[The nuclei correlated by an HN(CA)CO.]
+          {The nuclei correlated (red) by an HN(CA)CO.}
+  \label{ccpn_hncaco}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.3]{figures/nhsqc_hncacb}
+  \caption[Matching peaks between an NHSQC and an HNCACB spectrum]
+          {Matching peaks between an NHSQC and an HNCACB spectrum.
+           This likely indicates that the peaks belong to the same GSS.}
+  \label{nhsqc_hncacb}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.35]{figures/hncacb_overlap}
+  \caption{Overlap of Carbon resonances in an HNCACB spectrum.}
+  \label{hncacb_overlap}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.45]{figures/ss-residue}
+  \caption[Assignment of a GSS chain to residues]
+          {Assignment of a GSS chain to residues.  The circles are residues,
+           black lines are peptide bonds, squares are GSSs, red lines are 
+           sequential GSS assignments, and green lines are GSS-residue 
+           assignments.}
+  \label{ss-residue}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.75]{figures/ccpn_hbhaconh}
+  \caption[The nuclei correlated by an HBHA(CO)NH.]
+          {The nuclei correlated (red) by an HBHA(CO)NH.}
+  \label{ccpn_hbhaconh}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.75]{figures/ccpn_hcconhtocsy}
+  \caption[The nuclei correlated by an H(CCO)NH-Tocsy.]
+          {The nuclei correlated (red) by an H(CCO)NH-Tocsy.}
+  \label{ccpn_hcconhtocsy}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.75]{figures/ccpn_cconhtocsy}
+  \caption[The nuclei correlated by a C(CO)NH-Tocsy.]
+          {The nuclei correlated (red) by a C(CO)NH-Tocsy.}
+  \label{ccpn_cconhtocsy}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.75]{figures/ccpn_hcchtocsy}
+  \caption[The nuclei correlated by an HCCH-Tocsy.]
+          {The nuclei correlated (red) by an HCCH-Tocsy.}
+  \label{ccpn_hcchtocsy}
+\end{figure}
 
