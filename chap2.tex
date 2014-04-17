@@ -141,89 +141,156 @@ later analysis has been accomplished.
 
 
 \section{GSSs and resonances}
- - relate to all those pulse sequence from bax and kay
- - overlap
- - extent
- - N-CA couplings
- - these concepts are parallel to residues and atoms, but are what we see in the
-   NMR data -- since we don't see atoms and residues directly
- - CCPN, BMRB data models
- - their use in previous software (XEasy, Sparky) but weren't explicit, first-class
 
+GSSs \cite{saga, ezassign, pistachio, autoassign1997, autoassign2001}
+and resonances \cite{ccpn} are parallel to residues and atoms.
+They are key to data analysis because they are the link between what is 
+observed in NMR experiments and the molecular details of the sample.
+Although these concepts had been used to a limited extent by earlier programs
+\cite{xeasy, sparky}, more recent work has treated GSSs and resonances as 
+explicit, first-class members of data analysis \cite{ccpn, bmrb}.
 
-\section{Spin system and resonance construction}
+\subsection{Resonances}
+A resonance is an NMR-visible signal which corresponds to an atom \cite{ccpn}.
+In general, an atom resonates at a single characteristic frequency based
+on its local environment;  the same resonance will be found at the same 
+frequency across multiple experiments.  This phenomenon is used to aid in 
+identification, although it is confounded by degeneracy as well as proteins
+with multiple conformations.
 
-After collecting and peak-picking a specific set of spectra designed to 
-capture the chemical shifts of the backbone H, N, C, CA as well as the CB, 
-the peaks are grouped into what are known as pseudoresidues \cite{mars} 
-or GSSs \cite{saga, ezassign, pistachio, autoassign1997, autoassign2001}.  
-A GSS is the NMR-visible incarnation of covalently bonded, magnetically 
-interacting nuclei through j-coupling.  GSSs are defined as having a root 
-resonance or resonances -- typically an amide H-N group due to the high 
-dispersion in resonance frequency of such groups which enables easier 
-unambiguous identification of each H-N group, and the relatively high 
-sensitivity of H-N groups in NMR experiments -- and additional 
+\subsection{GSSs}
+A GSS is an NMR-visible group of peaks, typically across multiple spectra,
+which corresponds to a group of covalently bonded resonances; it is similar
+to a residue.  
+The key to GSSs is a battery of multi-dimensional pulse 
+sequences designed to correlate resonances within GSSs 
+\cite{cavanagh1995protein, hncacb, hnco, cbcaconh}.  These experiments are all
+based on an N-H group (due to its sensitivity and chemical shift dispersion)
+and correlate additional nearby nuclei through covalent bonds.
+
+These pulse sequences use several types of overlap.  First, each pulse sequence
+includes the N-H group.  Second, due to the similar scalar couplings between
+N and the CA and CA(i-1) nuclei, it is possible to simultaneously correlate an
+N-H group with both nearby CA nuclei; this means that each CA may be correlated
+with two N-H groups, or in other words, may be a part of two GSSs. 
+Third, due to the scalar coupling between N and CO(i-1), correlations to 
+C*(i-1) appear in two pulse sequences of a pair (e.g. HNCACB and CBCA(CO)NH), 
+while C* appear in only the HNCACB.  See Figure-\ref{ccpn_nhsqc}, 
+Figure-\ref{ccpn_hncacb}, Figure-\ref{ccpn_cbcaconh}, Figure-\ref{ccpn_hnco}, 
+Figure-\ref{ccpn_hncaco} for an illustration of the correlated nuclei.
+
+\begin{figure}
+  \includegraphics[scale=0.5]{figures/ccpn_nhsqc}
+  \caption[The nuclei correlated by an NHSQC.]
+          {The nuclei correlated (red) by an NHSQC.}
+  \label{ccpn_nhsqc}
+\end{figure}
+\begin{figure}
+  \includegraphics[scale=0.5]{figures/ccpn_hncacb}
+  \caption[The nuclei correlated by an HNCACB.]
+          {The nuclei correlated (red) by an HNCACB.}
+  \label{ccpn_hncacb}
+\end{figure}
+\begin{figure}
+  \includegraphics[scale=0.5]{figures/ccpn_cbcaconh}
+  \caption[The nuclei correlated by a CBCA(CO)NH.]
+          {The nuclei correlated (red) by a CBCA(CO)NH.}
+  \label{ccpn_cbcaconh}
+\end{figure}
+\begin{figure}
+  \includegraphics[scale=0.5]{figures/ccpn_hnco}
+  \caption[The nuclei correlated by an HNCO.]
+          {The nuclei correlated (red) by an HNCO.}
+  \label{ccpn_hnco}
+\end{figure}
+\begin{figure}
+  \includegraphics[scale=0.5]{figures/ccpn_hncaco}
+  \caption[The nuclei correlated by an HN(CA)CO.]
+          {The nuclei correlated (red) by an HN(CA)CO.}
+  \label{ccpn_hncaco}
+\end{figure}
+
+These characteristics lead to a definition of GSSs as as having a root 
+resonance or resonances, typically an amide H-N group, and additional 
 covalently-bonded resonances.  The precise extent of a GSS is in principle 
-determined by the available NMR experiments which exploit the network of 
-covalently bonded, coupled nuclei.  In practice, a GSS often is initially 
+determined by the available NMR experiments \cite{hncacb, hnco, cbcaconh}.  
+In practice, a backbone GSS often is initially 
 comprised of a backbone H-N, CO, CA, CB, CO(i-1), CA(i-1), and CB(i-1).  
-At a later stage, GSSs are often augmented with additional sidechain resonances.  
+
+
+\section{GSS and resonance construction}
+
+This H-N matching enables grouping of peaks into GSSs; given multiple spectra
+which include N-H dimensions, peaks with matching N and H chemical shifts are
+determined to belong to the same GSS.
+Table-\ref{pulse_sequences} shows that H-N chemical shifts are captured in 
+multiple spectra, and sometimes multiple times within a single spectrum.
+At a later stage, GSSs are often augmented with additional sidechain resonances.
+
+\begin{table}
+    \begin{tabular}{ | c || c | c | c | c | c |}
+    \hline
+              & NHSQC & HNCO & HN(CA)CO & HNCACB & CBCA(CO)NH \\
+    \hline
+      H       & 1 & 1 & 2 & 4 & 2 \\
+    \hline
+      N       & 1 & 1 & 2 & 4 & 2 \\
+    \hline
+      CO      & 0 & 1 & 0 & 0 & 0 \\
+    \hline
+      CO(i-1) & 0 & 1 & 1 & 0 & 0 \\
+    \hline
+      CA      & 0 & 0 & 0 & 1 & 0 \\
+    \hline
+      CA(i-1) & 0 & 0 & 0 & 1 & 1 \\
+    \hline
+      CB      & 0 & 0 & 0 & 1 & 0 \\
+    \hline
+      CB(i-1) & 0 & 0 & 0 & 1 & 1 \\
+    \hline
+    \end{tabular}
+    \caption{The number of times nuclei typically appear in pulse sequences}
+    \label{pulse_sequences}
+\end{table}
+	
 In addition to GSSs of backbone resonances, H-N-rooted GSSs typically are 
 visible for Asparagine and Glutamine sidechains, and smaller GSSs of 
 Tryptophan sidechains are visible.  Arginine sidechains may also give rise 
 to an H-N-rooted GSS under certain experimental conditions. 
-	
-Typical NMR experiments for observing CO, CA, and CB nuclei also include H-N.  
-This is the practical reason for treating GSSs as H-N-rooted: across multiple 
-spectra, the same H-N group will appear at approximately the same frequency.  
-Based on the consistency of of H-N chemical shifts, the peaks can be grouped; 
-given an NHSQC, HNCO, HN(CA)CO, HNCACB, and HN(CO)CACB spectrum, each backbone 
-H-N-rooted GSS would be expected to have:
-\begin{itemize}
- \item H: 10 measurements, NHSQCx1, HNCOx1, HN(CA)COx2, HNCACBx4, HN(CO)CACBx2
- \item N: 10 measurements, NHSQCx1, HNCOx1, HN(CA)COx2, HNCACBx4, HN(CO)CACBx2
- \item CO: 1 measurement, HN(CA)COx1
- \item CO(i-1): 2 measurements, HNCOx1, HN(CA)COx1
- \item CA: 1 measurement, HNCACBx1
- \item CA(i-1): 2 measurements, HNCACBx1, HN(CO)CACBx1
- \item CB: 1 measurement, HNCACBx1
- \item CB(i-1): 2 measurements, HNCACBx1, HN(CO)CACBx1
-\end{itemize}
 
 The difficulty in constructing these GSSs correctly and unambiguously stems 
-from the inherent nature of NMR data.  First, the success of the standard 
+from the issues inherent in NMR data.  First, the success of the standard 
 suite of experiments rooted in H-N -- NHSQC, HNCO, HNCACB, etc. -- depends 
 on \cite{autoassign1997}: % page 600 -- `reliability`
 \begin{enumerate}
-  \item good dispersion, i.e. no overlap, otherwise it is hard to tell which 
-  peaks belong with which H-N-rooted spin system.
+  \item good dispersion, i.e. no overlap, otherwise it is difficult to determine 
+    which peaks belong with which H-N-rooted spin system.
   \item the H-N chemical shifts being nearly identical across all spectra.  
-  This may not be the case if there are variations in the sample or the 
-  temperature.  The Block-Siegert shift and experimental error also can have 
-  an effect on chemical shift.
-  \item atoms appearing at a single chemical shift.  If there are multiple 
-  conformations or chemical heterogeneity \cite{autoassign1997}, 
-  an atom may appear at multiple chemical shifts and appear to be two 
-  different resonances.
+    This may not be the case if there are variations in the sample or the 
+    temperature.  The Block-Siegert shift and experimental error also can have 
+    an effect on chemical shift.
+  \item nuclei appearing at a single chemical shift.  If there are multiple 
+    conformations or chemical heterogeneity \cite{autoassign1997}, 
+    a nucleus may appear at multiple chemical shifts and appear to be two 
+    different resonances.
   \item the presence of an H-N group -- Proline is a notable exception, and 
-  so it does not show up in experiments which rely on the presence of an H-N group
+    so it does not show up in experiments which rely on the presence of an H-N group
   \item extraneous peaks which do not seem to fit into a spin system, or 
-  peaks which do not seem to match peaks in other spectra
+    peaks which do not seem to match peaks in other spectra
   \item accurate (or at least consistent) spectral referencing.  
-  Misreferenced spectra will cause the same atom to show up at different 
-  chemical shifts across multiple spectra.
-  \item quality of peak-picking \cite{autoassign1997}: 
-  chemical shifts, false positives, false negatives, extraneous peaks
+    Misreferenced spectra will cause the same nucleus to show up at different 
+    chemical shifts across multiple spectra.
+  \item quality of peak-picking \cite{autoassign1997, mars}: 
+    chemical shifts, lineshapes, as well as the numbers of 
+    false positives, false negatives, extraneous peaks
 \end{enumerate}
 
-Relatively complete and correct peak-picking is a prerequisite for GSS 
-construction \cite{mars}.  Computational approaches 
-for GSS construction tend to require manual assistance in some cases 
-\cite{autoassign1997, mars}.  Incorrect or 
+Computational approaches for GSS construction tend to require manual 
+assistance in some cases \cite{autoassign1997, mars}.  Incorrect or 
 incomplete GSSs will have negative effects on the quality of later 
-analysis, and so it is important to obtain correct GSSs; many such 
-tools assume that manual intervention will verify and, if necessary, 
-correct the GSSs; this allows the tools to be conservative in their 
+analysis; several assignment tools assume that manual intervention will 
+verify and, if necessary, correct the GSSs \cite{williamson2009automated}; 
+this allows the tools to be conservative in their 
 predictions \cite{autoassign1997}.  However, it may not be 
 possible to unambiguously and completely construct GSSs until the results 
 of later analysis are available: some approaches use NOESY peaks and 
@@ -243,20 +310,15 @@ identified as members of the same GSS.
 \end{figure}
 
 
-
 \section{Backbone spin systems and resonances: typing and sequence-specific assignment}
 
 Once GSSs have been constructed, analysis continues with four simultaneous 
-assignment subtasks: resonance to atomtype, GSS to amino acid type, GSS to
+assignment subtasks: resonance typing, GSS typing, GSS to
 GSS sequentially, and GSS to specific residues of the sample of interest.
 
 \subsection{Assignment of resonance to atomtype}
-GSSs are composed of resonances \cite{ccpn}.  Resonances are 
-similar to GSSs in their relationships to atoms and residues: resonances can 
-be identified consistently across spectra without reference to a specific 
-atom; later interpretation is expected to assign the resonance to an atom.  
-The resonance datatype captures this concept, an intermediate between 
-frequency spectra and atoms.  Before assigning a resonance to a specific 
+
+Before assigning a resonance to a specific 
 atom, the atomtype of a resonance may be assigned.  In an HNCO experiment, 
 this is typically straightforward, because for each backbone spin system, 
 the H dimension always corresponds to the backbone H, the N dimension always 
@@ -303,14 +365,8 @@ identified and separated.
 
 \subsection{Assignment of GSS to GSS sequentially}
 
-Sequential GSS assignments are made using an important feature of common NMR 
-experiments such as the HNCACB and HN(CA)CO: natural overlap between 
-sequential GSSs.  This phenomenon is enabled by the similar coupling 
-constants between the backbone N and the CA and CA(i-1) nuclei, which allows 
-a single experiment to simultaneously correlate the H-N with both nearby CAs, 
-and through CAs covalent bonds to additional atoms.  This phenomenon is 
-exploited such that, in principle, each CA, CB, and C atom is observable 
-through standard NMR experiments from two backbone H-Ns;  sequential GSSs 
+Sequential GSS assignments exploit the previously mentioned overlap of pulse
+sequences such as the HNCACB and HN(CA)CO.  Sequential GSSs 
 are expected to have CA/CA(i-1), CB/CB(i-1), and CO/CO(i-1) resonances at 
 identical chemical shifts.  This duplication enables sequential assignment 
 of GSSs.  Note that there is substantial interaction between atomtype-resonance 
@@ -389,8 +445,12 @@ to shorter GSS chains.
 \section{Sidechain: spin system and resonance assignment}
 
 The next group of experiments collects chemical shifts of sidechain atoms.  
-These experiments include the HBHA(CO)NH, C(CO)NH-Tocsy, HC(CO)NH-Tocsy, 
-HCCH-Tocsy, and aromatic Tocsys.  The purpose of these experiments is to 
+These experiments include 
+the HBHA(CO)NH \cite{hbhaconh} in Figure-\ref{ccpn_hbhaconh}, 
+the C(CO)NH-Tocsy \cite{cconhtocsy} in Figure-\ref{ccpn_cconhtocsy}, 
+the HC(CO)NH-Tocsy \cite{hcconhtocsy} in Figure-\ref{ccpn_hcconhtocsy}, 
+the HCCH-Tocsy \cite{hcchtocsy} in Figure-\ref{ccpn_hcchtocsy}, 
+and aromatic Tocsys.  The purpose of these experiments is to 
 obtain the chemical shift values of sidechain resonances of protons, since 
 proton frequencies are necessary in order to interpret NOESY spectra.  To 
 interpret these spectra, the peaks must be assigned to GSSs and atomtypes 
@@ -400,7 +460,7 @@ to the correct GSS, others -- such as the HCCH-Tocsy -- are not.  These are
 analyzed by the matching of resonance chemical shifts with those from other 
 experiments targeting sidechains.  Atomtype-resonance assignments can generally 
 be made with reference to compiled BMRB statistics.  Complications in this 
-phase include: stereospecificity -- atoms such as HA2 and HA3 may give rise 
+phase include: stereospecificity -- nuclei such as HA2 and HA3 may give rise 
 to different chemical shifts, but resolving the correspondence may be 
 impossible without further data; overlap -- especially in the HCCH-Tocsy 
 where sidechains of the same amino acid type but different residue may have 
@@ -410,6 +470,30 @@ difficulty of both obtaining and unambiguously interpreting aromatic data.
 New approaches for sidechain data collection and assignment have recently 
 been developed \cite{mobli2010non, hiller2008apsy} which seek to address 
 these issues by reducing ambiguity of chemical shifts.
+\begin{figure}
+  \includegraphics[scale=0.5]{figures/ccpn_hbhaconh}
+  \caption[The nuclei correlated by an HBHA(CO)NH.]
+          {The nuclei correlated (red) by an HBHA(CO)NH.}
+  \label{ccpn_hbhaconh}
+\end{figure}
+\begin{figure}
+  \includegraphics[scale=0.5]{figures/ccpn_hcconhtocsy}
+  \caption[The nuclei correlated by an H(CCO)NH-Tocsy.]
+          {The nuclei correlated (red) by an H(CCO)NH-Tocsy.}
+  \label{ccpn_hcconhtocsy}
+\end{figure}
+\begin{figure}
+  \includegraphics[scale=0.5]{figures/ccpn_cconhtocsy}
+  \caption[The nuclei correlated by a C(CO)NH-Tocsy.]
+          {The nuclei correlated (red) by a C(CO)NH-Tocsy.}
+  \label{ccpn_cconhtocsy}
+\end{figure}
+\begin{figure}
+  \includegraphics[scale=0.5]{figures/ccpn_hcchtocsy}
+  \caption[The nuclei correlated by an HCCH-Tocsy.]
+          {The nuclei correlated (red) by an HCCH-Tocsy.}
+  \label{ccpn_hcchtocsy}
+\end{figure}
 
 
 \section{NOESY peak-picking and assignment}
@@ -426,14 +510,11 @@ determine the protons involved in a peak.  Considerations used to analyze
 NOESY spectra include: symmetry -- a peak is expected to correspond to a 
 matching peak with the frequencies of the two 1H dimensions swapped; patterns 
 based on known proximity of atoms from the primary sequence giving rise to 
-many short-distance NOE peaks; network anchoring.  Complications include: 
-\begin{enumerate}
-  \item overlap caused by degenerate chemical shifts of protons, leading to 
+many short-distance NOE peaks; network anchoring.  Complications include 
+overlap caused by degenerate chemical shifts of protons, leading to 
 ambiguous interpretations of peak assignments; this can be greatly mitigated 
 by the use of an extra dimension:  15N- or 13C-edited NOESY spectra reduce 
-the ambiguity
-  \item incorrect or incomplete chemical shift assignments
-\end{enumerate}
+the ambiguity, as well as incorrect or incomplete chemical shift assignments.
 
 NOESY assignment is generally done automatically \cite{cyana2004, aria2003}.  
 NOESY peak-picking may be automated as well \cite{munin, korzhnev2001munin}.
