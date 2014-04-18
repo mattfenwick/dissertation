@@ -196,25 +196,35 @@ reproducible.  These include:
 
   \item Experimental design.  Our understanding of scientific methods, the 
   significance of reproducibility, and means of achieving reproducibility 
-  have evolved along with our experimental methods.  Lab notebooks and journal 
-  publications are typical media for enabling reproducibility of experimental 
-  designs.  
-  The design must be recorded in sufficient detail to convey the key
+  have evolved along with our experimental methods.  
+  Lab notebooks are a standard tool for recording information.  Their 
+  advantages are well-known \cite{rubacha2011eln}: not only do they enable 
+  flexible and persistent storage of information, they also enhance 
+  continuity within research groups as personnel, techniques, 
+  and reagents change over time by explicitly recording key information.
+  Experimental designs must be recorded in sufficient detail to convey the key
   points to other scientists.  It may also acknowledge the possibility of 
   confounding variables, and take measures to control for them.
   The appropriate level of detail is neither too much nor too little:
   it should be repeatedly executable such that similar results are obtained 
   -- within expected deviations due to experimental error and variables 
   outside the control of the experiment \cite{drummond2012reproducible}.
+  The long history of usage of lab notebooks has created a rich culture of
+  their use; scientists have a well-developed understanding of what should,
+  and what should not, be recorded.
 
   \item Experimental execution.  Lab notebooks and Library Information Systems 
   (LIMS) are also important for recording the details of experiments, including 
-  any problems such as contamination.
+  any problems such as contamination.  Recent efforts have applied 
+  computational power to create Electronic Lab Notebooks (ELNs)
+  \cite{talbott2005eln, rubacha2011eln, myers2001eln}.
   When carrying out an experiment, the actual procedure followed should be
   recorded in sufficient detail, including any deviations from the given 
   experimental design and justifications for those changes.
   Biased sampling should also be recognized if possible
   \cite{savovic2012influence, simmons2011false}.
+  Journal publications are used to convey information about experimental
+  designs and results to other scientists.  
 
   \item Computational.  As computers continue to play an ever-growing role in 
   science, scientists have noted the problems that indiscriminate computational 
@@ -299,8 +309,8 @@ because of:
 
 Much work has been done to capture additional data from the assignment process.  
 The CCPNMR effort, including the significant projects of CCPN Analysis and the 
-CCPN data model \cite{ccpn}, captures includes peaks, atoms, residues, 
-resonances, and GSSs, along with other significant NMR data pieces.  
+CCPN data model \cite{ccpn}, captures peaks, atoms, residues, 
+resonances, and GSSs.  
 However, there are three shortcomings.  First, intermediate results are not 
 captured.  Second, only a subset of these data are deposited into the BMRB.  
 This subset typically includes only chemical shift assignments, but not spin 
@@ -309,13 +319,16 @@ key components of NMR analysis.  Third, the deductive process of reasoning
 is not captured.
 
 Other significant efforts include SPINS \cite{baran2006spins}, 
-Sesame \cite{sesame}, and 
-the NESG \cite{nesg2005nmr}.  However, much of the previous 
+Sesame \cite{sesame}, and the NESG \cite{nesg2005nmr}.  
+However, much of the previous 
 work in this area has focused on project management rather than reproducibility.
-SPINS claims to "organize and archive intermediate and final results", but 
-only for output files -- it is not designed to capture the key meta data
-mentioned above.  Sesame is capable of project management; however, it is 
-intended for use in high-throughput studies.  
+While SPINS is effective at capturing intermediate and final results, it is 
+only intended for use on primary data files -- it is not designed to capture 
+the key meta data mentioned above.  Sesame is capable of project management; 
+however, it is intended for use in high-throughput studies.  ELNs 
+\cite{rubacha2011eln}, while effective at capturing experimental design and
+data, are not designed to support in-depth analysis, nor are they intended
+to interface with NMR tools.
 
 While the need for integration of automation with occasional manual 
 validation and editing has been recognized \cite{baran2006spins}, no 
@@ -353,94 +366,93 @@ As was earlier stated, the key deficiencies causing irreproducibility are
 missing primary data (both extraneous results as well as intermediates), 
 missing meta data relating to the deductive process of reasoning employed 
 for manual analysis, and undeposited data (both primary and meta).  Therefore, 
-the solution will focus on how to capture those data.  In addition, notes for 
-identifying potential troublesome and confusing results will be used, as they 
-provide a valuable service to future perusers as well as future 
-reinterpretation by highlighting mistakes and ambiguities.
+the solution will focus on how to capture those data.  The general approach
+is to extend the capabilities of explicit recording provided by lab notebooks
+into the areas of computational and manual deductive analysis.
 
 \begin{itemize}
   \item Problem: lost primary data:  extraneous results.  Standard approaches use the 
-assumption that all peaks are true signal, with no provision for storing peaks 
-determined to be processing artifacts or noise.  Such spurious peaks are simply 
-deleted and do not show up in the final results.  This is a problem because the 
-fact that a peak was found, and later interpreted as noise does not show up in 
-the final data set.  The same problem applies to GSSs that are found 
-but can not be assigned to any residue of the sample of interest, or are 
-believed to correspond to atoms of a contaminant.  Such GSSs should 
-be represented in the final data set.
+  assumption that all peaks are true signal, with no provision for storing peaks 
+  determined to be processing artifacts or noise.  Such spurious peaks are simply 
+  deleted and do not show up in the final results.  This is a problem because the 
+  fact that a peak was found, and later interpreted as noise does not show up in 
+  the final data set.  The same problem applies to GSSs that are found 
+  but can not be assigned to any residue of the sample of interest, or are 
+  believed to correspond to atoms of a contaminant.  Such GSSs should 
+  be represented in the final data set.
 
-Our approach is to allow any number of peaks and GSSs, and to 
-augment them with additional data fields which distinguish between signal, 
-noise, contaminants, etc.  This allows one to make a critical distinction 
-between: 1) finding/recording a peak based purely on characteristics of 
-the spectrum such as volume, height, relative height compared to noise, 
-lineshape, and linewidth, and 2) interpreting a peak as signal, noise, 
-etc. (and the same for GSSs).  Even peaks and GSSs for 
-which no analysis is made can be kept in the data set without encumbering 
-assignment of true peaks and GSSs.
+  Our approach is to allow any number of peaks and GSSs, and to 
+  augment them with additional data fields which distinguish between signal, 
+  noise, contaminants, etc.  This allows one to make a critical distinction 
+  between: 1) finding/recording a peak based purely on characteristics of 
+  the spectrum such as volume, height, relative height compared to noise, 
+  lineshape, and linewidth, and 2) interpreting a peak as signal, noise, 
+  etc. (and the same for GSSs).  Even peaks and GSSs for 
+  which no analysis is made can be kept in the data set without encumbering 
+  assignment of true peaks and GSSs.
 
   \item Problem: lost primary data: intermediate results.  The output of a 
-computational tool, whether used for peak-picking, GSS construction, 
-or sequence-specific GSS assignment, is often modified to correct 
-mistakes.  This introduces a discrepancy between the output of the tool 
-given the input and a suitable parameterization, and the final data set.  
-By capturing a snapshot of the output of the tool immediately after it is 
-run, and before modifications are made, this discrepancy is rectified.
-Similarly, during manual analysis and modification of results, the state of 
-the data is continually changing and determines which analyses may be made.  
-For example, assignment of a GSS to a residue may allow a further 
-unambiguous assignment of a different GSS to a residue (an assignment 
-which previously would have been ambiguous) by eliminating one of two 
-assignment possibilities based on matching amino acid type.  This shows that 
-the state of the data determines what deductions can be made.  Therefore, it 
-is important to capture these intermediate states before and after deductions.
-The core of the strategy is based on that used by Version Control System (VCS) 
-software tools \cite{vcs_concepts, hinsen2009vcs}, which are commonly 
-applied for managing source code of 
-software projects \cite{loeliger2012git, cvs, svn}.  
+  computational tool, whether used for peak-picking, GSS construction, 
+  or sequence-specific GSS assignment, is often modified to correct 
+  mistakes.  This introduces a discrepancy between the output of the tool 
+  given the input and a suitable parameterization, and the final data set.  
+  By capturing a snapshot of the output of the tool immediately after it is 
+  run, and before modifications are made, this discrepancy is rectified.
+  Similarly, during manual analysis and modification of results, the state of 
+  the data is continually changing and determines which analyses may be made.  
+  For example, assignment of a GSS to a residue may allow a further 
+  unambiguous assignment of a different GSS to a residue (an assignment 
+  which previously would have been ambiguous) by eliminating one of two 
+  assignment possibilities based on matching amino acid type.  This shows that 
+  the state of the data determines what deductions can be made.  Therefore, it 
+  is important to capture these intermediate states before and after deductions.
+  The core of the strategy is based on that used by Version Control System (VCS) 
+  software tools \cite{vcs_concepts, hinsen2009vcs}, which are commonly 
+  applied for managing source code of 
+  software projects \cite{loeliger2012git, cvs, svn}.  
 
-These tools were originally implemented in order to manage the change in 
-source code over time, while retaining the ability to easily inspect past 
-states of the code.  It was found that application of such tools led to 
-large increases in productivity, robustness, correctness, and reduced 
-faults \cite{fischer2003vcs}.  The core of a VCS is a model for change in data 
-over time by storing multiple versions.  Versions are snapshotted, 
-descended from previous snapshots, and annotated with a commit message 
-which describes the what and the why of the change.  Similarly, in NMR 
-during the process of sequential deduction, intermediate states form a 
-chain.  By capturing these intermediates, similar advantages are gained 
-(as in VCS).  While taking multiple snapshots of a large data set may 
-seem wasteful of storage space, it is important to note that there are 
-several approaches for compressing the snapshots to eliminate duplication; 
-this essentially reduces the wasted space to zero.
+  These tools were originally implemented in order to manage the change in 
+  source code over time, while retaining the ability to easily inspect past 
+  states of the code.  It was found that application of such tools led to 
+  large increases in productivity, robustness, correctness, and reduced 
+  faults \cite{fischer2003vcs}.  The core of a VCS is a model for change in data 
+  over time by storing multiple versions.  Versions are snapshotted, 
+  descended from previous snapshots, and annotated with a commit message 
+  which describes the what and the why of the change.  Similarly, in NMR 
+  during the process of sequential deduction, intermediate states form a 
+  chain.  By capturing these intermediates, similar advantages are gained 
+  (as in VCS).  While taking multiple snapshots of a large data set may 
+  seem wasteful of storage space, it is important to note that there are 
+  several approaches for compressing the snapshots to eliminate duplication; 
+  this essentially reduces the wasted space to zero.
 
   \item Problem: lost meta data: deductive reasons used.  This data describes the 
-deductive process of reasoning employed in manually interpreting a feature 
-of the primary data.  It is important because it provides the explanation 
-of why something was done.
+  deductive process of reasoning employed in manually interpreting a feature 
+  of the primary data.  It is important because it provides the explanation 
+  of why something was done.
 
-In a VCS, each snapshot is annotated with a commit message that describes 
-the how and why of the snapshot -- what problems does it address, what 
-features does it add.  Similarly, for capturing the data of the process of 
-sequential deduction, the reasoning used describes the change to the data 
-set and why it was made.  In order to support the capture of this meta data, 
-an extensible library of commonly used deductive reasons enables the user to 
-quickly and easily make deductions and describe the reasoning used.  These 
-deductive reasons are then referenced in snapshot annotations.
+  In a VCS, each snapshot is annotated with a commit message that describes 
+  the how and why of the snapshot -- what problems does it address, what 
+  features does it add.  Similarly, for capturing the data of the process of 
+  sequential deduction, the reasoning used describes the change to the data 
+  set and why it was made.  In order to support the capture of this meta data, 
+  an extensible library of commonly used deductive reasons enables the user to 
+  quickly and easily make deductions and describe the reasoning used.  These 
+  deductive reasons are then referenced in snapshot annotations.
 
-  \item Problem: undeposited data (both primary and meta).  Current depositions to 
-the BMRB do not include extraneous results, intermediates, or deductive meta 
-data.  
+  \item Problem: undeposited data (both primary and meta).  
+  Current depositions to the BMRB do not include extraneous 
+  results, intermediates, or deductive meta data.  
 
-A collaboration with the BMRB will extend the NMR-Star data dictionary to 
-support this additional data.  Once the NMR-Star data dictionary supports 
-it, spectroscopists will be able to submit complete data sets.
+  A collaboration with the BMRB will extend the NMR-Star data dictionary to 
+  support this additional data.  Once the NMR-Star data dictionary supports 
+  it, spectroscopists will be able to submit complete data sets.
 
   \item Problem: lost meta data: notes.  As notes indicate the deficiencies and 
-potential problems present in a data set, they are valuable to future 
-perusers as they highlight how a data set is flawed and how it can be improved.
-The CCPN and BMRB data models will be extended to support notes which may 
-refer to any aspect of any other piece of primary data in the data set.
+  potential problems present in a data set, they are valuable to future 
+  perusers as they highlight how a data set is flawed and how it can be improved.
+  The CCPN and BMRB data models will be extended to support notes referring
+  to primary data features.
 \end{itemize}
 
 Additionally, this section will discuss how to effectively put this strategy 
