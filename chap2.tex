@@ -392,6 +392,19 @@ been developed \cite{mobli2010non, hiller2008apsy} which seek to address
 these issues by reducing ambiguity of chemical shifts.
 
 
+\section{Alternative approach: probabilistic assignment}
+
+The previously described approach views analysis as a pipeline: input is 
+transformed into output, which becomes the input for the next stage, and so on.  
+PINE \cite{pine} removes the pipeline constraint by connecting each stage to 
+each other and allowing information to flow freely; this enables statistical 
+weighting of interpretation as well as dependencies such as peak picking 
+on GSS construction (a dependency which is not possible in the pipeline 
+approach).  PINE does not remove the need for manual intervention; it is
+still assumed that some level of intervention is necessary to obtain the
+best results \cite{pine}.
+
+
 \section{NOESY peak-picking and assignment}
 
 In NOESY spectra, each true peak indicates a pair of protons within 
@@ -414,6 +427,11 @@ the ambiguity, as well as incorrect or incomplete chemical shift assignments.
 
 NOESY assignment is generally done automatically \cite{cyana2004, aria2003}.  
 NOESY peak-picking may be automated as well \cite{munin, korzhnev2001munin}.
+
+An alternative approach is taken by ABACUS \cite{abacus_assignment}, which uses
+Monte Carlo probabilistic methods for assignment, NOE assignment, and structure
+calculation.  However, it is important to note that ABACUS still requires 
+correct NOE peak picking and GSS construction as a prerequisite.
 
 
 \section{Structure calculation}
@@ -455,20 +473,18 @@ Most tools have several basic limitations:
   baran2004automated}
 \end{enumerate}
 
-A key limitation of many analysis tools is that they are viewed as part of a 
-pipeline: input is transformed into output, which becomes the input for the 
-next stage, and so on \cite{pine}.  This may explain why these tools 
-are not able to produce better results:  full analysis, including peak-picking, 
-GSS construction, assignment, and so on, can make use of information from 
-multiple stages.  Humans, performing manual interventions, are able to bring 
-this additional information to bear to make specific interpretations; however, 
-many of these tools do not.  Thus, PINE and related efforts  
+A key limitation of many analysis tools is the limited input data.  While
+this simplifies the use of the tool in a simple pipeline, it may also lead
+to reduced quality of results and explain the necessity of manual intervention:  
+while the input data that a tool handles is limited, manual interventions can
+make use of any additional information required to make specific deductions. 
+Thus, PINE and related efforts  
 are an exciting effort to loosen these artificial restrictions.  Initial 
 results are promising, and show a marked improvement, although manual 
 intervention is still assumed to be necessary in order to obtain the best 
 results \cite{pine}.  Further tools such as \cite{shiftx2, cheshire}, 
-which calculate chemical shifts from structure, provide additional means 
-for bringing additional information to bear, helping to validate assignments.
+which calculate chemical shifts from structure,  
+bring additional information to bear, helping to validate assignments.
 
 Another exciting development is the rise of probabilistic methods 
 \cite{saga, pine}.  These methods reflect the reality that the 
