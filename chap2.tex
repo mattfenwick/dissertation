@@ -52,17 +52,37 @@ spectrum with a peak at a frequency matching the oscillation frequency of
 the sinusoid.  Since NMR time-domain data consists of multiple decaying 
 sinusoids caused by atoms resonating at characteristic chemical shifts, 
 the frequency domain spectrum will contain peaks for every oscillating 
-sinusoid present in the time-domain data.  Identification of the positions 
-of these peaks and of their attributes such as shape, intensity, and width 
-is the next important step after spectral processing.  The goal of peak 
-picking is to build collections of peaks.  Thus, if peak picking proceeded 
-perfectly, the final peak lists would only contain true signal peaks, and 
-would contain all true signal peaks.  
-In addition, for each peak, additional charactertics include frequency 
-position in each dimension, lineshape, linewidth, and intensity should be 
-determined.
+sinusoid present in the time-domain data.  
+Peak picking involves identification of the peaks, including their
+chemical shift frequencies, shape, intensity, and width.  
 
-Correct results are important because they form the basis for the construction 
+In general, a peak is a local maximum in the frequency spectrum.  However,
+not all local maxima are necessarily peaks due to noise and artifacts.
+Nor do all peaks show up as local maxima if they are weak and close to the noise
+level, which causes them 
+to be nearly indistinguishable from the noise and baseline; this may be due to 
+sample instability such as aggregation or precipitation, or low sample 
+concentration \cite{picky, munin, korzhnev2001munin, apart, autopsy, pine}
+\cite{williamson2009automated, guntert2009automated, altieri2004automation,
+baran2004automated}.
+Since peaks have non-zero widths, peaks that are closer than their
+widths will overlap, distorting measurement of their attributes and possibly
+also leading to disappearance of a local maximum.  These issues complicate peak 
+picking, the goal of which is to find all true signal peaks and only true 
+signal peaks.
+Figure-\ref{nhsqc_peaks} shows a portion of a peak-picked
+NHSQC spectrum; note the overlap between some peaks, and that some -- but not
+all -- low-intensity spectral features have been identified as peaks.
+
+Given these inherent issues, a general strategy for peak picking is 
+described in \cite{autopsy, picky}.
+First, the noise level is estimated and points below the noise are discarded.
+Next, of the remaining spectral regions, isolated areas are picked as peaks.
+Finally, overlap is resolved by lineshape matching and the peaks are picked
+and their attributes measured.  An optional additional step is filtering
+based on symmetry and linewidth \cite{autopsy, picky}.
+
+Correct peaks are important because they form the basis for the construction 
 of GSSs, the assignment of chemical shifts to atoms, and the interpretation of 
 NOESY spectra which give rise to distance restraints as a preliminary to 
 structure calculation \cite{guerry2011automated}.  
@@ -70,51 +90,22 @@ Incorrect peak identification or position can result
 in misinterpretation of NOESY spectra, which could lead to false distance 
 restraints between atoms which are in fact very far apart in the actual 
 protein structure.
-	
-However, correct and complete peak picking is complicated by false peaks, 
-such as random noise and artifacts of the processing and/or sampling schemes, 
-as well as peaks caused by contaminant molecules or the solution itself if it 
-contains NMR-active nuclei.  peak picking is further complicated by overlap -- 
-when two or more peaks are closer than the spectral resolution, resulting in 
-distortion of lineshape, position, and intensity measurements; severe cases 
-of overlap can even cause multiple peaks to appear as a single one.  Another 
-difficulty of peak picking is low-intensity peaks, which causes them to be 
-nearly indistinguishable from the noise and baseline; this may be due to 
-sample instability such as aggregation or precipitation, or low sample 
-concentration
-\cite{picky, munin, korzhnev2001munin, apart,
-autopsy, pine}
-\cite{williamson2009automated, guntert2009automated, altieri2004automation,
-baran2004automated}.
-In such cases, a naive peak picker based on intensity will necessarily 
-generate either false positives or false negatives.
-Figure-\ref{nhsqc_peaks} shows a portion of a peak-picked
-NHSQC spectrum; note the overlap between some peaks, and that some -- but not
-all -- low-intensity spectral features have been identified as peaks.
 
 Estimates of the amount of false positive and false negative peaks picked 
-range from very low (10-40\%) to very high (70-135\%) \cite{pine}. 
+by computational tools range from very low (10-40\%) to very high (70-135\%) 
+\cite{pine}. 
 The quality of the results generally depends on characteristics of the 
 spectrum, especially the signal/noise ratio, and resolution, as well as 
-characteristics of the molecule including T\textsubscript{2} (which has an effect on peak 
-width) and number of atoms -- the issue being that more atoms means more 
-peaks, which means a higher chance of overlap.
+characteristics of the molecule including T\textsubscript{2} (which has an 
+effect on peak width) and number of atoms -- the issue being that more atoms 
+means more peaks, which means a higher chance of overlap.
 
-In order to address these problems, various approaches have been tried.  
-Programs have been implemented which analyze peak shape and intensity as 
-well as local noise level \cite{munin, autopsy}.  Other approaches 
-apply more advanced mathematical models to identifying peaks correctly.  
-Deposited data available in public archives may also be used. 
-These approaches have been implemented as computational tools 
-\cite{williamson2009automated, guerry2011automated}.
-However, none of these approaches yields perfect 
-results \cite{guerry2011automated}.  Manual intervention during peak picking 
-is still preferred, at least to a certain extent, and most peak picking 
+Since none of these approaches yields perfect 
+results \cite{guerry2011automated}, manual intervention during peak picking 
+is important for obtaining results of sufficiently high quality
+\cite{guntert2009automated}; many peak picking 
 programs allow and encourage semi-automated interaction in order to clear 
-up troublesome features.  Manual intervention is useful for identifying 
-overlap, noise, artifactual, and extraneous peaks, 
-and plays an important role in ensuring that the quality of the peak picking 
-is sufficiently high to enable further analysis \cite{guntert2009automated}.  
+up troublesome spectral features.  
 Manual intervention is often accomplished based on knowledge outside of the 
 spectrum: existence, position, and shape of peaks in other spectra, knowledge 
 of the solvent, characteristic artifactual patterns caused by a specific 
