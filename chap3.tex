@@ -1,39 +1,65 @@
 \chapter{An Approach for Reproducible Analysis}
 
-\section{Background}
-% maybe cover the current state of NMR reproducibility again?
-% maybe talk about the culture of the lab notebook?
+A strategy is needed to facilitate reproducibility of NMR data analysis.
+This chapter will describe in more detail the common characteristics of
+the missing data and what role they play as well as why it is important to
+capture them, a model for capturing that data, and a strategy for using
+the model during the analysis process.
 
 
-\section{Missing Primary Data}
-need to cover what the data is, how it plays a role in NMR analysis, 
-why it's important to capture
+\section{Missing data and its role in analysis}
 
-\subsection{Resonances and GSSs}
- - what: already covered in earlier section
- - how do we capture them: by adjusting the data model like CCPN, not going
-   down the xeasy destructive-towards-spin-systems road, and use the BMRB's
-   model for them when depositing
- - why they're so important to capture: they're a key intermediary between
-   the experimental data and the atomic model
+% need to cover what the data is, how it plays a role in NMR analysis, 
+% why it's important to capture
+As was described in earlier sections, 
+spectral analysis, including peak picking, GSS construction, GSS and resonance
+typing, sequential GSS assignment, and sequence-specific GSS assignment is 
+accomplished using a step-by-step process of deductive reasoning 
+which is often augmented by computational tools.  The computational 
+results may be subject to manual validation, correction, and extension
+\cite{guerry2011automated}.  This section will explore the various types
+of data involved.
 
-\subsection{Intermediates}
- - what: analysis data before analysis is complete
- - how it plays a role: shows the process of analysis -- from tool output to
-   final results, as well as logical dependencies of derived data
- - why: allows recapitulation of the actual process employed for analysis,
-   as well as fine-grained error detection and correction
-   % ^^ oops, looks like I'm mixing in my solution along with the problem
- - the context of deductions is important: it determines what deductions
-   can be made.  therefore capturing the contexts is important
+\subsection{Intermediate results}
+
+An important feature of the analysis process is that the final results are
+not the output of a single replicable step, but rather of a series of steps
+of refinement and modification.  Thus, the analysis process implicitly 
+generates a new data set (from the previous one) after every modification, 
+whether manual or automated.
+
+Implicit in the sequence of data sets are logical dependencies of derived
+data upon features of the previous data set: the context of each deduction
+is important, because the exact context determines what deductions may be
+made and the confidence level of each deduction. % TODO an example
+
+The importance of capturing intermediates is due to the dependence of 
+deductions on context: without knowing the context, it is impossible to 
+evaluate the correctness, confidence, and alternative interpretations of
+a deduction.  In standard approaches to analysis, the contexts are not
+captured; they are implicit.  By making the contexts explicit, it becomes
+possible not only to fully recapitulate the process of analysis, but also 
+to employ error detection and correction strategies by analysis
+of deductions and their contexts.  
+An interesting side-effect of capturing
+contexts is that analysis can be restarted in the middle, by selecting an
+appropriate context and applying a different deduction.
+See Figure-\ref{deduction} for an illustration.
+
  - I can come up with a simple example that demonstrates: 1) the dependence of
    deductive ability on context, 2) the concept and utility of multiple 
    snapshots, 3) the concept and utility of tracking logical dependencies
- - maybe an aspect of reproducibility is to make explicit what the variables,
-   biases, input are.  so here, we're going to take the implicit context of
-   deductions and make it explicit
+% TODO 
+% maybe an aspect of reproducibility is to make explicit what the variables,
+% biases, input are.  so here, we're going to take the implicit context of
+% deductions and make it explicit
+ - importantly, today's final data set becomes tomorrow's intermediate
 
-\subsection{Extraneous Data}
+% TODO a paragraph on the significance of capturing these data
+% must record intermediates, b/c it is not possible to recapitulate the 
+% analysis process without a record of those intermediates
+
+\subsection{Extraneous Results}
  - what: explicit identification of data features as being 'not of interest'
    to this analysis
    - peaks
@@ -65,11 +91,7 @@ why it's important to capture
    not show up in the final data set.
 
 
-\section{Missing Metadata}
- - what is the difference between primary data and meta data?  or maybe
-   I should not use primary in that sense ....
-
-\subsection{Deductive Analysis}
+\subsection{Deductive reasoning}
  - examples: what are they?  NMR-domain-specific rules for analyzing data
  - examples: how do we use them?
  - examples: how is recording them useful (to others)?
@@ -84,11 +106,28 @@ why it's important to capture
    low-confidence portions of analysis
    allows highlighting of known flaws, as well as indicating how a data set
    may be improved
+ - could think of these notes as a generalization of PINE's confidence metric,
+   b/c: score can contain more than just a number, can refer to more than just
+   a single datum
 
 
 \section{A Model for Reproducible NMR}
+
+\subsection{Data models}
  - what is a data model, and how is one used?
+ - enables formal communication
+ - enables automated communication
+ - makes semantics -- i.e. the meaning of the data -- interpret
+ - abstract -- allowing multiple implementations
  - builds on BMRB and CCPN
+
+\subsection{Extraneous results}
+
+\subsection{Intermediate results}
+
+\subsection{Deductive reasoning}
+
+\subsection{Notes}
 
 
 \section{An Implementation of the Model}
@@ -97,6 +136,7 @@ why it's important to capture
 \section{Applying Reproducible Analysis}
  - what to do -- tips and suggestions to be effective
  - what not to do -- common roadblocks and problems
+% maybe talk about the culture of the lab notebook?
 % could this belong in its own chapter?
 % or in the software chapter, or in the 'reproducible data sets' chapter?
 
@@ -114,8 +154,24 @@ why it's important to capture
  - what data is missing
  - extending existing models to support these data
  - getting a handle on bias of data analysis
+ - making things explicit
 
 
 \section{Conclusion}
  - could go in with previous section
+
+
+% figures
+\clearpage
+\section{Figures}
+
+\begin{figure}[h]
+  \includegraphics[scale=0.5]{figures/deduction}
+  \caption[A deduction is a rule applied in a context]
+          {A deduction is a rule (rounded rectangle) applied in a 
+           context (circle), producing a new context (or data set).  
+           If the context or rule is inapplicable, the deduction can
+           not take place. }
+  \label{deduction}
+\end{figure}
 
