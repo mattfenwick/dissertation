@@ -1,16 +1,35 @@
 \chapter{NMR Data Analysis is Irreproducible}
 
+This chapter will describe the NMR data analysis process in detail,
+including the roles of computational and manual analysis, as well as
+the data and tools involved in the process.
+
+
 \section{Time-domain Data Collection}
- - decaying sinusoids
- - uniform sampling
- - nyquist theorem
- - resolution
- - sweep width
- - non-uniform sampling
-   - sample schedule
- - artifacts
- - pulse sequences
- - signal-to-noise
+
+Time-domain NMR data, or FIDs, are collected by placing a concentrated
+sample in a spectrometer, running various pulse sequences, and recording
+the resultant data.  Pulse sequences \cite{khaneja2005} are designed to 
+target specific nuclei, and the collected FIDs are sums of decaying sinusoids.
+
+The collection of data suitable for Fourier Transform processing, described
+in the next section, requires uniformly collected data in each dimension.
+The delay between data points, number of points collected, and total delay
+between the first and last point (or acquisition time, which may be calculated
+from the first two parameters) determines the spectral width, or range of
+different frequencies that can be distinguished, and resolution, or the
+ability to distinguish nearby but distinct signals in the frequency domain
+\cite{ernst2004}.
+
+Sensitivity, which determines the ability to discern true signals
+from noise in the frequency domain, places constraints on data collection
+\cite{rovnyak2004accelerated}.  Non-uniform sampling approaches 
+\cite{maciejewski2011random} avoid these tradeoffs by collecting more data
+points where the signal-to-noise ratio is high, but maintain resolution by
+still collecting some data points where the signal-to-noise is low.
+However, it is important to capture the sample schedule used as well, since
+it gives rise to frequency-domain artifacts according to its point spread
+function.
 
 
 \section{Spectral processing}
@@ -22,10 +41,14 @@ frequency-domain spectra which are used in further analysis.  The goal of
 this phase is to construct a frequency spectrum which indicates the resonance 
 frequencies of the atoms that were observed in the experiment.  A common tool 
 for such a transformation is the Fourier Transform, which is able to convert 
-a data set consisting of multiple signals to a frequency spectrum.  
+a uniformly collected data set into a frequency spectrum.  
 An example of an NMR spectrum of N-H groups is shown in Figure-\ref{nhsqc}.
 Due to relaxation decreasing the amplitude of an NMR signal over time, peaks 
 have an intrinsic linewidth in the frequency spectrum.
+
+Alternative approaches include multidimensional decompsition \cite{mdd}
+and maximum entropy reconstruction \cite{hoch1996nmr}.  When FIDs are 
+non-uniformly collected, these processing methods are required.
 
 Considerations include minimization of processing artifacts, signal-to-noise 
 ratio, accounting for water lines, avoiding rolling baselines and baseline 
