@@ -59,6 +59,16 @@ See Figure-\ref{deduction} for an illustration.
 % must record intermediates, b/c it is not possible to recapitulate the 
 % analysis process without a record of those intermediates
 
+\subsection{Deductive reasoning}
+
+As was mentioned earlier, 
+ - examples: what are they?  NMR-domain-specific rules for analyzing data
+ - examples: how do we use them?
+ - examples: how is recording them useful (to others)?
+   provides explanation of why something was done -- which adds semantic data
+   to a deduction; this semantic data provides additional meaning, which can
+   be used for checking, learning, etc.
+
 \subsection{Extraneous Results}
  - what: explicit identification of data features as being 'not of interest'
    to this analysis
@@ -90,42 +100,87 @@ See Figure-\ref{deduction} for an illustration.
  - the fact that a peak was found, and later interpreted as noise does 
    not show up in the final data set.
 
-
-\subsection{Deductive reasoning}
- - examples: what are they?  NMR-domain-specific rules for analyzing data
- - examples: how do we use them?
- - examples: how is recording them useful (to others)?
-   provides explanation of why something was done -- which adds semantic data
-   to a deduction; this semantic data provides additional meaning, which can
-   be used for checking, learning, etc.
-
 \subsection{Notes}
- - examples: what are they?
- - examples: how are they useful?  facilitates future reinterpretation if
-   additional data is made available.  similar to PINE -- use notes to mark
-   low-confidence portions of analysis
-   allows highlighting of known flaws, as well as indicating how a data set
-   may be improved
- - could think of these notes as a generalization of PINE's confidence metric,
-   b/c: score can contain more than just a number, can refer to more than just
-   a single datum
+Due to the difficulties inherent in data analysis, situations are reached
+in which the interpretation of a specific feature is problematic:
+\begin{itemize}
+  \item uncertain or impossible.  The evidence for a particular deduction 
+    is not solid.
+  \item ambiguous.  Multiple interpretations of a feature are consistent
+    with the data and satisfy the constraints.  It is not possible to choose
+    between them.
+  \item inconsistent.  The data set is in an inconsistent state, or a 
+    deduction would leave it in an inconsistent state.
+\end{itemize}
+A simple example is non-stereospecific sidechain proton assignments: 
+a residue such as a Histidine or Lysine which has two beta protons will 
+often give rise to two resonances, one for each beta proton; however, 
+without additional information, it is impossible to assign a resonance to
+a specific atom.  A related example is caused by the two delta and epsilon
+protons in Phenylalanine and Tyrosine aromatic sidechains; the two resonances,
+even if distinguishable, can not be uniquely assigned to atoms.  In both
+cases, the ambiguity is resolvable through the use of additional information;
+however, before that additional information is provided, it is useful to be
+able to store what is known -- that there are two peaks, each of which 
+corresonds to one atom, but exactly which is unsure -- as an indication to
+future analysis or perusal that a problem has been identified but not yet
+solved.
+
+The key idea is, given the inevitability of such problems during data
+analysis, to create facilities for explicitly recognizing, discussing, 
+and handling such problems \cite{robillard2007concerns}. 
+Several strategies for such an approach 
+are covered in \cite{nuseibeh2000inconsistency} including deferral of the
+problem while flagging it for later follow-up.
+
+Enabling the representation of such data has similarities to the probabilistic
+approach applied by PINE \cite{pine} to great effect.  
+PINE deals with the innate uncertainty of data 
+analysis by resolving the tradeoff between false positives and false 
+negatives through association of a probabilistic confidence metric with each
+feature interpretation; low confidence values are used as evidence that an
+interpretation is suspicious and needs additional verification or data.
+In a complementary approach, capturing notes of analysis issues also 
+resolves the tradeoff for manual analysis, by enabling the association of
+an explanatory or warning message with suspected low-quality deductions.
+In addition, the message may contain more information than a scalar: it may
+necessarily refer to multiple conflicting pieces of the data set in the case
+of a contradiction.
+
+example: peak-picking something that looks like overlap, not knowing how much (if any) overlap there really is
+example: multiple matching sequential GSSs
 
 
 \section{A Model for Reproducible NMR}
 
 \subsection{Data models}
- - what is a data model, and how is one used?
- - enables formal communication
- - enables automated communication
- - makes semantics -- i.e. the meaning of the data -- interpret
- - abstract -- allowing multiple implementations
- - builds on BMRB and CCPN
+A data model is a means of specifying the structure of information.  This
+information may be used as inputs and outputs for computational tools, or
+it may be archived and available for reference use.  Data models are useful
+because they provide a formal specification of the structure, which enables
+unambiguous, correct, and automated use of data.  Data models are
+abstract specifications; they must be implemented in source code in order
+to become a usable artifact.
 
-\subsection{Extraneous results}
+In the field of NMR, both the BMRB \cite{bmrb} and CCPN \cite{ccpn} have
+created descriptive and useful data models, and have implemented them in
+programs and as Application Programming Interfaces (APIs).  These are used
+by additional programs to help manage the exchange of data with external
+programs.
+
+This section will cover a data model for reproducibility.  Once a data
+model exists, it can be implemented as part of a software program that
+facilitates reproducible data analysis, as will be covered in a later 
+chapter.  The core of this data model is formed by the BMRB \cite{bmrb}
+and CCPN \cite{ccpn} data models.  These models are then extended with
+several additional data types and properties in order to enable 
+reproducibility.
 
 \subsection{Intermediate results}
 
 \subsection{Deductive reasoning}
+
+\subsection{Extraneous results}
 
 \subsection{Notes}
 
