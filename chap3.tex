@@ -46,28 +46,31 @@ contexts is that analysis can be restarted in the middle, by selecting an
 appropriate context and applying a different deduction.
 See Figure-\ref{deduction} for an illustration.
 
- - I can come up with a simple example that demonstrates: 1) the dependence of
-   deductive ability on context, 2) the concept and utility of multiple 
-   snapshots, 3) the concept and utility of tracking logical dependencies
-% TODO 
-% maybe an aspect of reproducibility is to make explicit what the variables,
-% biases, input are.  so here, we're going to take the implicit context of
-% deductions and make it explicit
- - importantly, today's final data set becomes tomorrow's intermediate
-
-% TODO a paragraph on the significance of capturing these data
-% must record intermediates, b/c it is not possible to recapitulate the 
-% analysis process without a record of those intermediates
+% TODO
+% come up with a simple example that demonstrates: 
+%   1) the dependence of deductive ability on context
+%   2) the concept and utility of multiple snapshots
+%   3) the concept and utility of tracking logical dependencies
 
 \subsection{Deductive reasoning}
 
-As was mentioned earlier, 
- - examples: what are they?  NMR-domain-specific rules for analyzing data
- - examples: how do we use them?
- - examples: how is recording them useful (to others)?
-   provides explanation of why something was done -- which adds semantic data
-   to a deduction; this semantic data provides additional meaning, which can
-   be used for checking, learning, etc.
+As was covered earlier, the deductive process of reasoning which plays
+a major role in data analysis generates intermediate data sets.  Associated
+with the generation of these data sets is a rule employed for deduction.
+
+% TODO do I need to say something about the proposed library of deductive reasons? or does that come later?
+Each rule is an embodiment of NMR-specific knowledge of how to interpret a
+data feature.  In general, a deductive rule requires an input, produces an
+output, and has an intuitive justification for its action.  
+% TODO example
+
+Application of these rules provides a rationale for manual modifications.  The
+rationale is a justification that the change modification is correct, as
+well as an indication of why the change was made.  Therefore, capturing the
+deductive rules employed enables verification of the veracity of modifications. 
+It also facilitates knowledge transfer, both in the contexts of collaboration
+and teaching, by providing a meaningful annotation (with reference to the
+domain of NMR) for actions taken.
 
 \subsection{Extraneous Results}
  - what: explicit identification of data features as being 'not of interest'
