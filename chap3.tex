@@ -21,7 +21,6 @@ results may be subject to manual validation, correction, and extension
 of data involved.
 
 \subsection{Intermediate results}
-
 An important feature of the analysis process is that the final results are
 not the output of a single replicable step, but rather of a series of steps
 of refinement and modification.  Thus, the analysis process implicitly 
@@ -53,7 +52,6 @@ See Figure-\ref{deduction} for an illustration.
 %   3) the concept and utility of tracking logical dependencies
 
 \subsection{Deductive reasoning}
-
 As was covered earlier, the deductive process of reasoning which plays
 a major role in data analysis generates intermediate data sets.  Associated
 with the generation of these data sets is a rule employed for deduction.
@@ -73,35 +71,49 @@ and teaching, by providing a meaningful annotation (with reference to the
 domain of NMR) for actions taken.
 
 \subsection{Extraneous Results}
- - what: explicit identification of data features as being 'not of interest'
-   to this analysis
-   - peaks
-   - resonances
-   - GSSs
- - how it plays a role: if they're not identified, you could get: wrong 
-   chemical shifts, wrong sequential GSS GSS, wrong GSS residue assignments
- - why: provides a marker for future perusers
- - allows separation of identifying a data feature vs. interpreting it -- which
-   matters because the way we do things is self-consistent, right?  
-   so if you have to come back and reinterpret -- and remember, PINE is great and the
-   lesson is that you *will* have to reinterpret -- you won't have to reidentify
-   features.  
-   and that's *good*, because that means that your feature identification
-   can be unbiased.  
- - provides additional context for estimating the quality of an analysis,
-   where errors may be likely to come from (the borderline cases!), helps with
-   assigning confidence levels to datums by not forcing it to be a binary 
-   decision.  quality measures: \# of peaks found by peak-picker, \# of false
-   positives, \# of additional peaks picked, \# of peaks assigned to GSS, 
-   \# of GSS assigned to residue, etc.
- - also, reporting these gives measures of, perhaps, contamination,
-   incompleteness, overcompleteness/overfitting, consistency.  
- - remember another
-   lesson from PINE: there's a balance between false positives and false negatives,
-   and if you want to avoid false positives -- which I think we usually do -- 
-   you'll probably have some false negatives.  so they should be reported
- - the fact that a peak was found, and later interpreted as noise does 
-   not show up in the final data set.
+During analysis, some portion of the positive results are not of direct interest
+to the final answer.  Not only peaks, but also resonances and GSSs are included.
+The positive results include both false positives, caused by noise or
+artifacts, and true positives, caused by contaminants.
+
+Although not of direct interest, such extraneous results play a role in 
+the process of analysis: as was covered earlier, when making a manual
+modification, a deductive rule is applied to a context (data set).  Changing 
+the context affects which rules apply and what deductions are made; 
+therefore, as a part of the context, extraneous results matter during analysis. 
+If incorrectly identified or left unrecognized, extraneous features can
+lead to incorrect peak picking, chemical shift assignments, GSSs, and GSS
+assignments.
+
+A further benefit of capturing extraneous results is the ability to distinguish
+between identifying a data feature and interpreting it.  In other words, peaks
+picked during peak picking are treated as positives, this is the "identification"
+phase; in the later "interpretation" phase, these peaks are separated into
+false positives and true positives.  This allows rectification of the 
+discrepancies between uncorrected computational results and the final,
+deposited results as well as marking potentially suspicious results for 
+future perusal.  It should also be noted that picking a peak, then
+interpreting it as extraneous and discarding it is typically not reported in
+final data sets, despite containing important information.
+There is a balance between false positives and false negatives \cite{pine};
+false negatives are more undesirable \cite{pine, saga, guntert2009automated},
+and capturing extraneous results helps to avoid this tradeoff: by reducing
+the cost of a false positive, tools are free to focus on avoiding false
+negatives.
+
+The process of separating positives into false and true is prone to 
+introducing bias; by keeping and reporting the initial results, such bias
+can be estimated.  This is not possible if the extraneous results are not
+reported, and also allows the feature identification phase to proceed
+without bias, since error correction will be applied at a later stage. 
+By providing additional context, it may be possible to estimate the quality 
+of an analysis, where errors may be most likely found in the borderline 
+cases; it will also help assigning confidence levels to datums by not.
+Additional quality measures enabled include the number of peaks found by the
+peak-picker, the number of false positives, the number of peaks assigned to
+GSSs, and the number of GSSs assigned to residues.  It may also be possible
+to estimate contamination, incompleteness and overcompleteness, overfitting, 
+and consistency.
 
 \subsection{Notes}
 Due to the difficulties inherent in data analysis, situations are reached
