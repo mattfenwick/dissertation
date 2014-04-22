@@ -33,3 +33,9 @@
  - if the abstract goes onto a second page: the 2nd page gets a page number
    - solution: ?????
 
+ - url formatting: urls are sometimes pushed out into the margins.  Why
+   aren't the margins inviolable?
+   - `\usepackage{url}` and `\usepackage[hyphens]{url}` don't solve the problem
+   - it was only "solved" by randomly rearranging links until they didn't
+     violate the margins
+
