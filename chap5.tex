@@ -46,17 +46,30 @@ The library is freely available online (
 \section{Connjur: ST and WB}
 
 \section{Sample Scheduler}
- - reference the PNAS paper
- - data model: non-uniformity:
-   - grid points
-   - quadrature
-   - transients
- - algorithms
-   - literature search
- - how does it facilitate reproducibility?
-   - captures parameters
-   - integrates many algorithms in one tool, ensuring consistency
-     and uniformity
+The creation of effective sample schedules is an important aspect of efficient,
+non-uniform data collection 
+\cite{maciejewski2011random, rovnyak2004accelerated, mobli2010non}.  There
+are multiple strategies for data collection.  The strategy used to generate
+a sample schedule and the exact sample schedule used to collect time-domain
+data has an effect on the quality of the data and on the ease of later 
+analysis, due to properties such as artifacts (described by the point-spread
+function), resolution, and sensitivity (related to signal-to-noise ratio).
+
+A tool has been implemented to reproducibly capture the parameterizations
+used in sample schedule creation, and is available online at
+\url{https://github.com/mattfenwick/PyScheduler}.  The tool features a 
+collection of popular algorithms for creating non-uniform sample schedules
+with specific, desirable properties.  The algorithms are integrated within
+a single uniform, consistent interface which allows all input parameters
+and outputs to be captured and archived.
+
+The tool also features a data model for formal, precise communication of
+sample schedules.  The data model not only deals with non-uniform time delays,
+but also with non-uniform quadrature \cite{maciejewski2011random} and
+non-uniform numbers of transients.  To my knowledge, the latter aspect of
+non-uniform data collection remains a relatively unexplored domain, into
+which this tool provides novel data representation capabilities.
+
 
 \section{Discussion and conclusions}
 
