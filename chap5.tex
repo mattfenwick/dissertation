@@ -2,26 +2,46 @@
 
 \section{Sparky extension}
 
-\section{NMRPyStar}
- - read and write NMR-Star files
- - reference the paper
- - available in Java and Python
- - what sets it apart from other NMR-Star parsing libraries:
-   - low coupling
-     - usable as a simple library
-     - no external tools
-     - no hard dependencies
-   - open source
-   - high cohesion
-   - error reporting
-   - syntax definition
- - availability
- - enables pulling data from NMR-Star files, as well as creating them.
-   why is that useful?
- - how does it facilitate reproducibility?
-   - NMR data gets archived by the BMRB
-   - this tool helps to put data into the BMRB (and pull it out)
-   - also used by the Sparky reproducibility extension
+\section{NMR-Star library}
+NMR-Star is the file format used by the BMRB \cite{bmrb} for archival of
+NMR data.  As such data is useful for further studies, and archiving
+data in the BMRB is the primary means of dissemination, it is important
+to be able to work with NMR-Star files.
+
+This library facilitates reproducibility by providing a robust interface
+for working with NMR-Star files.  It allows both the creation of NMR-Star 
+files as well as extraction of data -- for further querying -- of existing
+files.  It is used by the previously mentioned Sparky extension.
+
+To handle these files, a library was implemented both in Java 
+\cite{fenwick2013} and in Python.  This library provides capabilities both
+for reading and for writing NMR-Star files.  Although several tools for
+dealing with NMR-Star files had already been implemented \cite{ccpn, bmrb},
+there are several attributes of this library which set it apart:
+\begin{itemize}
+  \item error reporting of illegal input.  When malformed input is encountered,
+    a useful, location-specific error is reported which includes sufficient
+    information to quickly pinpoint and diagnose the problem.
+  \item complete, standards-compliant NMR-Star syntax definition.
+  \item open source under the MIT license.  This allows other interested 
+    developers to peruse the source code to gain ideas, use the library in
+    new applications, and modify and extend the library to fix problems or
+    add new features if necessary.
+  \item low coupling.  As a simple library, in order to use it, the library
+    is simply imported using standard language facilities in order to use
+    it through its programmatic API.  It does not require any external tools
+    or dependencies, reducing the barrier to setup and installation.  It does
+    not require learning to use additional tools or languages, merely the 
+    host language; it takes advantage of the native facilities for abstraction
+    and composition provided by the host language.
+  \item high cohesion.  The library provides a simple, focused interface.
+    This means it is easy to learn and use because it only deals with parsing
+    the concrete syntax of NMR-Star files.
+\end{itemize}
+The library is freely available online (
+\url{https://pypi.python.org/pypi/NMRPyStar}, 
+\url{https://github.com/CONNJUR/StarParser}
+).
 
 \section{Connjur: ST and WB}
 
