@@ -162,8 +162,11 @@ In addition, the message may contain more information than a scalar: it may
 necessarily refer to multiple conflicting pieces of the data set in the case
 of a contradiction.
 
-example: peak-picking something that looks like overlap, not knowing how much (if any) overlap there really is
-example: multiple matching sequential GSSs
+\subsubsection{Example}
+peak pick overlapped peaks, not knowing actual extent of overlap (if any)
+
+\subsubsection{Example}
+multiple matching sequential GSSs
 
 
 \section{A Model for Reproducible NMR}
@@ -192,12 +195,41 @@ several additional data types and properties in order to enable
 reproducibility.
 
 \subsection{Intermediate results}
+ - refer to git model, or to other version control systems
+ - tree of snapshots, each of which:
+   - has an author
+   - has a timestamp
+   - has a parent
+   - has a chunk of changes
+\subsubsection{Example}
+a snapshot or two, diff between them, meta data
 
 \subsection{Deductive reasoning}
+ - a library of reasons, each including:
+   - a meaningful name
+   - an explanation of its meaning within the NMR domain
+   - intended use
+   - intended result
+   - examples as picture
+ - reasons are applied to annotate intermediate results
+\subsubsection{Example}
+present most or all of the library, in picture and textual format
 
 \subsection{Extraneous results}
+ - extend BMRB and CCPN models
+ - for peaks, resonances, GSSs:
+   - add data fields
+   - track category
+   - during analysis, never delete these.  always "soft delete" by changing category
+\subsubsection{Example}
+CCPN peak pick as initial peak list, then corrections I made as peak list 
+where each peak has additional fields
 
 \subsection{Notes}
+ - extend BMRB and CCPN models
+ - note, which can refer to any other datum
+\subsubsection{Example}
+odd feature in data, unable to resolve
 
 
 \section{An Implementation of the Model}
