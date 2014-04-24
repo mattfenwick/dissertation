@@ -171,7 +171,8 @@ multiple matching sequential GSSs
 \section{A Model for Reproducible NMR}
 
 \subsection{Data models}
-A data model is a means of specifying the structure of information.  This
+A data model is a means of specifying the structure of information  
+\cite{codd1970relational}.  This
 information may be used as inputs and outputs for computational tools, or
 it may be archived and available for reference use.  Data models are useful
 because they provide a formal specification of the structure, which enables
@@ -180,8 +181,8 @@ abstract specifications; they must be implemented in source code in order
 to become a usable artifact.
 
 In the field of NMR, both the BMRB \cite{bmrb} and CCPN \cite{ccpn} have
-created descriptive and useful data models, and have implemented them in
-programs and as Application Programming Interfaces (APIs).  These are used
+created descriptive, extensive and useful data models, and have implemented them 
+in programs and as Application Programming Interfaces (APIs).  These are used
 by additional programs to help manage the exchange of data with external
 programs.
 
@@ -194,14 +195,23 @@ several additional data types and properties in order to enable
 reproducibility.
 
 \subsection{Intermediate results}
- - refer to git model, or to other version control systems
- - tree of snapshots, each of which:
-   - has an author
-   - has a timestamp
-   - has a parent
-   - has a chunk of changes
-\subsubsection{Example}
-a snapshot or two, diff between them, meta data
+The strategy for modelling intermediate results is based on the data models
+of existing version control systems, including Git \cite{loeliger2012git},
+SVN \cite{svn}, and CVS \cite{cvs}.  Figure-\ref{intermediates} shows the
+general properties of the solution: a sequence of snapshots of the data set,
+where associated with each snapshot is a small amount of metadata:
+\begin{itemize}
+ \item timestamp
+ \item author
+ \item parent, or previous snapshot.  This maintains the order of the 
+  snapshots
+\end{itemize}
+
+When multiple snapshots are captured, they can be compared as in Figure-\ref{diff},
+and also can be used to track logical dependencies of analysis.
+
+Figure-\ref{snapshot_model} shows an entity-relationship (ER) model built
+using MySQLWorkbench.
 
 \subsection{Deductive reasoning}
  - a library of reasons, each including:
@@ -266,5 +276,27 @@ odd feature in data, unable to resolve
 \clearpage
 \section{Figures}
 
-% \begin{figure}[h] % remember that the first one needs to have the [h] position specifier,
-% so that it comes *after* the section header
+\begin{figure}[h]
+  \includegraphics[scale=0.5]{figures/intermediates}
+  \caption{Intermediate data sets form a linked chain.}
+  \label{intermediates}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.5]{figures/diff}
+  \caption{Capturing intermediates allows comparison, such as diffs.}
+  \label{diff}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.5]{figures/snapshot_model}
+  \caption{A relational model of a snapshot.}
+  \label{snapshot_model}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.5]{figures/deduction_model}
+  \caption{A relational model of a snapshot and deductions.}
+  \label{deduction_model}
+\end{figure}
+
