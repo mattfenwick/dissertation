@@ -324,23 +324,46 @@ as covering common problems and how they can be avoided.
 
 
 \section{Archiving reproducible data sets}
- - the NMR-Star file format, my parser, and others
- - the usefulness of NMR-Star files
- - the NMR-Star data dictionary
- - extending the NMR-Star data dic
- - other efforts to provide this NMR-Star integration ???
+A major portion of the value derived from collecting reproducible data sets
+is disseminating them so that others may obtain and use or inspect the data
+in some way.  The standard means for sharing NMR-derived data is the BMRB
+\cite{bmrb}, which uses the NMR-Star file format.  In order to enable archival
+of reproducible data sets, we have collaborated with the BMRB to extend the
+NMR-Star data dictionary, so that reproducible data sets may be collected and
+deposited in the NMR-Star format.
+
+The NMR-Star data dictionary, which may be found at 
+\url{http://www.bmrb.wisc.edu/dictionary/}, catalogs the names, structure,
+intended use, and definitions of the data types handled by the BMRB.
 
 
 \section{Discussion}
- - lab notebooks
- - what data is missing
- - extending existing models to support these data
- - getting a handle on bias of data analysis
- - making things explicit
+By collecting reproducible data sets, the true information content used in
+NMR spectroscopy is made explicit and visible.  This is analogous to how lab
+notebooks are intended to be used in wet-lab work: as a means of recording
+the crucial details describing how an experiment was done, so that the procedure
+can be shared with and improved upon by others.  A key difference, however, is
+that while lab notebooks have been in use for several centuries, the culture
+of reproducibility of digital analysis is still in its infancy: we do not yet
+have much experience with the what, how, and why of reproducibility in 
+electronic media.
 
+% TODO this is a pretty weak paragraph
+The first key step, which I have described in this chapter, is to define what
+the problems are -- in the form lost data -- and a model for what that data is.
+Then the model must be applied in practice, and its correct use taught.
 
-\section{Conclusion}
- - could go in with previous section
+By extending standard existing models, the barrier to entry is greatly reduced,
+and instead of requiring an abrupt and drastic change in the workflows of those
+already using the standard models \cite{bmrb, ccpn}, the change to reproducible
+analysis can be incremental and gradual.  This should help adoption.
+
+Not only will such data sets make the process explicit, they will also help
+make biases explicit.  It is possible that different research groups and
+different analysis techniques have different innate biases; it is quite likely
+that such biases will become obvious through the collection of these full data
+sets.  Each bias will represent an opportunity for learning and for improving
+the quality of analysis.
 
 
 % figures
