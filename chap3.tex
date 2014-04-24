@@ -161,11 +161,23 @@ In addition, the message may contain more information than a scalar: it may
 necessarily refer to multiple conflicting pieces of the data set in the case
 of a contradiction.
 
-\subsubsection{Example}
-peak pick overlapped peaks, not knowing actual extent of overlap (if any)
+% TODO add a picture
+Correctly identifying and characterizing peaks in the presence of significant
+amounts of overlap is a notoriously difficult problem \cite{guerry2011automated}.
+The number, position, and intensity of peaks become distorted by the overlap.
+In such a case, it may not initially be possible to fully and correctly
+resolve the overlap (although later information from additional spectra, such
+as a higher-dimensional spectrum in which the additional dimension removes
+the overlap, may resolve the problem); a note explaining that overlap is
+suspected and that the characterizations may be in error points this out.
 
-\subsubsection{Example}
-multiple matching sequential GSSs
+% TODO add a picture
+Building unambiguous and complete sequential GSS assignments is complicated 
+when multiple GSSs have the same or nearly the same chemical shift values
+for resonances which are or potentially may be assigned to CA, CB, CO, or the
+corresponding (i-1) atoms.  Leaving a note in the data set describing what
+the ambiguity is ensures that this information is not lost, and is clearly
+marked for re-analysis when more data becomes available.
 
 
 \section{A Model for Reproducible NMR}
@@ -214,31 +226,58 @@ Figure-\ref{snapshot_model} shows an entity-relationship (ER) model built
 using MySQLWorkbench.
 
 \subsection{Deductive reasoning}
- - a library of reasons, each including:
-   - a meaningful name
-   - an explanation of its meaning within the NMR domain
-   - intended use
-   - intended result
-   - examples as picture
- - reasons are applied to annotate intermediate results
-\subsubsection{Example}
-present most or all of the library, in picture and textual format
+A model for the deductive process of rule application to a data set to 
+produce a modified, new data set requires components for both the rules 
+themselves as well as the use of rules.  
+
+A library of rules was built which enumerates deductive rules based on 
+established practices during data analysis \cite{guerry2011automated, hncacb,
+hnco, cbcaconh, hbhaconh, picky, xeasy, sparky, ccpn}.  For each rule, 
+a meaningful name, an explanation of the rule's meaning, its intended use,
+its intended result, and examples was collected.
+
+During analysis, one or more rules are applied to make a deduction.  This
+is capture in Figure-\ref{deduction_model}.
+
+% TODO clean up library so that it's usable
+% TODO present most or all of the library, in picture and textual format
 
 \subsection{Extraneous results}
- - extend BMRB and CCPN models
- - for peaks, resonances, GSSs:
-   - add data fields
-   - track category
-   - during analysis, never delete these.  always "soft delete" by changing category
-\subsubsection{Example}
-CCPN peak pick as initial peak list, then corrections I made as peak list 
-where each peak has additional fields
+To model extraneous results, the BMRB and CCPN models \cite{bmrb, ccpn}
+were extended to support additional fields which distinguished between 
+extraneous and primary data.  Other than these additional pieces of data,
+the models do not differ.  This applies to peaks, resonances, and GSSs.
+The general approach for using this model is to never directly delete
+a peak, resonance, or GSS, but rather to mark it as extraneous by modifying
+its associated category from 'signal' to 'artifact', 'noise', 'contaminant'
+etc.
+
+For example, while using an interactive spectral analysis such as Sparky or
+CCPN Analysis \cite{sparky, ccpn} for peak picking a spectrum, it is common
+to run the automated, built-in peak picker and then to manually correct the
+results by deleting some peaks and adding new ones.  This approach would
+work differently; peaks would not be deleted.  If the category of each of the
+peaks initially picked by the automated tool were 'signal', then the task of
+the user would be to correct all of the categories for peaks which were 
+determined to be signal or noise; note that these peaks would not be deleted
+from the list.  They would remain in the list but with a different category
+tag that would differentiate them from signal peaks.
+
+% TODO a pictoral representation of this model
+% TODO examples
+% TODO 
+% CCPN peak pick as initial peak list, then corrections I made as peak list 
+% where each peak has additional fields
 
 \subsection{Notes}
- - extend BMRB and CCPN models
- - note, which can refer to any other datum
-\subsubsection{Example}
-odd feature in data, unable to resolve
+To model notes, the BMRB and CCPN models \cite{bmrb, ccpn} were extended
+to support an additional data type: a note.  A note can refer to one or more
+other feature of the data set, and also includes a textual description of
+the nature of the problem, as well as an indication of how the problem might
+be resolved (although that is optional).
+
+% TODO a pictoral representation of this model
+% TODO example: odd feature in data, unable to resolve
 
 
 \section{An Implementation of the Model}
