@@ -280,18 +280,50 @@ be resolved (although that is optional).
 % TODO example: odd feature in data, unable to resolve
 
 
-\section{An Implementation of the Model}
+\section{An implementation of the model}
+% TODO a Sparky extension
 
 
-\section{Applying Reproducible Analysis}
- - what to do -- tips and suggestions to be effective
- - what not to do -- common roadblocks and problems
+\section{Applying reproducible analysis: using the model}
+This section presents some general advice for how to use the reproducibility
+model effectively in practice.  It provides tips and suggestions, as well
+as covering common problems and how they can be avoided.
+
+\begin{itemize}
+  \item one snapshot, one focus.  Keeping each snapshot focused on dealing
+    with a single issue helps the process of analysis to remain understandable
+    to later perusers.  This is because it makes the logical dependencies 
+    more obvious; when a single snapshot contains many unrelated things, or
+    is extensive enough that part of the snapshot depends on other parts, then
+    it is no longer clear what the logical relationships are.  Keeping snapshots
+    small and focused alleviates this issue.
+  \item level of detail.  It is not necessary to exhaustively annotate every
+    last single change; clearly, such an approach would be problematic because
+    it would require far too much time and effort on the part of its users.
+    Rather, the value of this reproducible approach is to clearly indicate 
+    major issues and modifications.  The more important and the more time and
+    brain power went into making a deduction, the more annotation it typically
+    deserves -- in other words, a complicated deduction requires a complicated
+    justification.  On the other hand, if multiple peaks are quickly and
+    straightforwardly identified as artifactual with a minimum of effort, 
+    only a bare minimum of annotation is needed; the deduction does not become
+    clearer with additional annotation.
+  \item apply the correct rule(s).
+  \item record uncertainty and resolution.  When in doubt or difficulty 
+    during analysis, record all information pertaining to the issues, whether
+    as a note or extraneous data.  Even if the problem is easily or quickly
+    solved, describing it creates a record of that problem which is valuable
+    for later perusal.  Trends over such a record help to indicate more 
+    large-scale problems, as well as illuminating troublesome spots for
+    collaborators and learners.
+\end{itemize}
+   
 % maybe talk about the culture of the lab notebook?
 % could this belong in its own chapter?
 % or in the software chapter, or in the 'reproducible data sets' chapter?
 
 
-\section{Archiving Reproducible Data Sets}
+\section{Archiving reproducible data sets}
  - the NMR-Star file format, my parser, and others
  - the usefulness of NMR-Star files
  - the NMR-Star data dictionary
