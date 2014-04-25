@@ -44,7 +44,7 @@ The library is freely available online (
 ).
 
 
-\section{Connjur: ST and WB}
+\section{Connjur-ST}
 The spectral reconstruction phase involves the processing of time-domain 
 FID data to frequency-domain spectra.  There are several approaches for such
 a transformation, including the Fourier Transform, Maximum Entropy reconstruction,
@@ -121,6 +121,67 @@ make non-uniform data collection a realistic possibility for users who might
 otherwise face significant hurdles in tooling.
 
 
+\section{Connjur-WB}
+Connjur-WB, or Workflow Builder, is a tool for spectral reconstruction which
+builds on the successes of tools such as RNMRTK \cite{rnmrtk}, NMRPipe \cite{nmrpipe},
+and Spectrum Translator \cite{connjur-st} by providing additional features
+for data integration, reproducibility, meta data correctness, interactivity,
+and expressiveness of spectral processing pipelines.  While Workflow Builder
+is a standalone tool, it relies on external tools for the actual execution of
+spectral processing functions.  This allows it to capitalize of user's 
+familiarity with and knowledge of existing tools.
+
+The general architecture of Workflow Builder is three tiers.  The first is 
+the user-facing Graphical User Interface (GUI).  The GUI is responsible for
+providing an intuitive, obvious, integrated, pleasant, and consistent experience
+to users, and for ensuring that the critical information is present and easily
+accessible.  This layer is implemented using Java's swing library.
+At the other end is the third layer, or back-end, which is
+responsible for data persistence, integrity, and integration.  The back-end
+is implemented as a MySQL relational database management system (RDBMS), in
+which are stored both the spectral meta data and the spectra themselves (if
+desired); information specific to Workflow Builder and its internal model
+of spectral reconstruction is also stored in the database.  The middle layer
+is responsible for mediating the data exchanges between the GUI, the back-end,
+and third-party tools such as RNMRTK and NMRPipe.
+
+Workflow Builder allows viewing and modification of spectral meta data, which 
+is important for ensuring correctness.  By capturing the meta data, Workflow
+Builder facilitates reproducibility of spectral reconstruction.  Similar to
+Spectrum Translator, Workflow Builder is implemented in Java, allowing it to
+run anywhere that a JVM does; however, since it uses third-party tools which 
+are platform-dependent, its usefulness on a platform is restricted if those
+additional tools do not run there.  Workflow Builder also allows export of
+spectral reconstruction data in XML and NMR-Star format.  The XML export
+facilitates sharing between peers, while the NMR-Star exporting capabilities
+enables reproducible archival as well.
+
+A key component of Workflow Builder's success is its robust model of spectral
+reconstruction, and the presentatio of its model to the user.  Workflow Builder
+treats spectral reconstruction as a workflow composed of actors, which are
+analagous to functions.  Each actor takes as input primary data and meta data,
+and produces primary data and meta data as output.  The actor is responsible
+for presenting the information required for correct parameterization of the
+underlying function, and may contain significant logic and functionality.  A
+notable example is the actor for Maximum Entropy reconstruction:  estimating
+the noise correctly is a prerequisite for Maximum Entropy \cite{mobli2010non};
+this actor is able to both estimate the noise level, as well as parameterize
+the RNMRTK implementation \cite{rnmrtk}.
+
+A further benefit of Workflow Builder's approach was noted at a workshop
+hosted at the University of Connecticut Health Center in June, 2012.  For
+beginning NMR spectroscopists, the barrier to entry is rather high.  Not only
+is a large amount of domain knowledge required, but one must also be familiar
+with the incidental complexity of NMR, including idiomatic expressions and
+implicit data.  Workflow Builder was observed to greatly reduce the learning
+curve due to its integration of necessary domain knowledge, explicit handling
+of relevant data, and GUI-based presentation.  While such an interface may 
+not be necessary for experts, beginners stand to gain from using such a 
+tool.
+% TODO add some screenshots
+% TODO add a picture of the data model
+
+
 \section{Sample Scheduler}
 The creation of effective sample schedules is an important aspect of efficient,
 non-uniform data collection 
@@ -145,6 +206,8 @@ but also with non-uniform quadrature \cite{maciejewski2011random} and
 non-uniform numbers of transients.  To my knowledge, the latter aspect of
 non-uniform data collection remains a relatively unexplored domain, into
 which this tool provides novel data representation capabilities.
+% TODO add in picture of relation model and explain it
+% TODO add more discussion of the context, significance, and future value
 
 
 \section{Discussion and conclusions}
