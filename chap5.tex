@@ -43,7 +43,83 @@ The library is freely available online (
 \url{https://github.com/CONNJUR/StarParser}
 ).
 
+
 \section{Connjur: ST and WB}
+The spectral reconstruction phase involves the processing of time-domain 
+FID data to frequency-domain spectra.  There are several approaches for such
+a transformation, including the Fourier Transform, Maximum Entropy reconstruction,
+and Multi-dimensional decomposition \cite{nmrpipe, rnmrtk, mdd}.  There are
+two key pieces to the data: the primary data (time-domain or frequency-domain),
+which is typically in a binary format; and the meta data which records
+important properties such as number of points, dwell time, and spectral width.
+
+As covered earlier, spectral reconstruction involves the sequential application
+of multiple functions, including linear prediction, zero fill, and apodization,
+each of which must be parameterized appropriately, for the purposes of 
+optimizing spectral characteristics such as peak shape, line width, and
+signal-to-noise ratio.  In general, the exact effect of each of these operations
+may depend on both the primary data as well as the meta data, and both types of
+data may be modified as well.
+
+Correct spectral reconstruction requires that the meta data is correctly 
+handled, and reproducibility requires that all of the parameters are captured
+as well (if the exact software versions used are captured, then it is not
+necessary to capture the input and output primary and meta data from each
+operation, since these can be regenerated as needed).  Two recent tools from
+our lab, Connjur-ST \cite{connjur-st} and Connjur-WB, alleviate the
+reproduciblity problem in the area of spectral reconstruction.
+
+Connjur-ST, or Spectrum Translator, was designed with the general goal of
+translating between various spectral formats, of which there are many, 
+including Bruker, Varian/Agilent, XEasy, UCSF, RNMRTK, to name a few.  
+It is necessary to convert between multiple formats during spectral 
+reconstruction and analysis because different tools, each of which provides
+valuable functionality, require different formats for input and output.
+Thus, to use tools with differing format requirements, conversion will be
+necessary.  While several tools do exist which implement specific conversions
+between pairs of formats, there was previously no tool able to perform a
+conversion between any two arbitrary formats.  The result was an artificial
+restriction on combinations of tools, due to format constraints.  In addition,
+attempting to remove this restriction by implementing additional tools is not
+a satisfactory solution, because the number of tools required -- if each one
+performs a single conversion -- grows with the square of the number of formats.
+Such a solution clearly requires too much time and effort for initial
+implementation, as well as future maintenance effort.
+
+Spectrum Translator addresses this problem by means of a common data model,
+which can be converted to and from any format.  For each format, a single
+importer and a single exporter is required, which deal with conversion between
+the format and Spectrum Translator's common data model.  This reduces the number
+of converters required to the number of formats.  Thus, for translation between
+any of five formats, the number of conversions required is reduced from 25 to
+10 -- a 60\% reduction in the amount of conversions.  The discrepancy is even
+greater when larger numbers of formats are considered.
+
+This program is implemented in the Java programming language as an open source
+library available from our website at \url{http://connjur.uchc.edu/downloads/st/}.
+The advantage of using Java is that Java is "write once, run anywhere": Java
+code, once compiled, may run on any Java Virtual Machine (JVM).  JVMs have been
+implemented for many platforms, including Windows, Macintosh, and Linux.
+This enables Spectrum Translator to run without modification on virtually any
+computer.  A further advantage of Java is that as a popular programming 
+language, there are many developers familiar with its syntax, semantics, 
+class libraries, tooling, and deployment.
+
+Spectrum Translator promotes data integration and consistency through the use
+of a common data model and a single, unified conversion strategy.  It also
+incorporates features for automatically reading meta data, which ease the
+burden of meta data correctness for the user, which helps to ensure that the
+meta data is more correct.  By applying a single interface to any format
+conversion, the program has a smaller learning curve compared to learning
+multiple differing interfaces for multiple tools.
+
+Spectrum Translator has recently been extended to support non-uniform time-domain
+data.  As the Rowland NMR Toolkit format is required in order to use its 
+implementation of Maximum Entropy reconstruction \cite{rnmrtk}, Spectrum
+Translator is an important enabler of the use of the technique, helping to 
+make non-uniform data collection a realistic possibility for users who might
+otherwise face significant hurdles in tooling.
+
 
 \section{Sample Scheduler}
 The creation of effective sample schedules is an important aspect of efficient,
@@ -72,4 +148,15 @@ which this tool provides novel data representation capabilities.
 
 
 \section{Discussion and conclusions}
+
+ - open source
+ - reproducibility
+ - bottom-up design: synergy, deals with complexity, extensibility
+ - explicit data models
+ 
+
+% figures
+\clearpage
+\section{Figures}
+
 
