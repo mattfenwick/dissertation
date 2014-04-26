@@ -55,6 +55,8 @@
 % not sure what the difference is between `unsrt` and `ieeetr`
 % also see `natbib` for another possible alternative
 %\bibliographystyle{unsrt}
+\clearpage % apparently necessary to get the table of contents to point to the right page for the references
+\addcontentsline{toc}{chapter}{References}
 \bibliographystyle{ieeetr}
 \bibliography{thesis}
 
