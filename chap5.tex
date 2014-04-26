@@ -254,25 +254,56 @@ for the algorithms themselves -- to be passed in through an appropriately
 formatted file.  The parameters are then extracted and passed to the appropriate
 algorithms, the sample schedule is constructed, and the output is returned. 
 
-For an example, see Figures \ref{schedule_parameters} and \ref{schedule_data}.
-% TODO cover the architecture -- how did I write it to so awesomely allow
-%   all these combinations seamlessly?
-% TODO add more discussion of the context, significance, and future value
-% TODO add a picture of the parameters
-%   then explain some of the parameters
-% TODO mention that it was used to generate data for the PNAS paper
+An example of the program in action is given in Figures \ref{schedule_parameters} 
+and \ref{schedule_data}.  The first figure shows a parameter file in structured
+text; this is passed in to the program.  The program then generates a sample
+schedule, and writes the schedule out as a file, a part of which is shown in
+the second figure.  Note that the parameter file includes parameters which 
+apply to the schedule as a whole, as well as to specific dimensions; the output
+file includes a single line for each set of time increments, and includes the
+associated quadrature components.
 % TODO include a picture of a sample schedule, both in textual and in
 %   plotted form.  point out features like decay, randomness
+
+% TODO mention that it was used to generate data for the PNAS paper
+% TODO add more discussion of the context, significance, and future value
 
 
 \section{Discussion and conclusions}
 
+% open source
+All software discussed in this chapter is available under standard open source
+licenses (either the MIT licence or the LGPL).  These licenses grant the rights
+to inspect the source code, use the code in a program, modify the code, and
+incorporate the code into a larger program.  While I do not believe that it is
+necessary or desirable to force all scientists to publish source code under
+open source licenses, I do believe that there are very real concrete benefits
+to doing so.  
 
- - open source
- - reproducibility
- - explicit data models
+A major theme of this dissertation is reproducibility and its importance to
+science.  Reproducibility is fostered by explicitness both in data collection
+and analysis, as well as in communication between scientists, of results, 
+protocols, and analyses.  Journal articles are an excellent means for 
+communicating scientific findings, and the goal of such articles is typically
+to include sufficient detail that the findings can be reproduced.  If the
+article does not include sufficient detail, authors are often perfectly willing
+to engage in communication with interested scientists to provide additional
+detail.  However, in many cases, this does not apply to the software used to
+produce a result.  Scientific software is often treated as proprietary 
+intellectual property which may not be shared.  This leads to an interesting
+constrast between the treatment of source code compared to data and experiemental
+protocols.  If it were not for free and open communication of scientific results,
+it is unlikely that science would have progressed as rapidly.  Similarly, by not
+freely sharing source code, I believe that science's progress is restricted. 
+While releasing code under open source licenses is clearly not the only way to
+lift such restrictions, it seems to offer clear benefits to scientists and
+funding agencies alike.
 
+% reproducibility
 
+% explicit data models
+
+% bottom-up design
 A critical challenge that must be faced in the development of scientic software
 is the apparent tradeoff between flexibility and adaptability on the one hand,
 and robustness and strong guarantees on the other.  In the first case, the 
