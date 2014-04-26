@@ -198,30 +198,121 @@ used in sample schedule creation, and is available online at
 collection of popular algorithms for creating non-uniform sample schedules
 with specific, desirable properties.  The algorithms are integrated within
 a single uniform, consistent interface which allows all input parameters
-and outputs to be captured and archived.
+and outputs to be captured and archived.  It integrates with previous work
+done at UCHC \url{http://sbtools.uchc.edu/nmr/sample_scheduler/}.
 
-The tool also features a data model for formal, precise communication of
-sample schedules.  The data model not only deals with non-uniform time delays,
-but also with non-uniform quadrature \cite{maciejewski2011random} and
-non-uniform numbers of transients.  To my knowledge, the latter aspect of
+The tool implements a data model of sample schedules; see 
+Figure-\ref{schedule_model}.  The model deals with non-uniform quadrature
+(partial component) \cite{maciejewski2011random}, non-uniform time delays, 
+and non-uniform numbers of transients.  To my knowledge, the latter aspect of
 non-uniform data collection remains a relatively unexplored domain, into
-which this tool provides novel data representation capabilities.
-% TODO add in picture of relation model and explain it
+which this tool provides novel data representation capabilities.  In general,
+an N-dimensional sample schedule, which is used for collecting (N+1)-dimensional
+data sets, consists of a collection of N-dimensional pairs, each of which
+has a time delay, represented as a positive integer, as well as a quadrature
+phase, one of R or I.  Associated with each point is the number of transients
+to collect, also modeled as a positive integer.  Within a sample schedule,
+each N-dimensional pair represents a unique point in the space of the sample
+schedule; for example, in a 2-dimensional schedule, the point (2,R),(4,I). 
+
+One of the main strengths of this sample scheduler is its ability to flexibly
+combine multiple different sampling approaches to create a schedule.  This
+flexibility stems from its breakdown of sampling algorithms into independent
+pieces with standard interfaces; by selecting one piece of each category, 
+a combinatorial number of different choices can be made, resulting in sample
+schedules with all imaginable kinds of properties.  This removes artificial
+restrictions of what kinds of sample schedules can be constructed, making it
+easier to experiment with various algorithsm.  The general categories of 
+algorithms are:
+\begin{itemize}
+  \item coordinate generator.  Responsible for generating N-dimensional time
+    delays.  Includes algorithms for generating all combinations within finite
+    N-dimensional bounds, Poisson gap \cite{poissongap} sampling, as well
+    as others.
+  \item quadrature generator.  Responsible for generating the quadrature
+    components.  Includes algorithms for full-component generation as well
+    as various partial-component strategies.
+  \item point selector.  Applies a filter to points based on coordinates,
+    quadrature components, and number of transients, which can be used to create
+    biased sampling schemes, such as exponentially-weighted decay
+  \item point modifier.  Modifies some or all points in a sample schedule, 
+    slightly changing the coordinates of points.  Includes algorithms for
+    bursty \cite{maciejewski2009nonuniform} and blurred 
+    \cite{hoch2008randomization} modifications.
+  \item special point generator.  Forces the addition of specific points to
+    a sample schedule, such as the first point along each axis.  Such properties
+    are useful when evaluating the quality of spectra.
+  \item formatter.  Includes facilities for generating textual output of a 
+    sample schedule in RNMRTK \cite{rnmrtk}, Bruker, JSON, and Agilent formats.
+\end{itemize}
+Creating a sample schedule requires choosing from among the many algorithms 
+available, and supplying the appropriate parameters.  While the various algorithms
+are implemented as functions in standard Python modules, which could be imported
+and used as a simple library, a command-line interface is also included.  The
+interface requires the parameters -- both for choice of algorithm, as well as
+for the algorithms themselves -- to be passed in through an appropriately
+formatted file.  The parameters are then extracted and passed to the appropriate
+algorithms, the sample schedule is constructed, and the output is returned. 
+
+For an example, see Figures \ref{schedule_parameters} and \ref{schedule_data}.
+% TODO cover the architecture -- how did I write it to so awesomely allow
+%   all these combinations seamlessly?
 % TODO add more discussion of the context, significance, and future value
 % TODO add a picture of the parameters
 %   then explain some of the parameters
-% TODO cover some algorithms as well
-% TODO cover the architecture -- how did I write it to so awesomely allow
-%   all these combinations seamlessly?
 % TODO mention that it was used to generate data for the PNAS paper
+% TODO include a picture of a sample schedule, both in textual and in
+%   plotted form.  point out features like decay, randomness
 
 
 \section{Discussion and conclusions}
 
+
  - open source
  - reproducibility
- - bottom-up design: synergy, deals with complexity, extensibility
  - explicit data models
+
+
+A critical challenge that must be faced in the development of scientic software
+is the apparent tradeoff between flexibility and adaptability on the one hand,
+and robustness and strong guarantees on the other.  In the first case, the 
+need is driven by the ever-changing nature of the scientific enterprise: as
+new phenomena are discovered and studied, as new techniques and strategies for
+analysis are invented and applied, the requirements of the supporting software
+naturally must be correspondingly updated.  In the second case, scientists 
+need to have at their disposal software which works correctly in order to 
+guarantee accurate and reproducible computational analyses.  Much of the 
+conviction that a software program works correctly comes from the experience 
+of many users applying it; it is difficult to understand whether software 
+works correctly without using it.  Over the course of my studies, I have 
+explored an alternative approach to scientific software development which I 
+believe can help address this issue by resolving the tradeoff.
+
+This technique is known as "bottom-up" \cite{bottomup1994, bottomup2004} design
+(as opposed to "top-down").  The core of this technique of software design is
+to solve small problems simply and completely, and then to build bigger software
+ -- whether programs or libraries -- by combining the small solutions.  The
+opposing strategy of top-down design focuses on breaking problems down into 
+smaller problems, and so on, until small enough problems are reached to be 
+implemented directly as code.  While both strategies can lead to successful
+outcomes, the key difference that has been observed is that while top-down
+approaches typically require the solution to be known in advance and do not
+react well to changing requirements, bottom-up solutions are easier to implement
+effectively when the solution is not known in advance, and are also better
+equipped for dealing with changing requirements 
+\cite{topdown_bottomup, bottomup1994, bottomup2004}.  Therefore, it would seem
+that bottom-up software is a more natural fit for science, due to the ever-changing
+software needs of scientists.
+
+Such has been my experience.  The tools presented here -- the NMR-Star library,
+the sample scheduler, the Sparky extension, as well as Spectrum Translator and
+Workflow Builder to a limited extent -- have been purposely designed with 
+the bottom-up approach in mind.  The result is a library or tool that is 
+extremely flexible, and readily adapted to different uses; extensions is also
+straightforward.  The key realization encountered while designing these tools
+was the importance of avoiding coupling \cite{coupling1992} whenever possible:
+by specifying as few irrelevant details as possible, a software solution gains
+flexibility to be applied in different ways as part of a large program.
  
 
 % figures
@@ -229,6 +320,13 @@ which this tool provides novel data representation capabilities.
 \section{Figures}
 
 \begin{figure}[h]
+  \includegraphics[scale=0.35]{figures/wb_model}
+  \caption[Workflow Builder's data model]
+          {Workflow Builder's data model.  Generated with MySQLWorkbench.}
+  \label{wb_model}
+\end{figure}
+
+\begin{figure}
   \includegraphics[scale=0.5]{figures/schedule_model}
   \caption[A data model of sample schedules]
           {A data model of sample schedules.  Created in MySQLWorkbench.}
@@ -236,9 +334,14 @@ which this tool provides novel data representation capabilities.
 \end{figure}
 
 \begin{figure}
-  \includegraphics[scale=0.35]{figures/wb_model}
-  \caption[Workflow Builder's data model]
-          {Workflow Builder's data model.  Generated with MySQLWorkbench.}
-  \label{wb_model}
+  \includegraphics[scale=0.75]{figures/schedule_parameters}
+  \caption{The parameter file input for a sample schedule.}
+  \label{schedule_parameters}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.75]{figures/schedule_data}
+  \caption{A sample schedule generated from the parameter file.}
+  \label{schedule_data}
 \end{figure}
 
