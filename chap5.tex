@@ -166,7 +166,8 @@ underlying function, and may contain significant logic and functionality.  A
 notable example is the actor for Maximum Entropy reconstruction:  estimating
 the noise correctly is a prerequisite for Maximum Entropy \cite{mobli2010non};
 this actor is able to both estimate the noise level, as well as parameterize
-the RNMRTK implementation \cite{rnmrtk}.
+the RNMRTK implementation \cite{rnmrtk}.  A portion of the model is shown
+in Figure-\ref{wb_model}.
 
 A further benefit of Workflow Builder's approach was noted at a workshop
 hosted at the University of Connecticut Health Center in June, 2012.  For
@@ -179,7 +180,6 @@ of relevant data, and GUI-based presentation.  While such an interface may
 not be necessary for experts, beginners stand to gain from using such a 
 tool.
 % TODO add some screenshots
-% TODO add a picture of the data model
 
 
 \section{Sample Scheduler}
@@ -262,8 +262,25 @@ the second figure.  Note that the parameter file includes parameters which
 apply to the schedule as a whole, as well as to specific dimensions; the output
 file includes a single line for each set of time increments, and includes the
 associated quadrature components.
-% TODO include a picture of a sample schedule, both in textual and in
-%   plotted form.  point out features like decay, randomness
+
+% TODO point out features like decay, randomness
+%   maybe this should include the text of the schedule, and the parameters too
+This program was also integrated with an existing Java-based program written
+by Mark Maciejewski, Val Gorbatyuk, and Jeffrey Hoch 
+(\url{http://sbtools.uchc.edu/nmr/sample_scheduler/}), in order to leverage
+the Java program's GUI capabilities for parameterizing sample schedule creation,
+as well as displaying sample schedules and pointspread functions.  
+Figure-\ref{sched1} shows a sample schedule created by my tool, by using the
+Java GUI, which is then displayed in the Java GUI.  Note the increasing
+sparsity as time delay increases in both non-uniformly sampled dimensions.
+Figure-\ref{fft1} shows the pointspread function of this sample schedule,
+indicating artifacts that it will create in the frequency domain.  This was 
+calculated using a Fast Fourier Transform, and was also implemented in the
+Java program by Maciejewski, Gorbatyuk and Hoch.  Figure-\ref{sched2} provides
+a comparison to the first sample schedule; the parameterization is identical,
+except that the first points along each axis are all collected (this is an
+example of a special point selector).  This difference causes a noticable 
+change in its pointspread function, seen in Figure-\ref{fft2}.
 
 % TODO mention that it was used to generate data for the PNAS paper
 % TODO add more discussion of the context, significance, and future value
@@ -391,5 +408,31 @@ flexibility to be applied in different ways as part of a large program.
   \includegraphics[scale=0.75]{figures/schedule_data}
   \caption{A sample schedule generated from the parameter file.}
   \label{schedule_data}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.5]{figures/sched1}
+  \caption{A graphical view of a sample schedule.}
+  \label{sched1}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.5]{figures/fft1}
+  \caption{A sample schedule for which the first points along
+           each axis are collected.}
+  \label{fft1}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.5]{figures/sched2}
+  \caption{The pointspread function of the sample schedule, 
+           calculated using a real-only FFT.}
+  \label{sched2}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.5]{figures/fft2}
+  \caption{The pointspread function shows a noticable difference.}
+  \label{fft2}
 \end{figure}
 
