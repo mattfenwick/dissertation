@@ -43,6 +43,15 @@ The library is freely available online (
 \url{https://github.com/CONNJUR/StarParser}
 ).
 
+% TODO example: grab BMRB data, dump it as JSON, run a reduce query on it
+%   to grab chemical shifts, run some algorithm over the shifts
+ - an example of NMRPyStar in action
+ - see how it's flexible, allowing it to be used in an expected way
+   this is the proof that it's bottom-up
+ - used as a library with a programmatic API
+ - parse tree as output
+ - maybe give an example of it detecting a syntax error as well
+
 
 \section{Connjur-ST}
 The spectral reconstruction phase involves the processing of time-domain 
@@ -385,6 +394,27 @@ flexibility to be applied in different ways as part of a large program.
 \section{Figures}
 
 \begin{figure}[h]
+  \includegraphics[scale=0.5]{figures/nmrpystar_bmrb}
+  \caption[A code snippet of NMRPyStar]
+          {A code snippet of NMRPyStar accessing the BMRB through its API}
+  \label{nmrpystar_bmrb}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.5]{figures/nmrpystar_json}
+  \caption[NMRPyStar produces a parse tree as output]
+          {NMRPyStar produces a parse tree as output, shown here in JSON format}
+  \label{nmrpystar_json}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.5]{figures/nmrpystar_structure}
+  \caption{The parse tree can be used to extract key NMR information}
+  \label{nmrpystar_structure}
+\end{figure}
+
+
+\begin{figure}
   \includegraphics[scale=0.35]{figures/wb_model}
   \caption[Workflow Builder's data model]
           {Workflow Builder's data model.  Generated with MySQLWorkbench.}
