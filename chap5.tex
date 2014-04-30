@@ -13,12 +13,58 @@ controls, as well as script common operations, and provide extra algorithms
 for analysis.  Since Python is a full-featured programming language, 
 it is also possible to interact with the filesystem, loading and dumping
 data if necessary, as well as calling additional third-party tools.
-% TODO add a picture of vanilla sparky
+Figure-\ref{sparky_gui} shows the Sparky user interface.
 
 % TODO picture, explanation of Sparky data model
+Sparky's data model is show in Figure-\ref{sparky_model}.  It includes 
+entities for spectra, peaks, resonances, GSS, atoms, and molecules, among
+others.  These are the core data that are captured by the extension.
+
 % TODO my extension in general terms.  data, approach, NMR-Star integration
+The extension is intended to help the spectroscopist to capture the 
+missing data mentioned in Chapter 3: intermediate primary data, extraneous
+data, deductive meta data, and notes.  The general approach is to augment
+Sparky's data model with a second, append-only data repository.  The goal
+of this additional model is to keep a record of the complete history of the
+analysis process, and to integrate with the BMRB by producing NMR-Star-compatible
+output containing that information.  Here is a general description of its scope:
+\begin{itemize}
+  \item augmentation of the Sparky data model to prevent data loss.
+    When actions are taken to modify the standard Sparky
+    model, the reproducibility model must record those modifications in such
+    a way as to preserve the history.  Since in general, modifications to
+    the standard Sparky model have undesirable results with respect to losing
+    information -- for example, deleting a peak removes all traces that the
+    peak ever existed -- the reproducibility model must provide a mapping from
+    "standard Sparky" actions to "reproducible Sparky" actions, applying those
+    actions to its contained data.  For example, deleting a peak would be
+    stored as a "delete peak" action, but the peak itself would not be 
+    removed from the reproducible model.
+  \item user interface.  The extension should be easy to use, with minimal
+    overhead.  This means there should be some assistance from the user interface
+    to present important information (such as extraneous data) and possible
+    actions (such as recording a note).
+  \item produce NMR-Star output.  The final goal of creating a reproducible
+    data set is to share and disseminate it, so integration with the BMRB
+    by means of the NMR-Star format is essential.  The data should be exportable
+    as an NMR-Star file, correctly formatted and structured according to the
+    NMR-Star data dictionary (including the newly created extensions for
+    reproducible data, as covered earlier).
+  \item load NMR-Star input.  The extension should also be able to read NMR-Star
+    files containing reproducible analysis data.  This ensures that shared 
+    data sets can be manipulated and viewed during or after analysis.
+\end{itemize}
+
 % TODO my extension in implementation-specific terms.  
 %   keyboard accelerator, etc.  
+These requirements were met by implementing a class-based data model in Python
+which provided the necessary features.  The user interface was implemented 
+using functionality provided by standard Python libraries as well as other
+Sparky extensions to create several additional widgets for reproducibility
+functions.  % TODO maybe be more specific about these
+The integration with the NMR-Star format was provided by NMRPyStar, a Python
+library for handling NMR-Star files which is described in the following section.
+% TODO add a screen capture of the extension in action
 
 This Sparky extension is available online at 
 \url{https://github.com/mattfenwick/SparkyExtensions}.  Installation is simple:
@@ -452,6 +498,21 @@ flexibility to be applied in different ways as part of a large program.
 \section{Figures}
 
 \begin{figure}[h]
+  \includegraphics[scale=0.4]{figures/sparky_gui}
+  \caption{The Sparky GUI, showing an NHSQC spectrum and two menus.}
+  \label{sparky_gui}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.5]{figures/sparky_model}
+  \caption[The Sparky data model]
+          {The Sparky data model showing the key relationships.
+           These data are available from within Sparky extensions.
+           The model was created in MySQLWorkbench.}
+  \label{sparky_model}
+\end{figure}
+
+\begin{figure}
   \includegraphics[scale=0.5]{figures/nmrpystar_bmrb}
   \caption[A code snippet of NMRPyStar]
           {A code snippet of NMRPyStar accessing the BMRB through its API.
