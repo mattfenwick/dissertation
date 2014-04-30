@@ -1,4 +1,10 @@
-\chapter{Reproducible NMR Data Sets}
+\chapter{Reproducible NMR data sets}
+
+In order to prove the validity of the approach described in the previous
+chapter, it was applied to typical NMR data in order to solve a protein
+structure.  The process was carried out in full, and sufficient data was
+captured during the process in order to render it reproducible.
+
 
 \section{Methods and Materials}
  - CCPN Analysis
@@ -11,4 +17,78 @@
  - NMRPipe
  - NMR-Star library
  - NMR-Star data dictionary
+
+
+\section{NMR-Star data set}
+
+
+\section{Difficulties encountered}
+
+
+\section{Alternative implementations}
+
+While the approach taken was to create the data set as a single NMR-Star
+file for reasons of compatibility with existing programs and data archival
+and retrieval facilities, there are other solutions to this problem.  This
+section will inspect the strengths and weaknesses of an anlternative solution
+which was taken during preliminary stages of this project.
+
+The approach centered around using the open source VCS tool git 
+\cite{loeliger2012git}.  A VCS tool enables the history of filesystem trees,
+typically source code trees of software projects, to be captured in a series
+of successive snapshots.  Git, as a distributed VCS, includes a more robust
+model of snapshot history, which was critical in the success of its 
+application to NMR data analysis.
+
+Using git, multiple snapshots of a JSON or NMR-Star flat text file were
+taken during the analysis process.  Each snapshot was annotated with a 
+JSON formatted string which provided the deductive reasoning behind the change,
+as well as a timestamp, author, and parent commit.  This approach was initially
+employed due to git's intended use aligning very well with the domain problem.
+
+The solution was quite easy, flexible, and robust in practice.  Git is a mature,
+popular tool and therefore it was easy to learn to use, and contains many
+features for creating, tracking and querying the history.  Here is a code 
+snippet that shows how to create and annotate a new snapshot using git; all
+commands are run from a standard shell:
+\begin{verbatim}
+# prepare two files -- peaks and parameters -- for snapshotting
+$ git add nhsqc_peaks.str peak_picker_parameters.str
+
+# create a snapshot, and annotate with a structured reason
+$ git commit -m "{\"reason": "automated Sparky peak picker\"}"
+
+# display the history of commits in the project
+$ git log
+\end{verbatim}
+
+The git approach was the inspiration for the solution eventually employed.
+There is an inherent tradeoff between the two approaches: in the git approach,
+the full data set is spread across multiple snapshots of files, and the meta
+data is also separate from the primary data.  In the NMR-Star based approach,
+all the data, primary and meta, is in a single file.  While the git approach
+makes it easier to query a single snapshot in time, it is more difficult to
+query across multiple snapshots, or meta data.  The single file approach makes
+it more difficult to query a single snapshot (other than the most recent one),
+but easier to query across the complete data set including meta data.  It is
+important to note that these differences are merely incidental, and not 
+fundamental -- the same data is represented and stored in both approaches, it
+is merely writing specific queries that becomes somewhat harder or easier.
+
+Git includes additional features that were not taken advantage of in our
+implementation, which could perhaps prove valuable at some later date.  An
+important example is branches, which allow data analysis to fork and rejoin.
+% TODO need a figure
+This could potentially be useful for interpreting ambiguous or unclear features
+in multiple ways, because it would allow an explicit record of the choice point.
+It could also be useful for error correction, to show the cascading effect of
+an incorrect analysis early in the process.
+
+
+\section{Discussion}
+ - richer queries now possible; let's do some
+
+
+\clearpage
+\section{Figures}
 
