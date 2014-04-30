@@ -2,6 +2,55 @@
 
 \section{Sparky extension}
 
+Sparky \cite{sparky} is a popular program for interactive peak picking,
+GSS construction, and chemical shift assignment and is available at
+\url{http://www.cgl.ucsf.edu/home/sparky/}.  Sparky is implemented with
+a core written in C++, and extensions in Python.  It is designed with 
+extensibility as a key goal, and therefore has a convenient API through
+which the core data model can be accessed from Python extensions.  The
+extensions are also able to augment the user interface with additional
+controls, as well as script common operations, and provide extra algorithms
+for analysis.  Since Python is a full-featured programming language, 
+it is also possible to interact with the filesystem, loading and dumping
+data if necessary, as well as calling additional third-party tools.
+% TODO add a picture of vanilla sparky
+
+% TODO picture, explanation of Sparky data model
+% TODO my extension in general terms.  data, approach, NMR-Star integration
+% TODO my extension in implementation-specific terms.  
+%   keyboard accelerator, etc.  
+
+This Sparky extension is available online at 
+\url{https://github.com/mattfenwick/SparkyExtensions}.  Installation is simple:
+the extension file needs only to be placed in the appropriate directory
+of an existing Sparky installation; see
+\url{http://pine.nmrfam.wisc.edu/PINE-SPARKY/introduction.html}
+for more information.  It is dual-licensed under the MIT and BSD licenses.
+
+Sparky's familiarity, popularity, and extensibility make it an obvious choice
+of platform for implementing reproducble data analysis approaches.  User
+familiarity means that dialogs, menus, shortcuts, and data presentation are
+identical, and therefore there is no learning curve outside of the new
+reproducibility features.  Popularity means that many spectroscopists already
+use Sparky, as evidenced by citations in the BMRB -- Sparky is cited
+405 times in chemical shift assignments 
+(\url{http://www.bmrb.wisc.edu/ftp/pub/bmrb/relational_tables/nmr-star3.1/Chem_shift_software.csv})
+and 1813 times in general software use 
+(\url{http://www.bmrb.wisc.edu/ftp/pub/bmrb/relational_tables/nmr-star3.1/Software.csv}).
+An implicit advantage to the combination of extensibility with widespread 
+familiarity and popularity is that new extensions can be added to a 
+spectroscopist's analysis workflow without requiring a radical retooling of
+the approach: the new extension can be used as much or as little as desired,
+without causing the previous approach to necessarily be completely abandoned.
+In my experience, this is a critical component of software adoption: the
+ability to "play nice" with existing tools, by not creating a dichotomy
+in software choice.
+In summary, implementing a Sparky extension instead of creating a new analysis
+tool from scratch greatly reduces the amount of software that must be written 
+and maintained, allowing the focus to be kept on the real problem at hand,
+which is reproducibility of analysis.
+
+
 \section{NMR-Star library}
 NMR-Star is the file format used by the BMRB \cite{bmrb} for archival of
 NMR data.  As such data is useful for further studies, and archiving
