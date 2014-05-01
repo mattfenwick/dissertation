@@ -7,22 +7,149 @@ captured during the process in order to render it reproducible.
 
 
 \section{Methods and Materials}
- - CCPN Analysis
- - Sparky
- - Python
- - git
- - data model and approach from chapter 3
- - samp3 time-domain data from Mark
- - Cyana
- - NMRPipe
- - NMR-Star library
- - NMR-Star data dictionary
+
+Time-domain data of Samp3, a Ubiquitin-like protein, was kindly provided by 
+Dr. Mark Maciejewski.  The data was processed to frequency-domain spectra
+using NMRPipe, and then analyzed first in CCPN Analysis \cite{ccpn} and later 
+in Sparky \cite{sparky}.  A preliminary analysis process used CCPN Analysis,
+along with git and several Python utilities to create and manage the 
+reproducible history.  The final analysis used Sparky, the model and approach
+described in Chapter 3, the extension described in Chapter 5, and the 
+extensions to the NMR-Star data dictionary.  Cyana was used to assign NOEs,
+disambiguate stereospecific assignments, and calculate structure bundles.
+% TODO more detail?  pictures?
+
+
+\section{The analysis process}
+Starting from frequency spectra, I carried out standard data analysis,
+with the additional property that the analysis is reproducible.
+
+\subsection{Initial peak picking and GSS construction}
+First, the NHSQC and HNCO spectra were peak picked using an automated 
+peak picker -- see Table-\ref{samp3_spectra} for a complete list of spectra
+used.  Then GSSs were built based on NHSQC peaks and matching HNCO peaks
+according to the H and N dimensions.  Peaks either in the NHSQC or HNCO
+which did not match peaks in the other spectra were verfied manually, and
+many were labeled as extraneous and not included in GSSs.
+
+Several sidechain spin systems, including Asparagine, Glutamine, Tryptophan,
+and Arginine, were identified based on either peaks with matching N and C
+chemical shifts but different H shifts, spectral position, or peak intensity
+combined with splitting.
+% TODO could include screen captures of its spectra or something
+
+\subsection{GSS and resonance typing}
+Analysis continued with peak picking of the HNCACB and C(CO)NH-Tocsy spectra.
+The inclusion of the H and N dimensions allowed these peaks to be added into
+GSSs based on the matching of these two chemical shift values to the
+root peaks of existing GSSs.  There was some H/N overlap which complicated the
+task of unambiguous peak-GSS assignment, but it was mostly resolved through
+the extra Carbon dimensions, which allowed peaks to be identified separately
+and with more precise chemical shift values.
+
+The overlap between the two spectra -- peaks of sidechain i-1 Carbons, relative
+to a backbone amide group, appeared in both spectra, while only the i peaks
+appeared in the HNCACB -- allowed for assignment of resonance type of HNCACB
+peaks and some C(CO)NH-Tocsy peaks.  Additionally, for GSSs with more than two
+i-1 Carbon atoms, the C(CO)NH-Tocsy resonance typings were simplified by the
+removal of CA and CB assignment possibilities due to overlap with the HNCACB.
+
+The Carbon chemical shifts provided sufficient information for GSS typing
+in many cases.  The number of peaks in C(CO)NH-Tocsy strips also provided 
+information about the typing of the previous GSS, the use of which is described
+in the following section.
+
+\subsection{Sequential and residue-specific GSS assignment}
+GSSs were built into sequential chains based on overlap of CA(i) and CB(i) 
+peaks of one GSS with CA(i-1) and CB(i-1) peaks of another.  It was critical
+that the overlap be unambiguous; ambiguous overlaps were deferred until later
+when additional information would provide disambiguation.
+Simultaneously, chains were assigned to residue sequences based on GSS typing
+and chain order matching the residue typing and chain order.  GSS chains
+were often anchored on a Glycine, Serine, Threonine, or Alanine residue due
+to their unique Carbon chemical shifts.
+
+The whole process was heavily interdependent for several reasons.  First, by
+assigning a GSS chain to specific residues, the typing for the GSSs both
+immediately preceding, and immediately following the first and last GSSs,
+respectively, of the chain were implied; this narrowed the search for further
+GSSs to those either with the appropriate typing, or an unassigned typing but
+with chemical shifts that matched the average BMRB statistics sufficiently 
+well.  It was also necessary that these GSSs were not already assigned as 
+part of a GSS chain because ambiguous assignments were disqualified.
+Second, assigning a GSS chain to residues reduced the number of unassigned
+residues, and therefore the number of possibilities for other unassigned chains
+as well.  It was several times the case that assigning a chain led immediately
+to the assignment of another chain by the process of elimination.  Third,
+assigning GSSs sequentially narrowed the number of places in the sequence that
+could potentially accomodate the chain, both because of the chain-ending
+constraints imposed by Proline residues as well as the necessity of matching
+all GSS typing to residue typing.
+
+\subsection{Sidechain: GSS augmentation and resonance typing}
+The C(CO)NH-Tocsy provided information on the chemical shifts of aliphatic
+sidechain carbons, as covered in the previous section.  The HBHA(CO)NH, 
+HC(CO)NH-Tocsy, and HCCH-Tocsy provided the chemical shifts of aliphatic
+protons, as well as additional corroborating information of aliphatic carbons.
+
+First, these spectra were peak picked, as before, by an automated peak picker.
+The results were then corrected in a coarse validation step, before assembling
+the peaks into GSSs based on matching chemical shifts.  For the HC(CO)NH-Tocsy
+and HBHA(CO)NH spectra, this was based on matching of backbone H and N
+resonances and was unambiguous for the most part.  The HCCH-Tocsy, lacking these
+resonaces, was based on matching to sidechain H and C resonances, and was
+slightly more difficult to interpret due to ambiguities.  
+Average BMRB statistics as well as peak patterns based on prochiral methylene
+groups were sufficient for resonance typing.
+% TODO show some HCCH-Tocsy strips
+
+\subsection{Aromatic assignment}
+The two final through-bond experiments, the hbCBcgcdHD and hbCBcgcdceHE, were
+used to find the HD and HE resonances of aromatic sidechains and place them
+into the correct GSS.  The spectra were again peak picked with an automated
+peak picker, and then assigned by matching the C dimension with the previously
+analyzed CB chemical shifts: the GSS with a matching CB(i) resonance was the
+appropriate one.
+
+\subsection{NOE assignment and structure calculation}
+The four NOESY spectra were peak picked with an automated peak picker.  
+Talos+ \cite{talos+} was run on the chemical shift assignments of the H, HA,
+CA, CB, CO, and N nuclei in order to generate Phi and Psi torsion angle 
+constraints for backbone conformation.
+
+Cyana was then run by feeding it the NOESY peak lists, chemical shift
+assignments, torsion angle constraints, and Samp3 sequence.  The script
+used for running Cyana is shown here:
+\begin{verbatim}
+peaks       := aromatic_gnoesy_chsqc.pks,aromatic_noesy.pks,D2O_noesy_chsqc.pks,noesy_nhsqc.pks  # NOESY peak lists in XEASY for
+mat
+prot        := shifts.txt                # names of chemical shift lists
+restraints  := aco.aco                   # additional (non-NOE) restraints
+tolerance   := 0.04, 0.03, 0.45          # shift tolerances: H, H', C/N', C/N
+structures  := 100,20                    # number of initial, final structures
+steps       := 10000                     # number of torsion angle dynamics steps
+randomseed  := 434726                    # random number generator seed
+
+nproc=8
+
+noeassign peaks=$peaks prot=$prot autoaco
+\end{verbatim}
+After running Cyana once, the output indicated issues with stereospecificity
+of certain assignments (methylene protons, as well as Leucine and Valine
+CG groups).  These assignments were corrected according to Cyana's feedback,
+and Cyana re-run with the corrected stereospecific assignments.
+% TODO show structure output
 
 
 \section{NMR-Star data set}
+% what should I talk about here?  the various approaches and deductions used?
+% queries performed on the data, that show certain things?
+% the order in which I did things?
 
 
 \section{Difficulties encountered}
+% making mistakes -- poor phasing, implicit atomtype assignments instead of explicit (i vs. i-1),
+%   distinguishing between signal, noise, and artifact; extra spin systems
 
 
 \section{Alternative implementations}
@@ -30,7 +157,7 @@ captured during the process in order to render it reproducible.
 While the approach taken was to create the data set as a single NMR-Star
 file for reasons of compatibility with existing programs and data archival
 and retrieval facilities, there are other solutions to this problem.  This
-section will inspect the strengths and weaknesses of an anlternative solution
+section will inspect the strengths and weaknesses of an alternative solution
 which was taken during preliminary stages of this project.
 
 The approach centered around using the open source VCS tool git 
@@ -87,6 +214,47 @@ an incorrect analysis early in the process.
 
 \section{Discussion}
  - richer queries now possible; let's do some
+
+
+% tables
+\clearpage
+\section{Tables}
+
+\begin{table}[h]
+    \begin{tabular}{ | c || c | c | c | c | c |}
+    \hline
+      Name  &  Dimension 1  &  Dimension 2  &  Dimension 3  &  Is NOESY?   \\
+    \hline
+      NHSQC         & H & N & & No  \\
+    \hline
+      HNCO          & H & N & C & No  \\
+    \hline
+      HNCACB        & H & N & C & No  \\
+    \hline
+      C(CO)NH-Tocsy & H & N & C & No  \\
+    \hline
+      HBHA(CO)NH    & H & N & H & No  \\
+    \hline
+      HC(CO)NH-Tocsy & H & N & C & No  \\
+    \hline
+      HCCH-Tocsy    & H & C & H & No  \\
+    \hline
+      hbCBcgcdHD    & H & C &  & No  \\
+    \hline 
+      hbCBcgcdceHE  & H & C &  & No \\
+    \hline
+      NOESY-NHSQC   & H & N & H & Yes \\
+    \hline 
+      NOESY-CHSQC (D\textsubscript{2}O) & H & C & C & Yes \\
+    \hline 
+      Aromatic NOESY & H & H &  & Yes \\
+    \hline 
+      Aromatic GNOESY-CHSQC & H & C & H & Yes \\
+    \hline 
+    \end{tabular}
+    \caption{Spectra used in Samp3 analysis}
+    \label{samp3_spectra}
+\end{table}
 
 
 \clearpage
