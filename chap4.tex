@@ -121,14 +121,21 @@ Cyana was then run by feeding it the NOESY peak lists, chemical shift
 assignments, torsion angle constraints, and Samp3 sequence.  The script
 used for running Cyana is shown here:
 \begin{verbatim}
-peaks       := aromatic_gnoesy_chsqc.pks,aromatic_noesy.pks,D2O_noesy_chsqc.pks,noesy_nhsqc.pks  # NOESY peak lists in XEASY for
-mat
-prot        := shifts.txt                # names of chemical shift lists
-restraints  := aco.aco                   # additional (non-NOE) restraints
-tolerance   := 0.04, 0.03, 0.45          # shift tolerances: H, H', C/N', C/N
-structures  := 100,20                    # number of initial, final structures
-steps       := 10000                     # number of torsion angle dynamics steps
-randomseed  := 434726                    # random number generator seed
+# NOESY peak lists in XEASY format
+peaks       := aromatic_gnoesy_chsqc.pks,aromatic_noesy.pks,
+               D2O_noesy_chsqc.pks,noesy_nhsqc.pks
+# names of chemical shift lists
+prot        := shifts.txt                
+# additional (non-NOE) restraints
+restraints  := aco.aco                   
+# shift tolerances: H, H', C/N', C/N
+tolerance   := 0.04, 0.03, 0.45          
+# number of initial, final structures
+structures  := 100,20                    
+# number of torsion angle dynamics steps
+steps       := 10000                    
+# random number generator seed
+randomseed  := 434726                    
 
 nproc=8
 
@@ -142,14 +149,67 @@ and Cyana re-run with the corrected stereospecific assignments.
 
 
 \section{NMR-Star data set}
+% TODO get the data set
+... under construction ...
 % what should I talk about here?  the various approaches and deductions used?
 % queries performed on the data, that show certain things?
 % the order in which I did things?
 
 
 \section{Difficulties encountered}
-% making mistakes -- poor phasing, implicit atomtype assignments instead of explicit (i vs. i-1),
-%   distinguishing between signal, noise, and artifact; extra spin systems
+
+NMR data analysis is inherently difficult, as was discussed in previous 
+chapters.  During the analysis of Samp3, I encountered these difficulties 
+many times.  Because my analysis was reproducibly recorded, exactly which
+difficulties I encountered and how I resolved them is explicitly recorded
+in the final data set.  This section will cover several general problems
+as well as specific instances that I encountered, and present the data which
+indicates the resolution.
+
+\subsection{False positive peaks}
+The automated peak pickers picked several peaks which later turned out to
+be incorrect.  These were often artifactual in natures, but occasionally 
+appeared to be noise.
+% TODO example
+... under construction ...
+
+\subsection{False negative peaks}
+The automated peak pickers missed several true peaks -- although overall,
+there were fewer false negatives than false positives, due to my parameterizations
+which intentionally set a low threshold.  I usually was only able to fix
+these by using information from additional spectra, in which a peak would
+be expected to match a peak from the first spectrum.
+% TODO example
+... under construction ...
+
+\subsection{Overlap}
+Overlap was a problem both for correctly identifying and characterizing peaks,
+and for constructing GSSs and assigning peaks into them correctly.
+It was difficult to resolve overlap until late in the analysis process, when
+GSS typing, peak picks from additional spectra, and sequential GSS assignments
+were available.
+% TODO example
+... under construction ...
+
+\subsection{Ambiguous sequential GSS assignments}
+Assigning GSS to GSS sequentially was occasionally ambiguous, on the basis of
+a naive matching algorithm using only HNCACB peaks.  This was because it is
+not always clear from the HNCACB which peaks are CA(i) and CB(i) versus CA(i-1)
+and CB(i-1).  However, by using the C(CO)NH-Tocsy in conjunction with the
+HNCACB, the i/i-1 distinction was mostly resolved.  This left the problem of
+multiple matches, which was eventually solved by taking into account additional
+sequence and GSS typing information.
+% TODO example
+... under construction ...
+
+\subsection{Extraneous GSSs}
+Several unassigned GSSs remain in the data set.  I have not determined whether
+these are due to contaminants, multiple conformations of the Samp3 protein,
+or perhaps they correspond to one of the few remaining unassigned residues.
+However, since they are still in the final data set, and are clearly unassigned,
+it is explicitly made clear that these are an issue.
+% TODO example
+... under construction ...
 
 
 \section{Alternative implementations}
@@ -213,7 +273,13 @@ an incorrect analysis early in the process.
 
 
 \section{Discussion}
- - richer queries now possible; let's do some
+Applying the reproducibility approach, described in the previous chapter, first
+and foremost proves that the approach is viable: that it can be used to 
+effectively analyze NMR data.  This ground-breaking work also shows how to
+use the approach, including possible pitfalls; the final, reproducible data
+set is valuable in that it shows what can be achieved through a reproducible
+approach, as well as creating a platform for future work towards enhanced
+reproducibility.
 
 
 % tables
