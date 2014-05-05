@@ -378,6 +378,104 @@ sets.  Each bias will represent an opportunity for learning and for improving
 the quality of analysis.
 
 
+\clearpage
+\section{Tables}
+
+\begin{table}[h]
+  \begin{tabular}{ | c | c | }
+    \hline
+    Covalently-bound atom group  &  Amino acid sequence  \\  \hline
+    H-N                          &  [\^{}P]              \\  \hline
+    HE-NE                        &  R                    \\  \hline
+    HD21-ND2                     &  N                    \\  \hline
+    HD22-ND2                     &  N                    \\  \hline
+    HE21-NE2                     &  Q                    \\  \hline
+    HE22-NE2                     &  Q                    \\  \hline
+    HE1-NE1                      &  W                    \\  \hline
+  \end{tabular}
+  \caption{The covalent atom groups visible in the NHSQC experiment.}
+  \label{nhsqc_peaktypes}
+\end{table}
+
+\begin{table}
+  \begin{tabular}{ | c | c | }
+    \hline
+    H-N-C(i-1)                   &  .[\^{}P]             \\  \hline
+    HE-NE-CZ                     &  R                    \\  \hline
+    HD21-ND2-CG                  &  N                    \\  \hline
+    HD22-ND2-CG                  &  N                    \\  \hline
+    HE21-NE2-CD                  &  Q                    \\  \hline
+    HE22-NE2-CD                  &  Q                    \\  \hline
+    HE1-NE1-???                  &  W                    \\  \hline  % TODO the ???'s
+  \end{tabular}
+  \caption{The covalent atom groups visible in the HNCO experiment.}
+  \label{hnco_peaktypes}
+\end{table}
+    
+\begin{table}
+  \begin{tabular}{ | c | c | }
+    \hline
+    H-N-CA                       &  .[\^{}P]             \\  \hline
+    H-N-CA(i-1)                  &  .[\^{}P]             \\  \hline
+    H-N-CB                       &  .[\^{}PG]            \\  \hline
+    H-N-CB(i-1)                  &  [\^{}G][\^{}P]       \\  \hline
+    HE-NE-CD                     &  R                    \\  \hline
+    HD21-ND2-CB                  &  N                    \\  \hline
+    HD21-ND2-CA                  &  N                    \\  \hline
+    HD22-ND2-CB                  &  N                    \\  \hline
+    HD22-ND2-CA                  &  N                    \\  \hline
+    HE21-NE2-CG                  &  Q                    \\  \hline
+    HE21-NE2-CB                  &  Q                    \\  \hline
+    HE22-NE2-CG                  &  Q                    \\  \hline
+    HE22-NE2-CB                  &  Q                    \\  \hline
+  \end{tabular}
+  \caption{The covalent atom groups visible in the HNCACB experiment.}
+  \label{hncacb_peaktypes}
+\end{table}
+
+\begin{table}
+  \begin{tabular}{ | c | c | }
+    \hline
+    H-N-HA(i-1)                  &  [\^{}G][\^{}P]         \\  \hline
+    H-N-HA2(i-1)                 &  G[\^{}P]               \\  \hline
+    H-N-HA3(i-1)                 &  G[\^{}P]               \\  \hline
+    H-N-HB(i-1)                  &  [ITV][\^{}P]           \\  \hline
+    H-N-QB(i-1)                  &  A[\^{}P]               \\  \hline
+    H-N-HB2(i-1)                 &  [PRNDCQEHLKMFSWY][\^{}P]\\  \hline
+    H-N-HB3(i-1)                 &  [PRNDCQEHLKMFSWY][\^{}P]\\  \hline
+  \end{tabular}
+  \caption{The covalent atom groups visible in the HBHA(CO)NH experiment.}
+  \label{hbhaconh_peaktypes}
+\end{table}
+
+\begin{table}
+    \begin{tabular}{ | c | c | c |}
+    \hline
+      Ambiguity type    &  Atoms        &  Amino acid types     \\  \hline 
+      3 atoms, 1 peak   &  QB           &  A                    \\  \hline 
+      3 atoms, 1 peak   &  QG1          &  I                    \\  \hline 
+      3 atoms, 1 peak   &  QG2          &  [TI]                 \\  \hline 
+      3 atoms, 1 peak   &  QE           &  M                    \\  \hline 
+      2 atoms, 2 peaks  &  HA2/HA3      &  G                    \\  \hline 
+      2 atoms, 2 peaks  &  HB2/HB3      &  [RHKDESNQCPLMFYW]    \\  \hline 
+      2 atoms, 2 peaks  &  HG2/HG3      &  [RKEQPM]             \\  \hline 
+      2 atoms, 2 peaks  &  HG12/HG13    &  I                    \\  \hline 
+      2 atoms, 2 peaks  &  HD2/HD3      &  [RKP]                \\  \hline 
+      2 atoms, 2 peaks  &  HD21/HD22    &  N                    \\  \hline 
+      2 atoms, 2 peaks  &  HE2/HE3      &  K                    \\  \hline 
+      2 atoms, 2 peaks  &  HE21/HE22    &  Q                    \\  \hline 
+      2 atoms, 2 peaks  &  CG1/CG2      &  V                    \\  \hline 
+      2 atoms, 2 peaks  &  CD1/CD2      &  L                    \\  \hline 
+      2 atoms, 2 peaks or 2 atoms, 1 peak  &  HD1/HD2  &  [YF]  \\  \hline 
+      2 atoms, 2 peaks or 2 atoms, 1 peak  &  HE1/HE2  &  [YF]  \\  \hline 
+      2 groups of 3 atoms, 2 peaks  &  QG1/QG2  &  V            \\  \hline
+      2 groups of 3 atoms, 2 peaks  &  QD1/QD2  &  L            \\  \hline
+    \end{tabular}
+    \caption{Ambiguities in stereospecific assignments}
+    \label{stereospecific_ambiguities}
+\end{table}
+
+
 % figures
 \clearpage
 \section{Figures}
