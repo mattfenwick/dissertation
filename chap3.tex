@@ -221,8 +221,8 @@ reproducibility.
 \subsection{Intermediate results}
 The strategy for modelling intermediate results is based on the data models
 of existing version control systems, including Git \cite{loeliger2012git},
-SVN \cite{svn}, and CVS \cite{cvs}.  Figure-\ref{intermediates} shows the
-general properties of the solution: a sequence of snapshots of the data set,
+SVN \cite{svn}, and CVS \cite{cvs}.  The
+general properties of the solution are a sequence of snapshots of the data set,
 where associated with each snapshot is a small amount of metadata:
 \begin{itemize}
  \item timestamp
@@ -231,11 +231,9 @@ where associated with each snapshot is a small amount of metadata:
   snapshots
 \end{itemize}
 
-When multiple snapshots are captured, they can be compared as in Figure-\ref{diff},
+When multiple snapshots are captured, they can be compared,
 and also can be used to track logical dependencies of analysis.
 
-Figure-\ref{snapshot_model} shows an entity-relationship (ER) model built
-using MySQLWorkbench.
 
 \subsection{Deductive reasoning}
 A model for the deductive process of rule application to a data set to 
@@ -697,24 +695,6 @@ the quality of analysis.
 \section{Figures}
 
 \begin{figure}[h]
-  \includegraphics[scale=0.5]{figures/intermediates}
-  \caption{Intermediate data sets form a linked chain.}
-  \label{intermediates}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.5]{figures/diff}
-  \caption{Capturing intermediates allows comparison, such as diffs.}
-  \label{diff}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.5]{figures/snapshot_model}
-  \caption{A relational model of a snapshot.}
-  \label{snapshot_model}
-\end{figure}
-
-\begin{figure}
   \includegraphics[scale=0.5]{figures/deduction_model}
   \caption{A relational model of a snapshot and deductions.}
   \label{deduction_model}
