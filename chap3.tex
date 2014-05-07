@@ -22,10 +22,12 @@ the model during the analysis process.
 
 
 \section{Current data models}
-% TODO
-... an outline of the BMRB and/or CCPN data models, as well as what they 
-don't capture, and how that renders their use irreproducible ...
+This section will present a brief outline of the current standard data 
+models used in NMR, as well as their limitations and the problems those
+limitations cause for reproducibility of analysis.
 
+\subsection{BMRB: NMR-Star data dictionary}
+Complete documentation may be found online at \url{http://www.bmrb.wisc.edu/dictionary/}.
 %  \item Problem: undeposited data (both primary and meta).  
 %  Current depositions to the BMRB do not include extraneous 
 %  results, intermediates, or deductive meta data.  
@@ -38,14 +40,82 @@ don't capture, and how that renders their use irreproducible ...
 %  data is thrown away during the analysis process and not available for deposition.
 % remember to blame this on tools and on current practices, and not on the BMRB
 
+\subsection{CCPN data model}
+Complete documentation may be found online at
+\url{http://www.ccpn.ac.uk/software/extras/datamodelfolder/datamodel},
+\url{http://www2.ccpn.ac.uk/api-documentation/ccpnmr/ccpnmr2.2/python/doc/api.html},
+and \url{http://www2.ccpn.ac.uk/api-documentation/ccpnmr/ccpnmr2.2/model/doc/ccp/nmr/index.html}.
+
+\subsubsection{Spectrum}
+This is called a "DataSource" and corresponds to an NMR spectrum.  It includes
+information about the dimensions and spectral meta data.  The definition is
+\begin{quote}
+This class describes the stored data matrix from an NMR spectrum. 
+It is a general class that may be used to describe data in the time domain, 
+frequency domain a combination of the two, or axes that are neither time nor 
+frequency.  The actual data are kept in a location defined by the dataLocation 
+link. The DataSource attributes contain the information required to extract 
+the data from the source file, but the data model as such does not include 
+the actual data matrix.
+\end{quote}
+
+\subsubsection{Peak}
+It is defined as 
+\begin{quote}Crosspeak at a specific position in a specific spectrum.\end{quote}
+according to the documentation.
+Peaks have multiple dimensions, one for each dimension of the spectrum in 
+which they appear, attributes that apply to the peak as a whole, such as 
+intensity, as well as attributes that apply to peak dimensions, such as 
+chemical shift.
+
+\subsubsection{Spin system}
+Known as "Resonance Group" within the CCPN model, the definition of which is
+\begin{quote}
+Group of Resonances belonging within the same Residue. Serves to organise 
+Resonances that have not yet been assigned, and to set Residue types, 
+(sequential) neighbours, Residues and their probabilities for an entire 
+group without necesarily assigning the individual Resonances. Coherence 
+between ResonanceGroup (probable) assignments and assignments of Resonances 
+to Atoms are not checked by the API software. In case of conflicts the 
+assignment of the Resonance should take precedence over any information 
+carried by the ResonanceGroup, in accordance with the status of the 
+ResonanceGroup as a vehicle for tentative assignments.
+\end{quote}
+ResonanceGroups, along with Resoances, are the main intermediaries between
+the molecule and the experimentally observed NMR spectra.
+
+\subsubsection{Resonance}
+\begin{quote}
+A connection record for assignment. 'Stands for' a single Atom or group of 
+atoms in fast exchange. 
+The Resonance holds a central place in the Nmr package, as almost all 
+assignment, of Chemical shifts, Atoms, Constraints, Peaks etc. is done 
+through the intermediary of a Resonance. This allows the relationship 
+between Shifts, Peaks, Constraints, (...) to be described precisely without 
+first assigning the Nmr spectrum, provides a simple mechanism for handling 
+prochiral groups, and in general permits greater flexibility.
+\end{quote}
+A Resonance is an intermediary between experimental NMR data the molecule
+of interest.
+
+\subsubsection{Isotope}
+In order to be visible in an NMR experiment, a sample must contain NMR-active
+nuclei.  The CCPN model includes information about various NMR-active nuclei,
+which are linked to resonances during the process of assignment.
+
+\subsubsection{Molecule, residue and atom}
+These are given standard definitions: a protein molecule is a sequence of
+residues, each of which is an instance of an amino acid type such Asparagine
+or Glycine, and are composed of several atoms.
 
 
 \section{Missing data and its role in analysis}
 % need to cover what the data is, how it plays a role in NMR analysis, 
 % why it's important to capture
 The key deficiencies causing irreproducibility are missing primary data and 
-meta data.  As was described in earlier sections, 
-spectral analysis, including peak picking, GSS construction, GSS and resonance
+meta data.  These data are not modeled in the CCPN data model nor in the 
+NMR-Star data dictionary, and therefore are not archived and disseminated.
+Spectral analysis, including peak picking, GSS construction, GSS and resonance
 typing, sequential GSS assignment, and sequence-specific GSS assignment is 
 accomplished using a step-by-step process of deductive reasoning 
 which is often augmented by computational tools.  The computational 
