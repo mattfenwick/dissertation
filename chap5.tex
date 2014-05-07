@@ -352,22 +352,27 @@ algorithms are (see Table-\ref{scheduler_components} for a table):
   \item coordinate generator.  Responsible for generating N-dimensional time
     delays.  Includes algorithms for generating all combinations within finite
     N-dimensional bounds, Poisson gap \cite{poissongap} sampling, as well
-    as others.
+    as others.  See Table-\ref{scheduler_point_generators}.
   \item quadrature generator.  Responsible for generating the quadrature
     components.  Includes algorithms for full-component generation as well
     as various partial-component strategies.
+    See Table-\ref{scheduler_quadrature_generators}.
   \item point selector.  Applies a filter to points based on coordinates,
     quadrature components, and number of transients, which can be used to create
-    biased sampling schemes, such as exponentially-weighted decay
+    biased sampling schemes, such as exponentially-weighted decay.
+    See Table-\ref{scheduler_point_selectors}.
   \item point modifier.  Modifies some or all points in a sample schedule, 
     slightly changing the coordinates of points.  Includes algorithms for
     bursty \cite{maciejewski2009nonuniform} and blurred 
     \cite{hoch2008randomization} modifications.
+    See Table-\ref{scheduler_modifiers}.
   \item special point generator.  Forces the addition of specific points to
     a sample schedule, such as the first point along each axis.  Such properties
     are useful when evaluating the quality of spectra.
+    See Table-\ref{scheduler_forced_point_selectors}.
   \item formatter.  Includes facilities for generating textual output of a 
     sample schedule in RNMRTK \cite{rnmrtk}, Bruker, JSON, and Agilent formats.
+    See Table-\ref{scheduler_formatters}.
 \end{itemize}
 Creating a sample schedule requires choosing from among the many algorithms 
 available, and supplying the appropriate parameters.  While the various algorithms
@@ -510,28 +515,82 @@ flexibility to be applied in different ways as part of a large program.
 \clearpage
 \section{Tables}
 
-% TODO why not include them all?  might want to break into two tables
 \begin{table}[h]
-  \begin{tabular}{ | c || c | c | }
+  \begin{tabular}{ | c | c | }
     \hline
-      Component category    &  Name         &  Explanation                                          \\  \hline  \hline
-      Point generator       &  Halton       &  generates a sub-random sequence of points            \\  \hline
-      Point generator       &  Poisson gap  &  generates points according to the Poisson gap method \\  \hline
-      Point selector        &  Exponential  &  select points with an exponentially-decaying weight  \\  \hline
-      Point selector        &  Random       &  select points with a random weight                   \\  \hline
-      Quadrature generator  &  All          &  generate all quadrature components for each point    \\  \hline
-      Quadrature generator  &  Single random  &  randomly generate a single quadrature component for each point                 \\  \hline
-      Forced point selector &  First point  &  force the point with the minimum time-delay in each dimension to be collected    \\  \hline
-      Forced point selector &  Last point   &  force the point with the maximum time-delay in each dimension to be collected    \\  \hline
-      Formatter             &  Bruker       &  output the schedule in Bruker format     \\  \hline
-      Formatter             &  Agilent      &  output the schedule in Agilent format    \\  \hline
-      Formatter             &  RNMRTK       &  output the schedule in RNMRTK format     \\  \hline
-      Formatter             &  JSON         &  output the schedule in JSON format       \\  \hline
-    \hline 
+    Halton          &  a sub-random sequence of points            \\  \hline
+    HyperTable      &  a Cartesian product of points              \\  \hline
+    Poisson gap     &  Poisson gap method \\  \hline
+    Poisson disk    &  Poisson disk method  \\  \hline
+    Concentric shell & points on concentric shells               \\  \hline
+    Spiral          &  points spiraling outward from the origin  \\  \hline
+    Radial          &  spokes directed outward from the origin  \\  \hline
   \end{tabular}
-  \caption{Selected components of the sample scheduler.}
-  \label{scheduler_components}
+  \caption{The point generators of the sample scheduler.}
+  \label{scheduler_point_generators}
 \end{table}
+
+\begin{table}[h]
+  \begin{tabular}{ | c | c | }
+    \hline
+    All             &  all quadrature components        \\  \hline
+    Single random   &  one randomly chosen component    \\  \hline
+    Just reals      &  the all-real component           \\  \hline
+    FRSB            &  real in dim1, both in dim2       \\  \hline
+  \end{tabular}
+  \caption{The quadrature generators of the sample scheduler for each point.}
+  \label{scheduler_quadrature_generators}
+\end{table}
+
+\begin{table}[h]
+  \begin{tabular}{ | c | c | }
+    \hline
+    All             &  select all points  \\  \hline
+    Exponential     &  exponentially decaying bias  \\  \hline
+    Random          &  random bias  \\  \hline
+    User defined    &  user-define bias equation  \\  \hline
+  \end{tabular}
+  \caption{The point selectors of the sample scheduler.}
+  \label{scheduler_point_selectors}
+\end{table}
+
+\begin{table}[h]
+  \begin{tabular}{ | c | c | }
+    \hline
+    Bursty    &  select additional points around a point  \\  \hline
+    Blurred   &  bump a point in each dimension   \\  \hline
+    None      &  don't make any changes           \\  \hline
+  \end{tabular}
+  \caption{The modifiers of the sample scheduler.}
+  \label{scheduler_modifiers}
+\end{table}
+
+\begin{table}[h]
+  \begin{tabular}{ | c | c | }
+    \hline
+    None                &  force selection of no points         \\  \hline
+    All lower bounds    &  all points along axes                \\  \hline
+    Point block         &  all points less than given bounds    \\  \hline
+    First point         &  the point with minimum time delays   \\  \hline
+    Last point          &  the point with maximum time delays   \\  \hline
+    Halton              &  a sub-random sequence of points      \\  \hline
+  \end{tabular}
+  \caption{The forced point selectors of the sample scheduler.}
+  \label{scheduler_forced_point_selectors}
+\end{table}
+
+\begin{table}[h]
+  \begin{tabular}{ | c | c | }
+    \hline
+    Bruker      &  output schedule in Bruker format  \\  \hline
+    Agilent     &  output schedule in Agilent format  \\  \hline
+    RNMRTK      &  output schedule in RNMRTK format  \\  \hline
+    JSON      &  output schedule in JSON format  \\  \hline
+  \end{tabular}
+  \caption{The formatters of the sample scheduler.}
+  \label{scheduler_formatters}
+\end{table}
+
 
 
 % figures
