@@ -41,14 +41,10 @@ don't capture, and how that renders their use irreproducible ...
 
 
 \section{Missing data and its role in analysis}
-The key deficiencies causing irreproducibility are 
-missing primary data (both extraneous results as well as intermediates), 
-missing meta data relating to the deductive process of reasoning employed 
-for manual analysis, and undeposited data (both primary and meta).  
-
 % need to cover what the data is, how it plays a role in NMR analysis, 
 % why it's important to capture
-As was described in earlier sections, 
+The key deficiencies causing irreproducibility are missing primary data and 
+meta data.  As was described in earlier sections, 
 spectral analysis, including peak picking, GSS construction, GSS and resonance
 typing, sequential GSS assignment, and sequence-specific GSS assignment is 
 accomplished using a step-by-step process of deductive reasoning 
@@ -59,19 +55,41 @@ of data involved.
 
 
 \subsection{Deductive process of reasoning}
-This data describes the 
-deductive process of reasoning employed in manually interpreting a feature 
-of the primary data.  It is important because it provides the explanation 
+Manual modifications are performed using a process similar to deductive 
+reasoning.  It follows a general pattern:
+\begin{enumerate}
+  \item identification: a feature of the data is identified as amenable to 
+    interpretation.  For example, the feature may be a false negative (such as 
+    a signal peak misclassified as noise by the automated peak-picker), a false 
+    positive (such as an artifactual peak misclassified as signal), or an 
+    ambiguity (such as overlapped GSSs, causing clustering algorithms to fail).
+  \item pattern recognition: the spectroscopist identifies a potential method 
+    for interpreting the feature based on his/her domain knowledge of NMR and 
+    experience with interpretation of previous data sets.  For example, such 
+    methods may take the form of deductive rules:  if <the data matches a 
+    certain pattern>, then <it could be interpreted a certain way>. 
+    See Figure-\ref{deduction}.
+  \item application of the rule to the data feature.  The chosen rule is 
+    applied, and the result of the interpretation is included back into the 
+    data set.  The result may now be used to drive further deductions.
+  \item repeat -- go to step 1 to identify features for further interpretations
+    This method is a form of iterative, sequential deduction.  The key components 
+    are the ordered series of steps, the state of the data before and after each 
+    step, and the deductive rules used to make interpretations at each step, as
+    Figure-\ref{deductive_process} shows.  In 
+    addition, it should be noted that the final data set can not be regenerated 
+    using automated tools alone if there are any manual modifications made to 
+    tool output.
+\end{enumerate}
+
+The information describing the deductive process of reasoning employed in 
+manually interpreting a feature of the primary data is not captured, although
+it is important because it provides the explanation 
 of why something was done.
 
-As was covered earlier, the deductive process of reasoning which plays
-a major role in data analysis generates intermediate data sets.  Associated
-with the generation of these data sets is a rule employed for deduction.
-
-% TODO do I need to say something about the proposed library of deductive reasons? or does that come later?
-Each rule is an embodiment of NMR-specific knowledge of how to interpret a
-data feature.  In general, a deductive rule requires an input, produces an
-output, and has an intuitive justification for its action.  
+Each deductive reason is an embodiment of NMR-specific knowledge of how to 
+interpret a data feature.  In general, a deductive rule requires an input, 
+produces an output, and has an intuitive justification for its action.
 % TODO example
 
 Application of these rules provides a rationale for manual modifications.  The
@@ -82,83 +100,56 @@ It also facilitates knowledge transfer, both in the contexts of collaboration
 and teaching, by providing a meaningful annotation (with reference to the
 domain of NMR) for actions taken.
 
-... a description of how manual analysis is related to deductive reasoning ...
-Manual analysis follows a general pattern:
-\begin{enumerate}
-  \item identification: a feature of the data is identified as amenable to 
-  interpretation.  For example, the feature may be a false negative (such as 
-  a signal peak misclassified as noise by the automated peak-picker), a false 
-  positive (such as an artifactual peak misclassified as signal), or an 
-  ambiguity (such as overlapped GSSs, causing clustering algorithms to fail).
-  \item pattern recognition: the spectroscopist identifies a potential method 
-  for interpreting the feature based on his/her domain knowledge of NMR and 
-  experience with interpretation of previous data sets.  For example, such 
-  methods may take the form of deductive rules:  if <the data matches a 
-  certain pattern>, then <it could be interpreted a certain way>. 
-  See Figure-\ref{deduction}.
-  \item application of the rule to the data feature.  The chosen rule is 
-  applied, and the result of the interpretation is included back into the 
-  data set.  The result may now be used to drive further deductions.
-  \item repeat -- go to step 1 to identify features for further interpretations
-This method is a form of iterative, sequential deduction.  The key components 
-are the ordered series of steps, the state of the data before and after each 
-step, and the deductive rules used to make interpretations at each step, as
- Figure-\ref{deductive_process} shows.  In 
-addition, it should be noted that the final data set can not be regenerated 
-using automated tools alone if there are any manual modifications made to 
-tool output.
-\end{enumerate}
 
+\subsection{Intermediate results: deductive contexts}
+When the output of a computational tool, whether peak-picking, GSS construction, 
+or sequence-specific GSS assignment, is modified to correct mistakes,
+a discrepancy is introduced between the output of the tool 
+given the input and a suitable parameterization, and the final data set. 
+This indicates that the final results are not the output of a single 
+replicable step, but rather of a series of steps of refinement and 
+modification.  Thus, new data sets are implicitly generated from the previous
+one during the analysis process after every modification, whether manual or automated.
+The application of a deductive rule to modify the data set is sensitive to
+the current state of the data set -- in other words, the validity of the 
+use of a given rule, as well as its effect, depends on the exact state of
+the data set.  Therefore, it is important to record the data context when
+applying a deductive rule.  The rectifies the discrepancy between automated
+tool output and the final data set.  Unfortunately, this data is not recorded.
 
-\subsection{Deductive contexts: intermediate results}
-The output of a 
-computational tool, whether used for peak-picking, GSS construction, 
-or sequence-specific GSS assignment, is often modified to correct 
-mistakes.  This introduces a discrepancy between the output of the tool 
-given the input and a suitable parameterization, and the final data set.  
-By capturing a snapshot of the output of the tool immediately after it is 
-run, and before modifications are made, this discrepancy is rectified.
-Similarly, during manual analysis and modification of results, the state of 
-the data is continually changing and determines which analyses may be made.  
-For example, assignment of a GSS to a residue may allow a further 
-unambiguous assignment of a different GSS to a residue (an assignment 
-which previously would have been ambiguous) by eliminating one of two 
-assignment possibilities based on matching amino acid type.  This shows that 
-the state of the data determines what deductions can be made.  Therefore, it 
-is important to capture these intermediate states before and after deductions.
-
-An important feature of the analysis process is that the final results are
-not the output of a single replicable step, but rather of a series of steps
-of refinement and modification.  Thus, the analysis process implicitly 
-generates a new data set (from the previous one) after every modification, 
-whether manual or automated.
-
-Implicit in the sequence of data sets are logical dependencies of derived
-data upon features of the previous data set: the context of each deduction
-is important, because the exact context determines what deductions may be
-made and the confidence level of each deduction. % TODO an example
-
-% TODO I need to discuss what the intermediate results need to do
-%   i.e. they need to make the process recapitulatable
-%   and this is done by capturing the contexts
-
-The importance of capturing intermediates is due to the dependence of 
-deductions on context: without knowing the context, it is impossible to 
-evaluate the correctness, confidence, and alternative interpretations of
-a deduction.  In standard approaches to analysis, the contexts are not
-captured; they are implicit.  By making the contexts explicit, it becomes
-possible not only to fully recapitulate the process of analysis, but also 
-to employ error detection and correction strategies by analysis
-of deductions and their contexts.  
-An interesting side-effect of capturing
-contexts is that analysis can be restarted in the middle, by selecting an
-appropriate context and applying a different deduction.
+With respect to reproducibility, the importance of capturing intermediates is 
+due to the dependence of deductions on context: without knowing the context, 
+it is impossible to evaluate the correctness, confidence, and alternative 
+interpretations of a deduction.  In standard approaches to analysis, the 
+contexts are not captured; they are implicit.  By making the contexts 
+explicit, it becomes possible not only to fully recapitulate the process of 
+analysis, but also to employ error detection and correction strategies by 
+analysis of deductions and their contexts.  An interesting side-effect of 
+capturing contexts is that analysis can be restarted in the middle, by 
+selecting an appropriate context and applying a different deduction.
 
 % TODO
 % come up with a simple example that demonstrates: 
 %   1) the dependence of deductive ability on context
 %   2) the concept and utility of multiple snapshots
 %   3) the concept and utility of tracking logical dependencies
+
+Furthermore, during manual analysis and modification of results, when the 
+state of the data is continually being modified and improved, the analyses
+which may be made are dependent upon the data context.
+For example, assignment of a GSS to a residue may allow a further 
+unambiguous assignment of a different GSS to a residue (an assignment 
+which previously would have been ambiguous) by eliminating one of two 
+assignment possibilities based on matching amino acid type.
+% TODO explain better, provide an example
+Implicit in the sequence of data sets are logical dependencies of derived
+data upon features of the previous data set: the context of each deduction
+is important, because the exact context determines what deductions may be
+made and the confidence level of each deduction. 
+
+% TODO I need to discuss what the intermediate results need to do
+%   i.e. they need to make the process recapitulatable
+%   and this is done by capturing the contexts
 
 
 \subsection{Extraneous results}
@@ -217,7 +208,7 @@ to estimate contamination, incompleteness and overcompleteness, overfitting,
 and consistency.
 
 
-\subsection{Incompletions, uncertainties, ambiguities: notes}
+\subsection{Notes: incompletions, uncertainties, ambiguities}
 During the course of data analysis, it is often the case that odd, ambiguous,
 abnormal, or otherwise unexpected situations noticed during analysis
 \cite{nuseibeh2000inconsistency}.  
@@ -251,27 +242,6 @@ corresonds to one atom, but exactly which is unsure -- as an indication to
 future analysis or perusal that a problem has been identified but not yet
 solved.
 
-The key idea is, given the inevitability of such problems during data
-analysis, to create facilities for explicitly recognizing, discussing, 
-and handling such problems \cite{robillard2007concerns}. 
-Several strategies for such an approach 
-are covered in \cite{nuseibeh2000inconsistency} including deferral of the
-problem while flagging it for later follow-up.
-
-Enabling the representation of such data has similarities to the probabilistic
-approach applied by PINE \cite{pine} to great effect.  
-PINE deals with the innate uncertainty of data 
-analysis by resolving the tradeoff between false positives and false 
-negatives through association of a probabilistic confidence metric with each
-feature interpretation; low confidence values are used as evidence that an
-interpretation is suspicious and needs additional verification or data.
-In a complementary approach, capturing notes of analysis issues also 
-resolves the tradeoff for manual analysis, by enabling the association of
-an explanatory or warning message with suspected low-quality deductions.
-In addition, the message may contain more information than a scalar: it may
-necessarily refer to multiple conflicting pieces of the data set in the case
-of a contradiction.
-
 % TODO add a picture
 Correctly identifying and characterizing peaks in the presence of significant
 amounts of overlap is a notoriously difficult problem \cite{guerry2011automated}.
@@ -294,7 +264,6 @@ marked for re-analysis when more data becomes available.
 
 \section{A Model for Reproducible NMR}
 
-\subsection{Data models}
 A data model is a means of specifying the structure of information  
 \cite{codd1970relational}.  This
 information may be used as inputs and outputs for computational tools, or
@@ -303,12 +272,6 @@ because they provide a formal specification of the structure, which enables
 unambiguous, correct, and automated use of data.  Data models are
 abstract specifications; they must be implemented in source code in order
 to become a usable artifact.
-
-In the field of NMR, both the BMRB \cite{bmrb} and CCPN \cite{ccpn} have
-created descriptive, extensive and useful data models, and have implemented them 
-in programs and as Application Programming Interfaces (APIs).  These are used
-by additional programs to help manage the exchange of data with external
-programs.
 
 This section will cover a data model for reproducibility.  Once a data
 model exists, it can be implemented as part of a software program that
@@ -320,32 +283,24 @@ reproducibility.
 
 
 \subsection{Deductive reasoning}
-In a VCS, each snapshot is annotated with a commit message that describes 
-the how and why of the snapshot -- what problems does it address, what 
-features does it add.  Similarly, for capturing the data of the process of 
-sequential deduction, the reasoning used describes the change to the data 
-set and why it was made.  In order to support the capture of this meta data, 
-an extensible library of commonly used deductive reasons enables the user to 
-quickly and easily make deductions and describe the reasoning used.  These 
-deductive reasons are then referenced in snapshot annotations.
+When a data feature is interpreted, a deductive rule is used to provide
+the result, given the input.  In order to support the capture of this data, 
+a model both for the application of a rule to a data set, and for the rules
+themselves, was created.  The rules are modeled as an extensible library of 
+commonly used deductive reasons.  Modeling the rules as an enumerated library 
+enables quick and easy use.  During analysis, one or more rules are applied to 
+make a deduction.  This is shown in Figure-\ref{deduction_model}.
 
-A model for the deductive process of rule application to a data set to 
-produce a modified, new data set requires components for both the rules 
-themselves as well as the use of rules.  
-
-A library of rules was built which enumerates deductive rules based on 
+The content of the deductive rule library is based on 
 established practices during data analysis \cite{guerry2011automated, hncacb,
 hnco, cbcaconh, hbhaconh, picky, xeasy, sparky, ccpn}.  For each rule, 
 a meaningful name, an explanation of the rule's meaning, its intended use,
 its intended result, and examples was collected.
 
-During analysis, one or more rules are applied to make a deduction.  This
-is capture in Figure-\ref{deduction_model}.
-
 % TODO clean up library so that it's usable
 % TODO present most or all of the library in picture and textual format
 
-Here are several commonly used deductive reasons, the full list can be found
+Here are several commonly used deductive reasons; the full list can be found
 at \url{https://github.com/mattfenwick/PeakPicker/tree/master/library}:
 
 \subsubsection{peak position}
@@ -507,6 +462,7 @@ Cyana can often resolve these ambiguities during structure calculation.
 
 
 \subsection{Intermediate results}
+% TODO needs some expansion and clarification of how this is novel
 The core of the strategy is based on that used by Version Control System (VCS) 
 software tools \cite{vcs_concepts, hinsen2009vcs}, which are commonly 
 applied for managing source code of 
@@ -515,22 +471,9 @@ These tools were originally implemented in order to manage the change in
 source code over time, while retaining the ability to easily inspect past 
 states of the code.  It was found that application of such tools led to 
 large increases in productivity, robustness, correctness, and reduced 
-faults \cite{fischer2003vcs}.  The core of a VCS is a model for change in data 
-over time by storing multiple versions.  Versions are snapshotted, 
-descended from previous snapshots, and annotated with a commit message 
-which describes the what and the why of the change.  Similarly, in NMR 
-during the process of sequential deduction, intermediate states form a 
-chain.  By capturing these intermediates, similar advantages are gained 
-(as in VCS).  While taking multiple snapshots of a large data set may 
-seem wasteful of storage space, it is important to note that there are 
-several approaches for compressing the snapshots to eliminate duplication; 
-this essentially reduces the wasted space to zero.
+faults \cite{fischer2003vcs}.
 
-
-% TODO needs some expansion and clarification of how this is novel
-The strategy for modelling intermediate results is based on the data models
-of existing version control systems, including Git \cite{loeliger2012git},
-SVN \cite{svn}, and CVS \cite{cvs}.  The general outline of the solution 
+The general outline of the solution 
 is a sequence of snapshots of the data set, taken at carefully chosen 
 moments during analysis, which show the full process of analysis by capturing
 all changes.  Each snapshot -- other than the first -- contains a link to
@@ -664,10 +607,17 @@ recognized as part of the standard experiments.
 % TODO examples
 % TODO 
 % CCPN peak pick as initial peak list, then corrections I made as peak list 
-% where each peak has additional fields
+%   where each peak has additional fields
 
 
 \subsection{Notes}
+The key idea is, given the inevitability of such problems during data
+analysis, to create facilities for explicitly recognizing, discussing, 
+and handling such problems \cite{robillard2007concerns}. 
+Several strategies for such an approach 
+are covered in \cite{nuseibeh2000inconsistency} including deferral of the
+problem while flagging it for later follow-up.
+
 To model notes, the BMRB and CCPN models \cite{bmrb, ccpn} were extended
 to support an additional data type: a note.  A note can refer to one or more
 other feature of the data set, and also includes a textual description of
@@ -679,10 +629,26 @@ so.
 % TODO a pictoral representation of this model
 % TODO example: odd feature in data, unable to resolve
 
+Enabling the representation of such data has similarities to the probabilistic
+approach applied by PINE \cite{pine} to great effect.  
+PINE deals with the innate uncertainty of data 
+analysis by resolving the tradeoff between false positives and false 
+negatives through association of a probabilistic confidence metric with each
+feature interpretation; low confidence values are used as evidence that an
+interpretation is suspicious and needs additional verification or data.
+In a complementary approach, capturing notes of analysis issues also 
+resolves the tradeoff for manual analysis, by enabling the association of
+an explanatory or warning message with suspected low-quality deductions.
+In addition, the message may contain more information than a scalar: it may
+necessarily refer to multiple conflicting pieces of the data set in the case
+of a contradiction.
+
+
 
 \section{An implementation of the model}
 % TODO a Sparky extension
 ... under construction ...
+
 
 
 \section{Applying reproducible analysis: using the model}
