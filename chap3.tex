@@ -12,14 +12,39 @@
 
 
 
-A strategy is needed to facilitate reproducibility of NMR data analysis.
+NMR data analysis is irreproducible because insufficient information is
+captured during the process.  A strategy is needed to facilitate 
+reproducibility of the data analysis process.
 This chapter will describe in more detail the common characteristics of
 the missing data and what role they play as well as why it is important to
 capture them, a model for capturing that data, and a strategy for using
 the model during the analysis process.
 
 
+\section{Current data models}
+% TODO
+... an outline of the BMRB and/or CCPN data models, as well as what they 
+don't capture, and how that renders their use irreproducible ...
+
+%  \item Problem: undeposited data (both primary and meta).  
+%  Current depositions to the BMRB do not include extraneous 
+%  results, intermediates, or deductive meta data.  
+
+%  \item uncaptured primary and meta data: while contemporary NMR databases, 
+%  such as the BMRB, archive, persist, and disseminate data and analysis 
+%  results of completed structural, dynamics, and binding studies, the 
+%  archived data and analysis do not include full information on GSSs 
+%  and resonances, nor the meta data of manual analysis.  This is because the 
+%  data is thrown away during the analysis process and not available for deposition.
+% remember to blame this on tools and on current practices, and not on the BMRB
+
+
+
 \section{Missing data and its role in analysis}
+The key deficiencies causing irreproducibility are 
+missing primary data (both extraneous results as well as intermediates), 
+missing meta data relating to the deductive process of reasoning employed 
+for manual analysis, and undeposited data (both primary and meta).  
 
 % need to cover what the data is, how it plays a role in NMR analysis, 
 % why it's important to capture
@@ -32,7 +57,76 @@ results may be subject to manual validation, correction, and extension
 \cite{guerry2011automated}.  This section will explore the various types
 of data involved.
 
-\subsection{Intermediate results}
+
+\subsection{Deductive process of reasoning}
+This data describes the 
+deductive process of reasoning employed in manually interpreting a feature 
+of the primary data.  It is important because it provides the explanation 
+of why something was done.
+
+As was covered earlier, the deductive process of reasoning which plays
+a major role in data analysis generates intermediate data sets.  Associated
+with the generation of these data sets is a rule employed for deduction.
+
+% TODO do I need to say something about the proposed library of deductive reasons? or does that come later?
+Each rule is an embodiment of NMR-specific knowledge of how to interpret a
+data feature.  In general, a deductive rule requires an input, produces an
+output, and has an intuitive justification for its action.  
+% TODO example
+
+Application of these rules provides a rationale for manual modifications.  The
+rationale is a justification that the change modification is correct, as
+well as an indication of why the change was made.  Therefore, capturing the
+deductive rules employed enables verification of the veracity of modifications. 
+It also facilitates knowledge transfer, both in the contexts of collaboration
+and teaching, by providing a meaningful annotation (with reference to the
+domain of NMR) for actions taken.
+
+... a description of how manual analysis is related to deductive reasoning ...
+Manual analysis follows a general pattern:
+\begin{enumerate}
+  \item identification: a feature of the data is identified as amenable to 
+  interpretation.  For example, the feature may be a false negative (such as 
+  a signal peak misclassified as noise by the automated peak-picker), a false 
+  positive (such as an artifactual peak misclassified as signal), or an 
+  ambiguity (such as overlapped GSSs, causing clustering algorithms to fail).
+  \item pattern recognition: the spectroscopist identifies a potential method 
+  for interpreting the feature based on his/her domain knowledge of NMR and 
+  experience with interpretation of previous data sets.  For example, such 
+  methods may take the form of deductive rules:  if <the data matches a 
+  certain pattern>, then <it could be interpreted a certain way>. 
+  See Figure-\ref{deduction}.
+  \item application of the rule to the data feature.  The chosen rule is 
+  applied, and the result of the interpretation is included back into the 
+  data set.  The result may now be used to drive further deductions.
+  \item repeat -- go to step 1 to identify features for further interpretations
+This method is a form of iterative, sequential deduction.  The key components 
+are the ordered series of steps, the state of the data before and after each 
+step, and the deductive rules used to make interpretations at each step, as
+ Figure-\ref{deductive_process} shows.  In 
+addition, it should be noted that the final data set can not be regenerated 
+using automated tools alone if there are any manual modifications made to 
+tool output.
+\end{enumerate}
+
+
+\subsection{Deductive contexts: intermediate results}
+The output of a 
+computational tool, whether used for peak-picking, GSS construction, 
+or sequence-specific GSS assignment, is often modified to correct 
+mistakes.  This introduces a discrepancy between the output of the tool 
+given the input and a suitable parameterization, and the final data set.  
+By capturing a snapshot of the output of the tool immediately after it is 
+run, and before modifications are made, this discrepancy is rectified.
+Similarly, during manual analysis and modification of results, the state of 
+the data is continually changing and determines which analyses may be made.  
+For example, assignment of a GSS to a residue may allow a further 
+unambiguous assignment of a different GSS to a residue (an assignment 
+which previously would have been ambiguous) by eliminating one of two 
+assignment possibilities based on matching amino acid type.  This shows that 
+the state of the data determines what deductions can be made.  Therefore, it 
+is important to capture these intermediate states before and after deductions.
+
 An important feature of the analysis process is that the final results are
 not the output of a single replicable step, but rather of a series of steps
 of refinement and modification.  Thus, the analysis process implicitly 
@@ -66,26 +160,18 @@ appropriate context and applying a different deduction.
 %   2) the concept and utility of multiple snapshots
 %   3) the concept and utility of tracking logical dependencies
 
-\subsection{Deductive reasoning}
-As was covered earlier, the deductive process of reasoning which plays
-a major role in data analysis generates intermediate data sets.  Associated
-with the generation of these data sets is a rule employed for deduction.
 
-% TODO do I need to say something about the proposed library of deductive reasons? or does that come later?
-Each rule is an embodiment of NMR-specific knowledge of how to interpret a
-data feature.  In general, a deductive rule requires an input, produces an
-output, and has an intuitive justification for its action.  
-% TODO example
+\subsection{Extraneous results}
+Standard approaches use the 
+assumption that all peaks are true signal, with no provision for storing peaks 
+determined to be processing artifacts or noise.  Such spurious peaks are simply 
+deleted and do not show up in the final results.  This is a problem because the 
+fact that a peak was found, and later interpreted as noise does not show up in 
+the final data set.  The same problem applies to GSSs that are found 
+but can not be assigned to any residue of the sample of interest, or are 
+believed to correspond to atoms of a contaminant.  Such GSSs should 
+be represented in the final data set.
 
-Application of these rules provides a rationale for manual modifications.  The
-rationale is a justification that the change modification is correct, as
-well as an indication of why the change was made.  Therefore, capturing the
-deductive rules employed enables verification of the veracity of modifications. 
-It also facilitates knowledge transfer, both in the contexts of collaboration
-and teaching, by providing a meaningful annotation (with reference to the
-domain of NMR) for actions taken.
-
-\subsection{Extraneous Results}
 During analysis, some portion of the positive results are not of direct interest
 to the final answer.  Not only peaks, but also resonances and GSSs are included.
 The positive results include both false positives, caused by noise or
@@ -130,7 +216,16 @@ GSSs, and the number of GSSs assigned to residues.  It may also be possible
 to estimate contamination, incompleteness and overcompleteness, overfitting, 
 and consistency.
 
-\subsection{Notes}
+
+\subsection{Incompletions, uncertainties, ambiguities: notes}
+During the course of data analysis, it is often the case that odd, ambiguous,
+abnormal, or otherwise unexpected situations noticed during analysis
+\cite{nuseibeh2000inconsistency}.  
+% TODO however, no record is made, blah blah .... these are valuable b/c blah blah
+As notes indicate the deficiencies and 
+potential problems present in a data set, they are valuable to future 
+perusers as they highlight how a data set is flawed and how it can be improved.
+
 Due to the difficulties inherent in data analysis, situations are reached
 in which the interpretation of a specific feature is problematic:
 \begin{itemize}
@@ -194,6 +289,7 @@ for resonances which are or potentially may be assigned to CA, CB, CO, or the
 corresponding (i-1) atoms.  Leaving a note in the data set describing what
 the ambiguity is ensures that this information is not lost, and is clearly
 marked for re-analysis when more data becomes available.
+% TODO make sure I don't describe the solution in this section -- rather, it should be about the problem !!
 
 
 \section{A Model for Reproducible NMR}
@@ -222,98 +318,17 @@ and CCPN \cite{ccpn} data models.  These models are then extended with
 several additional data types and properties in order to enable 
 reproducibility.
 
-\subsection{Intermediate results}
-% TODO needs some expansion and clarification of how this is novel
-The strategy for modelling intermediate results is based on the data models
-of existing version control systems, including Git \cite{loeliger2012git},
-SVN \cite{svn}, and CVS \cite{cvs}.  The general outline of the solution 
-is a sequence of snapshots of the data set, taken at carefully chosen 
-moments during analysis, which show the full process of analysis by capturing
-all changes.  Each snapshot -- other than the first -- contains a link to
-the previous snapshot, as well as a set of data differences.  The differences
-between snapshots provide the key value of this solution: they explicitly
-show how the data set is changed over time.
-Associated with each snapshot is a small amount of meta data to help describe
-the snapshot, including a timestamp, author information, and a deductive
-annotation, which describes the "why" of the changes and will be covered in
-the next section.
-
-% note that while the basic idea is taken from VCSs, the actual appropriate
-%   use is going to be more heavily dependent on the domain of NMR
-While the general solution is adapted from version control software, in order
-to effectively capture intermediate NMR data sets, such that the process of
-analysis is clear and understandable, the solution must be augmented to fit
-the specific needs of the NMR domain.
-In other words, capturing meaningful intermediate snapshots is challenging; it 
-is not sufficient to capture them indiscriminately.  If snapshots are captured 
-too infrequently, the situtation is not significantly different from current 
-practices: the analysis process will not be reproducible.  If too many snapshots
-are captured, reconstructing the logical dependencies will not be possible;
-in addition, the valuable information may be difficult to identify compared to
-the large amounts of useless information.  A third potential problem is 
-collecting snapshots indiscriminately -- i.e. not in a manner that corresponds
-to the actual process employed.  This, too, prevents later use of the 
-intermediate data because the process has not been correctly captured.
-
-Therefore, there are several principles of intermediate data collection which
-must be observed in order to create a useful data set.  These principles help
-to ensure that snapshots are created neither too often nor too rarely, and
-that they are useful for future perusal:
-\begin{itemize}
-  \item time.
-    Snapshots should be taken often enough that all modifications are captured.
-    For example, when peaks are initially picked by an automated tool, and then 
-    modified (perhaps sorting them into signal, noise, and artifact classifications)
-    by manual adjustment, a snapshot must be taken immediately after the automated
-    peak picker is run, and before any modifications are made.  When additional
-    modifications are made, it is again necessary to take another snapshot before
-    these changes, in order to capture the previous state of the data set -- which
-    is otherwise lost if this is not done.
-  \item content.
-    Each snapshot should have a clear and simple focus on analyzing a single
-    feature or performing a single type of interpretation.  For example, a snapshot
-    should not include changes both to resonance typing and to peak lists if those
-    changes are not inter-dependent.  % this ensure that logical dependencies are recoverable ? ... 
-  \item cohesion.
-    Similarly to the previous point, changes which are inter-dependent belong in
-    the same snapshot.  For example, when assigning GSSs sequentially, assume there
-    are two potentially matching GSSs based on CA and CB resonances, which however
-    have not been specifically assigned i/i-1.  If one GSS is determined to be the
-    first, and the other the second, then the CA(i), CA(i-1), CB(i), and CB(i-1)
-    assignments of the resonances in both spin systems are determined.  These 
-    changes all naturally belong in a single snapshot, since they are logically 
-    co-dependent.
-  \item logical dependencies must be recoverable.
-    The previous two points enable recovery of deductive, logical dependencies.  
-    The sequential process of deduction is the core of manual analysis, and 
-    therefore it is important to capture it clearly.  This means that the 
-    dependencies must be reconstructable from the sequence of intermediate data 
-    sets.
-\end{itemize}
-
-% devote more space to discussing diffs/comparisons, logical dependencies
-%   what, why, and how.  
-%   also, how the VCS-based solution supports these goals
-The primary goal of capturing intermediate data sets is to 
-facilitate reproducibility by modeling and saving the process of analysis.  
-A system which does so by capturing a sequence of snapshots of the data set 
-at intermediate timepoints meets the requirements for reproducibility.
-First, such a system is able to correctly recapitulate the changes over time
-due to manual and automated analysis.  For example,
-if an automated peak picker were used on a spectrum, and then the results
-manually verified and corrected, if snapshots were taken at the appropriate
-moments, the sequence of snapshots would show both the complete results of
-the automated tool, as well as every manual change made.
-% TODO should I say more here?
-Second, by capturing the full context of each modification, the logical and 
-temporal dependencies between various features of the data set are trackable.
-% TODO what? the following doesn't make much sense
-Additionally, capturing multiple intermediates allows rich comparisons to be made 
-between snapshots.  These comparisons, combined with the deductive annotations,
-indicate the changes made with each specific deductive reason. 
-
 
 \subsection{Deductive reasoning}
+In a VCS, each snapshot is annotated with a commit message that describes 
+the how and why of the snapshot -- what problems does it address, what 
+features does it add.  Similarly, for capturing the data of the process of 
+sequential deduction, the reasoning used describes the change to the data 
+set and why it was made.  In order to support the capture of this meta data, 
+an extensible library of commonly used deductive reasons enables the user to 
+quickly and easily make deductions and describe the reasoning used.  These 
+deductive reasons are then referenced in snapshot annotations.
+
 A model for the deductive process of rule application to a data set to 
 produce a modified, new data set requires components for both the rules 
 themselves as well as the use of rules.  
@@ -491,7 +506,128 @@ For additional examples of ambiguities see \ref{stereospecific_ambiguities}.
 Cyana can often resolve these ambiguities during structure calculation.
 
 
+\subsection{Intermediate results}
+The core of the strategy is based on that used by Version Control System (VCS) 
+software tools \cite{vcs_concepts, hinsen2009vcs}, which are commonly 
+applied for managing source code of 
+software projects \cite{loeliger2012git, cvs, svn}.  
+These tools were originally implemented in order to manage the change in 
+source code over time, while retaining the ability to easily inspect past 
+states of the code.  It was found that application of such tools led to 
+large increases in productivity, robustness, correctness, and reduced 
+faults \cite{fischer2003vcs}.  The core of a VCS is a model for change in data 
+over time by storing multiple versions.  Versions are snapshotted, 
+descended from previous snapshots, and annotated with a commit message 
+which describes the what and the why of the change.  Similarly, in NMR 
+during the process of sequential deduction, intermediate states form a 
+chain.  By capturing these intermediates, similar advantages are gained 
+(as in VCS).  While taking multiple snapshots of a large data set may 
+seem wasteful of storage space, it is important to note that there are 
+several approaches for compressing the snapshots to eliminate duplication; 
+this essentially reduces the wasted space to zero.
+
+
+% TODO needs some expansion and clarification of how this is novel
+The strategy for modelling intermediate results is based on the data models
+of existing version control systems, including Git \cite{loeliger2012git},
+SVN \cite{svn}, and CVS \cite{cvs}.  The general outline of the solution 
+is a sequence of snapshots of the data set, taken at carefully chosen 
+moments during analysis, which show the full process of analysis by capturing
+all changes.  Each snapshot -- other than the first -- contains a link to
+the previous snapshot, as well as a set of data differences.  The differences
+between snapshots provide the key value of this solution: they explicitly
+show how the data set is changed over time.
+Associated with each snapshot is a small amount of meta data to help describe
+the snapshot, including a timestamp, author information, and a deductive
+annotation, which describes the "why" of the changes and will be covered in
+the next section.
+
+% note that while the basic idea is taken from VCSs, the actual appropriate
+%   use is going to be more heavily dependent on the domain of NMR
+While the general solution is adapted from version control software, in order
+to effectively capture intermediate NMR data sets, such that the process of
+analysis is clear and understandable, the solution must be augmented to fit
+the specific needs of the NMR domain.
+In other words, capturing meaningful intermediate snapshots is challenging; it 
+is not sufficient to capture them indiscriminately.  If snapshots are captured 
+too infrequently, the situtation is not significantly different from current 
+practices: the analysis process will not be reproducible.  If too many snapshots
+are captured, reconstructing the logical dependencies will not be possible;
+in addition, the valuable information may be difficult to identify compared to
+the large amounts of useless information.  A third potential problem is 
+collecting snapshots indiscriminately -- i.e. not in a manner that corresponds
+to the actual process employed.  This, too, prevents later use of the 
+intermediate data because the process has not been correctly captured.
+
+Therefore, there are several principles of intermediate data collection which
+must be observed in order to create a useful data set.  These principles help
+to ensure that snapshots are created neither too often nor too rarely, and
+that they are useful for future perusal:
+\begin{itemize}
+  \item time.
+    Snapshots should be taken often enough that all modifications are captured.
+    For example, when peaks are initially picked by an automated tool, and then 
+    modified (perhaps sorting them into signal, noise, and artifact classifications)
+    by manual adjustment, a snapshot must be taken immediately after the automated
+    peak picker is run, and before any modifications are made.  When additional
+    modifications are made, it is again necessary to take another snapshot before
+    these changes, in order to capture the previous state of the data set -- which
+    is otherwise lost if this is not done.
+  \item content.
+    Each snapshot should have a clear and simple focus on analyzing a single
+    feature or performing a single type of interpretation.  For example, a snapshot
+    should not include changes both to resonance typing and to peak lists if those
+    changes are not inter-dependent.  % this ensure that logical dependencies are recoverable ? ... 
+  \item cohesion.
+    Similarly to the previous point, changes which are inter-dependent belong in
+    the same snapshot.  For example, when assigning GSSs sequentially, assume there
+    are two potentially matching GSSs based on CA and CB resonances, which however
+    have not been specifically assigned i/i-1.  If one GSS is determined to be the
+    first, and the other the second, then the CA(i), CA(i-1), CB(i), and CB(i-1)
+    assignments of the resonances in both spin systems are determined.  These 
+    changes all naturally belong in a single snapshot, since they are logically 
+    co-dependent.
+  \item logical dependencies must be recoverable.
+    The previous two points enable recovery of deductive, logical dependencies.  
+    The sequential process of deduction is the core of manual analysis, and 
+    therefore it is important to capture it clearly.  This means that the 
+    dependencies must be reconstructable from the sequence of intermediate data 
+    sets.
+\end{itemize}
+
+% devote more space to discussing diffs/comparisons, logical dependencies
+%   what, why, and how.  
+%   also, how the VCS-based solution supports these goals
+The primary goal of capturing intermediate data sets is to 
+facilitate reproducibility by modeling and saving the process of analysis.  
+A system which does so by capturing a sequence of snapshots of the data set 
+at intermediate timepoints meets the requirements for reproducibility.
+First, such a system is able to correctly recapitulate the changes over time
+due to manual and automated analysis.  For example,
+if an automated peak picker were used on a spectrum, and then the results
+manually verified and corrected, if snapshots were taken at the appropriate
+moments, the sequence of snapshots would show both the complete results of
+the automated tool, as well as every manual change made.
+% TODO should I say more here?
+Second, by capturing the full context of each modification, the logical and 
+temporal dependencies between various features of the data set are trackable.
+% TODO what? the following doesn't make much sense
+Additionally, capturing multiple intermediates allows rich comparisons to be made 
+between snapshots.  These comparisons, combined with the deductive annotations,
+indicate the changes made with each specific deductive reason. 
+
+
 \subsection{Extraneous results}
+Our approach is to allow any number of peaks and GSSs, and to 
+augment them with additional data fields which distinguish between signal, 
+noise, contaminants, etc.  This allows one to make a critical distinction 
+between: 1) finding/recording a peak based purely on characteristics of 
+the spectrum such as volume, height, relative height compared to noise, 
+lineshape, and linewidth, and 2) interpreting a peak as signal, noise, 
+etc. (and the same for GSSs).  Even peaks and GSSs for 
+which no analysis is made can be kept in the data set without encumbering 
+assignment of true peaks and GSSs.
+
 To model extraneous results, the BMRB and CCPN models \cite{bmrb, ccpn}
 were extended to support additional fields which distinguished between 
 extraneous and primary data.
@@ -512,8 +648,8 @@ determined to be signal or noise; note that these peaks would not be deleted
 from the list.  They would remain in the list but with a different category
 tag that would differentiate them from signal peaks.
 
-A further category of extraneous data is peaks from amino acid sidechains 
-is presented in Tables \ref{nhsqc_peaktypes}, \ref{hnco_peaktypes}, 
+A further category of extraneous data is peaks from amino acid sidechains; 
+it is presented in Tables \ref{nhsqc_peaktypes}, \ref{hnco_peaktypes}, 
 \ref{hncacb_peaktypes}, \ref{hbhaconh_peaktypes}, \ref{cconh_peaktypes}, and
 \ref{hcconh_peaktypes}.  While most of the
 peaks in these experiments correspond to backbone covalently bond atom groups, 
@@ -530,13 +666,16 @@ recognized as part of the standard experiments.
 % CCPN peak pick as initial peak list, then corrections I made as peak list 
 % where each peak has additional fields
 
+
 \subsection{Notes}
 To model notes, the BMRB and CCPN models \cite{bmrb, ccpn} were extended
 to support an additional data type: a note.  A note can refer to one or more
 other feature of the data set, and also includes a textual description of
 the nature of the problem, as well as an indication of how the problem might
-be resolved (although that is optional).
-
+be resolved (although that is optional).  As the purpose of a note is to
+explicitly indicate known deficiencies, incompletions, or uncertainties in 
+the data set, wherever and whatever they may be, this approach is able to do
+so.
 % TODO a pictoral representation of this model
 % TODO example: odd feature in data, unable to resolve
 
@@ -783,6 +922,24 @@ the quality of analysis.
 \section{Figures}
 
 \begin{figure}[h]
+  \includegraphics[scale=0.6]{figures/data_captured}
+  \caption{A subset of generated data is captured}
+  \label{data_captured}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.5]{figures/deduction}
+  \caption{Applying a deductive rule to a data set is a deduction}
+  \label{deduction}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.25]{figures/deductive_process}
+  \caption{The complete manual analysis process is a series of deductions}
+  \label{deductive_process}
+\end{figure}
+
+\begin{figure}
   \includegraphics[scale=0.5]{figures/deduction_model}
   \caption{A relational model of a snapshot and deductions.}
   \label{deduction_model}

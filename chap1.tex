@@ -141,32 +141,7 @@ by problematic or unclear data.  Thus, some amount of manual analysis may
 be required at all stages of the data analysis process 
 \cite{guntert2009automated, williamson2009automated}.   
 See Figure-\ref{data_key} for an overview of the broad categories of data 
-involved.  This key will be used consistently throughout this work.
-Manual analysis follows a general pattern:
-\begin{enumerate}
-  \item identification: a feature of the data is identified as amenable to 
-  interpretation.  For example, the feature may be a false negative (such as 
-  a signal peak misclassified as noise by the automated peak-picker), a false 
-  positive (such as an artifactual peak misclassified as signal), or an 
-  ambiguity (such as overlapped GSSs, causing clustering algorithms to fail).
-  \item pattern recognition: the spectroscopist identifies a potential method 
-  for interpreting the feature based on his/her domain knowledge of NMR and 
-  experience with interpretation of previous data sets.  For example, such 
-  methods may take the form of deductive rules:  if <the data matches a 
-  certain pattern>, then <it could be interpreted a certain way>. 
-  See Figure-\ref{deduction}.
-  \item application of the rule to the data feature.  The chosen rule is 
-  applied, and the result of the interpretation is included back into the 
-  data set.  The result may now be used to drive further deductions.
-  \item repeat -- go to step 1 to identify features for further interpretations
-This method is a form of iterative, sequential deduction.  The key components 
-are the ordered series of steps, the state of the data before and after each 
-step, and the deductive rules used to make interpretations at each step, as
- Figure-\ref{deductive_process} shows.  In 
-addition, it should be noted that the final data set can not be regenerated 
-using automated tools alone if there are any manual modifications made to 
-tool output.
-\end{enumerate}
+involved.
 
 
 \section{An Overview of Scientific Methods and Reproducibility}
@@ -300,39 +275,11 @@ components.
 
 This work will focus on reproducibility of the third and fourth stages, 
 spectral analysis and structure determination.  Unfortunately, according to 
-the definition of reproducible NMR given above, these stages are irreproducible 
-because of:
-\begin{itemize}
-  \item uncaptured primary data: extraneous results, such as GSSs from 
-  contaminants, or noise peaks comparable in size to signal peaks
-  \item uncaptured primary data: the intermediate results -- tool output before 
-  manual analysis, and the state of the data before and after deductions during 
-  manual analysis
-  \item uncaptured meta data:  the deductive reasoning used during manual analysis
-  \item uncaptured primary and meta data: while contemporary NMR databases, 
-  such as the BMRB, archive, persist, and disseminate data and analysis 
-  results of completed structural, dynamics, and binding studies, the 
-  archived data and analysis do not include full information on GSSs 
-  and resonances, nor the meta data of manual analysis.  This is because the 
-  data is thrown away during the analysis process and not available for deposition.
-  \item uncaptured meta data: notes of odd, ambiguous, abnormal, or 
-    otherwise unexpected situations noticed during analysis
-    \cite{nuseibeh2000inconsistency}
-\end{itemize}
-This contrast between data generated and data recorded is shown in 
-Figure-\ref{data_captured}.
+the definition of reproducible NMR given above, these stages are irreproducible.
 
 Much work has been done to capture additional data from the assignment process.  
 The CCPNMR effort, including the significant projects of CCPN Analysis and the 
-CCPN data model \cite{ccpn}, captures peaks, atoms, residues, 
-resonances, and GSSs.  
-However, there are three shortcomings.  First, intermediate results are not 
-captured.  Second, only a subset of these data are deposited into the BMRB.  
-This subset typically includes only chemical shift assignments, but not spin 
-systems and resonances.   As has already been described, these elements are 
-key components of NMR analysis.  Third, the deductive process of reasoning 
-is not captured.
-
+CCPN data model \cite{ccpn}, captures a significant portion of final data.
 Other significant efforts include SPINS \cite{baran2006spins}, 
 Sesame \cite{sesame}, and the NESG \cite{nesg2005nmr}.  
 However, much of the previous 
@@ -376,100 +323,10 @@ to better quality results.
 
 
 \section{An Approach for Reproducible Analysis}
-This section outlines one possible approach for rendering analysis reproducible.
-As was earlier stated, the key deficiencies causing irreproducibility are 
-missing primary data (both extraneous results as well as intermediates), 
-missing meta data relating to the deductive process of reasoning employed 
-for manual analysis, and undeposited data (both primary and meta).  Therefore, 
-the solution will focus on how to capture those data.  The general approach
-is to extend the capabilities of explicit recording provided by lab notebooks
-into the areas of computational and manual deductive analysis.
-
-\begin{itemize}
-  \item Problem: lost primary data:  extraneous results.  Standard approaches use the 
-  assumption that all peaks are true signal, with no provision for storing peaks 
-  determined to be processing artifacts or noise.  Such spurious peaks are simply 
-  deleted and do not show up in the final results.  This is a problem because the 
-  fact that a peak was found, and later interpreted as noise does not show up in 
-  the final data set.  The same problem applies to GSSs that are found 
-  but can not be assigned to any residue of the sample of interest, or are 
-  believed to correspond to atoms of a contaminant.  Such GSSs should 
-  be represented in the final data set.
-
-  Our approach is to allow any number of peaks and GSSs, and to 
-  augment them with additional data fields which distinguish between signal, 
-  noise, contaminants, etc.  This allows one to make a critical distinction 
-  between: 1) finding/recording a peak based purely on characteristics of 
-  the spectrum such as volume, height, relative height compared to noise, 
-  lineshape, and linewidth, and 2) interpreting a peak as signal, noise, 
-  etc. (and the same for GSSs).  Even peaks and GSSs for 
-  which no analysis is made can be kept in the data set without encumbering 
-  assignment of true peaks and GSSs.
-
-  \item Problem: lost primary data: intermediate results.  The output of a 
-  computational tool, whether used for peak-picking, GSS construction, 
-  or sequence-specific GSS assignment, is often modified to correct 
-  mistakes.  This introduces a discrepancy between the output of the tool 
-  given the input and a suitable parameterization, and the final data set.  
-  By capturing a snapshot of the output of the tool immediately after it is 
-  run, and before modifications are made, this discrepancy is rectified.
-  Similarly, during manual analysis and modification of results, the state of 
-  the data is continually changing and determines which analyses may be made.  
-  For example, assignment of a GSS to a residue may allow a further 
-  unambiguous assignment of a different GSS to a residue (an assignment 
-  which previously would have been ambiguous) by eliminating one of two 
-  assignment possibilities based on matching amino acid type.  This shows that 
-  the state of the data determines what deductions can be made.  Therefore, it 
-  is important to capture these intermediate states before and after deductions.
-  The core of the strategy is based on that used by Version Control System (VCS) 
-  software tools \cite{vcs_concepts, hinsen2009vcs}, which are commonly 
-  applied for managing source code of 
-  software projects \cite{loeliger2012git, cvs, svn}.  
-
-  These tools were originally implemented in order to manage the change in 
-  source code over time, while retaining the ability to easily inspect past 
-  states of the code.  It was found that application of such tools led to 
-  large increases in productivity, robustness, correctness, and reduced 
-  faults \cite{fischer2003vcs}.  The core of a VCS is a model for change in data 
-  over time by storing multiple versions.  Versions are snapshotted, 
-  descended from previous snapshots, and annotated with a commit message 
-  which describes the what and the why of the change.  Similarly, in NMR 
-  during the process of sequential deduction, intermediate states form a 
-  chain.  By capturing these intermediates, similar advantages are gained 
-  (as in VCS).  While taking multiple snapshots of a large data set may 
-  seem wasteful of storage space, it is important to note that there are 
-  several approaches for compressing the snapshots to eliminate duplication; 
-  this essentially reduces the wasted space to zero.
-
-  \item Problem: lost meta data: deductive reasons used.  This data describes the 
-  deductive process of reasoning employed in manually interpreting a feature 
-  of the primary data.  It is important because it provides the explanation 
-  of why something was done.
-
-  In a VCS, each snapshot is annotated with a commit message that describes 
-  the how and why of the snapshot -- what problems does it address, what 
-  features does it add.  Similarly, for capturing the data of the process of 
-  sequential deduction, the reasoning used describes the change to the data 
-  set and why it was made.  In order to support the capture of this meta data, 
-  an extensible library of commonly used deductive reasons enables the user to 
-  quickly and easily make deductions and describe the reasoning used.  These 
-  deductive reasons are then referenced in snapshot annotations.
-
-  \item Problem: undeposited data (both primary and meta).  
-  Current depositions to the BMRB do not include extraneous 
-  results, intermediates, or deductive meta data.  
-
-  A collaboration with the BMRB will extend the NMR-Star data dictionary to 
-  support this additional data.  Once the NMR-Star data dictionary supports 
-  it, spectroscopists will be able to submit complete data sets.
-
-  \item Problem: lost meta data: notes.  As notes indicate the deficiencies and 
-  potential problems present in a data set, they are valuable to future 
-  perusers as they highlight how a data set is flawed and how it can be improved.
-  The CCPN and BMRB data models will be extended to support notes referring
-  to primary data features.
-\end{itemize}
-
+One possible approach for rendering analysis reproducible will be discussed.
+The limitations of current practices in capturing insufficient data are 
+covered, and a data model for the additional information is presented.
+Then, a general strategy for using the data model is described.
 Additionally, this section will discuss how to effectively put this strategy 
 into practice, covering common roadblocks and problems as well as tips and 
 suggestions.
@@ -622,23 +479,5 @@ reproducibility will lead to improvements in quality as well.
   \includegraphics[scale=0.6]{figures/data_key}
   \caption{Categories of data used in the analysis process}
   \label{data_key}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.5]{figures/deduction}
-  \caption{Applying a deductive rule to a data set is a deduction}
-  \label{deduction}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.25]{figures/deductive_process}
-  \caption{The complete manual analysis process is a series of deductions}
-  \label{deductive_process}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.6]{figures/data_captured}
-  \caption{A subset of generated data is captured}
-  \label{data_captured}
 \end{figure}
 
