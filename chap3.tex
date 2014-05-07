@@ -554,19 +554,8 @@ Cyana can often resolve these ambiguities during structure calculation.
 
 
 \subsection{Intermediate results}
-% TODO needs some expansion and clarification of how this is novel
-The core of the strategy is based on that used by Version Control System (VCS) 
-software tools \cite{vcs_concepts, hinsen2009vcs}, which are commonly 
-applied for managing source code of 
-software projects \cite{loeliger2012git, cvs, svn}.  
-These tools were originally implemented in order to manage the change in 
-source code over time, while retaining the ability to easily inspect past 
-states of the code.  It was found that application of such tools led to 
-large increases in productivity, robustness, correctness, and reduced 
-faults \cite{fischer2003vcs}.
-
-The general outline of the solution 
-is a sequence of snapshots of the data set, taken at carefully chosen 
+The general outline of the solution is a model of the process of data analysis,
+consisting of a sequence of snapshots of the data set, taken at carefully chosen 
 moments during analysis, which show the full process of analysis by capturing
 all changes.  Each snapshot -- other than the first -- contains a link to
 the previous snapshot, as well as a set of data differences.  The differences
@@ -577,8 +566,16 @@ the snapshot, including a timestamp, author information, and a deductive
 annotation, which describes the "why" of the changes and will be covered in
 the next section.
 
-% note that while the basic idea is taken from VCSs, the actual appropriate
-%   use is going to be more heavily dependent on the domain of NMR
+The core of the strategy is based on that used by Version Control System (VCS) 
+software tools \cite{vcs_concepts, hinsen2009vcs}, which are commonly 
+applied for managing source code of 
+software projects \cite{loeliger2012git, cvs, svn}.  
+These tools were originally implemented in order to manage the change in 
+source code over time, while retaining the ability to easily inspect past 
+states of the code.  It was found that application of such tools led to 
+large increases in productivity, robustness, correctness, and reduced 
+faults \cite{fischer2003vcs}.
+
 While the general solution is adapted from version control software, in order
 to effectively capture intermediate NMR data sets, such that the process of
 analysis is clear and understandable, the solution must be augmented to fit
@@ -807,11 +804,8 @@ of reproducibility of digital analysis is still in its infancy: we do not yet
 have much experience with the what, how, and why of reproducibility in 
 electronic media.
 
-% TODO this is a pretty weak paragraph
-The first key step, which I have described in this chapter, is to define what
-the problems are -- in the form lost data -- and a model for what that data is.
+The first step is to define the lost data and a model for it.
 Then the model must be applied in practice, and its correct use taught.
-
 By extending standard existing models, the barrier to entry is greatly reduced,
 and instead of requiring an abrupt and drastic change in the workflows of those
 already using the standard models \cite{bmrb, ccpn}, the change to reproducible
@@ -823,6 +817,17 @@ different analysis techniques have different innate biases; it is quite likely
 that such biases will become obvious through the collection of these full data
 sets.  Each bias will represent an opportunity for learning and for improving
 the quality of analysis.
+
+A natural question to ask of the approach is whether it is able to deal with 
+the various strategies employed in practice by NMR spectroscopists around the
+world.  Is the library of deductive reasoning sufficient for all use cases?
+While it is not possible to prove that the approach is universal, it is not
+necessary to do so.  Rather, it is important to identify the principles of
+NMR data analysis, and embody them into the library.  Furthermore, this risk
+of non-universality has been mitigated by the extensibility of the library:
+although as much was included as was reasonably possible to identify, if 
+a deficiency is found in the library, it can easily be rectified by extending
+it with an additional deductive reason.
 
 
 \clearpage

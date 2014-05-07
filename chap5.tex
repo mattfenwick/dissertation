@@ -58,7 +58,7 @@ output containing that information.  Here is a general description of its scope:
     by means of the NMR-Star format is essential.  The data should be exportable
     as an NMR-Star file, correctly formatted and structured according to the
     NMR-Star data dictionary (including the newly created extensions for
-    reproducible data, as covered earlier).
+    reproducible data).
   \item load NMR-Star input.  The extension should also be able to read NMR-Star
     files containing reproducible analysis data.  This ensures that shared 
     data sets can be manipulated and viewed during or after analysis.
@@ -151,12 +151,14 @@ An example of NMRPyStar in action is shown in Figure-\ref{nmrpystar_bmrb}.
 As a regular Python library, in order to use it, it only needs to be 
 imported into the client module.  Then, using a library for reading URLs
 (which is bundled with Python distributions), an NMR-Star file is downloaded
-from the BMRB \cite{bmrb}.  Then, it is parsed, and a parse tree, representing
-the structure of the file, is returned; see Figure-\ref{nmrpystar_structure} 
-Figure-\ref{nmrpystar_json}.  Finally, a query to extract the chemical shifts
+from the BMRB \cite{bmrb}.  The file is then parsed, and a parse tree, 
+representing the structure of the file, is returned; see 
+Figure-\ref{nmrpystar_structure} Figure-\ref{nmrpystar_json}.  
+A parse tree is far easier to run queries against than a flat,
+unstructure string.  Finally, a query to extract the chemical shifts
 from the parse tree is executed, and the results are used to calculate the
 standard deviation of chemical shift assignments, grouped by residue type
-and atom name; the results are in Figure-\ref{nmrpystar_query}.
+and atom name; see Figure-\ref{nmrpystar_query}.
 
 The key to this example is the flexibility of the library: since it does not
 impose any unnecessary restrictions on its use, it is easily adapted to
@@ -175,7 +177,7 @@ two key pieces to the data: the primary data (time-domain or frequency-domain),
 which is typically in a binary format; and the meta data which records
 important properties such as number of points, dwell time, and spectral width.
 
-As covered earlier, spectral reconstruction involves the sequential application
+Spectral reconstruction involves the sequential application
 of multiple functions, including linear prediction, zero fill, and apodization,
 each of which must be parameterized appropriately, for the purposes of 
 optimizing spectral characteristics such as peak shape, line width, and
@@ -345,7 +347,7 @@ a combinatorial number of different choices can be made, resulting in sample
 schedules with all imaginable kinds of properties.  This removes artificial
 restrictions of what kinds of sample schedules can be constructed, making it
 easier to experiment with various algorithsm.  The general categories of 
-algorithms are:
+algorithms are (see Table-\ref{scheduler_components} for a table):
 \begin{itemize}
   \item coordinate generator.  Responsible for generating N-dimensional time
     delays.  Includes algorithms for generating all combinations within finite
@@ -380,7 +382,9 @@ An example of the program in action is given in Figures \ref{schedule_parameters
 and \ref{schedule_data}.  The first figure shows a parameter file in structured
 text; this is passed in to the program.  The program then generates a sample
 schedule, and writes the schedule out as a file, a part of which is shown in
-the second figure.  Note that the parameter file includes parameters which 
+the second figure (a graphical view of a sample schedule is shown in Figure-\ref{sched1};
+the numbers are delay times in the indirect dimensions which are shown as x- 
+and y-coordinates in the chart).  Note that the parameter file includes parameters which 
 apply to the schedule as a whole, as well as to specific dimensions; the output
 file includes a single line for each set of time increments, and includes the
 associated quadrature components.
@@ -502,6 +506,34 @@ by specifying as few irrelevant details as possible, a software solution gains
 flexibility to be applied in different ways as part of a large program.
  
 
+% tables
+\clearpage
+\section{Tables}
+
+% TODO why not include them all?  might want to break into two tables
+\begin{table}[h]
+  \begin{tabular}{ | c || c | c | }
+    \hline
+      Component category    &  Name         &  Explanation                                          \\  \hline  \hline
+      Point generator       &  Halton       &  generates a sub-random sequence of points            \\  \hline
+      Point generator       &  Poisson gap  &  generates points according to the Poisson gap method \\  \hline
+      Point selector        &  Exponential  &  select points with an exponentially-decaying weight  \\  \hline
+      Point selector        &  Random       &  select points with a random weight                   \\  \hline
+      Quadrature generator  &  All          &  generate all quadrature components for each point    \\  \hline
+      Quadrature generator  &  Single random  &  randomly generate a single quadrature component for each point                 \\  \hline
+      Forced point selector &  First point  &  force the point with the minimum time-delay in each dimension to be collected    \\  \hline
+      Forced point selector &  Last point   &  force the point with the maximum time-delay in each dimension to be collected    \\  \hline
+      Formatter             &  Bruker       &  output the schedule in Bruker format     \\  \hline
+      Formatter             &  Agilent      &  output the schedule in Agilent format    \\  \hline
+      Formatter             &  RNMRTK       &  output the schedule in RNMRTK format     \\  \hline
+      Formatter             &  JSON         &  output the schedule in JSON format       \\  \hline
+    \hline 
+  \end{tabular}
+  \caption{Selected components of the sample scheduler.}
+  \label{scheduler_components}
+\end{table}
+
+
 % figures
 \clearpage
 \section{Figures}
@@ -525,7 +557,10 @@ flexibility to be applied in different ways as part of a large program.
   \includegraphics[scale=0.5]{figures/nmrpystar_bmrb}
   \caption[A code snippet of NMRPyStar]
           {A code snippet of NMRPyStar accessing the BMRB through its API.
-           A file is downloaded, then parsed.}
+           A file is downloaded, then parsed.  Note that in order to use
+           the NMRPyStar library, it need only be imported as a regular
+           library.  It does not require any external dependencies or
+           tedious setup.}
   \label{nmrpystar_bmrb}
 \end{figure}
 
@@ -538,7 +573,10 @@ flexibility to be applied in different ways as part of a large program.
 
 \begin{figure}
   \includegraphics[scale=0.5]{figures/nmrpystar_structure}
-  \caption{The parse tree can be used to extract key NMR information}
+  \caption[The parse tree can be used to extract key NMR information]
+          {The parse tree can be used to extract key NMR information.
+           It is far easier to query a structured tree than to query
+           a flat, unstructured string.}
   \label{nmrpystar_structure}
 \end{figure}
 
@@ -548,8 +586,11 @@ flexibility to be applied in different ways as part of a large program.
           {The results of a query run against the parse tree.
            The query groups the assigned chemical shifts by
            amino acid type and atom name, and calculates the 
-           standard deviation of each group.  The results are
-           sorted by atom name.}
+           standard deviation of each group.  The first column
+           is the amino acid name.  The second column is the atom name.
+           The third column is the number of measurements, and
+           the fourth column is the standard deviation of the
+           measurements.}
   \label{nmrpystar_query}
 \end{figure}
 
