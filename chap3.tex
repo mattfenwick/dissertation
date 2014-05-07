@@ -44,6 +44,10 @@ data upon features of the previous data set: the context of each deduction
 is important, because the exact context determines what deductions may be
 made and the confidence level of each deduction. % TODO an example
 
+% TODO I need to discuss what the intermediate results need to do
+%   i.e. they need to make the process recapitulatable
+%   and this is done by capturing the contexts
+
 The importance of capturing intermediates is due to the dependence of 
 deductions on context: without knowing the context, it is impossible to 
 evaluate the correctness, confidence, and alternative interpretations of
@@ -219,20 +223,94 @@ several additional data types and properties in order to enable
 reproducibility.
 
 \subsection{Intermediate results}
+% TODO needs some expansion and clarification of how this is novel
 The strategy for modelling intermediate results is based on the data models
 of existing version control systems, including Git \cite{loeliger2012git},
-SVN \cite{svn}, and CVS \cite{cvs}.  The
-general properties of the solution are a sequence of snapshots of the data set,
-where associated with each snapshot is a small amount of metadata:
+SVN \cite{svn}, and CVS \cite{cvs}.  The general outline of the solution 
+is a sequence of snapshots of the data set, taken at carefully chosen 
+moments during analysis, which show the full process of analysis by capturing
+all changes.  Each snapshot -- other than the first -- contains a link to
+the previous snapshot, as well as a set of data differences.  The differences
+between snapshots provide the key value of this solution: they explicitly
+show how the data set is changed over time.
+Associated with each snapshot is a small amount of meta data to help describe
+the snapshot, including a timestamp, author information, and a deductive
+annotation, which describes the "why" of the changes and will be covered in
+the next section.
+
+% note that while the basic idea is taken from VCSs, the actual appropriate
+%   use is going to be more heavily dependent on the domain of NMR
+While the general solution is adapted from version control software, in order
+to effectively capture intermediate NMR data sets, such that the process of
+analysis is clear and understandable, the solution must be augmented to fit
+the specific needs of the NMR domain.
+In other words, capturing meaningful intermediate snapshots is challenging; it 
+is not sufficient to capture them indiscriminately.  If snapshots are captured 
+too infrequently, the situtation is not significantly different from current 
+practices: the analysis process will not be reproducible.  If too many snapshots
+are captured, reconstructing the logical dependencies will not be possible;
+in addition, the valuable information may be difficult to identify compared to
+the large amounts of useless information.  A third potential problem is 
+collecting snapshots indiscriminately -- i.e. not in a manner that corresponds
+to the actual process employed.  This, too, prevents later use of the 
+intermediate data because the process has not been correctly captured.
+
+Therefore, there are several principles of intermediate data collection which
+must be observed in order to create a useful data set.  These principles help
+to ensure that snapshots are created neither too often nor too rarely, and
+that they are useful for future perusal:
 \begin{itemize}
- \item timestamp
- \item author
- \item parent, or previous snapshot.  This maintains the order of the 
-  snapshots
+  \item time.
+    Snapshots should be taken often enough that all modifications are captured.
+    For example, when peaks are initially picked by an automated tool, and then 
+    modified (perhaps sorting them into signal, noise, and artifact classifications)
+    by manual adjustment, a snapshot must be taken immediately after the automated
+    peak picker is run, and before any modifications are made.  When additional
+    modifications are made, it is again necessary to take another snapshot before
+    these changes, in order to capture the previous state of the data set -- which
+    is otherwise lost if this is not done.
+  \item content.
+    Each snapshot should have a clear and simple focus on analyzing a single
+    feature or performing a single type of interpretation.  For example, a snapshot
+    should not include changes both to resonance typing and to peak lists if those
+    changes are not inter-dependent.  % this ensure that logical dependencies are recoverable ? ... 
+  \item cohesion.
+    Similarly to the previous point, changes which are inter-dependent belong in
+    the same snapshot.  For example, when assigning GSSs sequentially, assume there
+    are two potentially matching GSSs based on CA and CB resonances, which however
+    have not been specifically assigned i/i-1.  If one GSS is determined to be the
+    first, and the other the second, then the CA(i), CA(i-1), CB(i), and CB(i-1)
+    assignments of the resonances in both spin systems are determined.  These 
+    changes all naturally belong in a single snapshot, since they are logically 
+    co-dependent.
+  \item logical dependencies must be recoverable.
+    The previous two points enable recovery of deductive, logical dependencies.  
+    The sequential process of deduction is the core of manual analysis, and 
+    therefore it is important to capture it clearly.  This means that the 
+    dependencies must be reconstructable from the sequence of intermediate data 
+    sets.
 \end{itemize}
 
-When multiple snapshots are captured, they can be compared,
-and also can be used to track logical dependencies of analysis.
+% devote more space to discussing diffs/comparisons, logical dependencies
+%   what, why, and how.  
+%   also, how the VCS-based solution supports these goals
+The primary goal of capturing intermediate data sets is to 
+facilitate reproducibility by modeling and saving the process of analysis.  
+A system which does so by capturing a sequence of snapshots of the data set 
+at intermediate timepoints meets the requirements for reproducibility.
+First, such a system is able to correctly recapitulate the changes over time
+due to manual and automated analysis.  For example,
+if an automated peak picker were used on a spectrum, and then the results
+manually verified and corrected, if snapshots were taken at the appropriate
+moments, the sequence of snapshots would show both the complete results of
+the automated tool, as well as every manual change made.
+% TODO should I say more here?
+Second, by capturing the full context of each modification, the logical and 
+temporal dependencies between various features of the data set are trackable.
+% TODO what? the following doesn't make much sense
+Additionally, capturing multiple intermediates allows rich comparisons to be made 
+between snapshots.  These comparisons, combined with the deductive annotations,
+indicate the changes made with each specific deductive reason. 
 
 
 \subsection{Deductive reasoning}
@@ -250,7 +328,7 @@ During analysis, one or more rules are applied to make a deduction.  This
 is capture in Figure-\ref{deduction_model}.
 
 % TODO clean up library so that it's usable
-% TODO present most or all of the library, in picture and textual format
+% TODO present most or all of the library in picture and textual format
 
 Here are several commonly used deductive reasons, the full list can be found
 at \url{https://github.com/mattfenwick/PeakPicker/tree/master/library}:
