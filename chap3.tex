@@ -27,24 +27,46 @@ models used in NMR, as well as their limitations and the problems those
 limitations cause for reproducibility of analysis.
 
 \subsection{BMRB: NMR-Star data dictionary}
-Complete documentation may be found online at \url{http://www.bmrb.wisc.edu/dictionary/}.
-%  \item Problem: undeposited data (both primary and meta).  
-%  Current depositions to the BMRB do not include extraneous 
-%  results, intermediates, or deductive meta data.  
+Complete documentation of the NMR-Star data dictionary may be found online 
+at \url{http://www.bmrb.wisc.edu/dictionary/}.
 
-%  \item uncaptured primary and meta data: while contemporary NMR databases, 
-%  such as the BMRB, archive, persist, and disseminate data and analysis 
-%  results of completed structural, dynamics, and binding studies, the 
-%  archived data and analysis do not include full information on GSSs 
-%  and resonances, nor the meta data of manual analysis.  This is because the 
-%  data is thrown away during the analysis process and not available for deposition.
-% remember to blame this on tools and on current practices, and not on the BMRB
+\subsubsection{Peak list}
+A peak list roughty corresponds to an NMR spectrum.  It includes information
+about the spectrum, linking to sample conditions and a pulse sequence, and
+also describes the spectral conditions.  It includes a list of peaks as well.
+
+\subsubsection{Peak}
+A peak is defined as a feature of a peak list, with a dimension for each 
+dimension of the peak list.  Each dimension has a chemical shift value, and
+may have additional characterizations.  The peak as a whole has characterizations
+including intensity.
+
+\subsubsection{Resonance}
+A resonance is used to link a peak dimension to an atom, for a chemical shift
+assignment, by means of a spin system and a residue.  Each peak dimension is
+assigned a resonance, and the resonances are assigned to spin systems, with
+the semantics that they are covalently bound.
+
+\subsubsection{Spin system}
+A spin system is a group of covalently bound resonances.  It may be assigned
+to a protein residue.  It may also be assigned an amino acid type.  It is a
+key intermediary between NMR peaks and the protein.
+
+\subsubsection{Isotope}
+The dimensions of a peak list each target specific isotopes, such as 1H or
+13C.  The atoms of molecule must have these specific nuclei in order to 
+show up in the experiment.
+
+\subsubsection{Molecule, residue and atom}
+These are given standard definitions, compatible with those given by the
+CCPN data model.
+
 
 \subsection{CCPN data model}
 Complete documentation may be found online at
-\url{http://www.ccpn.ac.uk/software/extras/datamodelfolder/datamodel},
-\url{http://www2.ccpn.ac.uk/api-documentation/ccpnmr/ccpnmr2.2/python/doc/api.html},
-and \url{http://www2.ccpn.ac.uk/api-documentation/ccpnmr/ccpnmr2.2/model/doc/ccp/nmr/index.html}.
+\url{http://www.ccpn.ac.uk/software/extras/datamodelfolder/datamodel}.
+% also \url{http://www2.ccpn.ac.uk/api-documentation/}. 
+% also \url{http://www2.ccpn.ac.uk/api-documentation/ccpnmr/ccpnmr2.2/model/doc/ccp/nmr/index.html}
 
 \subsubsection{Spectrum}
 This is called a "DataSource" and corresponds to an NMR spectrum.  It includes
