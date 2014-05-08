@@ -61,11 +61,23 @@ show up in the experiment.
 These are given standard definitions, compatible with those given by the
 CCPN data model.
 
+\subsubsection{Residual dipolar couplings}
+\begin{quote}
+Provides geometric information relative to a common alignment frame.
+\end{quote}
+
+\subsubsection{Deduced hydrogen bond}
+A hydrogen bond constraint deduced from the data set.
+
+\subsubsection{Torsion angle constraint}
+A constraint that describes the orientation between four atoms.
+
 
 \subsection{CCPN data model}
 Complete documentation may be found online at
 \url{http://www.ccpn.ac.uk/software/extras/datamodelfolder/datamodel}.
 % also \url{http://www2.ccpn.ac.uk/api-documentation/}. 
+% also \url{http://www2.ccpn.ac.uk/api-documentation/ccpnmr/ccpnmr2.2/python/doc/api.html}
 % also \url{http://www2.ccpn.ac.uk/api-documentation/ccpnmr/ccpnmr2.2/model/doc/ccp/nmr/index.html}
 
 \subsubsection{Spectrum}
@@ -129,6 +141,24 @@ which are linked to resonances during the process of assignment.
 These are given standard definitions: a protein molecule is a sequence of
 residues, each of which is an instance of an amino acid type such Asparagine
 or Glycine, and are composed of several atoms.
+
+\subsubsection{Dihedral angle constraint}
+\begin{quote}
+Must be assigned to a specific quartet of Resonances. 
+The different Dihedral Constraint Items represent alternative possibilities for 
+dihedral angle values, rather than alternative assignemnts.
+\end{quote}
+
+\subsubsection{Hydrogen bond}
+\begin{quote}
+Constraint (distance constraint) describing a hydrogen bond.
+\end{quote}
+
+\subsubsection{Residual dipolar coupling}
+An alignment between two nuclei which gives an orientation constraint.
+
+\subsubsection{Violation}
+A problem with a structure such that constraint is not satisfied.
 
 
 \section{Missing data and its role in analysis}
@@ -779,18 +809,27 @@ as covering common problems and how they can be avoided.
 % or in the software chapter, or in the 'reproducible data sets' chapter?
 
 
-\section{Archiving reproducible data sets}
-A major portion of the value derived from collecting reproducible data sets
-is disseminating them so that others may obtain and use or inspect the data
-in some way.  The standard means for sharing NMR-derived data is the BMRB
-\cite{bmrb}, which uses the NMR-Star file format.  In order to enable archival
-of reproducible data sets, we have collaborated with the BMRB to extend the
-NMR-Star data dictionary, so that reproducible data sets may be collected and
-deposited in the NMR-Star format.
+\section{Future directions}
+The deductive library is not complete -- it does not include deductions for
+every single possible analysis or interpretation which may be performed on
+NMR data.  Examples include residual dipolar couplings, hydrogen bonds,
+and pseudocontact shift restraints.  However, the library is extensible: it
+can be easily augmented with new deductive reasons.  This is important because
+even if the library were complete today, it would likely still need to be
+extended in the near future to deal with new types of analysis and new data
+types.  Thus, the strength of the approach that has been presented here, and
+its corresponding model, is that the approach is orthogonal to the specific
+datatype under analysis, which allows the library to be extended as necessary.
 
-The NMR-Star data dictionary, which may be found at 
-\url{http://www.bmrb.wisc.edu/dictionary/}, catalogs the names, structure,
-intended use, and definitions of the data types handled by the BMRB.
+A further source of incompleteness is that of tools such as Sparta+, Cheshire, 
+Shifty, CS-Rosetta, and ShiftX2 \cite{sparta+, cheshire, shiftx2, cs-rosetta, shifty}.
+These tools enable new interconnections between various stages of the analysis
+process, creating possibilities for skipping steps or going backwards in the
+process in order to verify that results are consistent with expectations.  
+Effective use of these tools employs several useful deductive rules, similarly
+to manual analysis.  Again, as the deductive library is extensible, it would be
+straightforward to add deductive reasons for incorporating the results of these
+tools into the analysis process.
 
 
 \section{Discussion}
