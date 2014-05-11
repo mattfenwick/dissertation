@@ -13,15 +13,60 @@
 
 
 NMR data analysis is irreproducible because insufficient information is
-captured during the process.  A strategy is needed to facilitate 
-reproducibility of the data analysis process.
-This chapter will describe in more detail the common characteristics of
-the missing data and what role they play as well as why it is important to
-capture them, a model for capturing that data, and a strategy for using
+captured during the process.  
+This chapter will outline the data involved in NMR, and then 
+describe in more detail the missing data, its role and importance, 
+then a model for capturing that data, and a strategy for using
 the model during the analysis process.
 
 
-\section{Current data models}
+\section{An overview of NMR data}
+
+\subsection{Molecule}
+pre-known
+ - sequence, residues, atoms
+ - bond lengths
+desired 
+ - bond angles
+ - coordinates
+
+\subsection{Sample}
+??? concentration, components, preparation ???
+
+\subsection{NMR}
+pre-known
+ - spectrometer
+ - gyromagnetic ratios
+ - pulse sequences
+ - expected peak spin systems
+collected data
+ - 
+spectra
+ - peak: volume
+ - peak dim: position, width, shape
+ - concept of a resonance frequency (same frequency in all experiments)
+unknown
+ - correspondence between resonances and atoms
+
+\subsection{Analysis}
+pre-known
+ - ???
+unknown
+ - GSS
+ - spin system
+
+\subsection{Structure}
+unknown
+ - bond torsion angles
+ - atom coordinates
+data: constraints
+ - h-h distances
+ - torsion angle constraints
+ - RDCs
+
+
+
+\section{Current data models for analysis}
 This section will present a brief outline of the current standard data 
 models used in NMR, as well as their limitations and the problems those
 limitations cause for reproducibility of analysis.
