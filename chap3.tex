@@ -20,49 +20,60 @@ then a model for capturing that data, and a strategy for using
 the model during the analysis process.
 
 
-\section{An overview of NMR data}
+\section{An overview of the data involved}
+As the purpose of NMR is to gain detailed information about the conformations
+and dynamics of molecules at the molecular level, there are two main categories
+of data: 1) data which is already known, before carrying out an NMR-based 
+study, and 2) data which is not known, and the finding out of which is the 
+goal of the study.
 
 \subsection{Molecule}
-pre-known
- - sequence, residues, atoms
- - bond lengths
-desired 
- - bond angles
- - coordinates
+\subsubsection{Known}
+The primary sequence of amino acids, as well as the atoms contained in each
+amino acid, bond lengths between atom pairs, and bond angles are known.
+\subsubsection{Unknown} 
+The three-dimensional coordinates of the atoms, or correspondingly, the
+three-bond torsion angles.  In other words, the structure of the molecule
+is unknown.
 
 \subsection{Sample}
-??? concentration, components, preparation ???
+In protein NMR, the sample is typically carefully prepared so that its contents
+and concentration are known before running any NMR experiments.  In other
+NMR applications, such as small molecule metabolite identification, the sample
+is an unknown.
 
 \subsection{NMR}
-pre-known
- - spectrometer
- - gyromagnetic ratios
- - pulse sequences
- - expected peak spin systems
-collected data
- - 
-spectra
- - peak: volume
- - peak dim: position, width, shape
- - concept of a resonance frequency (same frequency in all experiments)
-unknown
- - correspondence between resonances and atoms
+\subsubsection{Known}
+Information about the spectrometer, including frequency, as well as 
+gyromagnetic ratios of nuclei and pulse sequences.  The pulse sequences
+determine which covalently bond atom groups will be visible in experiments.
+The concept of a resonance -- that the resonance frequency of an atom is 
+more or less a constant -- is known.
+\subsubsection{Collected data}
+The experimental conditions in which data is collected, the sampling schedule,
+and that resonances appear as decaying sinusoids is known.  This last is
+exploited in transforming time-domain data sets to frequency-domain.
+\subsubsection{Processed data}
+Spectra contain peaks, which are characterized to obtain volume and peak
+dimension attributes; peak dimensions are characterized to obtain position
+and widt attributes.
+\subsubsection{Unknown}
+The correspondence between resonances, which appear in NMR spectra as peak
+dimensions, and atoms is not known.  The correspondence between resonances
+and peak dimensions is also not known, and is difficult to determine in the
+presence of ambiguity.
 
 \subsection{Analysis}
-pre-known
- - ???
-unknown
- - GSS
- - spin system
+\subsubsection{Known}
+This is documented fully in the library of deductive reasoning.
+\subsubsection{Unknown}
+The assembly of peaks into GSSs, GSS and resonance typing, sequential
+GSS assignments, and sequence-specific GSS assignments.
 
 \subsection{Structure}
-unknown
- - bond torsion angles
- - atom coordinates
-data: constraints
- - h-h distances
- - torsion angle constraints
- - RDCs
+\subsubsection{Unknown}
+Through the analysis process, structural constraints are obtained.  These 
+constraints include H-H interatomic distances, torsion angles, and RDCs.
 
 
 
