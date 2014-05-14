@@ -25,15 +25,15 @@ is MQIFVKTLTG KTITLEVEPS DTIENVKAKI QDKEGIPPDQ QRLIFAGKQL EDGRTLSDYN IQKESTLHLV 
 according to Swiss-Prot -- of the protein is known.  
 
 \subsubsection{Amino acids}
-The atoms contained in each amino acid (see Table-\ref{alanine_atoms}), 
-bond lengths between atom pairs (see Table-\ref{alanine_bond_lengths}), 
-and bond angles (see Table-\ref{alanine_bond_angles}) are known 
+The atoms contained in each amino acid (see Table \ref{alanine_atoms}), 
+bond lengths between atom pairs (see Table \ref{alanine_bond_lengths}), 
+and bond angles (see Table \ref{alanine_bond_angles}) are known 
 \cite{alanine_sreepad}.
 
 \subsection{NMR}
 
 \subsubsection{Nuclei}
-The gyromagnetic ratio of nucleus (see Table-\ref{gyromagnetic_ratios}) and 
+The gyromagnetic ratio of nucleus (see Table \ref{gyromagnetic_ratios}) and 
 pulse sequences.  
 
 \subsubsection{Time-domain data}
@@ -72,7 +72,7 @@ sinusoid present in the time-domain data.
 
 Spectra contain peaks, which are characterized to obtain volume and peak
 dimension attributes; peak dimensions are characterized to obtain position
-and width attributes (see Figure-\ref{peak_1d}).
+and width attributes (see Figure \ref{peak_1d}).
 
 \subsubsection{Chemical shift statistics}
 Statistics from previously analyzed molecules are maintained by the BMRB
@@ -120,7 +120,12 @@ The set of frequency-domain spectra and the spectral processing workflow
 used to construct them.  Key attributes are the spectral width, or range of
 different frequencies that can be distinguished, and resolution, or the
 ability to distinguish nearby but distinct signals in the frequency domain
-\cite{ernst2004}.
+\cite{ernst2004}.  See Figure \ref{nhsqc} for an example NHSQC spectrum.
+
+\subsubsection{Stereospecific ambiguities}
+Given the set of spectra collected, the atoms in the molecule, and the isotope
+labeling scheme, there may be stereospecifically ambiguous assignments.  See
+Table \ref{stereospecific_ambiguities} for a lost of potential ambiguities.
 
 
 
@@ -128,7 +133,8 @@ ability to distinguish nearby but distinct signals in the frequency domain
 Knowledge which is obtained while analyzing the experimentally collected data.
 % The analysis knowns before beginning the process are covered in the later section describing the library of deductive reasoning.
 
-The assembly of peaks into GSSs, GSS and resonance typing, sequential
+This covers peak picking (see Figure \ref{nhsqc_peaks} for a peak picked spectrum), 
+the assembly of peaks into GSSs, GSS and resonance typing, sequential
 GSS assignments, and sequence-specific GSS assignments.
 In general, the correspondence between resonances, which appear in NMR 
 spectra as peak dimensions, and atoms is not known.  The correspondence 
@@ -180,9 +186,13 @@ N-H group with both nearby CA nuclei; this means that each CA may be correlated
 with two N-H groups, or in other words, may be a part of two GSSs. 
 Third, due to the scalar coupling between N and CO(i-1), correlations to 
 C*(i-1) appear in two pulse sequences of a pair (e.g. HNCACB and CBCA(CO)NH), 
-while C* appear in only the HNCACB.  See Figure-\ref{ccpn_nhsqc}, 
-Figure-\ref{ccpn_hncacb}, Figure-\ref{ccpn_cbcaconh}, Figure-\ref{ccpn_hnco}, 
-Figure-\ref{ccpn_hncaco} for an illustration of the correlated nuclei.
+while C* appear in only the HNCACB.  See Figure \ref{ccpn_nhsqc}, 
+Figure \ref{ccpn_hncacb}, Figure \ref{ccpn_cbcaconh}, Figure \ref{ccpn_hnco}, 
+Figure \ref{ccpn_hncaco}, Figure \ref{ccpn_cconhtocsy}, Figure \ref{ccpn_hcchtocsy},
+Figure \ref{ccpn_hcconhtocsy}, and Figure \ref{ccpn_hbhaconh} for an 
+illustration of the correlated nuclei.  Table \ref{pulse_sequences} tabulates
+the number of distinct measurements of each nucleus can be obtained from
+common pulse sequences.
 
 These characteristics lead to a natural definition of a GSS: a root 
 resonance or resonances, typically an amide H-N group, and additional 
@@ -198,10 +208,10 @@ comprised of a backbone H-N, CO, CA, CB, CO(i-1), CA(i-1), and CB(i-1).
 \subsection{Restraints}
 Through the analysis process, structural constraints are obtained.  These 
 constraints include H-H interatomic distances obtained from NOESY spectra
-(see Figure-\ref{structure_restraints}), residual dipolar couplings (RDCs) 
-(see Figure-\ref{structure_restraints}) which give orientation constraints
+(see Figure \ref{structure_restraints}), residual dipolar couplings (RDCs) 
+(see Figure \ref{structure_restraints}) which give orientation constraints
 between two nuclei, and torsion angles 
-(see Figure-\ref{torsion_angles}) which constrain the orientation of three
+(see Figure \ref{torsion_angles}) which constrain the orientation of three
 adjacent bonds.
 In structural models, it is often the case that some constraints are not 
 satisfied.  These are known as "violations".
@@ -475,7 +485,7 @@ is unknown.
 \end{figure}
 
 \begin{figure}
-  \includegraphics[scale=0.35]{figures/schedule_uniform}
+  \includegraphics[scale=0.5]{figures/schedule_uniform}
   \caption[A uniform sample schedule]
           {A uniform sample schedule.  The gaps between the points
            are constant.  The two axes represent the 
@@ -485,7 +495,7 @@ is unknown.
 \end{figure}
 
 \begin{figure}
-  \includegraphics[scale=0.35]{figures/schedule_nonuniform}
+  \includegraphics[scale=0.5]{figures/schedule_nonuniform}
   \caption[A non-uniform sample schedule]
           {A non-uniform sample schedule.  The gaps between the points
            are not constant.  The two axes represent the 
