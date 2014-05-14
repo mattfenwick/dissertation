@@ -31,120 +31,10 @@ as it facilitates identification of potential
 binding partners based on surfaces as well as actual binding partners based on 
 chemical shifts, and understanding biological processes.
 
-In order to study proteins in solution using NMR, multi-step processes are 
-employed to collect and analyze data.  An example process is shown in 
-Figure-\ref{nmr_overview} as a series of independent stages 
-\cite{guerry2011automated}.
-
-In Figure-\ref{nmr_overview} panel A, 
-the protein/molecule of interest is isolated and a concentrated solution 
-is obtained.  Then, the solution is placed in an NMR spectrometer and an array 
-of time-domain free induction decay (FID)s are collected.  These experiments 
-exploit the coupling constants and characteristic chemical shifts of specific 
-atoms and functional groups in order to correlate chemical shifts of 
-covalently-bound atoms.
-
-In Figure-\ref{nmr_overview} panel B, 
-spectral processing operates on these FID data sets.  They are 
-converted to frequency-domain spectra using tools such as NMRPipe \cite{nmrpipe}
-and the Rowland NMR ToolKit \cite{rnmrtk}.  Functions such as 
-zero-fills, Fourier transforms, phase shifts, apodizations, and linear 
-predictions are applied to the data as a processing pipeline.  These 
-functions are used to ensure that the spectra are amenable to further 
-analysis, by optimizing peak size and shape and minimizing processing 
-artifacts.
-
-In the spectral analysis stage, Figure-\ref{nmr_overview} panel C,
-the goal is to identify the 
-chemical shifts of individual atoms by process known as resonance assignment.
-The spectra may be analyzed using a tool such as XEasy \cite{xeasy}, 
-Sparky \cite{sparky}, NMRViewJ \cite{nmrviewj}, or CCPN Analysis \cite{ccpn}.  
-In each spectrum, peak-picking is performed, and true signal peaks must 
-be identified and separated from peaks caused by noise and artifacts.  
-Additionally, signal peaks caused by contaminants must be identified.  
-Next, GSSs (Generic Spin System) are identified and constructed \cite{ccpn}. 
-A GSS is a network of covalently-bonded resonances visible through 
-overlapping NMR experiments.  GSSs are composed of resonances; a 
-resonance is an NMR-visible signal that corresponds to an atom appearing 
-at a specific chemical shift in one or more experiments \cite{ccpn}.  
-The connectivity of resonances in a GSS is exploited 
-in through-bond experiments.  GSSs then must be assigned 
-connectivities to other GSSs through overlap of mutual resonances, 
-amino acid types, and finally specific residues of the sample of interest. 
-Resonances must also be assigned to specific atoms \cite{ccpn}, 
-with the final result being that specific atoms in the sample of interest 
-are assigned chemical shift values.  Currently, 100\% assignments are not 
-achievable due to several factors such as data quality, ambiguity,
-missing resonances, and metal ions \cite{guerry2011automated}.
-Between 80\% and 95\% completion may be required \cite{williamson2009automated}
-for successful analysis at later stages.
-
-In the final stage, Figure-\ref{nmr_overview} panel D,
-the chemical shift assignments are used to 
-interpret the other class of experimental NMR data, Nuclear Overhauser Effect 
-spectroscopy (NOESY) experiments \cite{noe_kaiser}.  
-NOESY experiments use through-space 
-transfer of magnetization to identify spatially near pairs of Hydrogen nuclei, 
-regardless of the number of chemical bonds between them.  NOESY spectra are 
-processed and peak-picked, similarly to through-bond spectra, and resonance 
-assignments of peaks made.  The resonance assignments of the NOESY data are 
-interpreted to obtain distance restraints, which are then used to calculate 
-coarse-grained three-dimensional structures.  The structures may then be 
-refined and fine-tuned using a computational tool such as Amber \cite{amber}.  
-Unambiguous resonance assignment of NOESY data purely on the basis of chemical 
-shift assignments may often be impossible or impractical, due to degenerate 
-chemical shifts and to non-stereospecific assignments.  While these 
-ambiguities can often be resolved through the collection of additional 
-NMR data, the expense involved in doing so may often make it more practical 
-to attempt to resolve the ambiguities through a structure determination 
-program such as CYANA \cite{cyana2004}.
-
-The massive amount of data involved in a structure determination process --
-often on the order of gigabytes -- necessitates the use of computational
-tools for data management as well as efficiency of analysis.  To address
-specific problems in the NMR analysis process, many software implementations 
-of useful data processing algorithms have been created, distributed, and 
-maintained in recent years 
-(\url{http://nmrbox.org/NMRbox.org/Registry.html}, 
-\url{http://nmrwiki.org/wiki/index.php?title=Category:Software}, 
-\url{http://bmrb.wisc.edu/tools/prog\_corner.shtml}).  
-Additionally, several groups have 
-accelerated the process by producing software tools spanning and integrating 
-multiple steps to decrease the necessity for time-consuming human intervention
-\cite{abacus_assignment}.
-This allows automated or semi-automated structure determination for small 
-proteins.  Other groups have built integrated pipelines, using one specific 
-tool for each step \cite{baran2004automated, sail_flya}, 
-and allowing manual intervention at traditionally 
-difficult stages.  Many recent methods re-envision structure determination 
-as an iterative process, where the results of a later stage may require the 
-researcher to re-evaluate or re-perform an earlier stage \cite{cyana2004}; 
-this has been applied to interpretation of NOE-derived 
-restraints \cite{aria2003}.  Altogether, the structure determination 
-process can often take several months \cite{guerry2011automated}.
-
-In general, while computational tools are able to deliver results relatively 
-quickly compared to manual analysis, they may not be able to produce more 
-accurate results, especially when the input data is low-quality, irregular, or 
-otherwise problematic; this can result in false positives and negatives
-\cite{williamson2009automated}.  This is a problem at every stage of spectral
-analysis.
-
-This has the consequence that NMR structure determination data analysis 
-processes cannot be fully automated if high-quality results are required.  
-An effective solution to this problem combines the strengths of the automated 
-and manual approaches, in a semi-automated fashion:  computational tools are 
-used to quickly perform the majority of analyses such as peak-picking and 
-GSS construction, and manual analysis is used to clear up the 
-relatively small number of cases involving ambiguities and errors caused 
-by problematic or unclear data.  Thus, some amount of manual analysis may 
-be required at all stages of the data analysis process 
-\cite{guntert2009automated, williamson2009automated}.   
-See Figure-\ref{data_key} for an overview of the broad categories of data 
-involved.
 
 
-\section{An Overview of Scientific Methods and Reproducibility}
+
+\section{Scientific Methods and Reproducibility}
 The term "science" can refer to both the enterprise of knowledge acquisition 
 through empirical means, and the body of knowledge acquired through such means 
 \cite{drummond2012reproducible}.
@@ -458,12 +348,6 @@ reproducibility will lead to improvements in quality as well.
 \section{Figures}
 
 \begin{figure}[h]
-  \includegraphics[scale=0.42]{figures/nmr_overview}
-  \caption{An overview of the NMR process for protein structure determination}
-  \label{nmr_overview}
-\end{figure}
-
-\begin{figure}
   \includegraphics[scale=0.5]{figures/scientific_method_pipeline}
   \caption{A scientific method as a sequential, cyclic pipeline}
   \label{scientific_method_pipeline}
