@@ -1,707 +1,364 @@
-\chapter{Software for Practical, Reproducible Analysis}
+\chapter{Reproducible NMR data sets}
 
 \begin{center}
-  \textit{When we had no computers, we had no programming problem either. 
-    When we had a few computers, we had a mild programming problem. Confronted 
-    with machines a million times as powerful, we are faced with a gigantic 
-    programming problem.}
+  \textit{Our responsibility is to do what we can, learn what we can, 
+    improve the solutions, and pass them on.}
 
- - Edsger Dijkstra
+ - Richard Feynman
 \end{center}
 
-\section{Sparky extension}
+% TODO make sure to point out that there's multiple ways to do this
+% there's different NMR-domain approaches
+% but there's also both the git-based and NMR-Star-based approaches
 
-Sparky \cite{sparky} is a popular program for interactive peak picking,
-GSS construction, and chemical shift assignment and is available at
-\url{http://www.cgl.ucsf.edu/home/sparky/}.  Sparky is implemented with
-a core written in C++, and extensions in Python.  It is designed with 
-extensibility as a key goal, and therefore has a convenient API through
-which the core data model can be accessed from Python extensions.  The
-extensions are also able to augment the user interface with additional
-controls, as well as script common operations, and provide extra algorithms
-for analysis.  Since Python is a full-featured programming language, 
-it is also possible to interact with the filesystem, loading and dumping
-data if necessary, as well as calling additional third-party tools.
-Figure-\ref{sparky_gui} shows the Sparky user interface.
-
-% TODO picture, explanation of Sparky data model
-Sparky's data model is show in Figure-\ref{sparky_model}.  It includes 
-entities for spectra, peaks, resonances, GSS, atoms, and molecules, among
-others.  These are the core data that are captured by the extension.
-
-% TODO my extension in general terms.  data, approach, NMR-Star integration
-The extension is intended to help the spectroscopist to capture the 
-missing data mentioned in Chapter 3: intermediate primary data, extraneous
-data, deductive meta data, and notes.  The general approach is to augment
-Sparky's data model with a second, append-only data repository.  The goal
-of this additional model is to keep a record of the complete history of the
-analysis process, and to integrate with the BMRB by producing NMR-Star-compatible
-output containing that information.  Here is a general description of its scope:
-\begin{itemize}
-  \item augmentation of the Sparky data model to prevent data loss.
-    When actions are taken to modify the standard Sparky
-    model, the reproducibility model must record those modifications in such
-    a way as to preserve the history.  Since in general, modifications to
-    the standard Sparky model have undesirable results with respect to losing
-    information -- for example, deleting a peak removes all traces that the
-    peak ever existed -- the reproducibility model must provide a mapping from
-    "standard Sparky" actions to "reproducible Sparky" actions, applying those
-    actions to its contained data.  For example, deleting a peak would be
-    stored as a "delete peak" action, but the peak itself would not be 
-    removed from the reproducible model.
-  \item user interface.  The extension should be easy to use, with minimal
-    overhead.  This means there should be some assistance from the user interface
-    to present important information (such as extraneous data) and possible
-    actions (such as recording a note).
-  \item produce NMR-Star output.  The final goal of creating a reproducible
-    data set is to share and disseminate it, so integration with the BMRB
-    by means of the NMR-Star format is essential.  The data should be exportable
-    as an NMR-Star file, correctly formatted and structured according to the
-    NMR-Star data dictionary (including the newly created extensions for
-    reproducible data).
-  \item load NMR-Star input.  The extension should also be able to read NMR-Star
-    files containing reproducible analysis data.  This ensures that shared 
-    data sets can be manipulated and viewed during or after analysis.
-\end{itemize}
-
-% TODO my extension in implementation-specific terms.  
-%   keyboard accelerator, etc.  
-These requirements were met by implementing a class-based data model in Python
-which provided the necessary features.  The user interface was implemented 
-using functionality provided by standard Python libraries as well as other
-Sparky extensions to create several additional widgets for reproducibility
-functions.  % TODO maybe be more specific about these
-The integration with the NMR-Star format was provided by NMRPyStar, a Python
-library for handling NMR-Star files which is described in the following section.
-% TODO add a screen capture of the extension in action
-
-This Sparky extension is available online at 
-\url{https://github.com/mattfenwick/SparkyExtensions}.  Installation is simple:
-the extension file needs only to be placed in the appropriate directory
-of an existing Sparky installation; see
-\url{http://pine.nmrfam.wisc.edu/PINE-SPARKY/introduction.html}
-for more information.  It is dual-licensed under the MIT and BSD licenses.
-
-Sparky's familiarity, popularity, and extensibility make it an obvious choice
-of platform for implementing reproducble data analysis approaches.  User
-familiarity means that dialogs, menus, shortcuts, and data presentation are
-identical, and therefore there is no learning curve outside of the new
-reproducibility features.  Popularity means that many spectroscopists already
-use Sparky, as evidenced by citations in the BMRB -- Sparky is cited
-405 times in chemical shift assignments 
-(\url{http://www.bmrb.wisc.edu/ftp/pub/bmrb/relational_tables/nmr-star3.1/Chem_shift_software.csv})
-and 1813 times in general software use 
-(\url{http://www.bmrb.wisc.edu/ftp/pub/bmrb/relational_tables/nmr-star3.1/Software.csv}).
-An implicit advantage to the combination of extensibility with widespread 
-familiarity and popularity is that new extensions can be added to a 
-spectroscopist's analysis workflow without requiring a radical retooling of
-the approach: the new extension can be used as much or as little as desired,
-without causing the previous approach to necessarily be completely abandoned.
-In my experience, this is a critical component of software adoption: the
-ability to "play nice" with existing tools, by not creating a dichotomy
-in software choice.
-In summary, implementing a Sparky extension instead of creating a new analysis
-tool from scratch greatly reduces the amount of software that must be written 
-and maintained, allowing the focus to be kept on the real problem at hand,
-which is reproducibility of analysis.
+In order to prove the validity of the approach described in the previous
+chapter, it was applied to typical NMR data in order to solve a protein
+structure.  The process was carried out in full, and sufficient data was
+captured during the process in order to render it reproducible.
 
 
-\section{NMR-Star library}
-NMR-Star is the file format used by the BMRB \cite{bmrb} for archival of
-NMR data.  As such data is useful for further studies, and archiving
-data in the BMRB is the primary means of dissemination, it is important
-to be able to work with NMR-Star files.
+\section{Methods and Materials}
 
-This library facilitates reproducibility by providing a robust interface
-for working with NMR-Star files.  It allows both the creation of NMR-Star 
-files as well as extraction of data -- for further querying -- of existing
-files.  It is used by the previously mentioned Sparky extension.
-
-To handle these files, a library was implemented both in Java 
-\cite{fenwick2013} and in Python.  This library provides capabilities both
-for reading and for writing NMR-Star files.  Although several tools for
-dealing with NMR-Star files had already been implemented \cite{ccpn, bmrb},
-there are several attributes of this library which set it apart:
-\begin{itemize}
-  \item error reporting of illegal input.  When malformed input is encountered,
-    a useful, location-specific error is reported which includes sufficient
-    information to quickly pinpoint and diagnose the problem.
-  \item complete, standards-compliant NMR-Star syntax definition.
-  \item open source under the MIT license.  This allows other interested 
-    developers to peruse the source code to gain ideas, use the library in
-    new applications, and modify and extend the library to fix problems or
-    add new features if necessary.
-  \item low coupling.  As a simple library, in order to use it, the library
-    is simply imported using standard language facilities in order to use
-    it through its programmatic API.  It does not require any external tools
-    or dependencies, reducing the barrier to setup and installation.  It does
-    not require learning to use additional tools or languages, merely the 
-    host language; it takes advantage of the native facilities for abstraction
-    and composition provided by the host language.
-  \item high cohesion.  The library provides a simple, focused interface.
-    This means it is easy to learn and use because it only deals with parsing
-    the concrete syntax of NMR-Star files.
-\end{itemize}
-The library is freely available online (
-\url{https://pypi.python.org/pypi/NMRPyStar}, 
-\url{https://github.com/CONNJUR/StarParser}
-).
-
-An example of NMRPyStar in action is shown in Figure-\ref{nmrpystar_bmrb}.
-As a regular Python library, in order to use it, it only needs to be 
-imported into the client module.  Then, using a library for reading URLs
-(which is bundled with Python distributions), an NMR-Star file is downloaded
-from the BMRB \cite{bmrb}.  The file is then parsed, and a parse tree, 
-representing the structure of the file, is returned; see 
-Figure-\ref{nmrpystar_structure} Figure-\ref{nmrpystar_json}.  
-A parse tree is far easier to run queries against than a flat,
-unstructure string.  Finally, a query to extract the chemical shifts
-from the parse tree is executed, and the results are used to calculate the
-standard deviation of chemical shift assignments, grouped by residue type
-and atom name; see Figure-\ref{nmrpystar_query}.
-
-The key to this example is the flexibility of the library: since it does not
-impose any unnecessary restrictions on its use, it is easily adapted to
-different situations; in this example, to reading NMR-Star files downloaded
-programatically from the BMRB.  This flexibility is enabled by its bottom-up
-design.  The parse tree, which is the output from the parser, holds a 
-representation of the file, and queries are easily run against it.
+Time-domain data of Samp3, a Ubiquitin-like protein, was kindly provided by 
+Dr. Mark Maciejewski.  The data was processed to frequency-domain spectra
+using NMRPipe, and then analyzed first in CCPN Analysis \cite{ccpn} and later 
+in Sparky \cite{sparky}.  A preliminary analysis process used CCPN Analysis,
+along with git and several Python utilities to create and manage the 
+reproducible history.  The final analysis used Sparky, the model and approach
+described in Chapter 3, the extension described in Chapter 5, and the 
+extensions to the NMR-Star data dictionary.  Cyana was used to assign NOEs,
+disambiguate stereospecific assignments, and calculate structure bundles.
+% TODO more detail?  pictures?
 
 
-\section{Connjur-ST}
-The spectral reconstruction phase involves the processing of time-domain 
-FID data to frequency-domain spectra.  There are several approaches for such
-a transformation, including the Fourier Transform, Maximum Entropy reconstruction,
-and Multi-dimensional decomposition \cite{nmrpipe, rnmrtk, mdd}.  There are
-two key pieces to the data: the primary data (time-domain or frequency-domain),
-which is typically in a binary format; and the meta data which records
-important properties such as number of points, dwell time, and spectral width.
+\section{The analysis process}
+Starting from frequency spectra, I carried out standard data analysis,
+with the additional property that the analysis is reproducible.
 
-Spectral reconstruction involves the sequential application
-of multiple functions, including linear prediction, zero fill, and apodization,
-each of which must be parameterized appropriately, for the purposes of 
-optimizing spectral characteristics such as peak shape, line width, and
-signal-to-noise ratio.  In general, the exact effect of each of these operations
-may depend on both the primary data as well as the meta data, and both types of
-data may be modified as well.
+\subsection{Initial peak picking and GSS construction}
+First, the NHSQC and HNCO spectra were peak picked using an automated 
+peak picker -- see Table-\ref{samp3_spectra} for a complete list of spectra
+used.  Then GSSs were built based on NHSQC peaks and matching HNCO peaks
+according to the H and N dimensions.  Peaks either in the NHSQC or HNCO
+which did not match peaks in the other spectra were verfied manually, and
+many were labeled as extraneous and not included in GSSs.
 
-Correct spectral reconstruction requires that the meta data is correctly 
-handled, and reproducibility requires that all of the parameters are captured
-as well (if the exact software versions used are captured, then it is not
-necessary to capture the input and output primary and meta data from each
-operation, since these can be regenerated as needed).  Two recent tools from
-our lab, Connjur-ST \cite{connjur-st} and Connjur-WB, alleviate the
-reproduciblity problem in the area of spectral reconstruction.
+Several sidechain spin systems, including Asparagine, Glutamine, Tryptophan,
+and Arginine, were identified based on either peaks with matching N and C
+chemical shifts but different H shifts, spectral position, or peak intensity
+combined with splitting.
+% TODO could include screen captures of its spectra or something
 
-Connjur-ST, or Spectrum Translator, was designed with the general goal of
-translating between various spectral formats, of which there are many, 
-including Bruker, Varian/Agilent, XEasy, UCSF, RNMRTK, to name a few.  
-It is necessary to convert between multiple formats during spectral 
-reconstruction and analysis because different tools, each of which provides
-valuable functionality, require different formats for input and output.
-Thus, to use tools with differing format requirements, conversion will be
-necessary.  While several tools do exist which implement specific conversions
-between pairs of formats, there was previously no tool able to perform a
-conversion between any two arbitrary formats.  The result was an artificial
-restriction on combinations of tools, due to format constraints.  In addition,
-attempting to remove this restriction by implementing additional tools is not
-a satisfactory solution, because the number of tools required -- if each one
-performs a single conversion -- grows with the square of the number of formats.
-Such a solution clearly requires too much time and effort for initial
-implementation, as well as future maintenance effort.
+\subsection{GSS and resonance typing}
+Analysis continued with peak picking of the HNCACB and C(CO)NH-Tocsy spectra.
+The inclusion of the H and N dimensions allowed these peaks to be added into
+GSSs based on the matching of these two chemical shift values to the
+root peaks of existing GSSs.  There was some H/N overlap which complicated the
+task of unambiguous peak-GSS assignment, but it was mostly resolved through
+the extra Carbon dimensions, which allowed peaks to be identified separately
+and with more precise chemical shift values.
 
-Spectrum Translator addresses this problem by means of a common data model,
-which can be converted to and from any format.  For each format, a single
-importer and a single exporter is required, which deal with conversion between
-the format and Spectrum Translator's common data model.  This reduces the number
-of converters required to the number of formats.  Thus, for translation between
-any of five formats, the number of conversions required is reduced from 25 to
-10 -- a 60\% reduction in the amount of conversions.  The discrepancy is even
-greater when larger numbers of formats are considered.
+The overlap between the two spectra -- peaks of sidechain i-1 Carbons, relative
+to a backbone amide group, appeared in both spectra, while only the i peaks
+appeared in the HNCACB -- allowed for assignment of resonance type of HNCACB
+peaks and some C(CO)NH-Tocsy peaks.  Additionally, for GSSs with more than two
+i-1 Carbon atoms, the C(CO)NH-Tocsy resonance typings were simplified by the
+removal of CA and CB assignment possibilities due to overlap with the HNCACB.
 
-This program is implemented in the Java programming language as an open source
-library available from our website at \url{http://connjur.uchc.edu/downloads/st/}.
-The advantage of using Java is that Java is "write once, run anywhere": Java
-code, once compiled, may run on any Java Virtual Machine (JVM).  JVMs have been
-implemented for many platforms, including Windows, Macintosh, and Linux.
-This enables Spectrum Translator to run without modification on virtually any
-computer.  A further advantage of Java is that as a popular programming 
-language, there are many developers familiar with its syntax, semantics, 
-class libraries, tooling, and deployment.
+The Carbon chemical shifts provided sufficient information for GSS typing
+in many cases.  The number of peaks in C(CO)NH-Tocsy strips also provided 
+information about the typing of the previous GSS, the use of which is described
+in the following section.
 
-Spectrum Translator promotes data integration and consistency through the use
-of a common data model and a single, unified conversion strategy.  It also
-incorporates features for automatically reading meta data, which ease the
-burden of meta data correctness for the user, which helps to ensure that the
-meta data is more correct.  By applying a single interface to any format
-conversion, the program has a smaller learning curve compared to learning
-multiple differing interfaces for multiple tools.
+\subsection{Sequential and residue-specific GSS assignment}
+GSSs were built into sequential chains based on overlap of CA(i) and CB(i) 
+peaks of one GSS with CA(i-1) and CB(i-1) peaks of another.  It was critical
+that the overlap be unambiguous; ambiguous overlaps were deferred until later
+when additional information would provide disambiguation.
+Simultaneously, chains were assigned to residue sequences based on GSS typing
+and chain order matching the residue typing and chain order.  GSS chains
+were often anchored on a Glycine, Serine, Threonine, or Alanine residue due
+to their unique Carbon chemical shifts.
 
-Spectrum Translator has recently been extended to support non-uniform time-domain
-data.  As the Rowland NMR Toolkit format is required in order to use its 
-implementation of Maximum Entropy reconstruction \cite{rnmrtk}, Spectrum
-Translator is an important enabler of the use of the technique, helping to 
-make non-uniform data collection a realistic possibility for users who might
-otherwise face significant hurdles in tooling.
+The whole process was heavily interdependent for several reasons.  First, by
+assigning a GSS chain to specific residues, the typing for the GSSs both
+immediately preceding, and immediately following the first and last GSSs,
+respectively, of the chain were implied; this narrowed the search for further
+GSSs to those either with the appropriate typing, or an unassigned typing but
+with chemical shifts that matched the average BMRB statistics sufficiently 
+well.  It was also necessary that these GSSs were not already assigned as 
+part of a GSS chain because ambiguous assignments were disqualified.
+Second, assigning a GSS chain to residues reduced the number of unassigned
+residues, and therefore the number of possibilities for other unassigned chains
+as well.  It was several times the case that assigning a chain led immediately
+to the assignment of another chain by the process of elimination.  Third,
+assigning GSSs sequentially narrowed the number of places in the sequence that
+could potentially accomodate the chain, both because of the chain-ending
+constraints imposed by Proline residues as well as the necessity of matching
+all GSS typing to residue typing.
 
+\subsection{Sidechain: GSS augmentation and resonance typing}
+The C(CO)NH-Tocsy provided information on the chemical shifts of aliphatic
+sidechain carbons, as covered in the previous section.  The HBHA(CO)NH, 
+HC(CO)NH-Tocsy, and HCCH-Tocsy provided the chemical shifts of aliphatic
+protons, as well as additional corroborating information of aliphatic carbons.
 
-\section{Connjur-WB}
-Connjur-WB, or Workflow Builder, is a tool for spectral reconstruction which
-builds on the successes of tools such as RNMRTK \cite{rnmrtk}, NMRPipe \cite{nmrpipe},
-and Spectrum Translator \cite{connjur-st} by providing additional features
-for data integration, reproducibility, meta data correctness, interactivity,
-and expressiveness of spectral processing pipelines.  While Workflow Builder
-is a standalone tool, it relies on external tools for the actual execution of
-spectral processing functions.  This allows it to capitalize of user's 
-familiarity with and knowledge of existing tools.
+First, these spectra were peak picked, as before, by an automated peak picker.
+The results were then corrected in a coarse validation step, before assembling
+the peaks into GSSs based on matching chemical shifts.  For the HC(CO)NH-Tocsy
+and HBHA(CO)NH spectra, this was based on matching of backbone H and N
+resonances and was unambiguous for the most part.  The HCCH-Tocsy, lacking these
+resonaces, was based on matching to sidechain H and C resonances, and was
+slightly more difficult to interpret due to ambiguities.  
+Average BMRB statistics as well as peak patterns based on prochiral methylene
+groups were sufficient for resonance typing.
+% TODO show some HCCH-Tocsy strips
 
-The general architecture of Workflow Builder is three tiers.  The first is 
-the user-facing Graphical User Interface (GUI).  The GUI is responsible for
-providing an intuitive, obvious, integrated, pleasant, and consistent experience
-to users, and for ensuring that the critical information is present and easily
-accessible.  This layer is implemented using Java's swing library.
-At the other end is the third layer, or back-end, which is
-responsible for data persistence, integrity, and integration.  The back-end
-is implemented as a MySQL relational database management system (RDBMS), in
-which are stored both the spectral meta data and the spectra themselves (if
-desired); information specific to Workflow Builder and its internal model
-of spectral reconstruction is also stored in the database.  The middle layer
-is responsible for mediating the data exchanges between the GUI, the back-end,
-and third-party tools such as RNMRTK and NMRPipe.
+\subsection{Aromatic assignment}
+The two final through-bond experiments, the hbCBcgcdHD and hbCBcgcdceHE, were
+used to find the HD and HE resonances of aromatic sidechains and place them
+into the correct GSS.  The spectra were again peak picked with an automated
+peak picker, and then assigned by matching the C dimension with the previously
+analyzed CB chemical shifts: the GSS with a matching CB(i) resonance was the
+appropriate one.
 
-Workflow Builder allows viewing and modification of spectral meta data, which 
-is important for ensuring correctness.  By capturing the meta data, Workflow
-Builder facilitates reproducibility of spectral reconstruction.  Similar to
-Spectrum Translator, Workflow Builder is implemented in Java, allowing it to
-run anywhere that a JVM does; however, since it uses third-party tools which 
-are platform-dependent, its usefulness on a platform is restricted if those
-additional tools do not run there.  Workflow Builder also allows export of
-spectral reconstruction data in XML and NMR-Star format.  The XML export
-facilitates sharing between peers, while the NMR-Star exporting capabilities
-enables reproducible archival as well.
+\subsection{NOE assignment and structure calculation}
+The four NOESY spectra were peak picked with an automated peak picker.  
+Talos+ \cite{talos+} was run on the chemical shift assignments of the H, HA,
+CA, CB, CO, and N nuclei in order to generate Phi and Psi torsion angle 
+constraints for backbone conformation.
 
-A key component of Workflow Builder's success is its robust model of spectral
-reconstruction, and the presentatio of its model to the user.  Workflow Builder
-treats spectral reconstruction as a workflow composed of actors, which are
-analagous to functions.  Each actor takes as input primary data and meta data,
-and produces primary data and meta data as output.  The actor is responsible
-for presenting the information required for correct parameterization of the
-underlying function, and may contain significant logic and functionality.  A
-notable example is the actor for Maximum Entropy reconstruction:  estimating
-the noise correctly is a prerequisite for Maximum Entropy \cite{mobli2010non};
-this actor is able to both estimate the noise level, as well as parameterize
-the RNMRTK implementation \cite{rnmrtk}.  A portion of the model is shown
-in Figure-\ref{wb_model}.
+Cyana was then run by feeding it the NOESY peak lists, chemical shift
+assignments, torsion angle constraints, and Samp3 sequence.  The script
+used for running Cyana is shown here:
+\begin{verbatim}
+# NOESY peak lists in XEASY format
+peaks       := aromatic_gnoesy_chsqc.pks,aromatic_noesy.pks,
+               D2O_noesy_chsqc.pks,noesy_nhsqc.pks
+# names of chemical shift lists
+prot        := shifts.txt                
+# additional (non-NOE) restraints
+restraints  := aco.aco                   
+# shift tolerances: H, H', C/N', C/N
+tolerance   := 0.04, 0.03, 0.45          
+# number of initial, final structures
+structures  := 100,20                    
+# number of torsion angle dynamics steps
+steps       := 10000                    
+# random number generator seed
+randomseed  := 434726                    
 
-A further benefit of Workflow Builder's approach was noted at a workshop
-hosted at the University of Connecticut Health Center in June, 2012.  For
-beginning NMR spectroscopists, the barrier to entry is rather high.  Not only
-is a large amount of domain knowledge required, but one must also be familiar
-with the incidental complexity of NMR, including idiomatic expressions and
-implicit data.  Workflow Builder was observed to greatly reduce the learning
-curve due to its integration of necessary domain knowledge, explicit handling
-of relevant data, and GUI-based presentation.  While such an interface may 
-not be necessary for experts, beginners stand to gain from using such a 
-tool.
-% TODO add some screenshots
+nproc=8
+
+noeassign peaks=$peaks prot=$prot autoaco
+\end{verbatim}
+After running Cyana once, the output indicated issues with stereospecificity
+of certain assignments (methylene protons, as well as Leucine and Valine
+CG groups).  These assignments were corrected according to Cyana's feedback,
+and Cyana re-run with the corrected stereospecific assignments.
+% TODO show structure output
 
 
-\section{Sample Scheduler}
-The creation of effective sample schedules is an important aspect of efficient,
-non-uniform data collection 
-\cite{maciejewski2011random, rovnyak2004accelerated, mobli2010non}.  There
-are multiple strategies for data collection.  The strategy used to generate
-a sample schedule and the exact sample schedule used to collect time-domain
-data has an effect on the quality of the data and on the ease of later 
-analysis, due to properties such as artifacts (described by the point-spread
-function), resolution, and sensitivity (related to signal-to-noise ratio).
-
-A tool has been implemented to reproducibly capture the parameterizations
-used in sample schedule creation, and is available online at
-\url{https://github.com/mattfenwick/PyScheduler}.  The tool features a 
-collection of popular algorithms for creating non-uniform sample schedules
-with specific, desirable properties.  The algorithms are integrated within
-a single uniform, consistent interface which allows all input parameters
-and outputs to be captured and archived.  It integrates with previous work
-done at UCHC \url{http://sbtools.uchc.edu/nmr/sample_scheduler/}.
-
-The tool implements a data model of sample schedules; see 
-Figure-\ref{schedule_model}.  The model deals with non-uniform quadrature
-(partial component) \cite{maciejewski2011random}, non-uniform time delays, 
-and non-uniform numbers of transients.  To my knowledge, the latter aspect of
-non-uniform data collection remains a relatively unexplored domain, into
-which this tool provides novel data representation capabilities.  In general,
-an N-dimensional sample schedule, which is used for collecting (N+1)-dimensional
-data sets, consists of a collection of N-dimensional pairs, each of which
-has a time delay, represented as a positive integer, as well as a quadrature
-phase, one of R or I.  Associated with each point is the number of transients
-to collect, also modeled as a positive integer.  Within a sample schedule,
-each N-dimensional pair represents a unique point in the space of the sample
-schedule; for example, in a 2-dimensional schedule, the point (2,R),(4,I). 
-
-One of the main strengths of this sample scheduler is its ability to flexibly
-combine multiple different sampling approaches to create a schedule.  This
-flexibility stems from its breakdown of sampling algorithms into independent
-pieces with standard interfaces; by selecting one piece of each category, 
-a combinatorial number of different choices can be made, resulting in sample
-schedules with all imaginable kinds of properties.  This removes artificial
-restrictions of what kinds of sample schedules can be constructed, making it
-easier to experiment with various algorithsm.  The general categories of 
-algorithms are:
-\begin{itemize}
-  \item coordinate generator.  Responsible for generating N-dimensional time
-    delays.  Includes algorithms for generating all combinations within finite
-    N-dimensional bounds, Poisson gap \cite{poissongap} sampling, as well
-    as others.  See Table-\ref{scheduler_point_generators}.
-  \item quadrature generator.  Responsible for generating the quadrature
-    components.  Includes algorithms for full-component generation as well
-    as various partial-component strategies.
-    See Table-\ref{scheduler_quadrature_generators}.
-  \item point selector.  Applies a filter to points based on coordinates,
-    quadrature components, and number of transients, which can be used to create
-    biased sampling schemes, such as exponentially-weighted decay.
-    See Table-\ref{scheduler_point_selectors}.
-  \item point modifier.  Modifies some or all points in a sample schedule, 
-    slightly changing the coordinates of points.  Includes algorithms for
-    bursty \cite{maciejewski2009nonuniform} and blurred 
-    \cite{hoch2008randomization} modifications.
-    See Table-\ref{scheduler_modifiers}.
-  \item special point generator.  Forces the addition of specific points to
-    a sample schedule, such as the first point along each axis.  Such properties
-    are useful when evaluating the quality of spectra.
-    See Table-\ref{scheduler_forced_point_selectors}.
-  \item formatter.  Includes facilities for generating textual output of a 
-    sample schedule in RNMRTK \cite{rnmrtk}, Bruker, JSON, and Agilent formats.
-    See Table-\ref{scheduler_formatters}.
-\end{itemize}
-Creating a sample schedule requires choosing from among the many algorithms 
-available, and supplying the appropriate parameters.  While the various algorithms
-are implemented as functions in standard Python modules, which could be imported
-and used as a simple library, a command-line interface is also included.  The
-interface requires the parameters -- both for choice of algorithm, as well as
-for the algorithms themselves -- to be passed in through an appropriately
-formatted file.  The parameters are then extracted and passed to the appropriate
-algorithms, the sample schedule is constructed, and the output is returned. 
-
-An example of the program in action is given in Figures \ref{schedule_parameters} 
-and \ref{schedule_data}.  The first figure shows a parameter file in structured
-text; this is passed in to the program.  The program then generates a sample
-schedule, and writes the schedule out as a file, a part of which is shown in
-the second figure (a graphical view of a sample schedule is shown in Figure-\ref{sched1};
-the numbers are delay times in the indirect dimensions which are shown as x- 
-and y-coordinates in the chart).  Note that the parameter file includes parameters which 
-apply to the schedule as a whole, as well as to specific dimensions; the output
-file includes a single line for each set of time increments, and includes the
-associated quadrature components.
-
-% TODO point out features like decay, randomness
-%   maybe this should include the text of the schedule, and the parameters too
-This program was also integrated with an existing Java-based program written
-by Mark Maciejewski, Val Gorbatyuk, and Jeffrey Hoch 
-(\url{http://sbtools.uchc.edu/nmr/sample_scheduler/}), in order to leverage
-the Java program's GUI capabilities for parameterizing sample schedule creation,
-as well as displaying sample schedules and pointspread functions.  
-Figure-\ref{sched1} shows a sample schedule created by my tool, by using the
-Java GUI, which is then displayed in the Java GUI.  Note the increasing
-sparsity as time delay increases in both non-uniformly sampled dimensions.
-Figure-\ref{fft1} shows the pointspread function of this sample schedule,
-indicating artifacts that it will create in the frequency domain.  This was 
-calculated using a Fast Fourier Transform, and was also implemented in the
-Java program by Maciejewski, Gorbatyuk and Hoch.  Figure-\ref{sched2} provides
-a comparison to the first sample schedule; the parameterization is identical,
-except that the first points along each axis are all collected (this is an
-example of a special point selector).  This difference causes a noticable 
-change in its pointspread function, seen in Figure-\ref{fft2}.
-
-% TODO mention that it was used to generate data for the PNAS paper
-% TODO add more discussion of the context, significance, and future value
+\section{NMR-Star data set}
+% TODO get the data set
+... under construction ...
+% what should I talk about here?  the various approaches and deductions used?
+% queries performed on the data, that show certain things?
+% the order in which I did things?
 
 
-\section{Discussion and conclusions}
+\section{Archiving reproducible data sets}
+A major portion of the value derived from collecting reproducible data sets
+is disseminating them so that others may obtain and use or inspect the data
+in some way.  The standard means for sharing NMR-derived data is the BMRB
+\cite{bmrb}, which uses the NMR-Star file format.  In order to enable archival
+of reproducible data sets, we have collaborated with the BMRB to extend the
+NMR-Star data dictionary, so that reproducible data sets may be collected and
+deposited in the NMR-Star format.
 
-% open source
-All software discussed in this chapter is available under standard open source
-licenses (either the MIT licence or the LGPL).  These licenses grant the rights
-to inspect the source code, use the code in a program, modify the code, and
-incorporate the code into a larger program.  While I do not believe that it is
-necessary or desirable to force all scientists to publish source code under
-open source licenses, I do believe that there are very real concrete benefits
-to doing so.  
+The NMR-Star data dictionary, which may be found at 
+\url{http://www.bmrb.wisc.edu/dictionary/}, catalogs the names, structure,
+intended use, and definitions of the data types handled by the BMRB.
 
-A major theme of this dissertation is reproducibility and its importance to
-science.  Reproducibility is fostered by explicitness both in data collection
-and analysis, as well as in communication between scientists, of results, 
-protocols, and analyses.  Journal articles are an excellent means for 
-communicating scientific findings, and the goal of such articles is typically
-to include sufficient detail that the findings can be reproduced.  If the
-article does not include sufficient detail, authors are often perfectly willing
-to engage in communication with interested scientists to provide additional
-detail.  However, in many cases, this does not apply to the software used to
-produce a result.  Scientific software is often treated as proprietary 
-intellectual property which may not be shared.  This leads to an interesting
-constrast between the treatment of source code compared to data and experiemental
-protocols.  If it were not for free and open communication of scientific results,
-it is unlikely that science would have progressed as rapidly.  Similarly, by not
-freely sharing source code, I believe that science's progress is restricted. 
-While releasing code under open source licenses is clearly not the only way to
-lift such restrictions, it seems to offer clear benefits to scientists and
-funding agencies alike.
 
-% reproducibility
-The choice for which programs to describe in this section was driven by the
-theme of reproducibility.  All of the programs covered here facilitate and 
-support reproducible data analysis in a very real way.  The Sparky extension
-provides functionality for tracking intermediate, derived, and extraneous data
-during spectral analysis, and integrates with the NMR-Star library for recording
-that data in NMR-Star files for later deposition to the BMRB, where the data is
-made publicly available for dissemination.  Spectrum Translater, Workflow Builder
-and the sample scheduler model and capture the meta data associated with 
-data collection and spectral reconstruction, by making that meta data explicit,
-visible, and modifiable.
+\section{Difficulties encountered}
 
-% explicit data models
-The use of explicit data models provides succinct, precise documentation as to
-the intended use of a program and the semantics of its input and output data.
-The design and dissemination of data models was an important part of the
-implementation of the software programs described in this section.  A data 
-model, expressed as an ER model or in some similar format, provides an
-overview of the core functionality of a program through the data types 
-which it documents.
+NMR data analysis is inherently difficult, as was discussed in previous 
+chapters.  During the analysis of Samp3, I encountered these difficulties 
+many times.  Because my analysis was reproducibly recorded, exactly which
+difficulties I encountered and how I resolved them is explicitly recorded
+in the final data set.  This section will cover several general problems
+as well as specific instances that I encountered, and present the data which
+indicates the resolution.
 
-% bottom-up design
-A critical challenge that must be faced in the development of scientic software
-is the apparent tradeoff between flexibility and adaptability on the one hand,
-and robustness and strong guarantees on the other.  In the first case, the 
-need is driven by the ever-changing nature of the scientific enterprise: as
-new phenomena are discovered and studied, as new techniques and strategies for
-analysis are invented and applied, the requirements of the supporting software
-naturally must be correspondingly updated.  In the second case, scientists 
-need to have at their disposal software which works correctly in order to 
-guarantee accurate and reproducible computational analyses.  Much of the 
-conviction that a software program works correctly comes from the experience 
-of many users applying it; it is difficult to understand whether software 
-works correctly without using it.  Over the course of my studies, I have 
-explored an alternative approach to scientific software development which I 
-believe can help address this issue by resolving the tradeoff.
+\subsection{False positive peaks}
+The automated peak pickers picked several peaks which later turned out to
+be incorrect.  These were often artifactual in natures, but occasionally 
+appeared to be noise.
+% TODO example
+... under construction ...
 
-This technique is known as "bottom-up" \cite{bottomup1994, bottomup2004} design
-(as opposed to "top-down").  The core of this technique of software design is
-to solve small problems simply and completely, and then to build bigger software
- -- whether programs or libraries -- by combining the small solutions.  The
-opposing strategy of top-down design focuses on breaking problems down into 
-smaller problems, and so on, until small enough problems are reached to be 
-implemented directly as code.  While both strategies can lead to successful
-outcomes, the key difference that has been observed is that while top-down
-approaches typically require the solution to be known in advance and do not
-react well to changing requirements, bottom-up solutions are easier to implement
-effectively when the solution is not known in advance, and are also better
-equipped for dealing with changing requirements 
-\cite{topdown_bottomup, bottomup1994, bottomup2004}.  Therefore, it would seem
-that bottom-up software is a more natural fit for science, due to the ever-changing
-software needs of scientists.
+\subsection{False negative peaks}
+The automated peak pickers missed several true peaks -- although overall,
+there were fewer false negatives than false positives, due to my parameterizations
+which intentionally set a low threshold.  I usually was only able to fix
+these by using information from additional spectra, in which a peak would
+be expected to match a peak from the first spectrum.
+% TODO example
+... under construction ...
 
-Such has been my experience.  The tools presented here -- the NMR-Star library,
-the sample scheduler, the Sparky extension, as well as Spectrum Translator and
-Workflow Builder to a limited extent -- have been purposely designed with 
-the bottom-up approach in mind.  The result is a library or tool that is 
-extremely flexible, and readily adapted to different uses; extensions is also
-straightforward.  The key realization encountered while designing these tools
-was the importance of avoiding coupling \cite{coupling1992} whenever possible:
-by specifying as few irrelevant details as possible, a software solution gains
-flexibility to be applied in different ways as part of a large program.
- 
+\subsection{Overlap}
+Overlap was a problem both for correctly identifying and characterizing peaks,
+and for constructing GSSs and assigning peaks into them correctly.
+It was difficult to resolve overlap until late in the analysis process, when
+GSS typing, peak picks from additional spectra, and sequential GSS assignments
+were available.
+% TODO example
+... under construction ...
+
+\subsection{Ambiguous sequential GSS assignments}
+Assigning GSS to GSS sequentially was occasionally ambiguous, on the basis of
+a naive matching algorithm using only HNCACB peaks.  This was because it is
+not always clear from the HNCACB which peaks are CA(i) and CB(i) versus CA(i-1)
+and CB(i-1).  However, by using the C(CO)NH-Tocsy in conjunction with the
+HNCACB, the i/i-1 distinction was mostly resolved.  This left the problem of
+multiple matches, which was eventually solved by taking into account additional
+sequence and GSS typing information.
+% TODO example
+... under construction ...
+
+\subsection{Extraneous GSSs}
+Several unassigned GSSs remain in the data set.  I have not determined whether
+these are due to contaminants, multiple conformations of the Samp3 protein,
+or perhaps they correspond to one of the few remaining unassigned residues.
+However, since they are still in the final data set, and are clearly unassigned,
+it is explicitly made clear that these are an issue.
+% TODO example
+... under construction ...
+
+
+\section{Alternative implementations}
+
+While the approach taken was to create the data set as a single NMR-Star
+file for reasons of compatibility with existing programs and data archival
+and retrieval facilities, there are other solutions to this problem.  This
+section will inspect the strengths and weaknesses of an alternative solution
+which was taken during preliminary stages of this project.
+
+The approach centered around using the open source VCS tool git 
+\cite{loeliger2012git}.  A VCS tool enables the history of filesystem trees,
+typically source code trees of software projects, to be captured in a series
+of successive snapshots.  Git, as a distributed VCS, includes a more robust
+model of snapshot history, which was critical in the success of its 
+application to NMR data analysis.
+
+Using git, multiple snapshots of a JSON or NMR-Star flat text file were
+taken during the analysis process.  Each snapshot was annotated with a 
+JSON formatted string which provided the deductive reasoning behind the change,
+as well as a timestamp, author, and parent commit.  This approach was initially
+employed due to git's intended use aligning very well with the domain problem.
+
+The solution was quite easy, flexible, and robust in practice.  Git is a mature,
+popular tool and therefore it was easy to learn to use, and contains many
+features for creating, tracking and querying the history.  Here is a code 
+snippet that shows how to create and annotate a new snapshot using git; all
+commands are run from a standard shell:
+\begin{verbatim}
+# prepare two files -- peaks and parameters -- for snapshotting
+$ git add nhsqc_peaks.str peak_picker_parameters.str
+
+# create a snapshot, and annotate with a structured reason
+$ git commit -m "{\"reason": "automated Sparky peak picker\"}"
+
+# display the history of commits in the project
+$ git log
+\end{verbatim}
+
+The git approach was the inspiration for the solution eventually employed.
+There is an inherent tradeoff between the two approaches: in the git approach,
+the full data set is spread across multiple snapshots of files, and the meta
+data is also separate from the primary data.  In the NMR-Star based approach,
+all the data, primary and meta, is in a single file.  While the git approach
+makes it easier to query a single snapshot in time, it is more difficult to
+query across multiple snapshots, or meta data.  The single file approach makes
+it more difficult to query a single snapshot (other than the most recent one),
+but easier to query across the complete data set including meta data.  It is
+important to note that these differences are merely incidental, and not 
+fundamental -- the same data is represented and stored in both approaches, it
+is merely writing specific queries that becomes somewhat harder or easier.
+
+Git includes additional features that were not taken advantage of in our
+implementation, which could perhaps prove valuable at some later date.  An
+important example is branches, which allow data analysis to fork and rejoin.
+% TODO need a figure
+This could potentially be useful for interpreting ambiguous or unclear features
+in multiple ways, because it would allow an explicit record of the choice point.
+It could also be useful for error correction, to show the cascading effect of
+an incorrect analysis early in the process.
+
+
+\section{Discussion}
+Applying the reproducibility approach, described in the previous chapter, first
+and foremost proves that the approach is viable: that it can be used to 
+effectively analyze NMR data, and lead to a final data set which is usable.  
+The approach I have applied is not the only one 
+which could possibly be employed; rather, it is one of several.  The principles
+embodied in the approach are to make data explicit -- whether that data is the
+context of a deduction, or the deduction itself, or the motivation behind a
+deduction -- and to capture that data efficiently.  In this respect, it is 
+similar to recording the process of analysis in a lab notebook, except that 
+the data requirements for the electronic "lab notebook" are far larger.
+The overal proof of the effectiveness of such an electronic lab notebook is
+that the relevant information is explicitly captured, such that it is made
+available for later perusal.  This approach does effectively capture such 
+information.  This ground-breaking work also shows how to
+use the approach, including possible pitfalls;  the final, reproducible data
+set is valuable in that it shows what can be achieved through a reproducible
+approach, as well as creating a platform for future work towards enhanced
+reproducibility.
+
 
 % tables
 \clearpage
 \section{Tables}
 
 \begin{table}[h]
-  \begin{tabular}{ | c | c | }
+    \begin{tabular}{ | c || c | c | c | c | c |}
     \hline
-    Halton          &  a sub-random sequence of points            \\  \hline
-    HyperTable      &  a Cartesian product of points              \\  \hline
-    Poisson gap     &  Poisson gap method \\  \hline
-    Poisson disk    &  Poisson disk method  \\  \hline
-    Concentric shell & points on concentric shells               \\  \hline
-    Spiral          &  points spiraling outward from the origin  \\  \hline
-    Radial          &  spokes directed outward from the origin  \\  \hline
-  \end{tabular}
-  \caption{The point generators of the sample scheduler.}
-  \label{scheduler_point_generators}
-\end{table}
-
-\begin{table}[h]
-  \begin{tabular}{ | c | c | }
+      Name  &  Dimension 1  &  Dimension 2  &  Dimension 3  &  Is NOESY?   \\
     \hline
-    All             &  all quadrature components        \\  \hline
-    Single random   &  one randomly chosen component    \\  \hline
-    Just reals      &  the all-real component           \\  \hline
-    FRSB            &  real in dim1, both in dim2       \\  \hline
-  \end{tabular}
-  \caption{The quadrature generators of the sample scheduler for each point.}
-  \label{scheduler_quadrature_generators}
-\end{table}
-
-\begin{table}[h]
-  \begin{tabular}{ | c | c | }
+      NHSQC         & H & N & & No  \\
     \hline
-    All             &  select all points  \\  \hline
-    Exponential     &  exponentially decaying bias  \\  \hline
-    Random          &  random bias  \\  \hline
-    User defined    &  user-define bias equation  \\  \hline
-  \end{tabular}
-  \caption{The point selectors of the sample scheduler.}
-  \label{scheduler_point_selectors}
-\end{table}
-
-\begin{table}[h]
-  \begin{tabular}{ | c | c | }
+      HNCO          & H & N & C & No  \\
     \hline
-    Bursty    &  select additional points around a point  \\  \hline
-    Blurred   &  bump a point in each dimension   \\  \hline
-    None      &  don't make any changes           \\  \hline
-  \end{tabular}
-  \caption{The modifiers of the sample scheduler.}
-  \label{scheduler_modifiers}
-\end{table}
-
-\begin{table}[h]
-  \begin{tabular}{ | c | c | }
+      HNCACB        & H & N & C & No  \\
     \hline
-    None                &  force selection of no points         \\  \hline
-    All lower bounds    &  all points along axes                \\  \hline
-    Point block         &  all points less than given bounds    \\  \hline
-    First point         &  the point with minimum time delays   \\  \hline
-    Last point          &  the point with maximum time delays   \\  \hline
-    Halton              &  a sub-random sequence of points      \\  \hline
-  \end{tabular}
-  \caption{The forced point selectors of the sample scheduler.}
-  \label{scheduler_forced_point_selectors}
-\end{table}
-
-\begin{table}[h]
-  \begin{tabular}{ | c | c | }
+      C(CO)NH-Tocsy & H & N & C & No  \\
     \hline
-    Bruker      &  output schedule in Bruker format  \\  \hline
-    Agilent     &  output schedule in Agilent format  \\  \hline
-    RNMRTK      &  output schedule in RNMRTK format  \\  \hline
-    JSON      &  output schedule in JSON format  \\  \hline
-  \end{tabular}
-  \caption{The formatters of the sample scheduler.}
-  \label{scheduler_formatters}
+      HBHA(CO)NH    & H & N & H & No  \\
+    \hline
+      HC(CO)NH-Tocsy & H & N & C & No  \\
+    \hline
+      HCCH-Tocsy    & H & C & H & No  \\
+    \hline
+      hbCBcgcdHD    & H & C &  & No  \\
+    \hline 
+      hbCBcgcdceHE  & H & C &  & No \\
+    \hline
+      NOESY-NHSQC   & H & N & H & Yes \\
+    \hline 
+      NOESY-CHSQC (D\textsubscript{2}O) & H & C & C & Yes \\
+    \hline 
+      Aromatic NOESY & H & H &  & Yes \\
+    \hline 
+      Aromatic GNOESY-CHSQC & H & C & H & Yes \\
+    \hline 
+    \end{tabular}
+    \caption{Spectra used in Samp3 analysis}
+    \label{samp3_spectra}
 \end{table}
 
 
-
-% figures
 \clearpage
 \section{Figures}
-
-\begin{figure}[h]
-  \includegraphics[scale=0.4]{figures/sparky_gui}
-  \caption{The Sparky GUI, showing an NHSQC spectrum and two menus.}
-  \label{sparky_gui}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.5]{figures/sparky_model}
-  \caption[The Sparky data model]
-          {The Sparky data model showing the key relationships.
-           These data are available from within Sparky extensions.
-           The model was created in MySQLWorkbench.}
-  \label{sparky_model}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.5]{figures/nmrpystar_bmrb}
-  \caption[A code snippet of NMRPyStar]
-          {A code snippet of NMRPyStar accessing the BMRB through its API.
-           A file is downloaded, then parsed.  Note that in order to use
-           the NMRPyStar library, it need only be imported as a regular
-           library.  It does not require any external dependencies or
-           tedious setup.}
-  \label{nmrpystar_bmrb}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.5]{figures/nmrpystar_json}
-  \caption[NMRPyStar produces a parse tree as output]
-          {NMRPyStar produces a parse tree as output, shown here in JSON format}
-  \label{nmrpystar_json}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.5]{figures/nmrpystar_structure}
-  \caption[The parse tree can be used to extract key NMR information]
-          {The parse tree can be used to extract key NMR information.
-           It is far easier to query a structured tree than to query
-           a flat, unstructured string.}
-  \label{nmrpystar_structure}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.5]{figures/nmrpystar_query}
-  \caption[The results of a query run against the parse tree]
-          {The results of a query run against the parse tree.
-           The query groups the assigned chemical shifts by
-           amino acid type and atom name, and calculates the 
-           standard deviation of each group.  The first column
-           is the amino acid name.  The second column is the atom name.
-           The third column is the number of measurements, and
-           the fourth column is the standard deviation of the
-           measurements.}
-  \label{nmrpystar_query}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.35]{figures/wb_model}
-  \caption[Workflow Builder's data model]
-          {Workflow Builder's data model.  Generated with MySQLWorkbench.}
-  \label{wb_model}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.5]{figures/schedule_model}
-  \caption[A data model of sample schedules]
-          {A data model of sample schedules.  Created in MySQLWorkbench.}
-  \label{schedule_model}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.75]{figures/schedule_parameters}
-  \caption{The parameter file input for a sample schedule.}
-  \label{schedule_parameters}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.75]{figures/schedule_data}
-  \caption{A sample schedule generated from the parameter file.}
-  \label{schedule_data}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.5]{figures/sched1}
-  \caption{A graphical view of a sample schedule.}
-  \label{sched1}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.5]{figures/fft1}
-  \caption{A sample schedule for which the first points along
-           each axis are collected.}
-  \label{fft1}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.5]{figures/sched2}
-  \caption{The pointspread function of the sample schedule, 
-           calculated using a real-only FFT.}
-  \label{sched2}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.5]{figures/fft2}
-  \caption{The pointspread function shows a noticable difference.}
-  \label{fft2}
-\end{figure}
 

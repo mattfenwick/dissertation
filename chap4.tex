@@ -1,364 +1,761 @@
-\chapter{Reproducible NMR data sets}
+\chapter{An Approach for Reproducible Analysis}
 
 \begin{center}
-  \textit{Our responsibility is to do what we can, learn what we can, 
-    improve the solutions, and pass them on.}
+  \textit{If you're doing an experiment, you should report everything that 
+    you think might make it invalid - not only what you think is right about it; 
+    other causes that could possibly explain your results; and things you 
+    thought of that you've eliminated by some other experiment, and how they 
+    worked - to make sure the other fellow can tell they have been eliminated.}
 
  - Richard Feynman
 \end{center}
 
-% TODO make sure to point out that there's multiple ways to do this
-% there's different NMR-domain approaches
-% but there's also both the git-based and NMR-Star-based approaches
-
-In order to prove the validity of the approach described in the previous
-chapter, it was applied to typical NMR data in order to solve a protein
-structure.  The process was carried out in full, and sufficient data was
-captured during the process in order to render it reproducible.
 
 
-\section{Methods and Materials}
-
-Time-domain data of Samp3, a Ubiquitin-like protein, was kindly provided by 
-Dr. Mark Maciejewski.  The data was processed to frequency-domain spectra
-using NMRPipe, and then analyzed first in CCPN Analysis \cite{ccpn} and later 
-in Sparky \cite{sparky}.  A preliminary analysis process used CCPN Analysis,
-along with git and several Python utilities to create and manage the 
-reproducible history.  The final analysis used Sparky, the model and approach
-described in Chapter 3, the extension described in Chapter 5, and the 
-extensions to the NMR-Star data dictionary.  Cyana was used to assign NOEs,
-disambiguate stereospecific assignments, and calculate structure bundles.
-% TODO more detail?  pictures?
+NMR data analysis is irreproducible because insufficient information is
+captured during the process.  
+This chapter will outline the data involved in NMR, and then 
+describe in more detail the missing data, its role and importance, 
+then a model for capturing that data, and a strategy for using
+the model during the analysis process.
 
 
-\section{The analysis process}
-Starting from frequency spectra, I carried out standard data analysis,
-with the additional property that the analysis is reproducible.
-
-\subsection{Initial peak picking and GSS construction}
-First, the NHSQC and HNCO spectra were peak picked using an automated 
-peak picker -- see Table-\ref{samp3_spectra} for a complete list of spectra
-used.  Then GSSs were built based on NHSQC peaks and matching HNCO peaks
-according to the H and N dimensions.  Peaks either in the NHSQC or HNCO
-which did not match peaks in the other spectra were verfied manually, and
-many were labeled as extraneous and not included in GSSs.
-
-Several sidechain spin systems, including Asparagine, Glutamine, Tryptophan,
-and Arginine, were identified based on either peaks with matching N and C
-chemical shifts but different H shifts, spectral position, or peak intensity
-combined with splitting.
-% TODO could include screen captures of its spectra or something
-
-\subsection{GSS and resonance typing}
-Analysis continued with peak picking of the HNCACB and C(CO)NH-Tocsy spectra.
-The inclusion of the H and N dimensions allowed these peaks to be added into
-GSSs based on the matching of these two chemical shift values to the
-root peaks of existing GSSs.  There was some H/N overlap which complicated the
-task of unambiguous peak-GSS assignment, but it was mostly resolved through
-the extra Carbon dimensions, which allowed peaks to be identified separately
-and with more precise chemical shift values.
-
-The overlap between the two spectra -- peaks of sidechain i-1 Carbons, relative
-to a backbone amide group, appeared in both spectra, while only the i peaks
-appeared in the HNCACB -- allowed for assignment of resonance type of HNCACB
-peaks and some C(CO)NH-Tocsy peaks.  Additionally, for GSSs with more than two
-i-1 Carbon atoms, the C(CO)NH-Tocsy resonance typings were simplified by the
-removal of CA and CB assignment possibilities due to overlap with the HNCACB.
-
-The Carbon chemical shifts provided sufficient information for GSS typing
-in many cases.  The number of peaks in C(CO)NH-Tocsy strips also provided 
-information about the typing of the previous GSS, the use of which is described
-in the following section.
-
-\subsection{Sequential and residue-specific GSS assignment}
-GSSs were built into sequential chains based on overlap of CA(i) and CB(i) 
-peaks of one GSS with CA(i-1) and CB(i-1) peaks of another.  It was critical
-that the overlap be unambiguous; ambiguous overlaps were deferred until later
-when additional information would provide disambiguation.
-Simultaneously, chains were assigned to residue sequences based on GSS typing
-and chain order matching the residue typing and chain order.  GSS chains
-were often anchored on a Glycine, Serine, Threonine, or Alanine residue due
-to their unique Carbon chemical shifts.
-
-The whole process was heavily interdependent for several reasons.  First, by
-assigning a GSS chain to specific residues, the typing for the GSSs both
-immediately preceding, and immediately following the first and last GSSs,
-respectively, of the chain were implied; this narrowed the search for further
-GSSs to those either with the appropriate typing, or an unassigned typing but
-with chemical shifts that matched the average BMRB statistics sufficiently 
-well.  It was also necessary that these GSSs were not already assigned as 
-part of a GSS chain because ambiguous assignments were disqualified.
-Second, assigning a GSS chain to residues reduced the number of unassigned
-residues, and therefore the number of possibilities for other unassigned chains
-as well.  It was several times the case that assigning a chain led immediately
-to the assignment of another chain by the process of elimination.  Third,
-assigning GSSs sequentially narrowed the number of places in the sequence that
-could potentially accomodate the chain, both because of the chain-ending
-constraints imposed by Proline residues as well as the necessity of matching
-all GSS typing to residue typing.
-
-\subsection{Sidechain: GSS augmentation and resonance typing}
-The C(CO)NH-Tocsy provided information on the chemical shifts of aliphatic
-sidechain carbons, as covered in the previous section.  The HBHA(CO)NH, 
-HC(CO)NH-Tocsy, and HCCH-Tocsy provided the chemical shifts of aliphatic
-protons, as well as additional corroborating information of aliphatic carbons.
-
-First, these spectra were peak picked, as before, by an automated peak picker.
-The results were then corrected in a coarse validation step, before assembling
-the peaks into GSSs based on matching chemical shifts.  For the HC(CO)NH-Tocsy
-and HBHA(CO)NH spectra, this was based on matching of backbone H and N
-resonances and was unambiguous for the most part.  The HCCH-Tocsy, lacking these
-resonaces, was based on matching to sidechain H and C resonances, and was
-slightly more difficult to interpret due to ambiguities.  
-Average BMRB statistics as well as peak patterns based on prochiral methylene
-groups were sufficient for resonance typing.
-% TODO show some HCCH-Tocsy strips
-
-\subsection{Aromatic assignment}
-The two final through-bond experiments, the hbCBcgcdHD and hbCBcgcdceHE, were
-used to find the HD and HE resonances of aromatic sidechains and place them
-into the correct GSS.  The spectra were again peak picked with an automated
-peak picker, and then assigned by matching the C dimension with the previously
-analyzed CB chemical shifts: the GSS with a matching CB(i) resonance was the
-appropriate one.
-
-\subsection{NOE assignment and structure calculation}
-The four NOESY spectra were peak picked with an automated peak picker.  
-Talos+ \cite{talos+} was run on the chemical shift assignments of the H, HA,
-CA, CB, CO, and N nuclei in order to generate Phi and Psi torsion angle 
-constraints for backbone conformation.
-
-Cyana was then run by feeding it the NOESY peak lists, chemical shift
-assignments, torsion angle constraints, and Samp3 sequence.  The script
-used for running Cyana is shown here:
-\begin{verbatim}
-# NOESY peak lists in XEASY format
-peaks       := aromatic_gnoesy_chsqc.pks,aromatic_noesy.pks,
-               D2O_noesy_chsqc.pks,noesy_nhsqc.pks
-# names of chemical shift lists
-prot        := shifts.txt                
-# additional (non-NOE) restraints
-restraints  := aco.aco                   
-# shift tolerances: H, H', C/N', C/N
-tolerance   := 0.04, 0.03, 0.45          
-# number of initial, final structures
-structures  := 100,20                    
-# number of torsion angle dynamics steps
-steps       := 10000                    
-# random number generator seed
-randomseed  := 434726                    
-
-nproc=8
-
-noeassign peaks=$peaks prot=$prot autoaco
-\end{verbatim}
-After running Cyana once, the output indicated issues with stereospecificity
-of certain assignments (methylene protons, as well as Leucine and Valine
-CG groups).  These assignments were corrected according to Cyana's feedback,
-and Cyana re-run with the corrected stereospecific assignments.
-% TODO show structure output
 
 
-\section{NMR-Star data set}
-% TODO get the data set
-... under construction ...
-% what should I talk about here?  the various approaches and deductions used?
-% queries performed on the data, that show certain things?
-% the order in which I did things?
+
+\section{Missing data and its role in analysis}
+% need to cover what the data is, how it plays a role in NMR analysis, 
+% why it's important to capture
+The key deficiencies causing irreproducibility are missing primary data and 
+meta data.  These data are not modeled in the CCPN data model nor in the 
+NMR-Star data dictionary, and therefore are not archived and disseminated.
+Spectral analysis, including peak picking, GSS construction, GSS and resonance
+typing, sequential GSS assignment, and sequence-specific GSS assignment is 
+accomplished using a step-by-step process of deductive reasoning 
+which is often augmented by computational tools.  The computational 
+results may be subject to manual validation, correction, and extension
+\cite{guerry2011automated}.  This section will explore the various types
+of data involved.
 
 
-\section{Archiving reproducible data sets}
-A major portion of the value derived from collecting reproducible data sets
-is disseminating them so that others may obtain and use or inspect the data
-in some way.  The standard means for sharing NMR-derived data is the BMRB
-\cite{bmrb}, which uses the NMR-Star file format.  In order to enable archival
-of reproducible data sets, we have collaborated with the BMRB to extend the
-NMR-Star data dictionary, so that reproducible data sets may be collected and
-deposited in the NMR-Star format.
+\subsection{Deductive process of reasoning}
+Manual modifications are performed using a process similar to deductive 
+reasoning.  It follows a general pattern:
+\begin{enumerate}
+  \item identification: a feature of the data is identified as amenable to 
+    interpretation.  For example, the feature may be a false negative (such as 
+    a signal peak misclassified as noise by the automated peak-picker), a false 
+    positive (such as an artifactual peak misclassified as signal), or an 
+    ambiguity (such as overlapped GSSs, causing clustering algorithms to fail).
+  \item pattern recognition: the spectroscopist identifies a potential method 
+    for interpreting the feature based on his/her domain knowledge of NMR and 
+    experience with interpretation of previous data sets.  For example, such 
+    methods may take the form of deductive rules:  if <the data matches a 
+    certain pattern>, then <it could be interpreted a certain way>. 
+    See Figure-\ref{deduction}.
+  \item application of the rule to the data feature.  The chosen rule is 
+    applied, and the result of the interpretation is included back into the 
+    data set.  The result may now be used to drive further deductions.
+  \item repeat -- go to step 1 to identify features for further interpretations
+    This method is a form of iterative, sequential deduction.  The key components 
+    are the ordered series of steps, the state of the data before and after each 
+    step, and the deductive rules used to make interpretations at each step, as
+    Figure-\ref{deductive_process} shows.  In 
+    addition, it should be noted that the final data set can not be regenerated 
+    using automated tools alone if there are any manual modifications made to 
+    tool output.
+\end{enumerate}
 
-The NMR-Star data dictionary, which may be found at 
-\url{http://www.bmrb.wisc.edu/dictionary/}, catalogs the names, structure,
-intended use, and definitions of the data types handled by the BMRB.
+The information describing the deductive process of reasoning employed in 
+manually interpreting a feature of the primary data is not captured, although
+it is important because it provides the explanation 
+of why something was done.
 
-
-\section{Difficulties encountered}
-
-NMR data analysis is inherently difficult, as was discussed in previous 
-chapters.  During the analysis of Samp3, I encountered these difficulties 
-many times.  Because my analysis was reproducibly recorded, exactly which
-difficulties I encountered and how I resolved them is explicitly recorded
-in the final data set.  This section will cover several general problems
-as well as specific instances that I encountered, and present the data which
-indicates the resolution.
-
-\subsection{False positive peaks}
-The automated peak pickers picked several peaks which later turned out to
-be incorrect.  These were often artifactual in natures, but occasionally 
-appeared to be noise.
+Each deductive reason is an embodiment of NMR-specific knowledge of how to 
+interpret a data feature.  In general, a deductive rule requires an input, 
+produces an output, and has an intuitive justification for its action.
 % TODO example
-... under construction ...
 
-\subsection{False negative peaks}
-The automated peak pickers missed several true peaks -- although overall,
-there were fewer false negatives than false positives, due to my parameterizations
-which intentionally set a low threshold.  I usually was only able to fix
-these by using information from additional spectra, in which a peak would
-be expected to match a peak from the first spectrum.
-% TODO example
-... under construction ...
-
-\subsection{Overlap}
-Overlap was a problem both for correctly identifying and characterizing peaks,
-and for constructing GSSs and assigning peaks into them correctly.
-It was difficult to resolve overlap until late in the analysis process, when
-GSS typing, peak picks from additional spectra, and sequential GSS assignments
-were available.
-% TODO example
-... under construction ...
-
-\subsection{Ambiguous sequential GSS assignments}
-Assigning GSS to GSS sequentially was occasionally ambiguous, on the basis of
-a naive matching algorithm using only HNCACB peaks.  This was because it is
-not always clear from the HNCACB which peaks are CA(i) and CB(i) versus CA(i-1)
-and CB(i-1).  However, by using the C(CO)NH-Tocsy in conjunction with the
-HNCACB, the i/i-1 distinction was mostly resolved.  This left the problem of
-multiple matches, which was eventually solved by taking into account additional
-sequence and GSS typing information.
-% TODO example
-... under construction ...
-
-\subsection{Extraneous GSSs}
-Several unassigned GSSs remain in the data set.  I have not determined whether
-these are due to contaminants, multiple conformations of the Samp3 protein,
-or perhaps they correspond to one of the few remaining unassigned residues.
-However, since they are still in the final data set, and are clearly unassigned,
-it is explicitly made clear that these are an issue.
-% TODO example
-... under construction ...
+Application of these rules provides a rationale for manual modifications.  The
+rationale is a justification that the change modification is correct, as
+well as an indication of why the change was made.  Therefore, capturing the
+deductive rules employed enables verification of the veracity of modifications. 
+It also facilitates knowledge transfer, both in the contexts of collaboration
+and teaching, by providing a meaningful annotation (with reference to the
+domain of NMR) for actions taken.
 
 
-\section{Alternative implementations}
+\subsection{Intermediate results: deductive contexts}
+When the output of a computational tool, whether peak-picking, GSS construction, 
+or sequence-specific GSS assignment, is modified to correct mistakes,
+a discrepancy is introduced between the output of the tool 
+given the input and a suitable parameterization, and the final data set. 
+This indicates that the final results are not the output of a single 
+replicable step, but rather of a series of steps of refinement and 
+modification.  Thus, new data sets are implicitly generated from the previous
+one during the analysis process after every modification, whether manual or automated.
+The application of a deductive rule to modify the data set is sensitive to
+the current state of the data set -- in other words, the validity of the 
+use of a given rule, as well as its effect, depends on the exact state of
+the data set.  Therefore, it is important to record the data context when
+applying a deductive rule.  The rectifies the discrepancy between automated
+tool output and the final data set.  Unfortunately, this data is not recorded.
 
-While the approach taken was to create the data set as a single NMR-Star
-file for reasons of compatibility with existing programs and data archival
-and retrieval facilities, there are other solutions to this problem.  This
-section will inspect the strengths and weaknesses of an alternative solution
-which was taken during preliminary stages of this project.
+With respect to reproducibility, the importance of capturing intermediates is 
+due to the dependence of deductions on context: without knowing the context, 
+it is impossible to evaluate the correctness, confidence, and alternative 
+interpretations of a deduction.  In standard approaches to analysis, the 
+contexts are not captured; they are implicit.  By making the contexts 
+explicit, it becomes possible not only to fully recapitulate the process of 
+analysis, but also to employ error detection and correction strategies by 
+analysis of deductions and their contexts.  An interesting side-effect of 
+capturing contexts is that analysis can be restarted in the middle, by 
+selecting an appropriate context and applying a different deduction.
 
-The approach centered around using the open source VCS tool git 
-\cite{loeliger2012git}.  A VCS tool enables the history of filesystem trees,
-typically source code trees of software projects, to be captured in a series
-of successive snapshots.  Git, as a distributed VCS, includes a more robust
-model of snapshot history, which was critical in the success of its 
-application to NMR data analysis.
+% TODO
+% come up with a simple example that demonstrates: 
+%   1) the dependence of deductive ability on context
+%   2) the concept and utility of multiple snapshots
+%   3) the concept and utility of tracking logical dependencies
 
-Using git, multiple snapshots of a JSON or NMR-Star flat text file were
-taken during the analysis process.  Each snapshot was annotated with a 
-JSON formatted string which provided the deductive reasoning behind the change,
-as well as a timestamp, author, and parent commit.  This approach was initially
-employed due to git's intended use aligning very well with the domain problem.
+Furthermore, during manual analysis and modification of results, when the 
+state of the data is continually being modified and improved, the analyses
+which may be made are dependent upon the data context.
+For example, assignment of a GSS to a residue may allow a further 
+unambiguous assignment of a different GSS to a residue (an assignment 
+which previously would have been ambiguous) by eliminating one of two 
+assignment possibilities based on matching amino acid type.
+% TODO explain better, provide an example
+Implicit in the sequence of data sets are logical dependencies of derived
+data upon features of the previous data set: the context of each deduction
+is important, because the exact context determines what deductions may be
+made and the confidence level of each deduction. 
 
-The solution was quite easy, flexible, and robust in practice.  Git is a mature,
-popular tool and therefore it was easy to learn to use, and contains many
-features for creating, tracking and querying the history.  Here is a code 
-snippet that shows how to create and annotate a new snapshot using git; all
-commands are run from a standard shell:
-\begin{verbatim}
-# prepare two files -- peaks and parameters -- for snapshotting
-$ git add nhsqc_peaks.str peak_picker_parameters.str
-
-# create a snapshot, and annotate with a structured reason
-$ git commit -m "{\"reason": "automated Sparky peak picker\"}"
-
-# display the history of commits in the project
-$ git log
-\end{verbatim}
-
-The git approach was the inspiration for the solution eventually employed.
-There is an inherent tradeoff between the two approaches: in the git approach,
-the full data set is spread across multiple snapshots of files, and the meta
-data is also separate from the primary data.  In the NMR-Star based approach,
-all the data, primary and meta, is in a single file.  While the git approach
-makes it easier to query a single snapshot in time, it is more difficult to
-query across multiple snapshots, or meta data.  The single file approach makes
-it more difficult to query a single snapshot (other than the most recent one),
-but easier to query across the complete data set including meta data.  It is
-important to note that these differences are merely incidental, and not 
-fundamental -- the same data is represented and stored in both approaches, it
-is merely writing specific queries that becomes somewhat harder or easier.
-
-Git includes additional features that were not taken advantage of in our
-implementation, which could perhaps prove valuable at some later date.  An
-important example is branches, which allow data analysis to fork and rejoin.
-% TODO need a figure
-This could potentially be useful for interpreting ambiguous or unclear features
-in multiple ways, because it would allow an explicit record of the choice point.
-It could also be useful for error correction, to show the cascading effect of
-an incorrect analysis early in the process.
+% TODO I need to discuss what the intermediate results need to do
+%   i.e. they need to make the process recapitulatable
+%   and this is done by capturing the contexts
 
 
-\section{Discussion}
-Applying the reproducibility approach, described in the previous chapter, first
-and foremost proves that the approach is viable: that it can be used to 
-effectively analyze NMR data, and lead to a final data set which is usable.  
-The approach I have applied is not the only one 
-which could possibly be employed; rather, it is one of several.  The principles
-embodied in the approach are to make data explicit -- whether that data is the
-context of a deduction, or the deduction itself, or the motivation behind a
-deduction -- and to capture that data efficiently.  In this respect, it is 
-similar to recording the process of analysis in a lab notebook, except that 
-the data requirements for the electronic "lab notebook" are far larger.
-The overal proof of the effectiveness of such an electronic lab notebook is
-that the relevant information is explicitly captured, such that it is made
-available for later perusal.  This approach does effectively capture such 
-information.  This ground-breaking work also shows how to
-use the approach, including possible pitfalls;  the final, reproducible data
-set is valuable in that it shows what can be achieved through a reproducible
-approach, as well as creating a platform for future work towards enhanced
+\subsection{Extraneous results}
+Standard approaches use the 
+assumption that all peaks are true signal, with no provision for storing peaks 
+determined to be processing artifacts or noise.  Such spurious peaks are simply 
+deleted and do not show up in the final results.  This is a problem because the 
+fact that a peak was found, and later interpreted as noise does not show up in 
+the final data set.  The same problem applies to GSSs that are found 
+but can not be assigned to any residue of the sample of interest, or are 
+believed to correspond to atoms of a contaminant.  Such GSSs should 
+be represented in the final data set.
+
+During analysis, some portion of the positive results are not of direct interest
+to the final answer.  Not only peaks, but also resonances and GSSs are included.
+The positive results include both false positives, caused by noise or
+artifacts, and true positives, caused by contaminants.
+
+Although not of direct interest, such extraneous results play a role in 
+the process of analysis: as was covered earlier, when making a manual
+modification, a deductive rule is applied to a context (data set).  Changing 
+the context affects which rules apply and what deductions are made; 
+therefore, as a part of the context, extraneous results matter during analysis. 
+If incorrectly identified or left unrecognized, extraneous features can
+lead to incorrect peak picking, chemical shift assignments, GSSs, and GSS
+assignments.
+
+A further benefit of capturing extraneous results is the ability to distinguish
+between identifying a data feature and interpreting it.  In other words, peaks
+picked during peak picking are treated as positives, this is the "identification"
+phase; in the later "interpretation" phase, these peaks are separated into
+false positives and true positives.  This allows rectification of the 
+discrepancies between uncorrected computational results and the final,
+deposited results as well as marking potentially suspicious results for 
+future perusal.  It should also be noted that picking a peak, then
+interpreting it as extraneous and discarding it is typically not reported in
+final data sets, despite containing important information.
+There is a balance between false positives and false negatives \cite{pine};
+false negatives are more undesirable \cite{pine, saga, guntert2009automated},
+and capturing extraneous results helps to avoid this tradeoff: by reducing
+the cost of a false positive, tools are free to focus on avoiding false
+negatives.
+
+The process of separating positives into false and true is prone to 
+introducing bias; by keeping and reporting the initial results, such bias
+can be estimated.  This is not possible if the extraneous results are not
+reported, and also allows the feature identification phase to proceed
+without bias, since error correction will be applied at a later stage. 
+By providing additional context, it may be possible to estimate the quality 
+of an analysis, where errors may be most likely found in the borderline 
+cases; it will also help assigning confidence levels to datums by not.
+Additional quality measures enabled include the number of peaks found by the
+peak-picker, the number of false positives, the number of peaks assigned to
+GSSs, and the number of GSSs assigned to residues.  It may also be possible
+to estimate contamination, incompleteness and overcompleteness, overfitting, 
+and consistency.
+
+
+\subsection{Notes: incompletions, uncertainties, ambiguities}
+During the course of data analysis, it is often the case that odd, ambiguous,
+abnormal, or otherwise unexpected situations noticed during analysis
+\cite{nuseibeh2000inconsistency}.  
+% TODO however, no record is made, blah blah .... these are valuable b/c blah blah
+As notes indicate the deficiencies and 
+potential problems present in a data set, they are valuable to future 
+perusers as they highlight how a data set is flawed and how it can be improved.
+
+Due to the difficulties inherent in data analysis, situations are reached
+in which the interpretation of a specific feature is problematic:
+\begin{itemize}
+  \item uncertain or impossible.  The evidence for a particular deduction 
+    is not solid.
+  \item ambiguous.  Multiple interpretations of a feature are consistent
+    with the data and satisfy the constraints.  It is not possible to choose
+    between them.
+  \item inconsistent.  The data set is in an inconsistent state, or a 
+    deduction would leave it in an inconsistent state.
+\end{itemize}
+A simple example is non-stereospecific sidechain proton assignments: 
+a residue such as a Histidine or Lysine which has two beta protons will 
+often give rise to two resonances, one for each beta proton; however, 
+without additional information, it is impossible to assign a resonance to
+a specific atom.  A related example is caused by the two delta and epsilon
+protons in Phenylalanine and Tyrosine aromatic sidechains; the two resonances,
+even if distinguishable, can not be uniquely assigned to atoms.  In both
+cases, the ambiguity is resolvable through the use of additional information;
+however, before that additional information is provided, it is useful to be
+able to store what is known -- that there are two peaks, each of which 
+corresonds to one atom, but exactly which is unsure -- as an indication to
+future analysis or perusal that a problem has been identified but not yet
+solved.
+
+% TODO add a picture
+Correctly identifying and characterizing peaks in the presence of significant
+amounts of overlap is a notoriously difficult problem \cite{guerry2011automated}.
+The number, position, and intensity of peaks become distorted by the overlap.
+In such a case, it may not initially be possible to fully and correctly
+resolve the overlap (although later information from additional spectra, such
+as a higher-dimensional spectrum in which the additional dimension removes
+the overlap, may resolve the problem); a note explaining that overlap is
+suspected and that the characterizations may be in error points this out.
+
+% TODO add a picture
+Building unambiguous and complete sequential GSS assignments is complicated 
+when multiple GSSs have the same or nearly the same chemical shift values
+for resonances which are or potentially may be assigned to CA, CB, CO, or the
+corresponding (i-1) atoms.  Leaving a note in the data set describing what
+the ambiguity is ensures that this information is not lost, and is clearly
+marked for re-analysis when more data becomes available.
+% TODO make sure I don't describe the solution in this section -- rather, it should be about the problem !!
+
+
+\section{A Model for Reproducible NMR}
+
+A data model is a means of specifying the structure of information  
+\cite{codd1970relational}.  This
+information may be used as inputs and outputs for computational tools, or
+it may be archived and available for reference use.  Data models are useful
+because they provide a formal specification of the structure, which enables
+unambiguous, correct, and automated use of data.  Data models are
+abstract specifications; they must be implemented in source code in order
+to become a usable artifact.
+
+This section will cover a data model for reproducibility.  Once a data
+model exists, it can be implemented as part of a software program that
+facilitates reproducible data analysis, as will be covered in a later 
+chapter.  The core of this data model is formed by the BMRB \cite{bmrb}
+and CCPN \cite{ccpn} data models.  These models are then extended with
+several additional data types and properties in order to enable 
 reproducibility.
 
 
-% tables
-\clearpage
-\section{Tables}
+\subsection{Deductive reasoning}
+When a data feature is interpreted, a deductive rule is used to provide
+the result, given the input.  In order to support the capture of this data, 
+a model both for the application of a rule to a data set, and for the rules
+themselves, was created.  The rules are modeled as an extensible library of 
+commonly used deductive reasons.  Modeling the rules as an enumerated library 
+enables quick and easy use.  During analysis, one or more rules are applied to 
+make a deduction.  This is shown in Figure-\ref{deduction_model}.
 
-\begin{table}[h]
-    \begin{tabular}{ | c || c | c | c | c | c |}
-    \hline
-      Name  &  Dimension 1  &  Dimension 2  &  Dimension 3  &  Is NOESY?   \\
-    \hline
-      NHSQC         & H & N & & No  \\
-    \hline
-      HNCO          & H & N & C & No  \\
-    \hline
-      HNCACB        & H & N & C & No  \\
-    \hline
-      C(CO)NH-Tocsy & H & N & C & No  \\
-    \hline
-      HBHA(CO)NH    & H & N & H & No  \\
-    \hline
-      HC(CO)NH-Tocsy & H & N & C & No  \\
-    \hline
-      HCCH-Tocsy    & H & C & H & No  \\
-    \hline
-      hbCBcgcdHD    & H & C &  & No  \\
-    \hline 
-      hbCBcgcdceHE  & H & C &  & No \\
-    \hline
-      NOESY-NHSQC   & H & N & H & Yes \\
-    \hline 
-      NOESY-CHSQC (D\textsubscript{2}O) & H & C & C & Yes \\
-    \hline 
-      Aromatic NOESY & H & H &  & Yes \\
-    \hline 
-      Aromatic GNOESY-CHSQC & H & C & H & Yes \\
-    \hline 
-    \end{tabular}
-    \caption{Spectra used in Samp3 analysis}
-    \label{samp3_spectra}
-\end{table}
+The content of the deductive rule library is based on 
+established practices during data analysis \cite{guerry2011automated, hncacb,
+hnco, cbcaconh, hbhaconh, picky, xeasy, sparky, ccpn}.  For each rule, 
+a meaningful name, an explanation of the rule's meaning, its intended use,
+its intended result, and examples was collected.
+
+% TODO clean up library so that it's usable
+% TODO present most or all of the library in picture and textual format
+
+Here are several commonly used deductive reasons; the full list can be found
+at \url{https://github.com/mattfenwick/PeakPicker/tree/master/library}:
+
+\subsubsection{peak position}
+Certain peak position can indicate whether a peak is signal, noise, or an 
+artifact.  These positions include spectral regions that are expected to be 
+empty, and projections of intensity along spectral edges.
+
+\subsubsection{peak intensity}
+Peaks from the same atom may have similar intensities. 
+Signal, noise, and artifacts may have characteristic intensities.
+
+\subsubsection{peak lineshape}
+Peaks from the same atom may have similar lineshapes.
+Signal, noise, and artifacts may have characteristic lineshapes.
+ 
+\subsubsection{peak pattern}
+Phase errors and truncations give rise to characteristic dispersive lineshapes
+and sinc wiggles, respectively.  When using a naive peak picker, these may
+be picked as a series of smaller peaks radiating out from a more intense,
+central peak.
+
+\subsubsection{sign of peak amplitude}
+In some experiments, all true peaks are expected to have the same sign.  In
+other experiments, such as the HNCACB, some peaks are expected to consistently
+have a single sign, and another set of peaks are expected to consistently 
+exhibit the opposite sign.
+
+\subsubsection{chemical shift matching: assign peaks to GSS}
+Based on matching of corresponding peak dimensions, peaks are combined into
+GSSs.  The matching of peaks may be within a single spectrum, or between 
+multiple spectra -- as long as the spectral dimensions match (both nucleus
+and atomtype).  The tolerances allowed are important in determining which
+peaks match.
+
+\subsubsection{chemical shift matching: recognize noise and artifacts}
+A potential signal peak may be recognized as noise or artifactual based on
+missing of matching peaks in other or the same spectra that would be expected
+if it were a true peak.
+
+\subsubsection{chemical shift matching: peak}
+One or more peaks assigned to a GSS may be used to peak a new peak missed by a
+peak picker, based on matching one or more chemical shifts of the existing peaks
+as well as spectral features.
+
+\subsubsection{chemical shift matching: resonance to peak dimension}
+The assignment of a peak dimension to a resonance can be used to assign another
+peak dimension from the same GSS to the same resonance, if the chemical shifts
+match.
+
+\subsubsection{BMRB statistics: resonance typing}
+The atomtype of resonances can often be assigned unambiguously using BMRB
+statistics.  Process of elimination may also be employed.
+
+\subsubsection{sidechain Tryptophan}
+Sidechain Tryptophan GSSs exhibit a characteristic peak pattern with 
+characteristic chemical shifts, which may be found in the BMRB.
+
+\subsubsection{sidechain Asparagine/Glutamine}
+Asparagine and Glutamine produce characteristic peak patterns in H-N-based 
+experiments, due to their two sidechain protons.  These resonances consistently
+appear in the same spectral region, making them easy to identify.
+
+\subsubsection{sidechain Arginine}
+Arginine sidechain GSSs resonate at characteristic chemical shifts, and may
+even be subject to splitting if they appear sufficiently far outside of the
+decoupling band.
+
+\subsubsection{resolve overlap: peak to GSS}
+When peaks overlap, it is difficult to assign them correctly to GSSs.  However,
+the resonances may be resolvable in additional spectra, which then makes it
+possible to return to the first spectrum and correctly resolve its overlap.
+
+\subsubsection{peak sign and GSS type: resonance typing}
+The GSS type and peak sign can be used in conjunction with certain pulse 
+sequences to determine resonance types.  For example, in an HNCACB spectrum, 
+the positive peak of a Glutamine sidechain is a CG and the negative is a CB 
+(or vice versa).
+
+\subsubsection{experiment and GSS type: resonance typing and GSS-peak}
+This is similar to the previous reason.  
+For example, hbCBcgcdHD experiment targets aromatics; a peak from that spectrum
+that matches a GSS not typed as an aromatic, can not be assigned 
+to that GSS.
+
+\subsubsection{backbone Alanine}
+Alanine's CB resonates at a characteristic chemical shift relative to other 
+CB's due to its lack of additional Carbon atoms.
+
+\subsubsection{backbone Gly}
+Glycine's CA resonates at a characteristic chemical shift relative to other
+CA's, and also lacks a CB atom.  In experiments such as an HNCACB or C(CO)NH-Tocsy,
+Glycine strips appear without a CB peak.
+
+\subsubsection{backbone Ser/Thr}
+Serine's and Threonine's CB resonates at a characteristic chemical shift relative
+to other CB's due to the -OH groups.
+
+\subsubsection{chemical shift matching: GSS-GSS and resonance typing}
+Matching Carbon strips from 3-dimensional experiments are used to build 
+sequential GSS assignments and resolve some resonance types simultaneously. 
+For example, given two HNCACB strips, chemical shift matching, and relative 
+intensities, the sequential GSS assignments and CA(i)/CA(i-1) and CB(i)/CB(i-1) 
+resonance typing assignments can be made, such that the following conditions
+are satisfied (note that the last two are not inviolable):
+\begin{itemize}
+  \item i-1 peaks in following ss should be matched by i peaks in preceding ss
+  \item intensity of HNCACB i-1 peaks should usually be less than intensity of i peaks in same ss
+  \item intensity of HNCACB i-1 peaks should usually be less than intensity of matching i peaks in preceding ss
+\end{itemize}
+
+\subsubsection{unexpected peak: peak type}
+A specific number of peaks are expected for a GSS in a given spectrum.
+Extra peaks -- beyond the expected number -- may be artifacts or noise.
+
+\subsubsection{GSS chain and primary sequence: GSS-residue}
+A GSS chain can be assigned to residues based on the amino acid types of the 
+residues and their match to the GSS typings.  It is not necessary that every
+single GSS is unambiguously typed.
+The process of elimination is useful in this deduction; for example, if the
+GSS is an Arginine, and there's only one unassigned Arginine residue remaining,
+the GSS may correspond to the Arginine.
+
+\subsubsection{extend GSS-residue fragment}
+A GSS chain already assigned to specific residues may be extended at the ends.
+In addition to the constraints rules given in 
+"chemical shift matching: GSS-GSS and resonance typing",
+GSS typings must match the residue typing, or the BMRB statistics if untyped.
+
+\subsubsection{BMRB statistics: resonance typing}
+The BMRB average chemical shift stats -- along with the sstype assignment -- 
+are useful for spectra such as the C(CO)NH-Tocsy, HBHA(CO)NH, and 
+HC(CO)NH-Tocsy, where there are multiple peaks in a strip along a Carbon or
+Hydrogen dimension. Most amino acid types feature good dispersion, making it 
+easy to get the correct assignments straight directly from the statistics.
+
+\subsubsection{Tocsy aliphatic sidechain: resonance typing}
+After assigning HNCACB and HBHA(CO)NH spectra, C(CO)NH-Tocsy, HC(CO)NH-Tocsy 
+and HCCH-Tocsy are used in conjunction:
+the C(CO)NH-Tocsy peaks are used to find HCCH-Tocsy strips, which yields proton 
+chemical shifts and match the HC(CO)NH-Tocsy peaks.  Also, each HCCH-Tocsy 
+strip should have peaks in all the same 1H shifts.
+BMRB statistics can be used to assign most peaktypes unambiguously.  
+Splitting patterns also help to identify methylene groups.
+
+\subsubsection{Tocsy peak pattern: resonance typing}
+Several aliphatic C/H groups are difficult to distinguish using BMRB statistics,
+including Leucine's CG, CD1, and CD2, as well as Isoleucine's CG2 and CD1, and
+its QG2 and QD1. These can often be resolved by characteristic intensity 
+patterns for each amino acid type due to the Tocsy nature of experiment,
+as well as the observation that methyl peaks are often sharper and more intense.
+
+\subsubsection{Cyana: stereospecific resonance typing}
+Many pairs of atoms/groups give rise to two peaks which can not be immediately
+assigned unambiguously, although it is known that each atom/group corresponds 
+to one of the peaks, and the other atom/group to the other peak.
+Examples include HB2/HB3 of Y, and QD1/QD2 of L.
+For additional examples of ambiguities see \ref{stereospecific_ambiguities}.
+Cyana can often resolve these ambiguities during structure calculation.
 
 
+\subsection{Intermediate results}
+The general outline of the solution is a model of the process of data analysis,
+consisting of a sequence of snapshots of the data set, taken at carefully chosen 
+moments during analysis, which show the full process of analysis by capturing
+all changes.  Each snapshot -- other than the first -- contains a link to
+the previous snapshot, as well as a set of data differences.  The differences
+between snapshots provide the key value of this solution: they explicitly
+show how the data set is changed over time.
+Associated with each snapshot is a small amount of meta data to help describe
+the snapshot, including a timestamp, author information, and a deductive
+annotation, which describes the "why" of the changes and will be covered in
+the next section.
+
+The core of the strategy is based on that used by Version Control System (VCS) 
+software tools \cite{vcs_concepts, hinsen2009vcs}, which are commonly 
+applied for managing source code of 
+software projects \cite{loeliger2012git, cvs, svn}.  
+These tools were originally implemented in order to manage the change in 
+source code over time, while retaining the ability to easily inspect past 
+states of the code.  It was found that application of such tools led to 
+large increases in productivity, robustness, correctness, and reduced 
+faults \cite{fischer2003vcs}.
+
+While the general solution is adapted from version control software, in order
+to effectively capture intermediate NMR data sets, such that the process of
+analysis is clear and understandable, the solution must be augmented to fit
+the specific needs of the NMR domain.
+In other words, capturing meaningful intermediate snapshots is challenging; it 
+is not sufficient to capture them indiscriminately.  If snapshots are captured 
+too infrequently, the situtation is not significantly different from current 
+practices: the analysis process will not be reproducible.  If too many snapshots
+are captured, reconstructing the logical dependencies will not be possible;
+in addition, the valuable information may be difficult to identify compared to
+the large amounts of useless information.  A third potential problem is 
+collecting snapshots indiscriminately -- i.e. not in a manner that corresponds
+to the actual process employed.  This, too, prevents later use of the 
+intermediate data because the process has not been correctly captured.
+
+Therefore, there are several principles of intermediate data collection which
+must be observed in order to create a useful data set.  These principles help
+to ensure that snapshots are created neither too often nor too rarely, and
+that they are useful for future perusal:
+\begin{itemize}
+  \item time.
+    Snapshots should be taken often enough that all modifications are captured.
+    For example, when peaks are initially picked by an automated tool, and then 
+    modified (perhaps sorting them into signal, noise, and artifact classifications)
+    by manual adjustment, a snapshot must be taken immediately after the automated
+    peak picker is run, and before any modifications are made.  When additional
+    modifications are made, it is again necessary to take another snapshot before
+    these changes, in order to capture the previous state of the data set -- which
+    is otherwise lost if this is not done.
+  \item content.
+    Each snapshot should have a clear and simple focus on analyzing a single
+    feature or performing a single type of interpretation.  For example, a snapshot
+    should not include changes both to resonance typing and to peak lists if those
+    changes are not inter-dependent.  % this ensure that logical dependencies are recoverable ? ... 
+  \item cohesion.
+    Similarly to the previous point, changes which are inter-dependent belong in
+    the same snapshot.  For example, when assigning GSSs sequentially, assume there
+    are two potentially matching GSSs based on CA and CB resonances, which however
+    have not been specifically assigned i/i-1.  If one GSS is determined to be the
+    first, and the other the second, then the CA(i), CA(i-1), CB(i), and CB(i-1)
+    assignments of the resonances in both spin systems are determined.  These 
+    changes all naturally belong in a single snapshot, since they are logically 
+    co-dependent.
+  \item logical dependencies must be recoverable.
+    The previous two points enable recovery of deductive, logical dependencies.  
+    The sequential process of deduction is the core of manual analysis, and 
+    therefore it is important to capture it clearly.  This means that the 
+    dependencies must be reconstructable from the sequence of intermediate data 
+    sets.
+\end{itemize}
+
+% devote more space to discussing diffs/comparisons, logical dependencies
+%   what, why, and how.  
+%   also, how the VCS-based solution supports these goals
+The primary goal of capturing intermediate data sets is to 
+facilitate reproducibility by modeling and saving the process of analysis.  
+A system which does so by capturing a sequence of snapshots of the data set 
+at intermediate timepoints meets the requirements for reproducibility.
+First, such a system is able to correctly recapitulate the changes over time
+due to manual and automated analysis.  For example,
+if an automated peak picker were used on a spectrum, and then the results
+manually verified and corrected, if snapshots were taken at the appropriate
+moments, the sequence of snapshots would show both the complete results of
+the automated tool, as well as every manual change made.
+% TODO should I say more here?
+Second, by capturing the full context of each modification, the logical and 
+temporal dependencies between various features of the data set are trackable.
+% TODO what? the following doesn't make much sense
+Additionally, capturing multiple intermediates allows rich comparisons to be made 
+between snapshots.  These comparisons, combined with the deductive annotations,
+indicate the changes made with each specific deductive reason. 
+
+
+\subsection{Extraneous results}
+Our approach is to allow any number of peaks and GSSs, and to 
+augment them with additional data fields which distinguish between signal, 
+noise, contaminants, etc.  This allows one to make a critical distinction 
+between: 1) finding/recording a peak based purely on characteristics of 
+the spectrum such as volume, height, relative height compared to noise, 
+lineshape, and linewidth, and 2) interpreting a peak as signal, noise, 
+etc. (and the same for GSSs).  Even peaks and GSSs for 
+which no analysis is made can be kept in the data set without encumbering 
+assignment of true peaks and GSSs.
+
+To model extraneous results, the BMRB and CCPN models \cite{bmrb, ccpn}
+were extended to support additional fields which distinguished between 
+extraneous and primary data.
+This applies to peaks, resonances, and GSSs.
+The general approach for using this model is to never directly delete
+a peak, resonance, or GSS, but rather to mark it as extraneous by modifying
+its associated category from 'signal' to 'artifact', 'noise', 'contaminant'
+etc.
+
+For example, while using an interactive spectral analysis such as Sparky or
+CCPN Analysis \cite{sparky, ccpn} for peak picking a spectrum, it is common
+to run the automated, built-in peak picker and then to manually correct the
+results by deleting some peaks and adding new ones.  This approach would
+work differently; peaks would not be deleted.  If the category of each of the
+peaks initially picked by the automated tool were 'signal', then the task of
+the user would be to correct all of the categories for peaks which were 
+determined to be signal or noise; note that these peaks would not be deleted
+from the list.  They would remain in the list but with a different category
+tag that would differentiate them from signal peaks.
+
+A further category of extraneous data is peaks from amino acid sidechains; 
+it is presented in Tables \ref{nhsqc_peaktypes}, \ref{hnco_peaktypes}, 
+\ref{hncacb_peaktypes}, \ref{hbhaconh_peaktypes}, \ref{cconh_peaktypes}, and
+\ref{hcconh_peaktypes}.  While most of the
+peaks in these experiments correspond to backbone covalently bond atom groups, 
+and are used for backbone sequential assignments, many sidechain GSSs are
+visible as well.  Although these peaks are often ignored, they do contain
+useful information.  They also can confound analysis if they are not properly
+recognized as sidechain peaks.  Lastly, their presence is surprising to 
+newcomers to the analysis process, as they are typically not explicitly 
+recognized as part of the standard experiments.
+
+% TODO a pictoral representation of this model
+% TODO examples
+% TODO 
+% CCPN peak pick as initial peak list, then corrections I made as peak list 
+%   where each peak has additional fields
+
+
+\subsection{Notes}
+The key idea is, given the inevitability of such problems during data
+analysis, to create facilities for explicitly recognizing, discussing, 
+and handling such problems \cite{robillard2007concerns}. 
+Several strategies for such an approach 
+are covered in \cite{nuseibeh2000inconsistency} including deferral of the
+problem while flagging it for later follow-up.
+
+To model notes, the BMRB and CCPN models \cite{bmrb, ccpn} were extended
+to support an additional data type: a note.  A note can refer to one or more
+other feature of the data set, and also includes a textual description of
+the nature of the problem, as well as an indication of how the problem might
+be resolved (although that is optional).  As the purpose of a note is to
+explicitly indicate known deficiencies, incompletions, or uncertainties in 
+the data set, wherever and whatever they may be, this approach is able to do
+so.
+% TODO a pictoral representation of this model
+% TODO example: odd feature in data, unable to resolve
+
+Enabling the representation of such data has similarities to the probabilistic
+approach applied by PINE \cite{pine} to great effect.  
+PINE deals with the innate uncertainty of data 
+analysis by resolving the tradeoff between false positives and false 
+negatives through association of a probabilistic confidence metric with each
+feature interpretation; low confidence values are used as evidence that an
+interpretation is suspicious and needs additional verification or data.
+In a complementary approach, capturing notes of analysis issues also 
+resolves the tradeoff for manual analysis, by enabling the association of
+an explanatory or warning message with suspected low-quality deductions.
+In addition, the message may contain more information than a scalar: it may
+necessarily refer to multiple conflicting pieces of the data set in the case
+of a contradiction.
+
+
+
+\section{An implementation of the model}
+% TODO a Sparky extension
+... under construction ...
+
+
+
+\section{Applying reproducible analysis: using the model}
+This section presents some general advice for how to use the reproducibility
+model effectively in practice.  It provides tips and suggestions, as well
+as covering common problems and how they can be avoided.
+
+\begin{itemize}
+  \item one snapshot, one focus.  Keeping each snapshot focused on dealing
+    with a single issue helps the process of analysis to remain understandable
+    to later perusers.  This is because it makes the logical dependencies 
+    more obvious; when a single snapshot contains many unrelated things, or
+    is extensive enough that part of the snapshot depends on other parts, then
+    it is no longer clear what the logical relationships are.  Keeping snapshots
+    small and focused alleviates this issue.
+  \item level of detail.  It is not necessary to exhaustively annotate every
+    last single change; clearly, such an approach would be problematic because
+    it would require far too much time and effort on the part of its users.
+    Rather, the value of this reproducible approach is to clearly indicate 
+    major issues and modifications.  The more important and the more time and
+    brain power went into making a deduction, the more annotation it typically
+    deserves -- in other words, a complicated deduction requires a complicated
+    justification.  On the other hand, if multiple peaks are quickly and
+    straightforwardly identified as artifactual with a minimum of effort, 
+    only a bare minimum of annotation is needed; the deduction does not become
+    clearer with additional annotation.
+  \item apply the correct rule(s).
+  \item record uncertainty and resolution.  When in doubt or difficulty 
+    during analysis, record all information pertaining to the issues, whether
+    as a note or extraneous data.  Even if the problem is easily or quickly
+    solved, describing it creates a record of that problem which is valuable
+    for later perusal.  Trends over such a record help to indicate more 
+    large-scale problems, as well as illuminating troublesome spots for
+    collaborators and learners.
+\end{itemize}
+   
+% maybe talk about the culture of the lab notebook?
+% could this belong in its own chapter?
+% or in the software chapter, or in the 'reproducible data sets' chapter?
+
+
+\section{Future directions}
+The deductive library is not complete -- it does not include deductions for
+every single possible analysis or interpretation which may be performed on
+NMR data.  Examples include residual dipolar couplings, hydrogen bonds,
+and pseudocontact shift restraints.  However, the library is extensible: it
+can be easily augmented with new deductive reasons.  This is important because
+even if the library were complete today, it would likely still need to be
+extended in the near future to deal with new types of analysis and new data
+types.  Thus, the strength of the approach that has been presented here, and
+its corresponding model, is that the approach is orthogonal to the specific
+datatype under analysis, which allows the library to be extended as necessary.
+
+A further source of incompleteness is that of tools such as Sparta+, Cheshire, 
+Shifty, CS-Rosetta, and ShiftX2 \cite{sparta+, cheshire, shiftx2, cs-rosetta, shifty}.
+These tools enable new interconnections between various stages of the analysis
+process, creating possibilities for skipping steps or going backwards in the
+process in order to verify that results are consistent with expectations.  
+Effective use of these tools employs several useful deductive rules, similarly
+to manual analysis.  Again, as the deductive library is extensible, it would be
+straightforward to add deductive reasons for incorporating the results of these
+tools into the analysis process.
+
+
+\section{Discussion}
+By collecting reproducible data sets, the true information content used in
+NMR spectroscopy is made explicit and visible.  This is analogous to how lab
+notebooks are intended to be used in wet-lab work: as a means of recording
+the crucial details describing how an experiment was done, so that the procedure
+can be shared with and improved upon by others.  A key difference, however, is
+that while lab notebooks have been in use for several centuries, the culture
+of reproducibility of digital analysis is still in its infancy: we do not yet
+have much experience with the what, how, and why of reproducibility in 
+electronic media.
+
+The first step is to define the lost data and a model for it.
+Then the model must be applied in practice, and its correct use taught.
+By extending standard existing models, the barrier to entry is greatly reduced,
+and instead of requiring an abrupt and drastic change in the workflows of those
+already using the standard models \cite{bmrb, ccpn}, the change to reproducible
+analysis can be incremental and gradual.  This should help adoption.
+
+Not only will such data sets make the process explicit, they will also help
+make biases explicit.  It is possible that different research groups and
+different analysis techniques have different innate biases; it is quite likely
+that such biases will become obvious through the collection of these full data
+sets.  Each bias will represent an opportunity for learning and for improving
+the quality of analysis.
+
+A natural question to ask of the approach is whether it is able to deal with 
+the various strategies employed in practice by NMR spectroscopists around the
+world.  Is the library of deductive reasoning sufficient for all use cases?
+While it is not possible to prove that the approach is universal, it is not
+necessary to do so.  Rather, it is important to identify the principles of
+NMR data analysis, and embody them into the library.  Furthermore, this risk
+of non-universality has been mitigated by the extensibility of the library:
+although as much was included as was reasonably possible to identify, if 
+a deficiency is found in the library, it can easily be rectified by extending
+it with an additional deductive reason.
+
+
+% figures
 \clearpage
 \section{Figures}
+
+\begin{figure}[h]
+  \includegraphics[scale=0.6]{figures/data_captured}
+  \caption{A subset of generated data is captured}
+  \label{data_captured}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.5]{figures/deduction}
+  \caption{Applying a deductive rule to a data set is a deduction}
+  \label{deduction}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.25]{figures/deductive_process}
+  \caption{The complete manual analysis process is a series of deductions}
+  \label{deductive_process}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.5]{figures/deduction_model}
+  \caption{A relational model of a snapshot and deductions.}
+  \label{deduction_model}
+\end{figure}
 
