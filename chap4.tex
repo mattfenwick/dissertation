@@ -12,6 +12,52 @@
 
 
 
+\section{NMR data analysis is irreproducible}
+Successful achievement of a reproducible NMR study requires reproducibility at 
+each stage of the process.  First, the protocol for expressing, purifying, and 
+preparing the sample of interest for experiments inside the NMR spectrometer 
+must be reproducible, as well as the exact experimental conditions, 
+spectrometer, pulse sequences and collection times used to collect the 
+time-domain data must be captured.  Second, the software, platform, functions, 
+and parameterizations for spectral processing stage must be captured.  
+Third, both the computational results of peak-picking, GSS construction,
+GSS assignment, and resonance assignment as well as any manual changes, 
+along with the associated deductive process of reasoning, must be captured.  
+Fourth, analysis and assignment of NOESY spectra, structure calculation, 
+stereospecific resonance assignment and structure refinement must be captured.  
+This last stage may also include computational as well as manual analysis 
+components.  
+
+This work will focus on reproducibility of the third and fourth stages, 
+spectral analysis and structure determination.  Unfortunately, according to 
+the definition of reproducible NMR given above, these stages are irreproducible.
+
+Much work has been done to capture additional data from the assignment process.  
+The CCPNMR effort, including the significant projects of CCPN Analysis and the 
+CCPN data model \cite{ccpn}, captures a significant portion of final data.
+Other significant efforts include SPINS \cite{baran2006spins}, 
+Sesame \cite{sesame}, and the NESG \cite{nesg2005nmr}.  
+However, much of the previous 
+work in this area has focused on project management rather than reproducibility.
+While SPINS is effective at capturing intermediate and final results, it is 
+only intended for use on primary data files -- it is not designed to capture 
+the key meta data mentioned above.  Sesame is capable of project management; 
+however, it is intended for use in high-throughput studies.  ELNs 
+\cite{rubacha2011eln}, while effective at capturing experimental design and
+data, are not designed to support in-depth analysis, nor are they intended
+to interface with NMR tools.
+
+While the need for integration of automation with occasional manual 
+validation and editing has been recognized \cite{baran2006spins}, no 
+current systems are capable of combining these features with full 
+meta data capturing.  
+What is still missing is an approach and tooling for collecting all the primary 
+data and meta data of NMR spectral analysis and structure determination.  Much 
+time and effort is expended in these stages, but the data is not recorded.  The 
+result is that the final data sets deposited into the BMRB are incomplete.
+
+
+
 NMR data analysis is irreproducible because insufficient information is
 captured during the process.  
 This chapter will outline the data involved in NMR, and then 
