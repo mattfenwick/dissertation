@@ -33,8 +33,9 @@ and bond angles (see Table \ref{alanine_bond_angles}) are known
 \subsection{NMR}
 
 \subsubsection{Nuclei}
-The gyromagnetic ratio of nucleus (see Table \ref{gyromagnetic_ratios}) and 
-pulse sequences.  
+The gyromagnetic ratio of nuclei (see Table \ref{gyromagnetic_ratios}) and 
+pulse sequences.  The gyromagnetic ratio determines the approximate 
+frequency range at which nuclei appear in spectra.
 
 \subsubsection{Time-domain data}
 Resonances appear as decaying sinusoids, and the full data set is a sum of
@@ -80,6 +81,12 @@ Statistics from previously analyzed molecules are maintained by the BMRB
 both amino acid type and atom (see Table \ref{alanine_atoms} for the 
 chemical shift statistics of Alanine).
 
+Chemical shift values are correlated to secondary structure, as described
+by secondary chemical shift statistics \cite{spera1991empirical}.  Chemical 
+shifts are also correlated to three-dimensional structure, as shown by 
+\cite{cheshire}.  However, these methods are not yet developed to the point
+where it is possible to directly calculate a high-resolution structure
+solely from chemical shift assignments.
 
 
 \section{Local prior knowledge}
@@ -91,10 +98,21 @@ performing analysis.
 \subsubsection{Preparation procedure}
 
 \subsubsection{Isotope labeling}
-The specific H, N, and C labeling pattern.
+The specific H, N, and C labeling pattern.  While \textsuperscript{1}H is 
+the most abundant isotopye of hydrogen, and convenient for NMR experiments,
+\textsuperscript{12}C is the most abundant isotope of Carbon and is not 
+NMR-active; \textsuperscript{2}H is not as easy to observe because of
+its nuclear spin value of 1 (as opposed to the proton's spin value of 1/2),
+but can improve the quality of experiments observing nearby protons because,
+in comparison to protons, nearby atoms are afforded fewer relaxation pathways.
+Labeling patterns with specific properties have been implemented to take
+advantage of these different properties, as in \cite{sail_flya}.
+See Table \ref{gyromagnetic_ratios}.
 
 \subsubsection{Sample contents}
 The components present in the sample as well as their concentrations.
+Samples can degrade and aggregate over time, and may be affected by the
+NMR experiments.
 
 \subsection{NMR}
 
@@ -121,6 +139,9 @@ used to construct them.  Key attributes are the spectral width, or range of
 different frequencies that can be distinguished, and resolution, or the
 ability to distinguish nearby but distinct signals in the frequency domain
 \cite{ernst2004}.  See Figure \ref{nhsqc} for an example NHSQC spectrum.
+Whether the data was collected as States, TPPI, or States-TPPI is also 
+important, as it determines where and with what sign aliased peaks will
+appear.
 
 \subsubsection{Stereospecific ambiguities}
 Given the set of spectra collected, the atoms in the molecule, and the isotope

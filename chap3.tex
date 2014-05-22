@@ -1,5 +1,12 @@
 \chapter{A process overview}
 
+\begin{center}
+  \textit{If you can't describe what you are doing as a process, you don't 
+          know what you're doing.}
+
+ - W. Edwards Deming
+\end{center}
+
 This chapter will describe the NMR data analysis process in detail,
 including the roles of computational and manual analysis, their interaction
 with the data types, and tools used in the process.
@@ -422,12 +429,13 @@ correct NOE peak picking and GSS construction as a prerequisite.
 Cyana is able to calculate a three-dimensional structure from NOESY peaks, 
 chemical shift assignments, and distance restraints \cite{cyana2004, aria2003} 
 using an iterative approach to NOESY peak assignment and building structural 
-models.  It also requires secondary structure information as input, which can 
-be calculated from chemical shift assignments using a program such as 
-\cite{talos+}.  Chemical shift assignments may also be used to 
+models.  It also requires secondary structure information as input; as
+chemical shift values are correlated to secondary structure, as described
+by secondary chemical shift statistics \cite{spera1991empirical}, secondary 
+structure can be calculated from chemical shift assignments using a program 
+such as Talos \cite{talos+}.  Chemical shift assignments may also be used to 
 calculate potential structures \cite{cs-rosetta}.  Additional programs 
-may be used to refine structures \cite{amber, xplor-nih}.  This phase 
-generally does not require manual intervention.
+may be used to refine structures \cite{amber, xplor-nih}.
 
 
 
