@@ -264,6 +264,16 @@ by this extension.  It is possible to assign peaks without using the
 reproducibility menu, but if care is not taken when doing so, the peak
 assignments may be incompatible with the extension.
 
+\subsection{Creating an NMR-Star file}
+While the data is stored as standard Sparky-formatted files in a git repository
+during analysis for convenience, after analysis is complete, the project
+may be converted to a single NMR-Star file, containing the complete history
+of the project.  This conversion may be accomplished using a tool which
+automatically extracts each snapshot version from the git repository, 
+parses the snapshot into a data structure,
+calculates semantic diffs between successive snapshots, 
+and finally generates an NMR-Star file containing the data.
+
 
 
 \section{NMR-Star library}
