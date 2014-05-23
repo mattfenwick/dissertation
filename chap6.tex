@@ -12,98 +12,258 @@
 \section{Sparky extension}
 
 Sparky \cite{sparky} is a popular program for interactive peak picking,
-GSS construction, and chemical shift assignment and is available at
-\url{http://www.cgl.ucsf.edu/home/sparky/}.  Sparky is implemented with
-a core written in C++, and extensions in Python.  It is designed with 
-extensibility as a key goal, and therefore has a convenient API through
-which the core data model can be accessed from Python extensions.  The
+GSS construction, and chemical shift assignment.  Sparky is implemented 
+with a C++ core, and Python extensions.  It is designed with
+extensibility in mind, with a convenient Python API through which 
+the core data model can be accessed.  The
 extensions are also able to augment the user interface with additional
 controls, as well as script common operations, and provide extra algorithms
 for analysis.  Since Python is a full-featured programming language, 
 it is also possible to interact with the filesystem, loading and dumping
 data if necessary, as well as calling additional third-party tools.
 Figure-\ref{sparky_gui} shows the Sparky user interface.
+% TODO have to get a real screen capture!
 
-% TODO picture, explanation of Sparky data model
-Sparky's data model is show in Figure-\ref{sparky_model}.  It includes 
-entities for spectra, peaks, resonances, GSS, atoms, and molecules, among
-others.  These are the core data that are captured by the extension.
-
-% TODO my extension in general terms.  data, approach, NMR-Star integration
 The extension is intended to help the spectroscopist to capture the 
-missing data mentioned in Chapter 3: intermediate primary data, extraneous
+missing data of analysis: intermediate primary data, extraneous
 data, deductive meta data, and notes.  The general approach is to augment
-Sparky's data model with a second, append-only data repository.  The goal
-of this additional model is to keep a record of the complete history of the
-analysis process, and to integrate with the BMRB by producing NMR-Star-compatible
-output containing that information.  Here is a general description of its scope:
+Sparky's data model.
+
+\subsection{Sparky notes}
+Once the project is loaded, use the "re" shortcut to bring up the 
+reproducibility menu.  "js", "jc", and "jo" -- save project, close project,
+and open project -- are also very useful shortcuts.
+
+\subsection{Concepts}
+No automated algorithm is perfect in the NMR process.  Automated peak picking,
+GSS construction, and GSS-residue assignment needs manual validation and
+correction.  The main goal of this extension is to support these manual
+modifications in such a way that the modifications are captured in full so
+as to be recapitulable at a later time.
+
+The process of manual analysis is composed of a series of discrete steps.
+At each step, a deductive rule is applied to the data set, producing a
+modified new data set.  Thus, for each rule, knowing the context is important:
+it allows one to determine how appropriate the application of a specific rule
+is, as well as what the results should be, and to determine whether the 
+results are consistent with expectations.
+
+\subsection{GSS and resonance}
+Sparky's data model is shown in Figure-\ref{sparky_model}.  It includes 
+entities for spectra, peaks, resonances, GSS, atoms, and molecules, among
+others.  Sparky does not natively distinguish between a GSS (generic spin 
+system) and a residue, nor between a resonance and an atom.
+
+Both GSSs and resonances have been implemented in the extension, based 
+on the CCPN model \cite{ccpn}.
+
+\subsection{Extraneous data}
+In standard analysis, false positive peaks (picked as true peaks initially,
+but later determined to be noise or artifactual) and false positive spin 
+systems (not assigned to any residue) are typically deleted and/or ignored.
+In this extension, \textbf{data is never deleted}.  Such results are kept,
+since they have valuable information content, even if they are not used for
+the immediate purpose of the analysis process (be it structure or dynamics
+determination).  These results are kept by, instead of deleting them, 
+explicitly marking them as not of interest, and placed in a different
+category.
+
+\subsection{Snapshots}
+Snapshots of intermediate states during analysis are used to enable rehashing
+of the deductive process.  In general, by capturing a snapshot of the data set
+each time a deductive rule is applied, the context of each manual modification
+is captured.
+
+An additional benefit of capturing snapshots is that they allow one to go 
+backward in time.  This is useful for understanding what happened and
+why, but is also useful for fixing mistakes and accidents -- this is
+important because Sparky does not really have the capability to undo
+changes.  If a datum is accidentally gets changed: 1) it may not even
+be noticed, and 2) it is probably impossible to easily restore.  By capturing
+snapshots, both of these problems are trivially solved.
+
+\subsection{Deductive reasoning}
+Capturing the deductive rules applied during the process of manual assignment
+provides semantic information about what is being done and why.  This makes it
+far more meaningful to examine the sequence of snapshots of an analysis
+process and determine the context.
+
+\subsection{Prerequisites}
+The Sparky program, available at 
+\url{http://pine.nmrfam.wisc.edu/download_packages.html}, 
+the reproducibility extension, available at 
+\url{https://github.com/mattfenwick/SparkyExtensions/})
+and git, available at \url{http://git-scm.com/downloads}
+are required.
+
+\subsection{Setup}
+Create an empty git repository.  Move to the directory of your choice, and
+run:
+\begin{verbatim}
+$ git init
+$ mkdir Projects/
+$ mkdir Save/
+$ mkdir Data/
+\end{verbatim} 
+to create and initialize the repository.  
+Save all spectra files in the "Data/" directory.
+When in Sparky, save the project in the "Projects/" directory.
+The Sparky .save files will automatically be written into the "Save/"
+directory.
+
+\subsection{Capturing a snapshot}
 \begin{itemize}
-  \item augmentation of the Sparky data model to prevent data loss.
-    When actions are taken to modify the standard Sparky
-    model, the reproducibility model must record those modifications in such
-    a way as to preserve the history.  Since in general, modifications to
-    the standard Sparky model have undesirable results with respect to losing
-    information -- for example, deleting a peak removes all traces that the
-    peak ever existed -- the reproducibility model must provide a mapping from
-    "standard Sparky" actions to "reproducible Sparky" actions, applying those
-    actions to its contained data.  For example, deleting a peak would be
-    stored as a "delete peak" action, but the peak itself would not be 
-    removed from the reproducible model.
-  \item user interface.  The extension should be easy to use, with minimal
-    overhead.  This means there should be some assistance from the user interface
-    to present important information (such as extraneous data) and possible
-    actions (such as recording a note).
-  \item produce NMR-Star output.  The final goal of creating a reproducible
-    data set is to share and disseminate it, so integration with the BMRB
-    by means of the NMR-Star format is essential.  The data should be exportable
-    as an NMR-Star file, correctly formatted and structured according to the
-    NMR-Star data dictionary (including the newly created extensions for
-    reproducible data).
-  \item load NMR-Star input.  The extension should also be able to read NMR-Star
-    files containing reproducible analysis data.  This ensures that shared 
-    data sets can be manipulated and viewed during or after analysis.
+  \item save the project ("js")
+  \item type in the appropriate deductive reason in the "deductive reason used"
+    text box
+  \item click the "make snapshot" button
 \end{itemize}
+This will use git to create a new snapshot.  At any time, the contents of
+the git repo can be examined using the terminal and the file browser.  Git
+supports many features for examining and manipulating history.  These may
+all be accessed from the terminal.
 
-% TODO my extension in implementation-specific terms.  
-%   keyboard accelerator, etc.  
-These requirements were met by implementing a class-based data model in Python
-which provided the necessary features.  The user interface was implemented 
-using functionality provided by standard Python libraries as well as other
-Sparky extensions to create several additional widgets for reproducibility
-functions.  % TODO maybe be more specific about these
-The integration with the NMR-Star format was provided by NMRPyStar, a Python
-library for handling NMR-Star files which is described in the following section.
-% TODO add a screen capture of the extension in action
+\subsection{Peak picking and signal/noise/artifact identification}
+Use standard Sparky facilities to peak pick your NHSQC spectrum.
 
-This Sparky extension is available online at 
-\url{https://github.com/mattfenwick/SparkyExtensions}.  Installation is simple:
-the extension file needs only to be placed in the appropriate directory
-of an existing Sparky installation; see
-\url{http://pine.nmrfam.wisc.edu/PINE-SPARKY/introduction.html}
-for more information.  It is dual-licensed under the MIT and BSD licenses.
+Some of the peaks Sparky found will turn out to be noise or artifact peaks.
+\textbf{Do not delete peaks, ever, for any reason!}  Instead,
+when peaks are identified as such, select them and press the "Set selected 
+peaks to noise" or "Set selected peaks to artifact" button, as necessary.
+Peaks must not be assigned when setting them to noise or artifact.
 
-Sparky's familiarity, popularity, and extensibility make it an obvious choice
-of platform for implementing reproducble data analysis approaches.  User
-familiarity means that dialogs, menus, shortcuts, and data presentation are
-identical, and therefore there is no learning curve outside of the new
-reproducibility features.  Popularity means that many spectroscopists already
-use Sparky, as evidenced by citations in the BMRB -- Sparky is cited
-405 times in chemical shift assignments 
-(\url{http://www.bmrb.wisc.edu/ftp/pub/bmrb/relational_tables/nmr-star3.1/Chem_shift_software.csv})
-and 1813 times in general software use 
-(\url{http://www.bmrb.wisc.edu/ftp/pub/bmrb/relational_tables/nmr-star3.1/Software.csv}).
-An implicit advantage to the combination of extensibility with widespread 
-familiarity and popularity is that new extensions can be added to a 
-spectroscopist's analysis workflow without requiring a radical retooling of
-the approach: the new extension can be used as much or as little as desired,
-without causing the previous approach to necessarily be completely abandoned.
-In my experience, this is a critical component of software adoption: the
-ability to "play nice" with existing tools, by not creating a dichotomy
-in software choice.
-In summary, implementing a Sparky extension instead of creating a new analysis
-tool from scratch greatly reduces the amount of software that must be written 
-and maintained, allowing the focus to be kept on the real problem at hand,
-which is reproducibility of analysis.
+Sparky will not find all true peaks.  When these are identified, simply
+pick the peak manually.
+
+Overlapped peaks are also a problem.  They may cause too few peaks to be 
+picked, or peaks to be picked in a slightly wrong position.  If these errors
+can be rectified manually, simply add peaks and move others as necessary.
+
+Either a restricted peak pick (using NHSQC peaks) or a standard peak pick
+of the full dimensions should be used to peak pick all other N-H-rooted
+spectra (such as the HNCO, HNCACB, CCONH-Tocsy, etc.).
+
+\subsection{GSS initialization}
+It is convenient to create one GSS for each NHSQC peak that is (or may be)
+a signal peak.  \textit{This functionality is currently available through
+the Python shell.}  Use the keyboard shortcut "py" to bring up the shell.
+Then, select the NHSQC peaks which will be used as GSS roots.  
+All signal peaks can be selected using the "select signal peaks" button.
+In the shell, type in:
+\begin{verbatim}
+import sparky.r_model as mod
+mod.create_group_for_peak()
+\end{verbatim}
+
+When an NHSQC peak is used to initialize a GSS, the GSS will start off
+with two resonances: one for the H, and one for the N.
+
+\subsection{GSS construction}
+Use the "Automatically group peaks into GSS" button, setting the parameters
+appropriately.
+
+The way that GSS construction works is that for each peak in the "from"
+spectrum, all peaks in the "to" spectrum within the tolerances will be
+assigned to the same GSS as the "from" peak.  Peaks in the "to" spectrum that
+match 0 "from" peaks will not be assigned to any GSS; those that match more
+than 1 peak will also not be assigned, but a warning will be generated in
+the shell, allowing manual resolution.
+
+Matching requires that some subset of the spectral dimensions match.  Using
+an NHSQC and an HNCACB, the H and the N dimensions match.  The resonance
+assignments of the peak cross sections will be carried over for matching dimensions,
+and new resonances will be created for the C dimension.
+
+Only selected peaks in the "from" spectrum will be used; the "select signal 
+peaks" button is again useful for performing GSS construction across the
+entire spectrum at once.
+
+\subsection{Peak cross section to resonance assignment}
+peak cross section to resonance assignment can fail in two cases.
+
+First, when the chemical shifts between the peak cross sections do not match
+within the tolerances, multiple resonances are created.  These can be merged
+using the built-in Sparky assignment tools by changing the assignment of one
+peak cross section to match the other.
+
+Second, in the case of overlap, a single resonance is created when there
+should actually be multiple resonances.  This can also be resolved using
+the built-in Sparky assignment tools, by simply changing the assignment of
+one peak dimention to a fresh resonance id.
+
+\section{Changing peak-GSS assignments}
+There are two major cases for moving a peak from one GSS to another.
+
+First, for GSS types such as Q and N sidechains, where there are multiple
+peaks in the NHSQC (because of the two protons).  Simply select the appropriate
+peaks, choose a GSS id (typically the lowest of the GSS ids of the selected
+peaks, just for convenience and consistency) and press the "set groups of
+selected peaks" button.
+
+Second, for correcting mistakes.  Select the incorrectly assigned peaks,
+type in the desired GSS id, and press the "set groups of selected peaks" button.
+
+\subsection{Resonance typing}
+The types of resonances are assigned using BMRB statistics, GSS typing, 
+peak characteristics,
+and the pulse sequences of the spectra in which they appear.  For some spectra,
+such as the NHSQC, there are relatively few choices: for backbone GSSs,
+the resonance types are always amide-H and amide-N.  However, other spectra
+have more choices: for the HNCACB, resonances in backbone GSSs in the C
+dimension can be CA, CA(i-1), CB, or CB(i-1).
+
+There are two ways to assign resonance types.  First, a peak may be assigned
+a peaktype.  A peaktype is a set of resonance types visible in a pulse sequence
+-- thus, all the resonance types of a single peak are assigned simultaneously.
+This can be done using "assign peaktype" drop-down menu.
+
+The second way is to assign resonance types individually.  This can be done 
+using the "set resonance assignment" dialog.
+
+Ambiguous resonance typings are also supported.  Common examples include
+CA/CA(i-1), HA2/HA3 (Glycine), HB2/HB3 (many amino acids), and QB (Alanine).
+
+\subsection{GSS typing}
+GSSs are assigned types based on BMRB statistics, the presence or absence of
+characteristics resonance types, and possibly also based on the assignments 
+of linked GSSs.
+
+GSS types for H-N-rooted GSSs include backbone types for each of the 20 
+standard amino acids, as well as sidechain types for Q, N, R, W, and K.
+
+GSS typing is accomplished using the "assign amino acid type" dialog.
+
+\subsection{Sequential GSS assignment}
+Sequentiall GSS assignments are identified based on overlapping compatible
+resonances between GSSs: for example, a GSS with a CA at 58.32 PPM and a CB
+at 30.27 PPM, and a second GSS with a CA(i-1) at 58.21 and a CB(i-1) at 30.41:
+these GSSs have overlapping compatible resonances and can be sequentially
+assigned.
+
+It is not necessary that resonance types are unambiguously assigned before
+doing sequential GSS assignments: if it is unclear whether a resonance is a
+CA or CA(i-1), this may be assigned simultaneously as the sequential assignment
+is made, if it is consistent with the overlap from the other GSS.
+
+Additionally, sequential GSS assignment can lead to the picking of additional
+peaks, or the resolution of GSS overlap, if such picking and/or resolution
+leads to consistent and compatible overlap with another GSS.
+
+Sequential GSS assignment is accomplished using the "set sequential group
+assignment" dialog.
+
+\subsection{GSS-residue assignment}
+GSSs are assigned to residues on the basis of GSS typing, sequential GSS
+assignments, and the primary sequence.
+This can be done using the "set group-residue assignment" dialog.
+
+\subsection{Pitfalls}
+Since Sparky's data model does not natively understand GSSs and resonances,
+there are some limitations associated with the enhanced data model provided
+by this extension.  It is possible to assign peaks without using the 
+reproducibility menu, but if care is not taken when doing so, the peak
+assignments may be incompatible with the extension.
+
 
 
 \section{NMR-Star library}
