@@ -113,31 +113,31 @@ for successful analysis at later stages.
 
 \subsection{Peak picking}
 Peak picking is the process of identifying and characterizing the peaks in 
-a spectrum.
+a spectrum.  The goal is to identify all true signal peaks, while recognizing
+and separating false peaks.
 
 To a first approximation, a peak is identified by a local maximum in the 
-frequency spectrum.  However, not all local maxima are necessarily peaks 
-due to noise and artifacts.  Nor do all peaks show up as local maxima if 
+frequency spectrum.  However, not all local maxima are necessarily true
+peaks: noise and artifacts give rise to false peaks.  Nor do all peaks show 
+up as local maxima if 
 they are weak and close to the noise level, which causes them 
 to be nearly indistinguishable from the noise and baseline; this may be due to 
 sample instability such as aggregation or precipitation, or low sample 
 concentration \cite{picky, munin, korzhnev2001munin, apart, autopsy, pine}
 \cite{williamson2009automated, guntert2009automated, altieri2004automation,
 baran2004automated}.
-Since peaks have non-zero widths, peaks that are closer than their
-widths will overlap, distorting measurement of their attributes and possibly
-also leading to disappearance of a local maximum.  These issues complicate peak 
-picking, the goal of which is to find all true signal peaks and only true 
-signal peaks.
+Each peak cross section has a non-zero width; adjacent signals may give rise
+to overlapping peaks, distorting measurement of their attributes and possibly
+also leading to disappearance of a local maximum.
 Figure-\ref{nhsqc_peaks} shows a portion of a peak-picked
-NHSQC spectrum; note the overlap between some peaks, and that some -- but not
+NHSQC spectrum; note the overlap, and that some -- but not
 all -- low-intensity spectral features have been identified as peaks.
 
 Given these inherent issues, a general strategy for peak picking is 
-described in \cite{autopsy, picky}.
+described in \cite{autopsy, picky} and summarized here.
 First, the noise level is estimated and points below the noise are discarded.
 Next, of the remaining spectral regions, isolated areas are picked as peaks.
-Finally, overlap is resolved by lineshape matching and the peaks are picked
+Finally, overlap is resolved by lineshape matching, the peaks are picked
 and their attributes measured.  An optional additional step is filtering
 based on symmetry and linewidth \cite{autopsy, picky}.
 
