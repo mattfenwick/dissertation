@@ -339,22 +339,27 @@ empty, and projections of intensity along spectral edges.
 \subsubsection{peak intensity}
 Peaks from the same atom may have similar intensities. 
 Signal, noise, and artifacts may have characteristic intensities.
+This helps when assigning peak cross sections to resonances within a GSS.
 
 \subsubsection{peak lineshape}
 Peaks from the same atom may have similar lineshapes.
 Signal, noise, and artifacts may have characteristic lineshapes.
+This helps when assigning peak cross sections to resonances within a GSS.
  
 \subsubsection{peak pattern}
 Phase errors and truncations give rise to characteristic dispersive lineshapes
 and sinc wiggles, respectively.  When using a naive peak picker, these may
 be picked as a series of smaller peaks radiating out from a more intense,
-central peak.
+central peak.  This helps to determine whether peaks are signal, noise, 
+or artifacts.
 
 \subsubsection{sign of peak amplitude}
 In some experiments, all true peaks are expected to have the same sign.  In
 other experiments, such as the HNCACB, some peaks are expected to consistently
 have a single sign, and another set of peaks are expected to consistently 
-exhibit the opposite sign.
+exhibit the opposite sign.  Therefore, the sign can help to assign atomtype
+to resonance, as well as to distinguish between signal and noise/artifact
+in certain spectra.
 
 \subsubsection{chemical shift matching: assign peaks to GSS}
 Based on matching of corresponding peak cross sections, peaks are combined into
@@ -368,12 +373,12 @@ A potential signal peak may be recognized as noise or artifactual based on
 missing of matching peaks in other or the same spectra that would be expected
 if it were a true peak.
 
-\subsubsection{chemical shift matching: peak}
+\subsubsection{chemical shift matching: pick new peaks}
 One or more peaks assigned to a GSS may be used to peak a new peak missed by a
 peak picker, based on matching one or more chemical shifts of the existing peaks
 as well as spectral features.
 
-\subsubsection{chemical shift matching: resonance to peak cross section}
+\subsubsection{chemical shift matching: assign resonance to peak cross section}
 The assignment of a peak cross section to a resonance can be used to assign another
 peak cross section from the same GSS to the same resonance, if the chemical shifts
 match.
@@ -382,21 +387,21 @@ match.
 The atomtype of resonances can often be assigned unambiguously using BMRB
 statistics.  Process of elimination may also be employed.
 
-\subsubsection{sidechain Tryptophan}
+\subsubsection{GSS typing: sidechain Tryptophan}
 Sidechain Tryptophan GSSs exhibit a characteristic peak pattern with 
 characteristic chemical shifts, which may be found in the BMRB.
 
-\subsubsection{sidechain Asparagine/Glutamine}
+\subsubsection{GSS typing: sidechain Asparagine/Glutamine}
 Asparagine and Glutamine produce characteristic peak patterns in H-N-based 
 experiments, due to their two sidechain protons.  These resonances consistently
 appear in the same spectral region, making them easy to identify.
 
-\subsubsection{sidechain Arginine}
+\subsubsection{GSS typing: sidechain Arginine}
 Arginine sidechain GSSs resonate at characteristic chemical shifts, and may
 even be subject to splitting if they appear sufficiently far outside of the
 decoupling band.
 
-\subsubsection{resolve overlap: peak to GSS}
+\subsubsection{resolve overlap: disambiguate peak-GSS assignment}
 When peaks overlap, it is difficult to assign them correctly to GSSs.  However,
 the resonances may be resolvable in additional spectra, which then makes it
 possible to return to the first spectrum and correctly resolve its overlap.
@@ -407,22 +412,22 @@ sequences to determine resonance types.  For example, in an HNCACB spectrum,
 the positive peak of a Glutamine sidechain is a CG and the negative is a CB 
 (or vice versa).
 
-\subsubsection{experiment and GSS type: resonance typing and GSS-peak}
+\subsubsection{experiment and GSS type: resonance typing and GSS-peak assignment}
 This is similar to the previous reason.  
 For example, hbCBcgcdHD experiment targets aromatics; a peak from that spectrum
 that matches a GSS not typed as an aromatic, can not be assigned 
 to that GSS.
 
-\subsubsection{backbone Alanine}
+\subsubsection{GSS typing: backbone Alanine}
 Alanine's CB resonates at a characteristic chemical shift relative to other 
 CB's due to its lack of additional Carbon atoms.
 
-\subsubsection{backbone Gly}
+\subsubsection{GSS typing: backbone Gly}
 Glycine's CA resonates at a characteristic chemical shift relative to other
 CA's, and also lacks a CB atom.  In experiments such as an HNCACB or C(CO)NH-Tocsy,
 Glycine strips appear without a CB peak.
 
-\subsubsection{backbone Ser/Thr}
+\subsubsection{GSS typing: backbone Ser/Thr}
 Serine's and Threonine's CB resonates at a characteristic chemical shift relative
 to other CB's due to the -OH groups.
 
@@ -439,11 +444,11 @@ are satisfied (note that the last two are not inviolable):
   \item intensity of HNCACB i-1 peaks should usually be less than intensity of matching i peaks in preceding ss
 \end{itemize}
 
-\subsubsection{unexpected peak: peak type}
+\subsubsection{unexpected peak: signal vs. noise/artifact}
 A specific number of peaks are expected for a GSS in a given spectrum.
 Extra peaks -- beyond the expected number -- may be artifacts or noise.
 
-\subsubsection{GSS chain and primary sequence: GSS-residue}
+\subsubsection{GSS chain and primary sequence: GSS-residue assignment}
 A GSS chain can be assigned to residues based on the amino acid types of the 
 residues and their match to the GSS typings.  It is not necessary that every
 single GSS is unambiguously typed.
@@ -451,7 +456,7 @@ The process of elimination is useful in this deduction; for example, if the
 GSS is an Arginine, and there's only one unassigned Arginine residue remaining,
 the GSS may correspond to the Arginine.
 
-\subsubsection{extend GSS-residue fragment}
+\subsubsection{extend GSS-residue fragment: GSS-residue assignment}
 A GSS chain already assigned to specific residues may be extended at the ends.
 In addition to the constraints rules given in 
 "chemical shift matching: GSS-GSS and resonance typing",
@@ -505,7 +510,7 @@ the next section.
 The core of the strategy is based on that used by Version Control System (VCS) 
 software tools \cite{vcs_concepts, hinsen2009vcs}, which are commonly 
 applied for managing source code of 
-software projects \cite{loeliger2012git, cvs, svn}.  
+software projects \cite{loeliger2012git, cvs, svn}.
 These tools were originally implemented in order to manage the change in 
 source code over time, while retaining the ability to easily inspect past 
 states of the code.  It was found that application of such tools led to 
