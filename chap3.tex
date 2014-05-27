@@ -12,14 +12,16 @@ including the roles of computational and manual analysis, their interaction
 with the data types, and tools used in the process.
 In order to study proteins in solution using NMR, multi-step processes are 
 employed to collect and analyze data.  An example process is shown in 
-Figure-\ref{nmr_overview} as a series of independent stages 
+Figure \ref{nmr_overview} as a series of independent stages 
 \cite{guerry2011automated}.
+Figure \ref{process_timeline} shows a view of the process in the context
+of the data discussed in the previous chapter.
 
 
 
 \section{Data Collection}
 
-See panel A of Figure-\ref{nmr_overview}.
+See panel A of Figure \ref{nmr_overview}.
 
 \subsection{Sample preparation}
 The protein or molecule of interest is isolated and a solution 
@@ -43,7 +45,7 @@ still collecting some data points where the signal-to-noise is low.
 
 \section{Spectral processing}
 
-In Figure-\ref{nmr_overview} panel B, 
+In Figure \ref{nmr_overview} panel B, 
 spectral processing operates on these FID data sets.  They are 
 converted to frequency-domain spectra using tools such as NMRPipe \cite{nmrpipe}
 and the Rowland NMR ToolKit \cite{rnmrtk}.  Functions such as 
@@ -61,7 +63,7 @@ this phase is to construct a frequency spectrum which indicates the resonance
 frequencies of the atoms that were observed in the experiment.  A common tool 
 for such a transformation is the Fourier Transform, which is able to convert 
 a uniformly collected data set into a frequency spectrum.  
-An example of an NMR spectrum of N-H groups is shown in Figure-\ref{nhsqc}.
+An example of an NMR spectrum of N-H groups is shown in Figure \ref{nhsqc}.
 Due to relaxation decreasing the amplitude of an NMR signal over time, peaks 
 have an intrinsic linewidth in the frequency spectrum.
 
@@ -90,7 +92,7 @@ processing \cite{connjur-wb}.
 
 \section{Spectral analysis}
 
-In the spectral analysis stage, Figure-\ref{nmr_overview} panel C,
+In the spectral analysis stage, Figure \ref{nmr_overview} panel C,
 the overall goal is to identify the chemical shifts of individual atoms.
 The spectra may be analyzed using a tool such as XEasy \cite{xeasy}, 
 Sparky \cite{sparky}, NMRViewJ \cite{nmrviewj}, or CCPN Analysis \cite{ccpn}.  
@@ -129,7 +131,7 @@ baran2004automated}.
 Each peak cross section has a non-zero width; adjacent signals may give rise
 to overlapping peaks, distorting measurement of their attributes and possibly
 also leading to disappearance of a local maximum.
-Figure-\ref{nhsqc_peaks} shows a portion of a peak-picked
+Figure \ref{nhsqc_peaks} shows a portion of a peak-picked
 NHSQC spectrum; note the overlap, and that some -- but not
 all -- low-intensity spectral features have been identified as peaks.
 
@@ -151,13 +153,12 @@ restraints between atoms which are in fact very far apart in the actual
 protein structure.
 
 Estimates of the amount of false positive and false negative peaks picked 
-by computational tools range from very low (10-40\%) to very high (70-135\%) 
-\cite{pine}. 
+by computational tools range from low (10-40\%) to high (70-135\%) \cite{pine}. 
 The quality of the results generally depends on characteristics of the 
 spectrum, especially the signal/noise ratio, and resolution, as well as 
 characteristics of the molecule including \mattfttwo{} (which has an 
-effect on peak width) and number of atoms -- the issue being that more atoms 
-means more peaks, which means a higher chance of overlap.
+effect on peak width) and number of atoms -- more atoms give rise to
+more peaks, and therefore a higher chance of overlap.
 
 Since none of these approaches yields perfect 
 results \cite{guerry2011automated}, manual intervention during peak picking 
@@ -226,7 +227,7 @@ of later analysis are available: some approaches use NOESY peaks and
 assignments as well as structure results to verify and correct GSSs 
 \cite{autoassign1997}.
 
-Figure-\ref{nhsqc_hncacb} shows an example of matching peaks between two
+Figure \ref{nhsqc_hncacb} shows an example of matching peaks between two
 spectra.  The quality of the match -- how closely the chemical shifts line up,
 as well as the lack of overlapping peaks -- means the peaks are easily
 identified as members of the same GSS.
@@ -303,7 +304,7 @@ Sequential GSS assignment is complicated by:
   \cite{autoassign1997}.
 \end{enumerate}
 
-An example of GSS overlap is shown in Figure-\ref{hncacb_overlap}.  Green peaks
+An example of GSS overlap is shown in Figure \ref{hncacb_overlap}.  Green peaks
 are CA, and purple peaks are CB; note that one each of green and purple peaks
 match between the two GSSs.
 
@@ -330,7 +331,7 @@ The presence of prolines generally ends chains due to the lack of a backbone
 H-N group.  Missing GSSs also terminate chains.  Relatively few Ser, Thr, Gly, 
 and Ala residues means the number of unambiguous anchor points will be lower.
 
-Figure-\ref{ss-residue} shows an example of sequence-specific GSS assignment.
+Figure \ref{ss-residue} shows an example of sequence-specific GSS assignment.
 Although not all of the GSSs have been typed, the presence of a Glycine and
 Serine in the GSS chain reduces the possible assignments to residues.
 Additionally, the length of the GSS chain helps reduce the ambiguity compared
@@ -339,10 +340,10 @@ to shorter GSS chains.
 \subsection{Sidechain: spin system and resonance assignment}
 The next group of experiments collects chemical shifts of sidechain atoms.  
 These experiments include 
-the HBHA(CO)NH \cite{hbhaconh} in Figure-\ref{ccpn_hbhaconh}, 
-the C(CO)NH-Tocsy \cite{cconhtocsy} in Figure-\ref{ccpn_cconhtocsy}, 
-the HC(CO)NH-Tocsy \cite{hcconhtocsy} in Figure-\ref{ccpn_hcconhtocsy}, 
-the HCCH-Tocsy \cite{hcchtocsy} in Figure-\ref{ccpn_hcchtocsy}, 
+the HBHA(CO)NH \cite{hbhaconh} in Figure \ref{ccpn_hbhaconh}, 
+the C(CO)NH-Tocsy \cite{cconhtocsy} in Figure \ref{ccpn_cconhtocsy}, 
+the HC(CO)NH-Tocsy \cite{hcconhtocsy} in Figure \ref{ccpn_hcconhtocsy}, 
+the HCCH-Tocsy \cite{hcchtocsy} in Figure \ref{ccpn_hcchtocsy}, 
 and aromatic Tocsys.  The purpose of these experiments is to 
 obtain the chemical shift values of sidechain resonances of protons, since 
 proton frequencies are necessary in order to interpret NOESY spectra.  To 
@@ -378,15 +379,37 @@ best results \cite{pine}.
 
 \section{Structure determination}
 
-In the final stage, Figure-\ref{nmr_overview} panel D,
-the chemical shift assignments are used to 
-interpret the other class of experimental NMR data, Nuclear Overhauser Effect 
-spectroscopy (NOESY) experiments \cite{noe_kaiser}.  
-NOESY experiments use through-space 
-transfer of magnetization to identify spatially near pairs of Hydrogen nuclei, 
-regardless of the number of chemical bonds between them.  NOESY spectra are 
-processed and peak-picked, similarly to through-bond spectra, and resonance 
-assignments of peaks made.  The resonance assignments of the NOESY data are 
+In the final stage, Figure \ref{nmr_overview} panel D, the chemical shift 
+assignments are used to interpret the NOESY experiments and a structure
+is calculated and refined.
+
+\subsection{NOESY peak-picking and assignment}
+NOESY peaks provide structural restraints if it can be 
+determined which protons gave rise to the peak.  Analysis of NOESY spectra 
+therefore requires chemical shift assignments of atoms to 
+determine the protons involved in a peak.  
+NOESY spectra are  processed and peak-picked, similarly to through-bond 
+spectra, and resonance assignments of peaks made.  
+Considerations used to analyze 
+NOESY spectra include: symmetry -- a peak is expected to correspond to a 
+matching peak with the frequencies of the two 1H dimensions swapped; patterns 
+based on known proximity of atoms from the primary sequence giving rise to 
+many short-distance NOE peaks; network anchoring.  Complications include 
+overlap caused by degenerate chemical shifts of protons, leading to 
+ambiguous interpretations of peak assignments; this can be greatly mitigated 
+by the use of an extra dimension:  15N- or 13C-edited NOESY spectra reduce 
+the ambiguity, as well as incorrect or incomplete chemical shift assignments.
+
+NOESY assignment may be done automatically \cite{cyana2004, aria2003}.  
+NOESY peak-picking may be automated as well \cite{munin, korzhnev2001munin}.
+
+An alternative approach is taken by ABACUS \cite{abacus_assignment}, which uses
+Monte Carlo probabilistic methods for assignment, NOE assignment, and structure
+calculation.  However, it is important to note that ABACUS still requires 
+correct NOE peak picking and GSS construction as a prerequisite.
+
+\subsection{Structure calculation}
+The resonance assignments of the NOESY data are 
 interpreted to obtain distance restraints, which are then used to calculate 
 coarse-grained three-dimensional structures.  The structures may then be 
 refined and fine-tuned using a computational tool such as Amber \cite{amber}.  
@@ -398,34 +421,6 @@ NMR data, the expense involved in doing so may often make it more practical
 to attempt to resolve the ambiguities through a structure determination 
 program such as CYANA \cite{cyana2004}.
 
-\subsection{NOESY peak-picking and assignment}
-In NOESY spectra, each true peak indicates a pair of protons within 
-approximately 5 Angstroms of each other.  This is different from the 
-correlation spectra discussed earlier, in which peaks indicate covalently 
-bonded atoms; NOESY spectra do not depend on covalent bonds but rather 
-depend on spatial proximity.  Thus, each NOESY peak contains some information 
-about the actual three-dimensional structure of a molecule, if it can be 
-determined which protons give rise to the peak.  Analysis of NOESY spectra 
-requires chemical shift assignments of atoms, and uses that information to 
-determine the protons involved in a peak.  Considerations used to analyze 
-NOESY spectra include: symmetry -- a peak is expected to correspond to a 
-matching peak with the frequencies of the two 1H dimensions swapped; patterns 
-based on known proximity of atoms from the primary sequence giving rise to 
-many short-distance NOE peaks; network anchoring.  Complications include 
-overlap caused by degenerate chemical shifts of protons, leading to 
-ambiguous interpretations of peak assignments; this can be greatly mitigated 
-by the use of an extra dimension:  15N- or 13C-edited NOESY spectra reduce 
-the ambiguity, as well as incorrect or incomplete chemical shift assignments.
-
-NOESY assignment is generally done automatically \cite{cyana2004, aria2003}.  
-NOESY peak-picking may be automated as well \cite{munin, korzhnev2001munin}.
-
-An alternative approach is taken by ABACUS \cite{abacus_assignment}, which uses
-Monte Carlo probabilistic methods for assignment, NOE assignment, and structure
-calculation.  However, it is important to note that ABACUS still requires 
-correct NOE peak picking and GSS construction as a prerequisite.
-
-\subsection{Structure calculation}
 Cyana is able to calculate a three-dimensional structure from NOESY peaks, 
 chemical shift assignments, and distance restraints \cite{cyana2004, aria2003} 
 using an iterative approach to NOESY peak assignment and building structural 
@@ -446,8 +441,8 @@ problems throughout the entire analysis process.  Correctly dealing with
 these issues is difficult, but absolutely critical in order to obtain 
 high-quality results \cite{williamson2009automated, guntert2009automated, 
 altieri2004automation, baran2004automated}.  As yet, computational tools 
-are not able to deal perfectly with these issues.  
-Most tools have several basic limitations: 
+are not able to deal perfectly with these issues, due to one or more of 
+several basic limitations: 
 \begin{enumerate}
   \item they require high-quality input in order to function correctly 
   \cite{saga, abacus_assignment, mars, autoassign2001, ezassign, pine, cyana2004}; 
@@ -471,12 +466,15 @@ to reduced quality of results and explain the necessity of manual intervention:
 while the input data that a tool handles is limited, manual interventions can
 make use of any additional information required to make specific deductions. 
 Thus, PINE and related efforts  
-are an exciting effort to loosen these artificial restrictions.  Initial 
+are an exciting effort to loosen these accidental restrictions.  Initial 
 results are promising, and show a marked improvement, although manual 
 intervention is still assumed to be necessary in order to obtain the best 
 results \cite{pine}.  Further tools such as \cite{shiftx2, cheshire}, 
 which calculate chemical shifts from structure,  
 bring additional information to bear, helping to validate assignments.
+Table \ref{data_connections} and Figure \ref{process_timeline} show some
+of the key connections between various data types, putting these tools in
+the overall context of NMR data analysis.
 
 Another exciting development is the rise of probabilistic methods 
 \cite{saga, pine}.  These methods reflect the reality that the 
@@ -538,15 +536,13 @@ relatively small number of cases involving ambiguities and errors caused
 by problematic or unclear data.  Thus, some amount of manual analysis may 
 be required at all stages of the data analysis process 
 \cite{guntert2009automated, williamson2009automated}.   
-See Figure-\ref{data_key} for an overview of the broad categories of data 
+See Figure \ref{data_key} for an overview of the broad categories of data 
 involved.
 
-Manual analysis plays a critical role in NMR data analysis, due to the inherent 
-issues involved in analysis and to the large amount of information which must 
-be brought to bear to solve difficult cases.  Although spectral processing, 
-NOESY assignment, and structure calculation have been automated, peak-picking, 
-GSS construction, and assignment of both resonances and GSSs have not been 
-completely automated.  Manual intervention is assumed to be necessary by 
+Manual analysis therefore plays a critical role in NMR data analysis, due 
+to the inherent issues of analysis which complicate automated tools, and 
+to the ability to bring sufficient context to bear to solve difficult cases.  
+Manual intervention is assumed to be necessary by 
 most tools, even automated ones, to ensure the completeness and correctness 
 of results.  However, despite the importance that manual intervention plays 
 in analysis, the specific modifications made and their reasons for -- 
@@ -559,6 +555,26 @@ irreproducible.
 \clearpage
 \section{Tables}
 
+% TODO more examples
+% TODO some inputs, outputs have multiple data types
+\begin{table}[h]
+    \begin{tabular}{ | c || c | c | c | c | c |}
+    \hline
+      Data                                      &  Example              &  Reverse example      \\  \hline
+      FID -> spectrum                           &  Frequency-domain     &  NMRPipe, RNMRTK      \\  \hline
+      Spectrum -> peaks                         &  Sparky peak picker   &  ???                  \\  \hline
+      Peaks -> GSSs                             &  ???                  &  ???                  \\  \hline
+      Sequence -> chemical shifts               &  ???                  &  ShiftY               \\  \hline
+      Chemical shifts -> secondary structure    &  Talos                &  ???                  \\  \hline
+      Chemical shifts -> tertiary structure     &  CS-Rosetta, Cheshire &  Sparta+, ShiftX      \\  \hline
+      Chemical shifts -> NOESY assignments      &  Cyana                &  ???                  \\  \hline
+      NOESY assignments -> structure            &  Cyana                &  ???                  \\  \hline
+    \hline 
+    \end{tabular}
+    \caption{Connections between various data types.}
+    \label{data_connections}
+\end{table}
+
 
 
 % figures
@@ -569,6 +585,12 @@ irreproducible.
   \includegraphics[scale=0.42]{figures/nmr_overview}
   \caption{An overview of the NMR process for protein structure determination}
   \label{nmr_overview}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.35]{figures/process_timeline}
+  \caption{The connections between various data types.}
+  \label{process_timeline}
 \end{figure}
 
 \begin{figure}
