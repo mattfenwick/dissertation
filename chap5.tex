@@ -47,8 +47,23 @@ many were labeled as extraneous and not included in GSSs.
 Several sidechain spin systems, including Asparagine, Glutamine, Tryptophan,
 and Arginine, were identified based on either peaks with matching N and C
 chemical shifts but different H shifts, spectral position, or peak intensity
-combined with splitting.
-% TODO could include screen captures of its spectra or something
+combined with splitting.  An example of an Asparagine sidechain is shown in
+Figure \ref{asn_sidechain}.  Several factors allow these peaks to be grouped
+into a single GSS, and that GSS to be typed as an Asparagine:
+\begin{itemize}
+  \item two peaks in the NHSQC with matching N frequencies, but different H
+    frequencies, in the top right of the spectrum.  These are caused by the
+    two non-equivalent protons on the sidechain N.
+  \item two additional, less intense peaks in the NHSQC matching the two
+    H frequencies but at a lower PPM in the N dimension.  These are caused by
+    a small fraction of the sample which has one D and one H.
+  \item two peaks in the HNCACB matching each of the D/H peaks in the NHSQC,
+    and matching each other as well.  These are caused by the CB and CA; 
+    however, the signs of the peaks are swapped from what they should be for
+    a backbone GSS, since the CB is now closer to the H-N group than the CA.
+  \item characteristic chemical shifts which match a CB/CA of Asparagine, 
+    and do not match a CG/CB of Glutamine.
+\end{itemize}
 
 \subsection{GSS and resonance typing}
 Analysis continued with peak picking of the HNCACB and C(CO)NH-Tocsy spectra.
@@ -362,4 +377,10 @@ reproducibility.
 
 \clearpage
 \section{Figures}
+
+\begin{figure}[h]
+  \includegraphics[scale=0.4]{figures/asn_sidechain}
+  \caption{An Asparagine sidechain in the NHSQC and HNCACB spectra.}
+  \label{asn_sidechain}
+\end{figure}
 

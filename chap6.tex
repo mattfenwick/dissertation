@@ -22,18 +22,19 @@ controls, as well as script common operations, and provide extra algorithms
 for analysis.  Since Python is a full-featured programming language, 
 it is also possible to interact with the filesystem, loading and dumping
 data if necessary, as well as calling additional third-party tools.
-Figure-\ref{sparky_gui} shows the Sparky user interface.
-% TODO have to get a real screen capture!
 
 The extension is intended to help the spectroscopist to capture the 
 missing data of analysis: intermediate primary data, extraneous
 data, deductive meta data, and notes.  The general approach is to augment
-Sparky's data model.
+Sparky's data model and user interface with new functionality.
 
 \subsection{Sparky notes}
 Once the project is loaded, use the "re" shortcut to bring up the 
-reproducibility menu.  "js", "jc", and "jo" -- save project, close project,
-and open project -- are also very useful shortcuts.
+reproducibility menu (see Figure \ref{sparky_reproducibility}).
+"js", "jc", and "jo" -- save project, close project,
+and open project -- are also useful shortcuts.
+Extensions are accessible through the "extensions" pull-down menu,
+as shown in Figure \ref{sparky_extensions}.
 
 \subsection{Concepts}
 No automated algorithm is perfect in the NMR process.  Automated peak picking,
@@ -146,15 +147,9 @@ spectra (such as the HNCO, HNCACB, CCONH-Tocsy, etc.).
 
 \subsection{GSS initialization}
 It is convenient to create one GSS for each NHSQC peak that is (or may be)
-a signal peak.  \textit{This functionality is currently available through
-the Python shell.}  Use the keyboard shortcut "py" to bring up the shell.
-Then, select the NHSQC peaks which will be used as GSS roots.  
+a signal peak.  Select the NHSQC peaks which will be used as GSS roots.  
 All signal peaks can be selected using the "select signal peaks" button.
-In the shell, type in:
-\begin{verbatim}
-import sparky.r_model as mod
-mod.create_group_for_peak()
-\end{verbatim}
+Then press the "create new group for peak" button.
 
 When an NHSQC peak is used to initialize a GSS, the GSS will start off
 with two resonances: one for the H, and one for the N.
@@ -180,7 +175,7 @@ peaks" button is again useful for performing GSS construction across the
 entire spectrum at once.
 
 \subsection{Peak cross section to resonance assignment}
-peak cross section to resonance assignment can fail in two cases.
+Peak cross section to resonance assignment can fail in two cases.
 
 First, when the chemical shifts between the peak cross sections do not match
 within the tolerances, multiple resonances are created.  These can be merged
@@ -219,7 +214,10 @@ a peaktype.  A peaktype is a set of resonance types visible in a pulse sequence
 This can be done using "assign peaktype" drop-down menu.
 
 The second way is to assign resonance types individually.  This can be done 
-using the "set resonance assignment" dialog.
+using the keyboard shortcut "rg" to bring up a group/resonance editor
+(see Figure \ref{sparky_reproducibility}).  Clicking on a group will allow
+for editing of group assignments, while clicking on a resonance allows for
+resonance typing.
 
 Ambiguous resonance typings are also supported.  Common examples include
 CA/CA(i-1), HA2/HA3 (Glycine), HB2/HB3 (many amino acids), and QB (Alanine).
@@ -769,9 +767,21 @@ flexibility to be applied in different ways as part of a large program.
 \section{Figures}
 
 \begin{figure}[h]
-  \includegraphics[scale=0.4]{figures/sparky_gui}
-  \caption{The Sparky GUI, showing an NHSQC spectrum and two menus.}
-  \label{sparky_gui}
+  \includegraphics[scale=0.4]{figures/sparky_extensions}
+  \caption{The Sparky GUI, showing how to activate the reproducibility
+           extension.}
+  \label{sparky_extensions}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.4]{figures/sparky_reproducibility}
+  \caption[Two widgets provided by the reproducibility extension.]
+          {Two widgets provided by the reproducibility extension.
+           The first provides core functionality for making snapshots,
+           annotating snapshots, and creating and building GSSs, as
+           well as assigning peaktypes.  The second provides functionality
+           for displaying, assigning and merging GSSs and resonances.}
+  \label{sparky_reproducibility}
 \end{figure}
 
 \begin{figure}
