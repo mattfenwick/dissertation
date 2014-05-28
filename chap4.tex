@@ -676,8 +676,15 @@ of a contradiction.
 
 
 \section{An implementation of the model}
-% TODO a Sparky extension
-... under construction ...
+A software implementation of this model was created as an extension to the
+popular assignment program Sparky \cite{sparky}.  Sparky natively provides
+facilities for spectral viewing, peak picking, spectral analysis and 
+resonance assignment; the extension augments the native features with 
+features which facilitate reproducibility: easy capturing of snapshots,
+easy snapshot annotation with deductive reasoning, and easy capturing and
+identification of extraneous peaks and GSSs.
+The design, implementation, and use of this program is covered in 
+detail in Section \ref{sec_sparky_extension}.
 
 
 
@@ -735,7 +742,8 @@ datatype under analysis, which allows the library to be extended as necessary.
 A further source of incompleteness is that of tools such as Sparta+, Cheshire, 
 Shifty, CS-Rosetta, and ShiftX2 \cite{sparta+, cheshire, shiftx2, cs-rosetta, shifty}.
 These tools enable new interconnections between various stages of the analysis
-process, creating possibilities for skipping steps or going backwards in the
+process (see Table \ref{data_connections} and Figure \ref{process_timeline}), 
+creating possibilities for skipping steps or going backwards in the
 process in order to verify that results are consistent with expectations.  
 Effective use of these tools employs several useful deductive rules, similarly
 to manual analysis.  Again, as the deductive library is extensible, it would be
