@@ -143,6 +143,7 @@ The four NOESY spectra were peak picked with an automated peak picker.
 Talos+ \cite{talos+} was run on the chemical shift assignments of the H, HA,
 CA, CB, CO, and N nuclei in order to generate Phi and Psi torsion angle 
 constraints for backbone conformation.
+The Talos+ results can be seen in Figure \ref{talos+_results}.
 
 Cyana was then run by feeding it the NOESY peak lists, chemical shift
 assignments, torsion angle constraints, and Samp3 sequence.  The script
@@ -172,7 +173,7 @@ After running Cyana once, the output indicated issues with stereospecificity
 of certain assignments (methylene protons, as well as Leucine and Valine
 CG groups).  These assignments were corrected according to Cyana's feedback,
 and Cyana re-run with the corrected stereospecific assignments.
-% TODO show structure output
+The final structure is shown in Figure \ref{structure} as seen in jmol.
 
 
 \section{NMR-Star data set}
@@ -198,13 +199,13 @@ intended use, and definitions of the data types handled by the BMRB.
 
 \section{Difficulties encountered}
 
-NMR data analysis is inherently difficult, as was discussed in previous 
-chapters.  During the analysis of Samp3, I encountered these difficulties 
-many times.  Because my analysis was reproducibly recorded, exactly which
+NMR data analysis faces the inherent issues of false positives, false 
+negatives, ambiguity, and extraneous data.
+During the analysis of Samp3, I encountered these difficulties many times.  
+Because my analysis was reproducibly recorded, exactly which
 difficulties I encountered and how I resolved them is explicitly recorded
-in the final data set.  This section will cover several general problems
-as well as specific instances that I encountered, and present the data which
-indicates the resolution.
+in the final data set.  This section will cover several specific instances 
+of these problems that I encountered.
 
 \subsection{False positive peaks}
 The automated peak picker found several peaks which later turned out to
@@ -379,6 +380,24 @@ reproducibility.
   \includegraphics[scale=0.25]{figures/asn_sidechain}
   \caption{An Asparagine sidechain in the NHSQC and HNCACB spectra.}
   \label{asn_sidechain}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.25]{figures/talos+_results}
+  \caption[The secondary structure prediction according to Talos+.]
+          {The torsion angles and secondary structure prediction 
+           according to Talos+, along with a confidence interval.  
+           These results can be shown in a Ramachandran plot.}
+  \label{talos+_results}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.25]{figures/structure}
+  \caption[The final structure as seen in jmol.]
+          {The final structure as seen in jmol.
+           Secondary structure is visible: beta-sheets as parallel and
+           anti-parallel arrows, and alpha-helices as coiled ribbons.}
+  \label{structure}
 \end{figure}
 
 \begin{figure}
