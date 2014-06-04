@@ -1,0 +1,165 @@
+\chapter{Library of deductive reasons}
+\label{sec_library}
+
+\section{peak position}
+Certain peak position can indicate whether a peak is signal, noise, or an 
+artifact.  These positions include spectral regions that are expected to be 
+empty, and projections of intensity along spectral edges.
+
+\section{peak intensity}
+Peaks from the same atom may have similar intensities. 
+Signal, noise, and artifacts may have characteristic intensities.
+This helps when assigning peak cross sections to resonances within a GSS.
+
+\section{peak lineshape}
+Peaks from the same atom may have similar lineshapes.
+Signal, noise, and artifacts may have characteristic lineshapes.
+This helps when assigning peak cross sections to resonances within a GSS.
+ 
+\section{peak pattern}
+Phase errors and truncations give rise to characteristic dispersive lineshapes
+and sinc wiggles, respectively.  When using a naive peak picker, these may
+be picked as a series of smaller peaks radiating out from a more intense,
+central peak.  This helps to determine whether peaks are signal, noise, 
+or artifacts.
+
+\section{sign of peak amplitude}
+In some experiments, all true peaks are expected to have the same sign.  In
+other experiments, such as the HNCACB, some peaks are expected to consistently
+have a single sign, and another set of peaks are expected to consistently 
+exhibit the opposite sign.  Therefore, the sign can help to assign atomtype
+to resonance, as well as to distinguish between signal and noise/artifact
+in certain spectra.
+
+\section{chemical shift matching: assign peaks to GSS}
+Based on matching of corresponding peak cross sections, peaks are combined into
+GSSs.  The matching of peaks may be within a single spectrum, or between 
+multiple spectra -- as long as the spectral dimensions match (both nucleus
+and atomtype).  The tolerances allowed are important in determining which
+peaks match.
+
+\section{chemical shift matching: recognize noise and artifacts}
+A potential signal peak may be recognized as noise or artifactual based on
+missing of matching peaks in other or the same spectra that would be expected
+if it were a true peak.
+
+\section{chemical shift matching: pick new peaks}
+One or more peaks assigned to a GSS may be used to peak a new peak missed by a
+peak picker, based on matching one or more chemical shifts of the existing peaks
+as well as spectral features.
+
+\section{chemical shift matching: assign resonance to peak cross section}
+The assignment of a peak cross section to a resonance can be used to assign another
+peak cross section from the same GSS to the same resonance, if the chemical shifts
+match.
+
+\section{BMRB statistics: resonance typing}
+The atomtype of resonances can often be assigned unambiguously using BMRB
+statistics.  Process of elimination may also be employed.
+
+\section{GSS typing: sidechain Tryptophan}
+Sidechain Tryptophan GSSs exhibit a characteristic peak pattern with 
+characteristic chemical shifts, which may be found in the BMRB.
+
+\section{GSS typing: sidechain Asparagine/Glutamine}
+Asparagine and Glutamine produce characteristic peak patterns in H-N-based 
+experiments, due to their two sidechain protons.  These resonances consistently
+appear in the same spectral region, making them easy to identify.
+
+\section{GSS typing: sidechain Arginine}
+Arginine sidechain GSSs resonate at characteristic chemical shifts, and may
+even be subject to splitting if they appear sufficiently far outside of the
+decoupling band.
+
+\section{resolve overlap: disambiguate peak-GSS assignment}
+When peaks overlap, it is difficult to assign them correctly to GSSs.  However,
+the resonances may be resolvable in additional spectra, which then makes it
+possible to return to the first spectrum and correctly resolve its overlap.
+
+\section{peak sign and GSS type: resonance typing}
+The GSS type and peak sign can be used in conjunction with certain pulse 
+sequences to determine resonance types.  For example, in an HNCACB spectrum, 
+the positive peak of a Glutamine sidechain is a CG and the negative is a CB 
+(or vice versa).
+
+\section{experiment and GSS type: resonance typing and GSS-peak assignment}
+This is similar to the previous reason.  
+For example, hbCBcgcdHD experiment targets aromatics; a peak from that spectrum
+that matches a GSS not typed as an aromatic, can not be assigned 
+to that GSS.
+
+\section{GSS typing: backbone Alanine}
+Alanine's CB resonates at a characteristic chemical shift relative to other 
+CB's due to its lack of additional Carbon atoms.
+
+\section{GSS typing: backbone Gly}
+Glycine's CA resonates at a characteristic chemical shift relative to other
+CA's, and also lacks a CB atom.  In experiments such as an HNCACB or C(CO)NH-Tocsy,
+Glycine strips appear without a CB peak.
+
+\section{GSS typing: backbone Ser/Thr}
+Serine's and Threonine's CB resonates at a characteristic chemical shift relative
+to other CB's due to the -OH groups.
+
+\section{chemical shift matching: GSS-GSS and resonance typing}
+Matching Carbon strips from 3-dimensional experiments are used to build 
+sequential GSS assignments and resolve some resonance types simultaneously. 
+For example, given two HNCACB strips, chemical shift matching, and relative 
+intensities, the sequential GSS assignments and CA(i)/CA(i-1) and CB(i)/CB(i-1) 
+resonance typing assignments can be made, such that the following conditions
+are satisfied (note that the last two are not inviolable):
+\begin{itemize}
+  \item i-1 peaks in following ss should be matched by i peaks in preceding ss
+  \item intensity of HNCACB i-1 peaks should usually be less than intensity of i peaks in same ss
+  \item intensity of HNCACB i-1 peaks should usually be less than intensity of matching i peaks in preceding ss
+\end{itemize}
+
+\section{unexpected peak: signal vs. noise/artifact}
+A specific number of peaks are expected for a GSS in a given spectrum.
+Extra peaks -- beyond the expected number -- may be artifacts or noise.
+
+\section{GSS chain and primary sequence: GSS-residue assignment}
+A GSS chain can be assigned to residues based on the amino acid types of the 
+residues and their match to the GSS typings.  It is not necessary that every
+single GSS is unambiguously typed.
+The process of elimination is useful in this deduction; for example, if the
+GSS is an Arginine, and there's only one unassigned Arginine residue remaining,
+the GSS may correspond to the Arginine.
+
+\section{extend GSS-residue fragment: GSS-residue assignment}
+A GSS chain already assigned to specific residues may be extended at the ends.
+In addition to the constraints rules given in 
+"chemical shift matching: GSS-GSS and resonance typing",
+GSS typings must match the residue typing, or the BMRB statistics if untyped.
+
+\section{BMRB statistics: resonance typing}
+The BMRB average chemical shift stats -- along with the sstype assignment -- 
+are useful for spectra such as the C(CO)NH-Tocsy, HBHA(CO)NH, and 
+HC(CO)NH-Tocsy, where there are multiple peaks in a strip along a Carbon or
+Hydrogen dimension. Most amino acid types feature good dispersion, making it 
+easy to get the correct assignments straight directly from the statistics.
+
+\section{Tocsy aliphatic sidechain: resonance typing}
+After assigning HNCACB and HBHA(CO)NH spectra, C(CO)NH-Tocsy, HC(CO)NH-Tocsy 
+and HCCH-Tocsy are used in conjunction:
+the C(CO)NH-Tocsy peaks are used to find HCCH-Tocsy strips, which yields proton 
+chemical shifts and match the HC(CO)NH-Tocsy peaks.  Also, each HCCH-Tocsy 
+strip should have peaks in all the same 1H shifts.
+BMRB statistics can be used to assign most peaktypes unambiguously.  
+Splitting patterns also help to identify methylene groups.
+
+\section{Tocsy peak pattern: resonance typing}
+Several aliphatic C/H groups are difficult to distinguish using BMRB statistics,
+including Leucine's CG, CD1, and CD2, as well as Isoleucine's CG2 and CD1, and
+its QG2 and QD1. These can often be resolved by characteristic intensity 
+patterns for each amino acid type due to the Tocsy nature of experiment,
+as well as the observation that methyl peaks are often sharper and more intense.
+
+\section{Cyana: stereospecific resonance typing}
+Many pairs of atoms/groups give rise to two peaks which can not be immediately
+assigned unambiguously, although it is known that each atom/group corresponds 
+to one of the peaks, and the other atom/group to the other peak.
+Examples include HB2/HB3 of Y, and QD1/QD2 of L.
+For additional examples of ambiguities see \ref{stereospecific_ambiguities}.
+Cyana can often resolve these ambiguities during structure calculation.
+
