@@ -9,7 +9,7 @@
  - Edsger Dijkstra
 \end{center}
 
-\section{Sparky extension}
+\section{Sparky extension for reproducible spectral analysis}
 \label{sec_sparky_extension}
 
 Sparky \cite{sparky} is a popular program for interactive peak picking,
@@ -28,13 +28,37 @@ missing data of analysis: intermediate primary data, extraneous
 data, deductive meta data, and notes.  The general approach is to augment
 Sparky's data model and user interface with new functionality.
 
-\subsection{Sparky notes}
-Once the project is loaded, use the "re" shortcut to bring up the 
-reproducibility menu (see Figure \ref{sparky_reproducibility}).
-"js", "jc", and "jo" -- save project, close project,
-and open project -- are also useful shortcuts.
+\subsection{Getting Sparky}
+A Sparky version including the reproducibility extension can be found at
+\url{https://github.com/mattfenwick/SparkyExtensions/releases}.  Simply 
+choose the latest version of the correct platform, download it, untar and 
+unzip it, and run the sparky executable (in Contents/Resources/bin in the
+Mac version, and bin/ in the Linux version).
+
+\subsection{Prerequisites}
+The reproducibility extension requires a working git installation in order
+to capture snapshots.  git is a freely available tool for version control,
+and may be found at \url{http://git-scm.com/downloads}.
+git works with local files -- no setup of remote hosts is required.
+
+\subsection{Sparky manual}
+Sparky manuals, which cover the complete use of the program and its many
+features in depth, may be found at 
+\url{http://www.cgl.ucsf.edu/home/sparky/manual/} and 
+\url{http://pine.nmrfam.wisc.edu/PINE-SPARKY/}.
+
+\subsection{Sparky keyboard shortcuts}
+While all Sparky functionality can be accessed through its point-and-click
+menu interface, it is far faster to use the keyboard shortcuts, especially
+for common tasks.  The most useful of these shortcuts are covered in Table
+\ref{sparky_shortcuts}.
+
+\subsection{Sparky extensions}
 Extensions are accessible through the "extensions" pull-down menu,
 as shown in Figure \ref{sparky_extensions}.
+Additionally, the reproducibility extension is accessible through
+the "re" shortcut (see Figure \ref{sparky_reproducibility}),
+and the "rg" shortcut brings up the group editor.
 
 \subsection{Concepts}
 No automated algorithm is perfect in the NMR process.  Automated peak picking,
@@ -90,34 +114,42 @@ provides semantic information about what is being done and why.  This makes it
 far more meaningful to examine the sequence of snapshots of an analysis
 process and determine the context.
 
-\subsection{Prerequisites}
-The Sparky program, available at 
-\url{http://pine.nmrfam.wisc.edu/download_packages.html}, 
-the reproducibility extension, available at 
-\url{https://github.com/mattfenwick/SparkyExtensions/})
-and git, available at \url{http://git-scm.com/downloads}
-are required.
-
 \subsection{Setup}
-Create an empty git repository.  Move to the directory of your choice, and
-run:
+From the terminal, create an empty directory and "cd" into it.
+Intialize it as an empty git repository and create the Sparky directory
+structure with the following terminal commands:
 \begin{verbatim}
 $ git init
 $ mkdir Projects/
 $ mkdir Save/
 $ mkdir Data/
 \end{verbatim} 
-to create and initialize the repository.  
-Save all spectra files in the "Data/" directory.
+Make sure to save all spectra files in the "Data/" directory.
 When in Sparky, save the project in the "Projects/" directory.
 The Sparky .save files will automatically be written into the "Save/"
 directory.
 
+Now start Sparky and take care of tedious initial project setup.  This includes:
+\begin{itemize}
+  \item opening each of the spectra that will be used (using the "fo" shortcut)
+  \item setting the contour levels ("ct").  Some nice default setting are
+    "15 levels" for both positive and negative contours, and "red-yellow" color
+    for positives, along with "blue-green" for negatives
+  \item setting the ornament and label sizes ("ot" and "oz")
+  \item setting the visible depth
+  \item getting the axes in the correct order ("xx" and "xr")
+  \item setting the aspect of each spectrum appropriately ("yt")
+  \item syncing axes of identical nuclei
+\end{itemize}
+Now it is time to take a snapshot of this configuration.
+
 \subsection{Capturing a snapshot}
+Whenever a snapshot is desired, this procedure must be followed:
 \begin{itemize}
   \item save the project ("js")
   \item type in the appropriate deductive reason in the "deductive reason used"
-    text box
+    text box, or whatever annotation accurately describes the purpose of the 
+    snapshot
   \item click the "make snapshot" button
 \end{itemize}
 This will use git to create a new snapshot.  At any time, the contents of
@@ -125,8 +157,13 @@ the git repo can be examined using the terminal and the file browser.  Git
 supports many features for examining and manipulating history.  These may
 all be accessed from the terminal.
 
-\subsection{Peak picking and signal/noise/artifact identification}
+% TODO when/why to capture a snapshot
+
+\subsection{NHSQC: peak picking and signal/noise/artifact identification}
 Use standard Sparky facilities to peak pick your NHSQC spectrum.
+First, make sure to set the contour levels high enough that few noise and 
+artifact peaks will be picked, but low enough that most true signal peaks
+will be picked.
 
 Some of the peaks Sparky found will turn out to be noise or artifact peaks.
 \textbf{Do not delete peaks, ever, for any reason!}  Instead,
@@ -134,8 +171,10 @@ when peaks are identified as such, select them and press the "Set selected
 peaks to noise" or "Set selected peaks to artifact" button, as necessary.
 Peaks must not be assigned when setting them to noise or artifact.
 
-Sparky will not find all true peaks.  When these are identified, simply
-pick the peak manually.
+Sparky will not find all true peaks.  Whenever a true signal is found 
+unpicked, simply pick the peak manually by switching the cursor mode to 
+"find/add peak" and using "pc" to center the peaks after they have been
+picked.
 
 Overlapped peaks are also a problem.  They may cause too few peaks to be 
 picked, or peaks to be picked in a slightly wrong position.  If these errors
@@ -685,6 +724,35 @@ flexibility to be applied in different ways as part of a large program.
 \section{Tables}
 
 \begin{table}[h]
+  \begin{tabular}{ | c | c | }
+    \hline
+    shortcut    &   effect      \\  \hline
+    ct      &       \\  \hline
+    vt      &       \\  \hline
+    yt      &       \\  \hline
+    pc      &       \\  \hline
+    aD      &       \\  \hline
+    pa      &       \\  \hline
+    re      &  open reproducibility dialog     \\  \hline
+    rg      &  open group editor dialog     \\  \hline
+    zi      &  zoom in     \\  \hline
+    zo      &  zoom out     \\  \hline
+    zu      &  move up a plane     \\  \hline
+    zd      &  move down a plane     \\  \hline
+    ot      &  ornament settings     \\  \hline
+    xr      &       \\  \hline
+    xx      &       \\  \hline
+    jo      &       \\  \hline
+    jc      &       \\  \hline
+    js      &       \\  \hline
+    fo      &       \\  \hline
+    py      &  open Python interpreter  \\  \hline
+  \end{tabular}
+  \caption{Sparky keyboard shortcuts.}
+  \label{sparky_shortcuts}
+\end{table}
+
+\begin{table}
   \begin{tabular}{ | c | c | }
     \hline
     Halton          &  a sub-random sequence of points            \\  \hline
