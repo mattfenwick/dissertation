@@ -67,12 +67,50 @@ the model during the analysis process.
 
 
 
+\section{Concrete data sets}
+The data involved in the NMR process was covered abstractly in Chapter 
+\ref{ch_data_overview}.  During execution of the NMR process, these data
+are embodied concretely as structured files, read to and written from
+local hard drives, databases, and remote hosts.  Final data sets are 
+deposited to the BMRB and are then shared as NMR-Star files.  Since files
+are used as the means of transfer and sharing of NMR information, it is 
+necessary to define the meaning and extent of a data set in terms of the
+number, format, and content of the data files involved.
+
+In the data collection stage, the extent of a data set includes the FIDs
+stored as structured binary files as well as the metadata describing
+various parameters of how the data was recorded and saved.  The scope of
+a data set is expanded during spectral reconstruction to include binary
+spectral data, spectral metadata, and the sequence of functions used to
+convert the data from time-domain to frequency-domain, which often takes
+the form of a shell script file invoking processing tools.
+
+During spectral analysis, a data set includes peak lists and chemical shift
+assignments.  Depending on which analysis tool one uses, these data are saved
+in various formats along with additional parameters and settings which 
+describe the configuration and state of the tool itself (such as contour
+levels and peak ornament colors on a spectral display) which are not of direct
+importance to NMR.  When integrating analysis with tools such as Talos+ and
+CS-Rosetta \cite{talos+, cs-rosetta}, specially formatted files may be 
+temporarily generated to transmit information to those tools, such as 
+chemical shift assignments in a specific format.  The protein sequence is
+often stored as a textual file containing the protein's amino acids.
+
+Once the structure determination stage is reached, the data set now includes
+torsion angle restraints, structure files, lists of restraint violations, 
+NOESY peak lists, RDC lists, and scripts for running and analyzing results 
+from tools such as Cyana.
+
+
+
 \section{Missing data and its role in analysis}
 % need to cover what the data is, how it plays a role in NMR analysis, 
 % why it's important to capture
 The key deficiencies causing irreproducibility are missing primary data and 
-meta data.  These data are not modeled in the CCPN data model nor in the 
-NMR-Star data dictionary, and therefore are not archived and disseminated.
+meta data which are modeled neither in the CCPN data model nor in the 
+NMR-Star data dictionary, and are not archived and disseminated.
+In other words, these data form an important piece of the analysis process,
+but are not captured as concrete data in the data set.
 Spectral analysis, including peak picking, GSS construction, GSS and resonance
 typing, sequential GSS assignment, and sequence-specific GSS assignment is 
 accomplished using a step-by-step process of deductive reasoning 
@@ -127,7 +165,7 @@ and teaching, by providing a meaningful annotation (with reference to the
 domain of NMR) for actions taken.
 
 
-\subsection{Intermediate results: deductive contexts}
+\subsection{Intermediate results: the data set is the deductive context}
 When the output of a computational tool, whether peak-picking, GSS construction, 
 or sequence-specific GSS assignment, is modified to correct mistakes,
 a discrepancy is introduced between the output of the tool 
@@ -141,7 +179,7 @@ the current state of the data set -- in other words, the validity of the
 use of a given rule, as well as its effect, depends on the exact state of
 the data set.  Therefore, it is important to record the data context when
 applying a deductive rule.  The rectifies the discrepancy between automated
-tool output and the final data set.  Unfortunately, this data is not recorded.
+tool output and the final data set.  However, this data is not recorded.
 
 With respect to reproducibility, the importance of capturing intermediates is 
 due to the dependence of deductions on context: without knowing the context, 
