@@ -15,6 +15,14 @@ as well as spectral features.
 
 
 
+\section*{Intialize new GSSs}
+
+\subsection*{NHSQC peak}
+Use NHSQC signal peaks to initialize GSSs.  This is a convenient choice due
+to the many through-bond experiments which build upon the NHSQC's H-N coupling.
+
+
+
 \section*{Peak classification as signal, noise, or artifact}
 
 \subsection*{Peak intensity + noise level}
@@ -29,9 +37,9 @@ In experiments where all true peaks are
 expected to have the same sign, such as an NHSQC, a peak of the opposite
 sign may be a signal or an artifact.
 
-\subsection*{Unexpected peak}
+\subsection*{Chemical shift matching + peak-GSS + pulse sequence}
 A specific number of peaks are expected for a GSS in a given spectrum.
-Extra peaks -- beyond the expected number -- may be artifacts or noise.
+Extra peaks matching a GSS may be artifacts or noise.
 
 \subsection*{Peak pattern}
 Phase errors and truncations give rise to characteristic dispersive lineshapes
@@ -39,10 +47,10 @@ and sinc wiggles, respectively.  When using a naive peak picker, these may
 be picked as a series of smaller peaks radiating out from a more intense,
 central peak.
 
-\subsection*{Chemical shift matching}
+\subsection*{Chemical shift matching + pulse sequence + lack of peak}
 A potential signal peak may be recognized as noise or artifactual based on
-missing of matching peaks in other or the same spectra that would be expected
-if it were a true peak.
+missing of matching peaks in another or the same spectra that would be 
+expected if it were a true peak.
 
 
 
@@ -112,7 +120,8 @@ relative to other CB's due to the -OH groups.
 
 \section*{Assign sequential GSS chain}
 
-\subsection*{Chemical shift matching: GSS-GSS and resonance typing} % TODO resonance typing too!
+\subsection*{Chemical shift matching: GSS-GSS and resonance typing}
+\label{subsec_shift_matching_seq_gss}
 Matching Carbon strips from 3-dimensional experiments are used to build 
 sequential GSS assignments and resolve some resonance types simultaneously. 
 For example, given two HNCACB strips, chemical shift matching, and relative 
@@ -124,6 +133,14 @@ are satisfied (note that the last two are not inviolable):
   \item intensity of HNCACB i-1 peaks should usually be less than intensity of i peaks in same ss
   \item intensity of HNCACB i-1 peaks should usually be less than intensity of matching i peaks in preceding ss
 \end{itemize}
+
+\subsection*{Resonance matching}
+If the resonances are already typed (perhaps with the help of an auxiliary
+experiment such as a C(CO)NH-Tocsy or HN(CO)CACB in addition to the HNCACB), 
+sequential GSS assignment can be accomplished by matching resonances with
+appropriate atomtype assignments: for example, a GSS with a CA(i) and CB(i)
+resonance whose chemical shifts match the CA(i-1) and CB(i-1) resonance
+frequencies can be deduced to form a sequential chain.
 
 
 
@@ -165,6 +182,14 @@ The GSS type and peak sign can be used in conjunction with certain pulse
 sequences to determine resonance types.  For example, in an HNCACB spectrum, 
 the positive peak of a Glutamine sidechain is a CG and the negative is a CB 
 (or vice versa).
+
+\subsection*{Sequential GSS assignment}
+Resonance typing may be done during sequential GSS assignments, as covered
+in section \ref{subsec_shift_matching_seq_gss}.
+
+\subsection*{Characteristic splitting pattern}
+Methylene groups, such as CB/HB2/HB3 in many amino acids, often show 
+splitting in the 1H axis due to the two non-equivalent protons.
 
 \subsection*{Pulse sequence}
 The pulse sequence places constraints on the possible resonance typings of the
@@ -213,4 +238,10 @@ to one of the peaks, and the other atom/group to the other peak.
 Examples include HB2/HB3 of Y, and QD1/QD2 of L.
 For additional examples of ambiguities see \ref{stereospecific_ambiguities}.
 Cyana can often resolve these ambiguities during structure calculation.
-    
+
+% TODO what about HCCH-Tocsy assignment? 
+%   the methods are related but there's special techniques -- splitting + redundancy
+%   should they be added here?
+
+% TODO what about aromatics, hbCBcbcdHD, hbCBcgcdceHE, aromatic tocsy, NOESYs?
+
