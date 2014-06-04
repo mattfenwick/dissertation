@@ -40,6 +40,10 @@ The reproducibility extension requires a working git installation in order
 to capture snapshots.  git is a freely available tool for version control,
 and may be found at \url{http://git-scm.com/downloads}.
 git works with local files -- no setup of remote hosts is required.
+A git client (a list of which may be found at \url{http://git-scm.com/downloads/guis})
+is a useful tool to help view and manage a git repository.  A simple,
+cross-platform git client that I have used successfully is "giteye",
+which may be found at \url{http://www.collab.net/giteyeapp}.
 
 \subsection{Sparky manual}
 Sparky manuals, which cover the complete use of the program and its many
@@ -63,9 +67,14 @@ and the "rg" shortcut brings up the group editor.
 
 
 \section{Concepts}
-No automated algorithm is perfect in the NMR process.  Automated peak picking,
-GSS construction, and GSS-residue assignment needs manual validation and
-correction.  The main goal of this extension is to facilitate reproducibility
+Automated algorithms do not usually produce perfect results in NMR analysis.
+Automated peak picking,
+GSS construction, and GSS-residue assignment need manual validation and
+correction.  These manual modifications are inherently difficult, tedious,
+and error-prone because they are the most complicated to correctly analyze.
+However, correctly analyzing them has an important impact on the quality
+of the final result.
+The main goal of this extension is to facilitate reproducibility
 by capturing the entire analysis process, including manual modifications.
 
 The process of manual analysis is composed of a series of discrete steps.
@@ -142,7 +151,11 @@ Now start Sparky and take care of tedious initial project setup.  This includes:
   \item setting the visible depth
   \item getting the axes in the correct order ("xx" and "xr")
   \item setting the aspect of each spectrum appropriately ("yt")
-  \item syncing axes of identical nuclei
+  \item syncing axes of identical nuclei.  For example, the 1H axes of
+    an NHSQC, HNCACB, HN(CO)CACB, HNCO, and C(CO)NH-Tocsy should be synced; 
+    similarly, all their 15N axes should be synced as well.  However, the
+    13C axis of an HNCACB and an HNCO should not be synced, although the
+    13C axis of an HNCACB and a C(CO)NH-Tocsy should by synced
 \end{itemize}
 Now it is time to take a snapshot of this configuration.
 
@@ -160,7 +173,14 @@ the git repo can be examined using the terminal and the file browser.  Git
 supports many features for examining and manipulating history.  These may
 all be accessed from the terminal.
 
-% TODO when/why to capture a snapshot
+% TODO does this paragraph make any sense?
+Snapshots provide a record of the process of analysis.  By capturing snapshots
+at appropriate intervals, effective perusal of the process at a later date is
+enabled.  A more immediate benefit is the ability undo mistakes, which is 
+important because most mistakes can not be undone using Sparky.
+In general, it is necessary to capture a snapshot immediately after
+running an automated tool and before making any manual modifications.  During
+manual analysis, capturing a snapshot after each focused sub-goal is necessary.
 
 
 
@@ -199,18 +219,25 @@ of the full dimensions should be used to peak pick all other N-H-rooted
 spectra (such as the HNCO, HNCACB, CCONH-Tocsy, etc.).
 
 \subsection{GSS initialization}
-It is convenient to create one GSS for each NHSQC peak that is (or may be)
+It is convenient to create one GSS for each NHSQC peak that is or may be
 a signal peak.  Select the NHSQC peaks which will be used as GSS roots.  
-All signal peaks can be selected using the "select signal peaks" button.
+All signal peaks can be selected using the "select signal peaks" drop-down.
 Then press the "create new group for peak" button.
 
 When an NHSQC peak is used to initialize a GSS, the GSS will start off
 with two resonances: one for the H, and one for the N.
 
 \subsection{GSS construction}
-% TODO changed
-Use the "Automatically group peaks into GSS" button, setting the parameters
-appropriately.
+Open the peak-GSS assignment dialog by pressing the "Open peak-GSS dialog"
+at the bottom of the reproducibility window.
+
+Now set up the parameters by choosing the spectra from which peaks will
+be used as GSS roots (typically the NHSQC) and that which has the peaks to
+be assigned.  Make sure the desired dimensions are matched and set the 
+tolerances appropriately; I typically use 0.2 PPM for a 15N axis and 0.02 PPM
+for a 1H axis but this can vary based on the alignment between spectra.
+Finally, select all the peaks in the "from" spectrum that should be used;
+you can select all signal peaks using the "select signal peaks" drop-down.
 
 The way that GSS construction works is that for each peak in the "from"
 spectrum, all peaks in the "to" spectrum within the tolerances will be
@@ -224,34 +251,34 @@ an NHSQC and an HNCACB, the H and the N dimensions match.  The resonance
 assignments of the peak cross sections will be carried over for matching dimensions,
 and new resonances will be created for the C dimension.
 
-Only selected peaks in the "from" spectrum will be used; the "select signal 
-peaks" button is again useful for performing GSS construction across the
-entire spectrum at once.
-
 \subsection{Peak cross section to resonance assignment}
-Peak cross section to resonance assignment can fail in two cases.
+A resonance is assigned to each cross section of each group which is in a GSS.
+If a peak cross section has a unique chemical shift value within a GSS, it will
+be the only one assigned to that resonance; if multiple cross sections share 
+the same or similar chemical shift value, they will be assigned to the same
+resonance.  This reflects the fundamental NMR property that an atom resonates
+at the same frequency across spectra. 
+
+Peak cross section to resonance assignment can fail in two cases, and these
+can be resolved by manually modifying the assignments to resonances.
 
 First, when the chemical shifts between the peak cross sections do not match
 within the tolerances, multiple resonances are created.  These can be merged
 using the built-in Sparky assignment tools by changing the assignment of one
 peak cross section to match the other.
-
-% TODO changed
 Second, in the case of overlap, a single resonance is created when there
-should actually be multiple resonances.  This can also be resolved using
+should actually be multiple resonances.  This can also be resolved using 
 the built-in Sparky assignment tools, by simply changing the assignment of
 one peak dimention to a fresh resonance id.
 
 \subsection{Changing peak-GSS assignments}
 There are two major cases for moving a peak from one GSS to another.
-
-First, for GSS types such as Q and N sidechains, where there are multiple
+First, for GSS types such as Q and N sidechains, there are usually multiple
 peaks in the NHSQC (because of the two protons).  Simply select the appropriate
 peaks, choose a GSS id (typically the lowest of the GSS ids of the selected
 peaks, just for convenience and consistency) and press the "set groups of
 selected peaks" button.
-
-Second, for correcting mistakes.  Select the incorrectly assigned peaks,
+Second, peaks may be assigned to the wrong GSS.  Select the incorrect peaks,
 type in the desired GSS id, and press the "set groups of selected peaks" button.
 
 \subsection{Resonance typing}
@@ -263,11 +290,13 @@ the resonance types are always amide-H and amide-N.  However, other spectra
 have more choices: for the HNCACB, resonances in backbone GSSs in the C
 dimension can be CA, CA(i-1), CB, or CB(i-1).
 
-% TODO changed
-There are two ways to assign resonance types.  First, a peak may be assigned
-a peaktype.  A peaktype is a set of resonance types visible in a pulse sequence
--- thus, all the resonance types of a single peak are assigned simultaneously.
-This can be done using "assign peaktype" drop-down menu.
+There are two ways to assign resonance types.  First, each resonance assigned
+to a peak's cross sections a peak may be assigned at once.  The possibilities
+for these resonance typings are called "peaktypes" and depend on the pulse 
+sequence of the spectrum in which the peak is found.
+This can be done using "assign peaktype" drop-down menu.  Select the correct
+spectrum, which will bring up a list of possible peaktypes which may be found
+in that spectrum.  Make sure to set the dimension order properly.
 
 The second way is to assign resonance types individually.  This can be done 
 using the keyboard shortcut "rg" to bring up a group/resonance editor
@@ -278,24 +307,18 @@ resonance typing.
 Ambiguous resonance typings are also supported.  Common examples include
 CA/CA(i-1), HA2/HA3 (Glycine), HB2/HB3 (many amino acids), and QB (Alanine).
 
-\subsection{GSS typing}
+\subsection{GSS typing, sequential, and sequence-specific assignment}
 GSSs are assigned types based on BMRB statistics, the presence or absence of
 characteristics resonance types, and possibly also based on the assignments 
 of linked GSSs.
-
 GSS types for H-N-rooted GSSs include backbone types for each of the 20 
 standard amino acids, as well as sidechain types for Q, N, R, W, and K.
 
-% TODO changed
-GSS typing is accomplished using the "assign amino acid type" dialog.
-
-\subsection{Sequential GSS assignment}
-Sequentiall GSS assignments are identified based on overlapping compatible
+Sequential GSS assignments are identified based on overlapping compatible
 resonances between GSSs: for example, a GSS with a CA at 58.32 PPM and a CB
 at 30.27 PPM, and a second GSS with a CA(i-1) at 58.21 and a CB(i-1) at 30.41:
 these GSSs have overlapping compatible resonances and can be sequentially
 assigned.
-
 It is not necessary that resonance types are unambiguously assigned before
 doing sequential GSS assignments: if it is unclear whether a resonance is a
 CA or CA(i-1), this may be assigned simultaneously as the sequential assignment
@@ -304,25 +327,20 @@ is made, if it is consistent with the overlap from the other GSS.
 Additionally, sequential GSS assignment can lead to the picking of additional
 peaks, or the resolution of GSS overlap, if such picking and/or resolution
 leads to consistent and compatible overlap with another GSS.
-
-% TODO changed
-Sequential GSS assignment is accomplished using the "set sequential group
-assignment" dialog.
-
-\subsection{GSS-residue assignment}
 GSSs are assigned to residues on the basis of GSS typing, sequential GSS
 assignments, and the primary sequence.
-% TODO changed
-This can be done using the "set group-residue assignment" dialog.
+
+GSS assignment is accomplished using the "group editor" dialog by clicking on
+the appropriate group.  This will bring up a dialog which allows typing,
+sequential assignment, and sequence-specific assignment.
 
 
 
 \section{Pitfalls}
-Since Sparky's data model does not natively understand GSSs and resonances,
-there are some limitations associated with the enhanced data model provided
-by this extension.  It is possible to assign peaks without using the 
-reproducibility menu, but if care is not taken when doing so, the peak
-assignments may be incompatible with the extension.
+Sparky's data model was extended to support reproducible analysis.
+However, it is possible to circumvent the extension's model and assign peaks
+and resonances differently. If care is not taken when doing so, the data
+may be incompatible with the extension.
 
 \section{Creating an NMR-Star file}
 While the data is stored as standard Sparky-formatted files in a git repository
