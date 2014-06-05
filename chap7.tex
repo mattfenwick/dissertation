@@ -54,18 +54,18 @@ The library is freely available online (
 \url{https://github.com/CONNJUR/StarParser}
 ).
 
-An example of NMRPyStar in action is shown in Figure-\ref{nmrpystar_bmrb}.
+An example of NMRPyStar in action is shown in Figure \ref{nmrpystar_bmrb}.
 As a regular Python library, in order to use it, it only needs to be 
 imported into the client module.  Then, using a library for reading URLs
 (which is bundled with Python distributions), an NMR-Star file is downloaded
 from the BMRB \cite{bmrb}.  The file is then parsed, and a parse tree, 
 representing the structure of the file, is returned; see 
-Figure-\ref{nmrpystar_structure} Figure-\ref{nmrpystar_json}.  
+Figure \ref{nmrpystar_structure} Figure \ref{nmrpystar_json}.  
 A parse tree is far easier to run queries against than a flat,
 unstructure string.  Finally, a query to extract the chemical shifts
 from the parse tree is executed, and the results are used to calculate the
 standard deviation of chemical shift assignments, grouped by residue type
-and atom name; see Figure-\ref{nmrpystar_query}.
+and atom name; see Figure \ref{nmrpystar_query}.
 
 The key to this example is the flexibility of the library: since it does not
 impose any unnecessary restrictions on its use, it is easily adapted to
@@ -198,7 +198,7 @@ notable example is the actor for Maximum Entropy reconstruction:  estimating
 the noise correctly is a prerequisite for Maximum Entropy \cite{mobli2010non};
 this actor is able to both estimate the noise level, as well as parameterize
 the RNMRTK implementation \cite{rnmrtk}.  A portion of the model is shown
-in Figure-\ref{wb_model}.
+in Figure \ref{wb_model}.
 
 A further benefit of Workflow Builder's approach was noted at a workshop
 hosted at the University of Connecticut Health Center in June, 2012.  For
@@ -233,7 +233,7 @@ and outputs to be captured and archived.  It integrates with previous work
 done at UCHC \url{http://sbtools.uchc.edu/nmr/sample_scheduler/}.
 
 The tool implements a data model of sample schedules; see 
-Figure-\ref{schedule_model}.  The model deals with non-uniform quadrature
+Figure \ref{schedule_model}.  The model deals with non-uniform quadrature
 (partial component) \cite{maciejewski2011random}, non-uniform time delays, 
 and non-uniform numbers of transients.  To my knowledge, the latter aspect of
 non-uniform data collection remains a relatively unexplored domain, into
@@ -259,27 +259,27 @@ algorithms are:
   \item coordinate generator.  Responsible for generating N-dimensional time
     delays.  Includes algorithms for generating all combinations within finite
     N-dimensional bounds, Poisson gap \cite{poissongap} sampling, as well
-    as others.  See Table-\ref{scheduler_point_generators}.
+    as others.  See Table \ref{scheduler_point_generators}.
   \item quadrature generator.  Responsible for generating the quadrature
     components.  Includes algorithms for full-component generation as well
     as various partial-component strategies.
-    See Table-\ref{scheduler_quadrature_generators}.
+    See Table \ref{scheduler_quadrature_generators}.
   \item point selector.  Applies a filter to points based on coordinates,
     quadrature components, and number of transients, which can be used to create
     biased sampling schemes, such as exponentially-weighted decay.
-    See Table-\ref{scheduler_point_selectors}.
+    See Table \ref{scheduler_point_selectors}.
   \item point modifier.  Modifies some or all points in a sample schedule, 
     slightly changing the coordinates of points.  Includes algorithms for
     bursty \cite{maciejewski2009nonuniform} and blurred 
     \cite{hoch2008randomization} modifications.
-    See Table-\ref{scheduler_modifiers}.
+    See Table \ref{scheduler_modifiers}.
   \item special point generator.  Forces the addition of specific points to
     a sample schedule, such as the first point along each axis.  Such properties
     are useful when evaluating the quality of spectra.
-    See Table-\ref{scheduler_forced_point_selectors}.
+    See Table \ref{scheduler_forced_point_selectors}.
   \item formatter.  Includes facilities for generating textual output of a 
     sample schedule in RNMRTK \cite{rnmrtk}, Bruker, JSON, and Agilent formats.
-    See Table-\ref{scheduler_formatters}.
+    See Table \ref{scheduler_formatters}.
 \end{itemize}
 Creating a sample schedule requires choosing from among the many algorithms 
 available, and supplying the appropriate parameters.  While the various algorithms
@@ -294,7 +294,7 @@ An example of the program in action is given in Figures \ref{schedule_parameters
 and \ref{schedule_data}.  The first figure shows a parameter file in structured
 text; this is passed in to the program.  The program then generates a sample
 schedule, and writes the schedule out as a file, a part of which is shown in
-the second figure (a graphical view of a sample schedule is shown in Figure-\ref{sched1};
+the second figure (a graphical view of a sample schedule is shown in Figure \ref{sched1};
 the numbers are delay times in the indirect dimensions which are shown as x- 
 and y-coordinates in the chart).  Note that the parameter file includes parameters which 
 apply to the schedule as a whole, as well as to specific dimensions; the output
@@ -308,17 +308,17 @@ by Mark Maciejewski, Val Gorbatyuk, and Jeffrey Hoch
 (\url{http://sbtools.uchc.edu/nmr/sample_scheduler/}), in order to leverage
 the Java program's GUI capabilities for parameterizing sample schedule creation,
 as well as displaying sample schedules and pointspread functions.  
-Figure-\ref{sched1} shows a sample schedule created by my tool, by using the
+Figure \ref{sched1} shows a sample schedule created by my tool, by using the
 Java GUI, which is then displayed in the Java GUI.  Note the increasing
 sparsity as time delay increases in both non-uniformly sampled dimensions.
-Figure-\ref{fft1} shows the pointspread function of this sample schedule,
+Figure \ref{fft1} shows the pointspread function of this sample schedule,
 indicating artifacts that it will create in the frequency domain.  This was 
 calculated using a Fast Fourier Transform, and was also implemented in the
-Java program by Maciejewski, Gorbatyuk and Hoch.  Figure-\ref{sched2} provides
+Java program by Maciejewski, Gorbatyuk and Hoch.  Figure \ref{sched2} provides
 a comparison to the first sample schedule; the parameterization is identical,
 except that the first points along each axis are all collected (this is an
 example of a special point selector).  This difference causes a noticable 
-change in its pointspread function, seen in Figure-\ref{fft2}.
+change in its pointspread function, seen in Figure \ref{fft2}.
 
 % TODO mention that it was used to generate data for the PNAS paper
 % TODO add more discussion of the context, significance, and future value
