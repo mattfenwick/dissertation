@@ -429,16 +429,18 @@ chemical shifts and to non-stereospecific assignments.  While these
 ambiguities can often be resolved through the collection of additional 
 NMR data, the expense involved in doing so may often make it more practical 
 to attempt to resolve the ambiguities through a structure determination 
-program such as CYANA \cite{cyana2004}.
+program such as Cyana \cite{cyana2004}.
 
 Cyana is able to calculate a three-dimensional structure from NOESY peaks, 
 chemical shift assignments, and distance restraints \cite{cyana2004, aria2003} 
 using an iterative approach to NOESY peak assignment and building structural 
-models.  It also requires secondary structure information as input; as
+models.  It also requires secondary structure information in the form of 
+torsion angle restraints as input; as
 chemical shift values are correlated to secondary structure, as described
 by secondary chemical shift statistics \cite{spera1991empirical}, secondary 
 structure can be calculated from chemical shift assignments using a program 
-such as Talos \cite{talos+}.  
+such as Talos \cite{talos+}.  As of version 3.0, Cyana is able to make use
+of RDCs during structure calculation as well.
 
 Chemical shift assignments may also be used to calculate potential structures.
 CS-ROSETTA \cite{cs-rosetta} uses chemical shift assignments of atoms in 
@@ -464,7 +466,7 @@ electron orbitals, bond torsions, van der Waals interactions, and electrostatics
 XPLOR-NIH \cite{xplor-nih} is a
 powerful structural calculation and refinement program that is capable of
 incorporating torsion angle restraints, j coupling restraints, isotope 
-effects, 13C secondary shifts, proton chemical shift restraints, and NOEs.
+effects, 13C secondary shifts, proton chemical shift restraints, RDCS, and NOEs.
 These data are modeled by means of a set of energy terms which the program
 attempts to minimize.  XPLOR-NIH is also capable of modeling explicit 
 solvent molecules in order to determine their effect on the structure, 
