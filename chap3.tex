@@ -410,8 +410,13 @@ NOESY peak-picking may be automated as well \cite{munin, korzhnev2001munin}.
 
 An alternative approach is taken by ABACUS \cite{abacus_assignment}, which uses
 Monte Carlo probabilistic methods for assignment, NOE assignment, and structure
-calculation.  However, it is important to note that ABACUS still requires 
-correct NOE peak picking and GSS construction as a prerequisite.
+calculation.  A key difference of the ABACUS approach is the reduced dependency
+on the quality and analysis of through-bond experiments; through-bond experiments
+are used mainly to assemble peaks into GSSs, but sequential connectivities are
+obtained from NOESY experiments.  A more detailed explanation may be found at 
+\url{http://www.nmr2.buffalo.edu/nesg.wiki/Resonance_Assignment/Abacus/Introduction_to_ABACUS}.
+Importantly, input to ABACUS -- correct NOESY peak picking and GSS construction
+-- must be complete and accurate.
 
 \subsection{Structure calculation}
 The resonance assignments of the NOESY data are 
@@ -433,9 +438,38 @@ models.  It also requires secondary structure information as input; as
 chemical shift values are correlated to secondary structure, as described
 by secondary chemical shift statistics \cite{spera1991empirical}, secondary 
 structure can be calculated from chemical shift assignments using a program 
-such as Talos \cite{talos+}.  Chemical shift assignments may also be used to 
-calculate potential structures \cite{cs-rosetta}.  Additional programs 
-may be used to refine structures \cite{amber, xplor-nih}.
+such as Talos \cite{talos+}.  
+
+Chemical shift assignments may also be used to calculate potential structures.
+CS-ROSETTA \cite{cs-rosetta} uses chemical shift assignments of atoms in 
+backbone GSSs and produces a set of structures.  The general method is to 
+compare the chemical shifts with those of proteins of known chemical shift
+and structure, and then to select structure fragments from those known 
+proteins.  By assembling these fragments into a complete structure, a full
+model is constructed.  Although CS-ROSETTA is computationally intensive, it
+still offers a massive potential time savings by eliminating the need to
+collect and analyse NOESY spectra.  On the other hand, CS-ROSETTA is not 
+always able to find a structure model, is limited to relatively small 
+proteins, depends on the existence of similar structures and chemical shifts
+in a curated database, and may not deliver high enough precision in key 
+regions of a molecule \cite{cs-rosetta}.
+
+Additional programs may be used to build, manipulate, and refine structures.
+Assisted Model Building with Energy Refingment (AMBER) \cite{amber} is a set 
+of force fields which facilitate simulation of molecular dynamics.  The
+force fields are parameterizable and describe potential energy; when applied
+to a molecule they provide a description of the molecule's potential energy. 
+Major components of the force fields are contributed by atomic bonds, 
+electron orbitals, bond torsions, van der Waals interactions, and electrostatics.
+XPLOR-NIH \cite{xplor-nih} is a
+powerful structural calculation and refinement program that is capable of
+incorporating torsion angle restraints, j coupling restraints, isotope 
+effects, 13C secondary shifts, proton chemical shift restraints, and NOEs.
+These data are modeled by means of a set of energy terms which the program
+attempts to minimize.  XPLOR-NIH is also capable of modeling explicit 
+solvent molecules in order to determine their effect on the structure, 
+although this approach is superceded by the potential energy term model
+to a certain extent \cite{xplor-nih}.
 
 
 
@@ -563,16 +597,16 @@ irreproducible.
 \begin{table}[h]
     \begin{tabular}{ | c || c | c | c | c | c |}
     \hline
-      Data                                      &  Example              &  Reverse example      \\  \hline
-      FID -> spectrum                           &  Frequency-domain     &  NMRPipe, RNMRTK      \\  \hline
-      Spectrum -> peaks                         &  Sparky peak picker   &  ???                  \\  \hline
-      Peaks -> GSSs                             &  ???                  &  ???                  \\  \hline
-      Sequence -> chemical shifts               &  ???                  &  ShiftY               \\  \hline
-      Chemical shifts -> secondary structure    &  Talos                &  ???                  \\  \hline
-      Chemical shifts -> tertiary structure     &  CS-Rosetta, Cheshire &  Sparta+, ShiftX      \\  \hline
-      Chemical shifts -> NOESY assignments      &  Cyana                &  ???                  \\  \hline
-      NOESY assignments -> structure            &  Cyana                &  ???                  \\  \hline
-    \hline 
+      Data                                      &  Example              &  Reverse example   \\  \hline
+      FID -> spectrum                           &  Frequency-domain     &  NMRPipe, RNMRTK   \\  \hline
+      Spectrum -> peaks                         &  Sparky peak picker   &                    \\  \hline
+      Peaks -> GSSs                             &                       &                    \\  \hline
+      Sequence -> chemical shifts               &                       &  ShiftY            \\  \hline
+      Chemical shifts -> secondary structure    &  Talos                &                    \\  \hline
+      Chemical shifts -> tertiary structure     &  CS-Rosetta, Cheshire &  Sparta+, ShiftX   \\  \hline
+      Chemical shifts -> NOESY assignments      &  Cyana                &                    \\  \hline
+      NOESY assignments -> structure            &  Cyana                &                    \\  \hline
+      NOEs, shifts, j-couplings -> structure    &  XPLOR-NIH            &                    \\  \hline
     \end{tabular}
     \caption{Connections between various data types.}
     \label{data_connections}
