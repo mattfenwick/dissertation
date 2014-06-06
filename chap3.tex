@@ -23,12 +23,12 @@ of the data discussed in the previous chapter.
 
 See panel A of Figure \ref{nmr_overview}.
 
-\subsection{Sample preparation}
+\subsection*{Sample preparation}
 The protein or molecule of interest is isolated and a solution 
 obtained.  The preparation procedure employed will determine isotope labeling
 and concentration.
 
-\subsection{Time-domain data acquisition}
+\subsection*{Time-domain data acquisition}
 The solution is placed in an NMR spectrometer and an array of pulse sequences
 are used to collect time-domain data.
 
@@ -113,7 +113,7 @@ missing resonances, and metal ions \cite{guerry2011automated}.
 Between 80\% and 95\% completion may be required \cite{williamson2009automated}
 for successful analysis at later stages.
 
-\subsection{Peak picking}
+\subsection*{Peak picking}
 Peak picking is the process of identifying and characterizing the peaks in 
 a spectrum.  The goal is to identify all true signal peaks, while recognizing
 and separating false peaks.
@@ -175,7 +175,7 @@ altieri2004automation, baran2004automated}
 Because of this, peak picking can often not be completely finished until 
 later analysis has been accomplished.
 
-\subsection{GSS and resonance construction}
+\subsection*{GSS and resonance construction}
 As many pulse sequences are specificially designed to exploit the strong
 backbone H-N coupling and correlate additional nearby atoms, H-N groups appear 
 in many through-bond spectra and are given a privileged position in analysis: 
@@ -237,7 +237,7 @@ spectra.  The quality of the match -- how closely the chemical shifts line up,
 as well as the lack of overlapping peaks -- means the peaks are easily
 identified as members of the same GSS.
 
-\subsection{Resonance typing}
+\subsection*{Resonance typing}
 Before assigning a resonance to a specific 
 atom, the atomtype of a resonance may be assigned.  In an HNCO experiment, 
 this is typically straightforward, because for each backbone spin system, 
@@ -255,7 +255,7 @@ are expected to appear in both experiments at the same chemical shift for
 a given backbone H-N root, the CA and CB are expected to appear only in the 
 HNCACB spectrum.
 
-\subsection{GSS typing}
+\subsection*{GSS typing}
 Correspondingly, GSSs are also assigned amino acid types.  This phase 
 interacts strongly with the assignment of atomtypes to resonances, in 
 that the possible atomtypes to which a resonance may be assigned depends 
@@ -282,7 +282,7 @@ be uniquely typed based solely on CA and CB chemical shifts, as groups 5 and
 6 (above) as well as 4 are ambiguous.  Fourth, sidechain GSSs must be 
 identified and separated.
 
-\subsection{Sequential GSS assignment}
+\subsection*{Sequential GSS assignment}
 Sequential GSS assignments exploit the previously mentioned overlap of pulse
 sequences such as the HNCACB and HN(CA)CO.  Sequential GSSs 
 are expected to have CA/CA(i-1), CB/CB(i-1), and CO/CO(i-1) resonances at 
@@ -313,7 +313,7 @@ An example of GSS overlap is shown in Figure \ref{hncacb_overlap}.  Green peaks
 are CA, and purple peaks are CB; note that one each of green and purple peaks
 match between the two GSSs.
 
-\subsection{Sequence-specific GSS assignment}
+\subsection*{Sequence-specific GSS assignment}
 Since backbone GSSs are H-N-rooted, a GSS is assigned to a 
 backbone-amide; this implies the assignment of resonances to atoms as well, 
 based on matching of atomtypes.  When a typical GSS is assigned to a residue, 
@@ -342,7 +342,7 @@ Serine in the GSS chain reduces the possible assignments to residues.
 Additionally, the length of the GSS chain helps reduce the ambiguity compared
 to shorter GSS chains.
 
-\subsection{Sidechain: spin system and resonance assignment}
+\subsection*{Sidechain: spin system and resonance assignment}
 The next group of experiments collects chemical shifts of sidechain atoms.  
 These experiments include 
 the HBHA(CO)NH \cite{hbhaconh} in Figure \ref{ccpn_hbhaconh}, 
@@ -370,7 +370,7 @@ New approaches for sidechain data collection and assignment have recently
 been developed \cite{mobli2010non, hiller2008apsy} which seek to address 
 these issues by reducing ambiguity of chemical shifts.
 
-\subsection{Alternative approach: probabilistic assignment}
+\subsection*{Alternative approach: probabilistic assignment}
 The previously described approach views analysis as a pipeline: input is 
 transformed into output, which becomes the input for the next stage, and so on.  
 PINE \cite{pine} removes the pipeline constraint by connecting each stage to 
@@ -388,7 +388,7 @@ In the final stage, Figure \ref{nmr_overview} panel D, the chemical shift
 assignments are used to interpret the NOESY experiments and a structure
 is calculated and refined.
 
-\subsection{NOESY peak-picking and assignment}
+\subsection*{NOESY peak-picking and assignment}
 NOESY peaks provide structural restraints if it can be 
 determined which protons gave rise to the peak.  Analysis of NOESY spectra 
 therefore requires chemical shift assignments of atoms to 
@@ -418,7 +418,7 @@ obtained from NOESY experiments.  A more detailed explanation may be found at
 Importantly, input to ABACUS -- correct NOESY peak picking and GSS construction
 -- must be complete and accurate.
 
-\subsection{Structure calculation}
+\subsection*{Structure calculation}
 The resonance assignments of the NOESY data are 
 interpreted to obtain distance restraints, which are then used to calculate 
 coarse-grained three-dimensional structures.  The structures may then be 

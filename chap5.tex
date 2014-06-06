@@ -36,7 +36,7 @@ disambiguate stereospecific assignments, and calculate structure bundles.
 Starting from frequency spectra, I carried out standard data analysis,
 with the additional property that the analysis is reproducible.
 
-\subsection{Initial peak picking and GSS construction}
+\subsection*{Initial peak picking and GSS construction}
 First, the NHSQC and HNCO spectra were peak picked using an automated 
 peak picker -- see Table \ref{samp3_spectra} for a complete list of spectra
 used.  Then GSSs were built based on NHSQC peaks and matching HNCO peaks
@@ -65,7 +65,7 @@ into a single GSS, and that GSS to be typed as an Asparagine:
     and do not match a CG/CB of Glutamine.
 \end{itemize}
 
-\subsection{GSS and resonance typing}
+\subsection*{GSS and resonance typing}
 Analysis continued with peak picking of the HNCACB and C(CO)NH-Tocsy spectra.
 The inclusion of the H and N dimensions allowed these peaks to be added into
 GSSs based on the matching of these two chemical shift values to the
@@ -86,7 +86,7 @@ in many cases.  The number of peaks in C(CO)NH-Tocsy strips also provided
 information about the typing of the previous GSS, the use of which is described
 in the following section.
 
-\subsection{Sequential and residue-specific GSS assignment}
+\subsection*{Sequential and residue-specific GSS assignment}
 GSSs were built into sequential chains based on overlap of CA(i) and CB(i) 
 peaks of one GSS with CA(i-1) and CB(i-1) peaks of another.  It was critical
 that the overlap be unambiguous; ambiguous overlaps were deferred until later
@@ -113,7 +113,7 @@ could potentially accomodate the chain, both because of the chain-ending
 constraints imposed by Proline residues as well as the necessity of matching
 all GSS typing to residue typing.
 
-\subsection{Sidechain: GSS augmentation and resonance typing}
+\subsection*{Sidechain: GSS augmentation and resonance typing}
 The C(CO)NH-Tocsy provided information on the chemical shifts of aliphatic
 sidechain carbons, as covered in the previous section.  The HBHA(CO)NH, 
 HC(CO)NH-Tocsy, and HCCH-Tocsy provided the chemical shifts of aliphatic
@@ -130,7 +130,7 @@ Average BMRB statistics as well as peak patterns based on prochiral methylene
 groups were sufficient for resonance typing.
 % TODO show some HCCH-Tocsy strips
 
-\subsection{Aromatic assignment}
+\subsection*{Aromatic assignment}
 The two final through-bond experiments, the hbCBcgcdHD and hbCBcgcdceHE, were
 used to find the HD and HE resonances of aromatic sidechains and place them
 into the correct GSS.  The spectra were again peak picked with an automated
@@ -138,7 +138,7 @@ peak picker, and then assigned by matching the C dimension with the previously
 analyzed CB chemical shifts: the GSS with a matching CB(i) resonance was the
 appropriate one.
 
-\subsection{NOE assignment and structure calculation}
+\subsection*{NOE assignment and structure calculation}
 The four NOESY spectra were peak picked with an automated peak picker.  
 Talos+ \cite{talos+} was run on the chemical shift assignments of the H, HA,
 CA, CB, CO, and N nuclei in order to generate Phi and Psi torsion angle 
@@ -207,12 +207,12 @@ difficulties I encountered and how I resolved them is explicitly recorded
 in the final data set.  This section will cover several specific instances 
 of these problems that I encountered.
 
-\subsection{False positive peaks}
+\subsection*{False positive peaks}
 The automated peak picker found several peaks which later turned out to
 not be signal.  These were often artifactual in natures, but occasionally 
 appeared to be noise.  See Figure \ref{false_positive} for an example.
 
-\subsection{False negative peaks}
+\subsection*{False negative peaks}
 The automated peak pickers missed several low-intensity true peaks.
 These were often solved either by lowering the contour levels and manually
 picking peaks which were clearly above the noise level, or by using 
@@ -222,7 +222,7 @@ the existing chemical shift assignments of resonances.
 See Figure \ref{false_negative} for an example of a true signal peak which
 was not picked by the automated peak picker.
 
-\subsection{Overlap}
+\subsection*{Overlap}
 Overlap was a problem both for correctly identifying and characterizing peaks,
 and for constructing GSSs and assigning peaks into them correctly.
 It was difficult to resolve overlap until late in the analysis process, when
@@ -230,7 +230,7 @@ GSS typing, peak picks from additional spectra, and sequential GSS assignments
 were available.
 See Figure \ref{overlap} for an example.
 
-\subsection{Ambiguous sequential GSS assignments}
+\subsection*{Ambiguous sequential GSS assignments}
 Assigning GSS to GSS sequentially was occasionally ambiguous, on the basis of
 a naive matching algorithm using only HNCACB peaks.  This was because it is
 not always clear from the HNCACB which peaks are CA(i) and CB(i) versus CA(i-1)
@@ -240,7 +240,7 @@ multiple matches, which was eventually solved by taking into account additional
 sequence and GSS typing information.
 % TODO example
 
-\subsection{Extraneous GSSs}
+\subsection*{Extraneous GSSs}
 Several unassigned GSSs remain in the data set.  I have not determined whether
 these are due to contaminants, multiple conformations of the Samp3 protein,
 or perhaps they correspond to one of the few remaining unassigned residues.
