@@ -8,14 +8,16 @@
 \end{center}
 
 NMR data can be broadly grouped into four categories based on when it
-is known; see Figure \ref{data_overview} for an overview.   
-First (panel A), there is information that is known without performing
+is known.  First, Figure \ref{data_overview_1}, 
+there is information that is known without performing
 any NMR experiments: this includes information about the molecule as well
-as general NMR and molecular knowledge.  Second (panel B) is data that is 
+as general NMR and molecular knowledge.  Second,
+Figure \ref{data_overview_2}, is data that is 
 collected using the NMR spectrometer, and is known before analysis begins.  
-Third (panel C) is the information generated during analysis, and fourth 
-(panel D) and last is the final goal of any NMR study, information about 
-the actual structure of the molecule of interest.
+Third, Figure \ref{data_overview_3}, is the information generated during 
+analysis, and fourth, Figure \ref{data_overview_4}, is the final goal of 
+an NMR study, information about the actual structure of the molecule of 
+interest.
 
 This chapter will present the data of interest during the NMR process.
 Later chapters will focus in on subsets of the data, as well as show how
@@ -532,10 +534,38 @@ is unknown.
 \section{Figures}
 
 \begin{figure}[h]
-  \includegraphics[scale=0.3]{figures/data_overview}
-  \caption[An overview of the data involved in the NMR process]
-          {An overview of the data involved in the NMR process.}
-  \label{data_overview}
+  \includegraphics[scale=0.7]{figures/data_overview_1}
+  \caption[General NMR and molecular knowledge.]
+          {General NMR and molecular knowledge, including NMR phenomenon
+           such as through-bond and through-space interactions, primary
+           sequence, and gyromagnetic ratios.}
+  \label{data_overview_1}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.7]{figures/data_overview_2}
+  \caption[Experimentally determined knowledge: obtained before analysis.]
+          {Experimentally determined knowledge: obtained before analysis,
+           including sample preparation and conditions, isotopic labeling,
+           and time-domain and frequency-domain data.}
+  \label{data_overview_2}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.6]{figures/data_overview_3}
+  \caption[Knowledge obtained during analysis.]
+          {Knowledge obtained during analysis, including peaks, GSSs,
+           resonances, sequential and sequence-specific assignments, and
+           chemical shifts.}
+  \label{data_overview_3}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.6]{figures/data_overview_4}
+  \caption[Information about the actual physical properties of a molecule.]
+          {Information about the actual physical properties of a molecule
+           is derived from structural and angle restraints.}
+  \label{data_overview_4}
 \end{figure}
 
 \begin{figure}
@@ -591,6 +621,10 @@ is unknown.
            from \url{http://en.wikipedia.org/wiki/File:Peptide_angles.png}.}
   \label{torsion_angles}
 \end{figure}
+
+% prevents a "! LaTeX Error: Too many unprocessed floats."
+% see http://tex.stackexchange.com/a/46514/28358
+\clearpage
 
 \begin{figure}
   \includegraphics[scale=0.35]{figures/nhsqc}
