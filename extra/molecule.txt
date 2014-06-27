@@ -1,0 +1,107 @@
+graph backbone_atoms {
+    1 [label="H",color="red"];
+    2 [label="N",color="red"];
+    3 [label="CA",color="red"];
+    4 [label="CB",color="red"];
+    5 [label="C",color="red"];
+    6 [label="C(i-1)",color="blue"];
+    7 [label="CA(i-1)",color="blue"];
+    8 [label="HA(i-1)",color="blue"];
+    9 [label="CB(i-1)",color="blue"];
+    10 [label="HB1(i-1)",color="blue"];
+    11 [label="HB2(i-1)",color="blue"];
+    12 [label="HB3(i-1)",color="blue"];
+    1 -- 2;
+    2 -- 3;
+    3 -- 4;
+    3 -- 5;
+    2 -- 6;
+    6 -- 7;
+    7 -- 8;
+    7 -- 9;
+    9 -- 10;
+    9 -- 11;
+    9 -- 12;
+}
+graph generic_hncacb { // 'neato'
+    0 [label="Hn1"];
+    1 [label="Hn2"];
+    2 [label="Nn"];
+    3 [label="Ca11"];
+    4 [label="Ca12"];
+    5 [label="Ca21"];
+    6 [label="Ca22"];
+    0 -- 2;
+    1 -- 2;
+    2 -- 3;
+    2 -- 4;
+    5 -- 3;
+    6 -- 4;
+}
+
+graph generic_hncacb_ambiguous { // 'neato'
+    0 [label="Hn*1"];
+    1 [label="Hn*2"];
+    2 [label="Nn"];
+    3 [label="Ca1*1"];
+    4 [label="Ca1*2"];
+    5 [label="Ca2*1"];
+    6 [label="Ca2*2"];
+    0 -- 2;
+    1 -- 2;
+    2 -- 3;
+    2 -- 4;
+    5 -- 3;
+    6 -- 4;
+}
+
+graph backbone_hncacb_ambiguous { // neato or twopi
+    1 [label="Hn"];
+    2 [label="Nn"];
+    3 [label="Ca1*1"];
+    4 [label="Ca1*2"];
+    5 [label="Ca2*1"];
+    6 [label="Ca2*2"];
+    1 -- 2;
+    2 -- 3;
+    2 -- 4;
+    5 -- 3;
+    6 -- 4;
+}
+
+graph sidechain_qn_hncacb { // `dot`
+    0 [label="Hn*1"];
+    1 [label="Hn*2"];
+    2 [label="Nn"];
+    3 [label="Ca1"];
+    4 [label="Ca2"];
+    0 -- 2;
+    1 -- 2;
+    2 -- 3;
+    3 -- 4;
+}
+
+graph sidechain_r_hncacb { // `dot`
+    1 [label="Hn"];
+    2 [label="Nn"];
+    3 [label="Ca1"];
+    4 [label="Ca2"];
+    1 -- 2;
+    2 -- 3;
+    3 -- 4;
+}
+
+graph sidechain_q_hncacb {
+    0 [label="Hn*1 (HE*1)"];
+    1 [label="Hn*2 (HE*2)"];
+    2 [label="Nn (NE)"];
+    3 [label="Co (CD)"];
+    4 [label="Ca1 (CG)"];
+    5 [label="Ca2 (CB)"];
+    0 -- 2;
+    1 -- 2;
+    2 -- 3;
+    3 -- 4;
+    4 -- 5;
+}
+
