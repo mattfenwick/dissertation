@@ -1,4 +1,4 @@
-\chapter{Reproducible NMR data sets}
+\chapter{Reproducible NMR data set}
 
 \begin{center}
   \textit{Our responsibility is to do what we can, learn what we can, 
@@ -33,12 +33,19 @@ disambiguate stereospecific assignments, and calculate structure bundles.
 
 
 \section{The analysis process}
-Starting from frequency spectra, I carried out standard data analysis,
-with the additional property that the analysis is reproducible.
+Starting from time-domain data sets, I carried out the standard data analysis
+process using a subset of the CCPN data model \cite{ccpn}, 
+with the additional property that the process itself was captured as
+a series of annotated snapshots, and extraneous results were recorded as well.
+The full data set including complete annotated snapshot history may be found at 
+\url{https://github.com/mattfenwick/samp3}
+(a previous version using the CCPN Analysis program may additionally be found
+at \url{https://github.com/mattfenwick/PeakPicker/tree/ab3}).
+A summary of the process is described here.
 
 \subsection*{Initial peak picking and GSS construction}
 First, the NHSQC and HNCO spectra were peak picked using an automated 
-peak picker -- see Table \ref{samp3_spectra} for a complete list of spectra
+peak picker; see Table \ref{samp3_spectra} for a complete list of spectra
 used.  Then GSSs were built based on NHSQC peaks and matching HNCO peaks
 according to the H and N dimensions.  Peaks either in the NHSQC or HNCO
 which did not match peaks in the other spectra were verified manually, and
@@ -176,7 +183,7 @@ and Cyana re-run with the corrected stereospecific assignments.
 The final structure is shown in Figure \ref{structure} as seen in jmol.
 
 
-\section{NMR-Star data set}
+% \section{NMR-Star data set} TODO
 % TODO get the data set
 % what should I talk about here?  the various approaches and deductions used?
 % queries performed on the data, that show certain things?
@@ -197,58 +204,89 @@ The NMR-Star data dictionary, which may be found at
 intended use, and definitions of the data types handled by the BMRB.
 
 
-\section{Difficulties encountered}
-
-NMR data analysis faces the inherent issues of false positives, false 
+\section{Assessing the difficulties encountered}
+NMR data analysis must deal with the inherent issues of false positives, false 
 negatives, ambiguity, and extraneous data.
-During the analysis of Samp3, I encountered these difficulties many times.  
-Because my analysis was reproducibly recorded, exactly which
-difficulties I encountered and how I resolved them is explicitly recorded
-in the final data set.  This section will cover several specific instances 
-of these problems that I encountered.
+Presented here is a quantification of these problems which were encountered
+during several phases of analysis.
 
-\subsection*{False positive peaks}
-The automated peak picker found several peaks which later turned out to
-not be signal.  These were often artifactual in natures, but occasionally 
-appeared to be noise.  See Figure \ref{false_positive} for an example.
+\subsection*{NHSQC peak pick}
+The NHSQC peak pick is a critical component of analysis because it is used
+to find the GSS roots, off of which may be based the restricted peak picks of
+the three-dimensional triple-resonance experiments.
+Table \ref{nhsqc_peakpick} gives an overview of the results.
+The precision of the peak pick was 99 / 105 = 94.3\%{}; the 6 false positives 
+were likely caused by sinc wiggles from an extremely intense peak, as they
+matched the 1H chemical shift of a signal peak, and there were not matching
+signals found in the three-dimensional spectra.
+The recall was 99 / 118 = 83.9\%{}, and the 
+F1-score was 2 * precision * recall / (precision + recall) = 88.8\%{}.
+See Figure \ref{false_negative} for an example of a false negative.
 
-\subsection*{False negative peaks}
-The automated peak pickers missed several low-intensity true peaks.
-These were often solved either by lowering the contour levels and manually
-picking peaks which were clearly above the noise level, or by using 
-information from additional spectra as well as the current resonance and 
-GSS assignments, allowing a putative spin system to be located by means of
-the existing chemical shift assignments of resonances.
-See Figure \ref{false_negative} for an example of a true signal peak which
-was not picked by the automated peak picker.
+\subsection*{Completeness of observed NMR signals in NHSQC}
+Whether a signal is observable in NMR experiments is not always predictable
+directly from the primary sequence:  it may depend on the structure and
+dynamics of the molecule.  Table \ref{nhsqc_signals} presents the numbers
+of expected signals based solely of off the primary sequence, and of found 
+signals, based off of the chemical shift assignments.  Note that an 
+extraneous GSS was found that could not be fit into the sequential assignments
+(See Figure \ref{extraneous_gss}).
 
-\subsection*{Overlap}
-Overlap was a problem both for correctly identifying and characterizing peaks,
-and for constructing GSSs and assigning peaks into them correctly.
-It was difficult to resolve overlap until late in the analysis process, when
-GSS typing, peak picks from additional spectra, and sequential GSS assignments
-were available.
-See Figure \ref{overlap} for an example.
+\subsection*{Overlap in the NHSQC}
+Overlap presents difficulties during both sequential and NOESY assignment
+because individual signals are not identifiable and assignable.
+In the NHSQC, 2 signals from two different Aspartate residues were heavily
+overlapped; although it was clear from the NHSQC that there were two separate
+peaks, it was not possible to determine their centers; furthermore, the
+correlated CO as well as CA/CB (8 separate resonances were expected -- but 
+only 2 were observed) resonances in the three-dimensional experiments were all
+overlapped as well.  These GSSs appear to come from a group of 4 consecutive
+Aspartate residues.
 
-\subsection*{Ambiguous sequential GSS assignments}
-Assigning GSS to GSS sequentially was occasionally ambiguous, on the basis of
-a naive matching algorithm using only HNCACB peaks.  This was because it is
-not always clear from the HNCACB which peaks are CA(i) and CB(i) versus CA(i-1)
-and CB(i-1).  However, by using the C(CO)NH-Tocsy in conjunction with the
-HNCACB, the i/i-1 distinction was mostly resolved.  This left the problem of
-multiple matches, which was eventually solved by taking into account additional
-sequence and GSS typing information.
-% TODO example
+A second region of NHSQC overlapped was caused by 5 peaks from 3 separate 
+GSSs: one backbone, one Arginine sidechain contributing 2 signals, and one
+Asparagine sidechain contributing 2 signals.  The signals essentially were not
+distinguishable based on the NHSQC alone, and were initially believed to be 
+a single GSS, but additional data from the HNCO, HNCACB, and CCONH yielded
+more signals than could be expected from a single GSS and enable resolution of
+the overlap.
 
-\subsection*{Extraneous GSSs}
-Several unassigned GSSs remain in the data set.  I have not determined whether
-these are due to contaminants, multiple conformations of the Samp3 protein,
-or perhaps they correspond to one of the few remaining unassigned residues.
-However, since they are still in the final data set, and are clearly unassigned,
-it is explicitly made clear that these are an issue.
-% TODO maybe the GSS id shouldn't be in the picture, in case it changes later
-See Figure \ref{extraneous_gss} for an example of an unassigned GSS, but 
-which is nevertheless most likely a true GSS.
+\subsection*{Quality of backbone GSSs}
+The completeness and unambiguity of the assigned backbone GSSs were estimated
+based on the presence of all expected resonances and the uniqueness of the
+chemical shifts of resonances within a GSS; the results are presented in
+Table \ref{backbone_gss_quality}.  This gives an indication of the difficulty
+of uniquely assigning sequential connectivities, because every instance of
+CA(i/i-1) overlap is initially indistinguishable from two other cases: 1) a 
+missing resonance, and 2) which of the resonances is the CA and which is the
+CA(i-1).
+
+\subsection*{Ambiguity of CA and CB chemical shift assignments}
+The amount of ambiguity in the final chemical shift assignments was
+quantified by means of a 0.2 PPM threshold for CA and CB chemical shift 
+assignments: given any two residues for which the CA/CB chemical shifts 
+were assigned (CA only for Glycine), check whether both corresponding
+shift pairs are withing 0.2 PPM.  The significance of this is that CA and CB
+chemical shifts are used to build sequential connectivities in some assignment
+strategies, and ambiguous assignments confound its simplicity -- ambiguities
+usually have to be resolved with reference to the primary sequence or to 
+data from additional spectra.
+
+Six ambiguous groups were found based on CA and CB chemical shifts:
+\begin{itemize}
+  \item Glycines: residues 2, 3, 30, 94, and 105
+  \item Glycines: residues 57, 60, 66, 78, and 106
+  \item Aspartates: residues 8, 9, 10, and 11
+  \item Arginine20 and Glutamine31
+  \item Arginine26 and Glutamate27
+  \item Proline102 and Valine103
+\end{itemize}
+The ambiguities from the first three groups were resolved by sequential 
+connectivities and the primary sequence; the last three were resolved using
+additional data from the CCONH-Tocsy which provided GSS typing by means of 
+the additional 13C aliphatic peaks.  Note that in the last case, the CA and
+CB of Proline102 are only visible through the N-H group of the following
+Valine.
 
 
 \section{Alternative implementations}
@@ -339,37 +377,86 @@ reproducibility.
 \begin{table}[h]
     \begin{tabular}{ | c || c | c | c | c | c |}
     \hline
-      Name  &  Dimension 1  &  Dimension 2  &  Dimension 3  &  Is NOESY?   \\
-    \hline
-      NHSQC         & H & N & & No  \\
-    \hline
-      HNCO          & H & N & C & No  \\
-    \hline
-      HNCACB        & H & N & C & No  \\
-    \hline
-      C(CO)NH-Tocsy & H & N & C & No  \\
-    \hline
-      HBHA(CO)NH    & H & N & H & No  \\
-    \hline
-      HC(CO)NH-Tocsy & H & N & C & No  \\
-    \hline
-      HCCH-Tocsy    & H & C & H & No  \\
-    \hline
-      hbCBcgcdHD    & H & C &  & No  \\
-    \hline 
-      hbCBcgcdceHE  & H & C &  & No \\
-    \hline
-      NOESY-NHSQC   & H & N & H & Yes \\
-    \hline 
-      NOESY-CHSQC (D\textsubscript{2}O) & H & C & C & Yes \\
-    \hline 
-      Aromatic NOESY & H & H &  & Yes \\
-    \hline 
-      Aromatic GNOESY-CHSQC & H & C & H & Yes \\
-    \hline 
+      Name  &  Dimension 1  &  Dimension 2  &  Dimension 3  &  Is NOESY?   \\    \hline
+      NHSQC         & H & N &   & No            \\    \hline
+      HNCO          & H & N & C & No            \\    \hline
+      HNCACB        & H & N & C & No            \\    \hline
+      C(CO)NH-Tocsy & H & N & C & No            \\    \hline
+      HBHA(CO)NH    & H & N & H & No            \\    \hline
+      HC(CO)NH-Tocsy & H & N & C & No           \\    \hline
+      HCCH-Tocsy    & H & C & H & No            \\    \hline
+      hbCBcgcdHD    & H & C &  & No             \\    \hline
+      hbCBcgcdceHE  & H & C &  & No             \\    \hline
+      NOESY-NHSQC   & H & N & H & Yes           \\    \hline
+      NOESY-CHSQC (D\textsubscript{2}O) & H & C & C & Yes \\    \hline
+      Aromatic NOESY & H & H &  & Yes           \\    \hline
+      Aromatic GNOESY-CHSQC & H & C & H & Yes   \\    \hline
     \end{tabular}
     \caption{Spectra used in Samp3 analysis}
     \label{samp3_spectra}
+\end{table}
+
+\begin{table}
+    \begin{tabular}{ | c || c | c || c| }
+      \hline
+                    &  Not signal   &  Signal   &  Total    \\  \hline \hline
+      Not picked    &  --           &  19       &  19       \\  \hline
+      Picked        &  6            &  99       &  105      \\  \hline \hline
+      Total         &  6            &  118      &  124      \\  \hline
+    \end{tabular}
+    \caption[Quality of the NHSQC automated peak pick.]
+            {Quality of the NHSQC automated peak pick.  The 6 peaks which
+             were determined to not be signals all appeared to be sinc wiggles
+             off of an extremely intense backbone Glycine peak.  Of the 19 
+             unpicked signals, many were low-intensity.}
+    \label{nhsqc_peakpick}
+\end{table}
+
+\begin{table}
+    \begin{tabular}{ | c || c | c || c | }
+        \hline
+                        &  Expected         &  Found    &  Missing  \\  \hline \hline
+        Backbone        &  102 = 106 - 4    &  100      &  2        \\  \hline
+        sidechain Q/N   &  12 = 3 * (2 + 2) &  10       &  2        \\  \hline
+        sidechain W     &  1                &  1        &  0        \\  \hline
+        sidechain R     &  14 = 7 * 2       &  6        &  8        \\  \hline \hline
+        Total           &  129              &  117      &  12       \\  \hline \hline
+        Extraneous      &  0                &  1        &  --       \\  \hline
+    \end{tabular}
+    \caption[Quantification of the completeness of the signals in the NHSQC.]
+            {Quantification of the completeness of the signals in the NHSQC.
+             Out of 106 residues, 3 are Prolines and thus lacking a backbone
+             N-H group, and the first residue is also not observable.
+             Each Q/N sidechain has two protons, giving rise to two signals;
+             partial deuteration gives rise to a second signal for each proton,
+             for a total of 4 signals; there are three Q/N sidechains.  The
+             two missing signals were the partial deuteration signals from N77.
+             Each Arginine sidechain, if outside the decoupling band,
+             produces two signals.  Only three were observed; the sidechains
+             of R4, R26, R61, and R79 were not observed.}
+    \label{nhsqc_signals}
+\end{table}
+
+\begin{table}
+    \begin{tabular}{ | c | c | }
+      \hline
+      GSS quality                   &  Number   \\  \hline
+      All CA/CB resonances present  &  76       \\  \hline
+      CA overlap                    &  7        \\  \hline
+      CB overlap                    &  6        \\  \hline
+      CA and CB overlap             &  5        \\  \hline
+      CA(i-1) and CB(i-1) overlap   &  1        \\  \hline
+      Missing 1 resonance           &  4        \\  \hline
+      Missing 2 resonances          &  1        \\  \hline \hline
+      Total                         &  100      \\  \hline
+    \end{tabular}
+    \caption[Quantification of the completeness and unambiguity of the backbone GSSs.]
+            {Quantification of the completeness and unambiguity of the backbone GSSs,
+             based on the presence of the CA, CA(i-1), CB, and CB(i-1) resonances
+             correlated with each backbone amide group.  Backbone GSSs, either
+             part of which is a Glycine residue, do not have a corresponding
+             CB resonance; this was handled in the analysis.}
+    \label{backbone_gss_quality}
 \end{table}
 
 
@@ -408,21 +495,6 @@ reproducibility.
            peaks in additional spectra whose frequencies in multiple cross
            sections match this peak, indicate that it is a true peak.}
   \label{false_negative}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.25]{figures/false_positive}
-  \caption[A false positive peak, found by the automated peak picker.]
-          {A false positive peak, found by the automated peak picker.
-           The sign of the peak, as well as its intensity and position
-           compared to the true peak next to it, indicate that it is false.}
-  \label{false_positive}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.25]{figures/overlap}
-  \caption{Overlap between two GSSs based on their NHSQC roots.}
-  \label{overlap}
 \end{figure}
 
 \begin{figure}
