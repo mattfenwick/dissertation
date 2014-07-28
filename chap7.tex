@@ -13,27 +13,27 @@ Software plays an indispensable role in NMR data analysis, allowing us
 to effectively manage and process massive data sets.  This chapter will
 present several software projects that facilitate reproducibility.
 
-\section{NMR-Star library}
-NMR-Star is the file format used by the BMRB \cite{bmrb} for archival of
+\section{NMR-STAR library}
+NMR-STAR is the file format used by the BMRB \cite{bmrb} for archival of
 NMR data.  As such data is useful for further studies, and archiving
 data in the BMRB is the primary means of dissemination, it is important
-to be able to work with NMR-Star files.
+to be able to work with NMR-STAR files.
 
 This library facilitates reproducibility by providing a robust interface
-for working with NMR-Star files.  It allows both the creation of NMR-Star 
+for working with NMR-STAR files.  It allows both the creation of NMR-STAR 
 files as well as extraction of data -- for further querying -- of existing
 files.  It is used by the previously mentioned Sparky extension.
 
 To handle these files, a library was implemented both in Java 
 \cite{fenwick2013} and in Python.  This library provides capabilities both
-for reading and for writing NMR-Star files.  Although several tools for
-dealing with NMR-Star files had already been implemented \cite{ccpn, bmrb},
+for reading and for writing NMR-STAR files.  Although several tools for
+dealing with NMR-STAR files had already been implemented \cite{ccpn, bmrb},
 there are several attributes of this library which set it apart:
 \begin{itemize}
   \item error reporting of illegal input.  When malformed input is encountered,
     a useful, location-specific error is reported which includes sufficient
     information to quickly pinpoint and diagnose the problem.
-  \item complete, standards-compliant NMR-Star syntax definition.
+  \item complete, standards-compliant NMR-STAR syntax definition.
   \item open source under the MIT license.  This allows other interested 
     developers to peruse the source code to gain ideas, use the library in
     new applications, and modify and extend the library to fix problems or
@@ -47,7 +47,7 @@ there are several attributes of this library which set it apart:
     and composition provided by the host language.
   \item high cohesion.  The library provides a simple, focused interface.
     This means it is easy to learn and use because it only deals with parsing
-    the concrete syntax of NMR-Star files.
+    the concrete syntax of NMR-STAR files.
 \end{itemize}
 The library is freely available online (
 \url{https://pypi.python.org/pypi/NMRPyStar}, 
@@ -57,7 +57,7 @@ The library is freely available online (
 An example of NMRPyStar in action is shown in Figure \ref{nmrpystar_bmrb}.
 As a regular Python library, in order to use it, it only needs to be 
 imported into the client module.  Then, using a library for reading URLs
-(which is bundled with Python distributions), an NMR-Star file is downloaded
+(which is bundled with Python distributions), an NMR-STAR file is downloaded
 from the BMRB \cite{bmrb}.  The file is then parsed, and a parse tree, 
 representing the structure of the file, is returned; see 
 Figure \ref{nmrpystar_structure} Figure \ref{nmrpystar_json}.  
@@ -69,7 +69,7 @@ and atom name; see Figure \ref{nmrpystar_query}.
 
 The key to this example is the flexibility of the library: since it does not
 impose any unnecessary restrictions on its use, it is easily adapted to
-different situations; in this example, to reading NMR-Star files downloaded
+different situations; in this example, to reading NMR-STAR files downloaded
 programatically from the BMRB.  This flexibility is enabled by its bottom-up
 design.  The parse tree, which is the output from the parser, holds a 
 representation of the file, and queries are easily run against it.
@@ -183,8 +183,8 @@ Spectrum Translator, Workflow Builder is implemented in Java, allowing it to
 run anywhere that a JVM does; however, since it uses third-party tools which 
 are platform-dependent, its usefulness on a platform is restricted if those
 additional tools do not run there.  Workflow Builder also allows export of
-spectral reconstruction data in XML and NMR-Star format.  The XML export
-facilitates sharing between peers, while the NMR-Star exporting capabilities
+spectral reconstruction data in XML and NMR-STAR format.  The XML export
+facilitates sharing between peers, while the NMR-STAR exporting capabilities
 enables reproducible archival as well.
 
 A key component of Workflow Builder's success is its robust model of spectral
@@ -359,8 +359,8 @@ The choice for which programs to describe in this section was driven by the
 theme of reproducibility.  All of the programs covered here facilitate and 
 support reproducible data analysis in a very real way.  The Sparky extension
 provides functionality for tracking intermediate, derived, and extraneous data
-during spectral analysis, and integrates with the NMR-Star library for recording
-that data in NMR-Star files for later deposition to the BMRB, where the data is
+during spectral analysis, and integrates with the NMR-STAR library for recording
+that data in NMR-STAR files for later deposition to the BMRB, where the data is
 made publicly available for dissemination.  Spectrum Translater, Workflow Builder
 and the sample scheduler model and capture the meta data associated with 
 data collection and spectral reconstruction, by making that meta data explicit,
@@ -407,7 +407,7 @@ equipped for dealing with changing requirements
 that bottom-up software is a more natural fit for science, due to the ever-changing
 software needs of scientists.
 
-Such has been my experience.  The tools presented here -- the NMR-Star library,
+Such has been my experience.  The tools presented here -- the NMR-STAR library,
 the sample scheduler, the Sparky extension, as well as Spectrum Translator and
 Workflow Builder to a limited extent -- have been purposely designed with 
 the bottom-up approach in mind.  The result is a library or tool that is 

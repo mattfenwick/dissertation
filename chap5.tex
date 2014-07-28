@@ -9,7 +9,7 @@
 
 % TODO make sure to point out that there's multiple ways to do this
 % there's different NMR-domain approaches
-% but there's also both the git-based and NMR-Star-based approaches
+% but there's also both the git-based and NMR-STAR-based approaches
 
 In order to prove the validity of the approach described in the previous
 chapter, it was applied to typical NMR data in order to solve a protein
@@ -26,7 +26,7 @@ in Sparky \cite{sparky}.  A preliminary analysis process used CCPN Analysis,
 along with git and several Python utilities to create and manage the 
 reproducible history.  The final analysis used Sparky, the model and approach
 described in the previous chapter, the extension described in the following
-chapter, and the extensions to the NMR-Star data dictionary.  
+chapter, and the extensions to the NMR-STAR data dictionary.  
 Cyana was used to assign NOEs,
 disambiguate stereospecific assignments, and calculate structure bundles.
 % TODO more detail?  pictures?
@@ -183,7 +183,7 @@ and Cyana re-run with the corrected stereospecific assignments.
 The final structure is shown in Figure \ref{structure} as seen in jmol.
 
 
-% \section{NMR-Star data set} TODO
+% \section{NMR-STAR data set} TODO
 % TODO get the data set
 % what should I talk about here?  the various approaches and deductions used?
 % queries performed on the data, that show certain things?
@@ -194,12 +194,12 @@ The final structure is shown in Figure \ref{structure} as seen in jmol.
 A major portion of the value derived from collecting reproducible data sets
 is disseminating them so that others may obtain and use or inspect the data
 in some way.  The standard means for sharing NMR-derived data is the BMRB
-\cite{bmrb}, which uses the NMR-Star file format.  In order to enable archival
+\cite{bmrb}, which uses the NMR-STAR file format.  In order to enable archival
 of reproducible data sets, we have collaborated with the BMRB to extend the
-NMR-Star data dictionary, so that reproducible data sets may be collected and
-deposited in the NMR-Star format.
+NMR-STAR data dictionary, so that reproducible data sets may be collected and
+deposited in the NMR-STAR format.
 
-The NMR-Star data dictionary, which may be found at 
+The NMR-STAR data dictionary, which may be found at 
 \url{http://www.bmrb.wisc.edu/dictionary/}, catalogs the names, structure,
 intended use, and definitions of the data types handled by the BMRB.
 
@@ -291,7 +291,7 @@ Valine.
 
 \section{Alternative implementations}
 
-While the approach taken was to create the data set as a single NMR-Star
+While the approach taken was to create the data set as a single NMR-STAR
 file for reasons of compatibility with existing programs and data archival
 and retrieval facilities, there are other solutions to this problem.  This
 section will inspect the strengths and weaknesses of an alternative solution
@@ -304,7 +304,7 @@ of successive snapshots.  Git, as a distributed VCS, includes a more robust
 model of snapshot history, which was critical in the success of its 
 application to NMR data analysis.
 
-Using git, multiple snapshots of a JSON or NMR-Star flat text file were
+Using git, multiple snapshots of a JSON or NMR-STAR flat text file were
 taken during the analysis process.  Each snapshot was annotated with a 
 JSON formatted string which provided the deductive reasoning behind the change,
 as well as a timestamp, author, and parent commit.  This approach was initially
@@ -329,7 +329,7 @@ $ git log
 The git approach was the inspiration for the solution eventually employed.
 There is an inherent tradeoff between the two approaches: in the git approach,
 the full data set is spread across multiple snapshots of files, and the meta
-data is also separate from the primary data.  In the NMR-Star based approach,
+data is also separate from the primary data.  In the NMR-STAR based approach,
 all the data, primary and meta, is in a single file.  While the git approach
 makes it easier to query a single snapshot in time, it is more difficult to
 query across multiple snapshots, or meta data.  The single file approach makes
