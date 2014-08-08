@@ -1,0 +1,370 @@
+\chapter{NMR spectroscopy of proteins}
+\begin{center}
+  \textit{Nature's imagination far surpasses our own.}
+
+ - Richard Feynman
+\end{center}
+
+
+\section{Physical basis of the NMR experiment}
+
+Some atomic nuclei have non-zero magnetic moments. These can be manipulated 
+using magnetic fields and electromagnetic radiation.
+
+Nuclei of spin-1/2 are especially well suited to NMR experiments.  In the 
+absence of an external magnetic field, spin-1/2 nuclei have two degenerate 
+energy levels.  In the presence of an external magnetic field, two distinct 
+energy levels are formed as the magnetic moments of the nuclei precess 
+around the external magnetic field.
+
+The frequency of the precession is known as the Larmor frequency, and depends 
+on the gyromagnetic ratio of the nucleus as well as the strength of the 
+magnetic field, which may be modulated due to local effects.
+
+Nearby nuclei can interact through several mechanisms.  Covalently-bonded nuclei
+interact through the bonding electrons in a phenomenon known as J-coupling.
+Spatially near nuclei interact directly in a phenomenon known as dipole-dipole
+coupling.
+
+
+\subsection*{A spin system of one spin}
+
+In a spin system containing a single nucleus of spin-1/2 \ref{one_spin_1-2},
+there are two energy levels, and two transitions between those energy levels
+-- one in each direction.  The nucleus' Larmor frequency determines the 
+difference between energy levels, which is in turn by determined by the 
+local magnetic field, in which electrons play a role.
+
+Since only a single spin's orientation is changed when transitioning between
+the energy levels, the transition is known as a "single-quantum" one.
+At equilibrium in a static external magnetic field, the difference in 
+populations of the two energy levels is governed by the Boltzmann distribution.
+
+
+\subsection*{Homonuclear AX spin system of two weakly coupled spins}
+
+In this spin system \ref{two_spins_1-2}, there are:
+ 
+ - two nuclear spins of spin-1/2, each of which has two possible spin orientations,
+   denoted by alpha and beta
+ 
+ - four energy levels, denoted by alpha/alpha, alpha/beta, beta/alpha, and beta/beta
+
+ - twelve transitions between energy levels, grouped into six pairs and denoted
+   by double-headed arrows.  Associated with each transition is a transition
+   probability or rate.  These are grouped into three different kinds of transitions:
+ 
+   - zero-quantum.  Pink arrow.  Both nuclei change their spin orientations, 
+     but the energy difference is very small because both in the initial and
+     final states, one nucleus is in the high-enery orientation and one is in
+     the low-energy orientation
+
+   - single-quantum.  Green arrows.  One nucleus' spin orientation changes, but
+     the other does not.  The energy difference is related to the Larmor frequency
+     of the nucleus that undergoes the change, meaning that these transitions may
+     be exploited in order to capture chemical shifts
+
+   - double-quantum.  Orange arrow.  Both nuclei start out with the same spin
+     orientation, both spin orientations change, and so both end up with the
+     same final spin orientation.  In contrast to the zero-quantum transitions,
+     there is a much larger energy difference involved.
+
+     These are known as cross-relaxation and are exploited in 
+     NOESY experiments.  Nuclei which are nearby to each other are directly
+     coupled (also known as dipole-dipole coupling).  Longitudinal magnetization
+     on one nucleus may be transferred to the other nucleus, then rotated 90
+     degrees into the rotating frame for detection
+   
+ - RF pulses are used to induce single-quantum transitions, but can not induce
+   zero- or multiple-quantum transitions.  These transitions are induced by
+
+ - the alpha/beta and beta/alpha energy levels are similar but distinct.  They are both
+   very different from the alpha/alpha and beta/beta energy levels.  The spectra of this
+   spin system includes two lines, or four lines grouped into pairs if the 
+   nuclei are J-coupled
+   
+ - the NOE is a relaxation phenomenon which utilizes the zero-quantum and
+   double-quantum transitions, known as "cross-relaxation"
+   
+ - an NOE experiment
+ 
+   - the equilibrium is perturbed using an RF pulse to excite one nucleus, 
+     equalizing the populations of that nucleus in the low- and high-energy 
+     states using a single-quantum transition
+   
+   - initially, the populations of the second nucleus are unchanged
+   
+   - the system then undergoes cross-relaxation.  Depending on the rates of
+     the two cross-relaxation transitions relative to each other, the population
+     of the second nucleus in the high-energy state may be depleted or enhanced
+     
+   - depends on the distance between the nuclei, the gyromagnetic ratios, and 
+     their orientation relative to the external magnetic field, as described by:
+     \begin{displaymath}
+       B(l) ∝ µ (3*(cos^2 θ)-1) / r^3
+     \end{displaymath}
+       where
+       µ    = gyromagnetic ratio,
+       B(l) = magnetic field strength due to other nucleus,
+       θ    = angle between external B field and vector connecting 2 nuclei, and
+       r    = distance between 2 nuclei
+
+ - sensitivity is determined by the population differences 
+
+ - in an isotropic medium such as water, dipolar couplings are not observed
+   because they average out over the population in the previous
+   equation.  However, in an alignment medium, there is incomplete averaging
+   and so some residual dipolar coupling (RDC) is observed, which indicates 
+   some information about the relative orientations of the vector connecting
+   the two nuclei compared to the external magnetic field
+
+
+
+\section{Protein NMR}
+
+Proteins containing spin-1/2 nuclei may be studied using NMR.  Hydrogen, 
+Carbon and Nitrogen are all plentiful in proteins, and have isotopes of 
+spin-1/2.  Useful biophysical characterization of proteins that may be 
+obtained using NMR includes structural, dynamics, and binding information.
+
+\subsection*{Sample preparation}
+
+The first step of an NMR analysis process is to obtain a sample of the protein
+of interest.  NMR is a relatively insensitive technique, and so it is important
+to get a sample with relatively high concentration compared to other structural
+biology techniques, often in the millimolar range.  The protein is produced
+by transforming a plasmid into bacteria, and then inducing transcription 
+of the plasmid followed by translation.  If specific isotopes, such as 15N or 
+13C are required for their NMR properties, they may be provided in the 
+bacteria's growth media.  Finally, the protein is isolated and purified.
+
+\subsection*{Data collection}
+
+Assuming the purified, high-concentration protein sample does not aggregate
+or denature, NMR experiments are run by placing a tube of the sample inside 
+of a spectrometer, running sequences of radio-frequency pulses which selectively
+excite nuclei within the sample, and observing the results.  The data a 
+superposition of decaying sinusoids of different frequencies and amplitudes;
+the frequencies are caused by the precession at the Larmor frequency along with
+the resonance phenomenon of the various nuclei, and the decay is the result
+of the system gradually relaxing back to equilibrium \cite{bloch1946nuclear}.
+
+Various pulse sequences are used to probe specific functional groups within
+the protein.  There are two major categories of pulse sequences, based on the
+nature of the interactions they exploit: the first group exploits scalar 
+couplings which exist between covalently-bonded nuclei, and are thus called 
+"through-bond" experiments.  The second group exploits dipole-dipole couplings
+between protons that are spatially close but do not have to be covalently
+bonded, and are thus called "through-space" experiments
+\cite{solomon1955relaxation}.  The data produced by
+these two experiments are also used in very different ways, as we will see
+later.
+
+Two important parameters of data collection are the dwell time and the number
+of points collected.  The dwell time determines the range of frequencies that
+can be distinguished.  The number of points collected determines the resolution
+(the ability to distinguish between nearby, but distinct, frequencies).  Instead
+of the number of points, one can also use the acquisition time, which is the
+product of the dwell time and the number of points.
+
+Maximizing sensitivity is also helpful for later data analysis.
+Sensitivity depends not only on the gyromagnetic ratios of nuclei, but also
+on the strength of the external magnetic field due to the magnitude of the
+difference between the high- and low-energy states of a spin-1/2 nucleus
+accordin to the Boltzmann distribution.
+Running an experiment multiple times and summing the results is another 
+means of increasing sensitivity as the signal increases faster
+than the noise, assuming random distribution of the noise.
+
+\subsection*{Spectral processing}
+
+The time-domain experimental data are converted to frequency-domain spectral
+data to facilitate analysis.  A decaying sinusoid in the time-domain becomes
+a peak with a finite and non-zero linewidth at the corresponding frequency
+in the frequency-domain.  The Fourier Transform is a standard method for 
+converting between time- and frequency-domains, and is often used on NMR data.
+Through appropriate use of scaling and normalization, the frequency axis is
+converted to chemical shifts.
+
+The Nyquist theorem places bounds on the dwell time with respect to the 
+final spectral width.  A poor choice of dwell time can lead to spectral 
+aliasing, in which peaks appear in unexpected spectral regions because their
+frequencies are outside the range supported by the chosen dwell time.
+Two factors confound resolution:  coincidental
+closeness of resonances frequencies, and experimental quality.  In general, 
+larger proteins, which have more atoms than smaller proteins, have more resonance
+frequencies in close proximity to each other, increasing the probability of 
+overlap.  To increase resolution, it is necessary to collect data points at 
+large time intervals.  Care must be taken to avoid decreasing the sensitivity;
+non-uniform sampling and Maximum Entropy reconstruction offer one means of so
+doing.
+
+A peak in a through-bond spectrum and in a through-space spectrum have 
+different meanings.  In a through-bond spectrum, a peak indicates the 
+observation of several resonating nuclei connected by a small number of
+covalent bonds.  However, a peak in a through-space NOESY spectrum indicates
+the presence of two protons within approximately 5 Angstroms of each other.
+
+\subsection*{Peak picking}
+
+Peak picking is the process of identifying signals in an NMR spectrum using
+peaks as a proxy.  The position of the multi-dimensional peak indicates the
+chemical shifts of the nuclei giving rise to it, and the amplitude may have
+significance in some but not all experiments.
+
+Peak picking would be if easy if several conditions were met by the spectra:
+
+\begin{itemize}
+  \item all expected signals appear
+  \item all signals are easily distinguishable from noise and artifacts
+  \item all signals are well dispersed from all others
+  \item no unexpected signals appear
+\end{itemize}
+ 
+However, in practice, none of these conditions are met.  Thus, it is commonly
+the case that expected signals are missing, some signals are close to the noise
+level, some noise appears to be signal, some artifacts appear, signals overlap
+to greater or lesser extents, and some unexpected signals appear, perhaps due
+to contamination or multiple conformations.
+
+Therefore, accurate peak picking must deal with these problems, in order to
+identify all the true signals, none of the false signals, and to correctly 
+characterize the position and volume of the true signals.  Initial peak picking
+is often performed using a computational tool, but there typically is some
+level of manual intervention in order to correct mistakes and other problems.
+
+\subsection*{Chemical shift assignment}
+
+Nuclei in NMR experiments resonate at characteristic frequencies; 
+chemical shift assignment is the process of drawing the correspondence between
+the resonance frequencies identified from picked peaks and the nuclei in the
+protein of interest.  Assignment is typically accomplished using a set of
+through-bond spectra, many of which are based around H-N groups and nearby
+atoms, and others which obtain the chemical shifts of the aliphatic sidechains
+(both carbons and protons) and still others for the aromatic portions of
+sidechains.
+
+Assignment proceeds through two key intermediate data types: generalized spin
+systems (or GSSs) and resonances.  Resonances are the NMR-visible incarnations
+of nuclei: they resonate at characteristic frequencies across spectra.  GSSs
+are similar to NMR-visible incarnations of amino acid residues, but may span
+multiple residues and are therefore networks of covalently-bonded resonances.
+
+Peaks are assembled into GSSs by exploiting the redundancy between several 
+experiments: resonances appear in multiple spectra, at the same characteristic
+frequency giving rise to peaks (signals), and this is used to match these
+peaks into the same GSSs and resonances.  Peaks can also be matched within
+a single spectrum into the same GSS, depending on the nature of the experiment.
+
+GSSs and resonances can be typed, that is, assigned to an amino acid type or
+an atom type respectively.  As can be found in the BMRB, there is large 
+variation in average chemical shifts depending on amino acid type and atom type,
+especially for Serine/Threonine, Glycine, and Alanine residues, for which the
+CB, CA, and CB atoms' chemical shifts are essentially unique.
+
+A second type of overlap is used in chemical shift assignment: due to the 
+similar J-couplings of the CA both of the previous and same residue to the
+backbone Nitrogen, it is possible to correlate a backbone amide group with
+both adjacent sidechains.  Thus, each sidechain may be correlated with two
+backbone amide groups, causing their resonances to appear in conjunction with
+two other groups.  As the atoms resonate at a characteristic frequency, this
+can be used to identify a sequential connection between the two GSSs based on
+backbone amide groups.  Once a sufficiently long chain is built using these
+sequential connections and the (possibly incomplete) GSS typings, the chains 
+may be assigned to specific residues in the protein sequence.  Combined with
+resonance typing, this is sufficient to obtain chemical shift assignments.
+
+However, chemical shift assignment is complicated by missing, overlapped, and
+extraneous signals, as well as ambiguities in GSS typings, resonance typings,
+sequential GSS connectivity, and sequence-specific GSS-residue assignments. 
+The ambiguities in typings are caused by the non-uniqueness of average chemical
+shifts for most residue types (apart from Glycine, Alanine, Serine, and 
+Threonine) \cite{bmrb}.  The ambiguities in sequential
+assignments are caused by degenerate chemical shifts across multiple residues,
+as well as by missing and extraneous signals, and those in sequence-specific
+assignments are caused by non-uniqueness of the match between GSS typing
+of a sequential chain and the primary sequence of the protein.
+
+Accurate and complete chemical shift assignment requires nearly complete and
+correct peak picking, as well as the presence in the spectra of nearly complete
+expected signals, well-dispersed such that there is little to no overlap.  It
+is often helpful to use a computational tool to quickly assign most of the
+chemical shifts, but later to make manual interventions to fix mistakes and
+assign any missed resonances.
+
+\subsection*{NOESY assignment}
+
+NOESY spectra provide distance restraints between proton pairs.  In order to
+make use of their latent structural information, the peaks must be assigned
+to resonances and thereby to atoms.  This is done with the help of the 
+chemical shift assignments: NOESY peak cross-sections are matched to atoms
+based on similarity of the cross-section's chemical shift to that of the
+resonance assigned to the atom.
+
+However, NOESY data are heavily ambiguous, because there are typically several
+resonances with chemical shift values close enough to match a single NOESY
+peak cross-section.  There are several strategies for mitigating this problem.
+One is to collect 3D or 4D NOESY experiments, in which the additional dimensions
+correlate covalently-bonded 13C or 15N nuclei to the protons involved in the
+NOE interaction.  This approach greatly reduces the ambiguity.  Furthermore,
+characteristic peak patterns are expected, such as intra-residue NOESYs between
+protons of that residue, as well as NOESY peaks between protons of sequential
+residues.
+
+Accurate and complete NOESY interpretation requires nearly complete chemical
+shift assignment.  Furthermore, some manual intervention in NOESY assignment
+may be necessary to correct and validate troublesome cases, or to prevent
+automated assignment programs from making mistakes.
+
+NOESY data may be assigned manually, but are often assigned computationally
+as well, or with a combination of the approaches.  The Cyana and Aria structure 
+calculation programs include facilities for automated NOESY assignment.  A
+third tactic for dealing with ambiguous NOESY data is to iteratively reduce the
+ambiguity using network-anchoring approaches, that use initial structure 
+estimates to drive further unambiguous NOESY assignment in a self-consistent
+cycle.
+
+\subsection*{Structure calculation}
+
+There are several other types of structural information obtained through NMR
+besides the proton-proton distance restraints provided by NOESY spectra.
+Using a program such as Talos, backbone torsion angles can be predicted.  Talos
+uses the chemical shift assignments of backbone atoms in conjunction with a
+database search to make its predictions.  3-J-coupling constants can be 
+related to dihedral torsion angles through the Karplus equation
+\cite{karplus1959contact, karplus1963vicinal}.  Residual dipolar couplings
+(RDCs) provide information about bond orientations.
+
+These data are synthesized into a structural model by programs including Cyana,
+Aria, and XPlor-NIH.  Cyana is useful for quickly obtaining coarse structure
+estimates.  XPlor-NIH is able to provide more detailed structural models, but
+may take far longer to calculate a structure.
+
+\subsection*{Deposition}
+
+The BMRB is the main repository for information derived using NMR spectroscopy.
+A BMRB deposition may be prepared that includes chemical shift assignments,
+peaks, peak assignments, binary spectral and time-domain data, sample 
+preparation protocol, and various other relevant data.  The PDB is the main 
+repository for structural data.  It is possible and useful to link a BMRB
+deposition to a PDB deposition.
+
+
+
+
+% figures
+\clearpage
+\section{Figures}
+
+\begin{figure}[h]
+  \includegraphics[scale=0.5]{figures/one_spin_1-2}
+  \caption{An energy-level diagram for a spin system of a single nucleus.}
+  \label{one_spin_1-2}
+\end{figure}
+
+\begin{figure}[h]
+  \includegraphics[scale=0.5]{figures/two_spins_1-2}
+  \caption{An energy-level diagram for a spin system containing two nuclei.}
+  \label{two_spins_1-2}
+\end{figure}
+
