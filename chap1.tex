@@ -104,7 +104,8 @@ from the external magnetic field, modulating the field such that it is weaker
 or stronger.
 
 The energy difference between the two spin states is, to a good approximation,
-linearly dependent on the local magnetic field strength.  Therefore, the 
+linearly dependent on the local magnetic field strength 
+\cite{cavanagh1995protein}.  Therefore, the 
 result is that nuclei with different local electron fields which experience
 different local magnetic fields will resonate at different frequencies, and
 different chemical shifts when those frequencies are normalized with respect
@@ -167,7 +168,8 @@ biology techniques, often in the millimolar range.  The protein is produced
 by transforming a plasmid into bacteria, and then inducing transcription 
 of the plasmid followed by translation.  If specific isotopes, such as 15N or 
 13C are required for their NMR properties, they may be provided in the 
-bacteria's growth media.  Finally, the protein is isolated and purified.
+bacteria's growth media.  Finally, the protein is isolated and purified
+\cite{derome1987modern}.
 
 \subsection*{Data collection}
 
@@ -184,7 +186,8 @@ Various pulse sequences are used to probe specific functional groups within
 the protein.  There are two major categories of pulse sequences, based on the
 nature of the interactions they exploit: the first group exploits scalar 
 couplings which exist between covalently-bonded nuclei, and are thus called 
-"through-bond" experiments.  The second group exploits dipole-dipole couplings
+"through-bond" experiments \cite{davis1985assignment}.  
+The second group exploits dipole-dipole couplings
 between protons that are spatially close but do not have to be covalently
 bonded, and are thus called "through-space" experiments
 \cite{solomon1955relaxation}.  The data produced by
@@ -202,22 +205,32 @@ Maximizing sensitivity is also helpful for later data analysis.
 Sensitivity depends not only on the gyromagnetic ratios of nuclei, but also
 on the strength of the external magnetic field due to the magnitude of the
 difference between the high- and low-energy states of a spin-1/2 nucleus
-accordin to the Boltzmann distribution.
-Running an experiment multiple times and summing the results is another 
+according to the Boltzmann distribution.
+Running an experiment multiple times and summing the results is a 
 means of increasing sensitivity as the signal increases faster
-than the noise, assuming random distribution of the noise.
+than the noise, assuming random distribution of the noise
+\cite{ardenkjaer2003increase}.
+
+Referencing is done to ensure that results are comparable from multiple
+spectrometers.  While the absolute Larmor frequencies of nuclei vary depending
+on the magnetic field of the spectrometer, the normalized values, when compared
+to a known material, of which a small amount is placed in the spectrometer,
+are consistent \cite{wishart19951h}.  These are known as chemical shift values,
+and are reported in parts per million of deviation.
 
 \subsection*{Spectral processing}
 
 The time-domain experimental data are converted to frequency-domain spectral
 data to facilitate analysis.  A decaying sinusoid in the time-domain becomes
 a peak with a finite and non-zero linewidth at the corresponding frequency
-in the frequency-domain.  The Fourier Transform is a standard method for 
+in the frequency-domain.  The Fourier Transform \cite{cooley1965algorithm}
+is a standard method for 
 converting between time- and frequency-domains, and is often used on NMR data.
 Through appropriate use of scaling and normalization, the frequency axis is
 converted to chemical shifts.
 
-The Nyquist theorem places bounds on the dwell time with respect to the 
+The Nyquist theorem \cite{nyquist1928certain, shannon1949communication}
+places bounds on the dwell time with respect to the 
 final spectral width.  A poor choice of dwell time can lead to spectral 
 aliasing, in which peaks appear in unexpected spectral regions because their
 frequencies are outside the range supported by the chosen dwell time.
@@ -228,13 +241,14 @@ frequencies in close proximity to each other, increasing the probability of
 overlap.  To increase resolution, it is necessary to collect data points at 
 large time intervals.  Care must be taken to avoid decreasing the sensitivity;
 non-uniform sampling and Maximum Entropy reconstruction offer one means of so
-doing.
+doing \cite{rovnyak2004accelerated, hoch1985maximum}.
 
 A peak in a through-bond spectrum and in a through-space spectrum have 
 different meanings.  In a through-bond spectrum, a peak indicates the 
 observation of several resonating nuclei connected by a small number of
 covalent bonds.  However, a peak in a through-space NOESY spectrum indicates
-the presence of two protons within approximately 5 Angstroms of each other.
+the presence of two protons within approximately 5 Angstroms of each other
+\cite{neuhaus1989nuclear}.
 
 \subsection*{Peak picking}
 
@@ -252,17 +266,19 @@ Peak picking would be if easy if several conditions were met by the spectra:
   \item no unexpected signals appear
 \end{itemize}
  
-However, in practice, none of these conditions are met.  Thus, it is commonly
+However, in practice, none of these conditions are met \cite{williamson2009automated}.  
+Thus, it is commonly
 the case that expected signals are missing, some signals are close to the noise
 level, some noise appears to be signal, some artifacts appear, signals overlap
 to greater or lesser extents, and some unexpected signals appear, perhaps due
-to contamination or multiple conformations.
+to contamination or multiple conformations \cite{baran2004automated}.
 
 Therefore, accurate peak picking must deal with these problems, in order to
 identify all the true signals, none of the false signals, and to correctly 
 characterize the position and volume of the true signals.  Initial peak picking
 is often performed using a computational tool, but there typically is some
-level of manual intervention in order to correct mistakes and other problems.
+level of manual intervention in order to correct mistakes and other problems
+\cite{guerry2011automated}.
 
 \subsection*{Chemical shift assignment}
 
@@ -273,25 +289,29 @@ protein of interest.  Assignment is typically accomplished using a set of
 through-bond spectra, many of which are based around H-N groups and nearby
 atoms, and others which obtain the chemical shifts of the aliphatic sidechains
 (both carbons and protons) and still others for the aromatic portions of
-sidechains.
+sidechains \cite{hnco, hncacb, cbcaconh, hbhaconh, cconhtocsy}.
 
 Assignment proceeds through two key intermediate data types: generalized spin
-systems (or GSSs) and resonances.  Resonances are the NMR-visible incarnations
+systems (or GSSs) and resonances \cite{bmrb, ccpn}.  
+Resonances are the NMR-visible incarnations
 of nuclei: they resonate at characteristic frequencies across spectra.  GSSs
 are similar to NMR-visible incarnations of amino acid residues, but may span
-multiple residues and are therefore networks of covalently-bonded resonances.
+multiple residues and are therefore networks of covalently-bonded resonances
+\cite{abacus_assignment}.
 
 Peaks are assembled into GSSs by exploiting the redundancy between several 
 experiments: resonances appear in multiple spectra, at the same characteristic
 frequency giving rise to peaks (signals), and this is used to match these
 peaks into the same GSSs and resonances.  Peaks can also be matched within
-a single spectrum into the same GSS, depending on the nature of the experiment.
+a single spectrum into the same GSS, depending on the nature of the experiment
+\cite{ccpn}.
 
 GSSs and resonances can be typed, that is, assigned to an amino acid type or
 an atom type respectively.  As can be found in the BMRB, there is large 
 variation in average chemical shifts depending on amino acid type and atom type,
 especially for Serine/Threonine, Glycine, and Alanine residues, for which the
-CB, CA, and CB atoms' chemical shifts are essentially unique.
+CB, CA, and CB atoms' chemical shifts are essentially unique
+\cite{guntert2009automated}.
 
 A second type of overlap is used in chemical shift assignment: due to the 
 similar J-couplings of the CA both of the previous and same residue to the
@@ -303,11 +323,13 @@ can be used to identify a sequential connection between the two GSSs based on
 backbone amide groups.  Once a sufficiently long chain is built using these
 sequential connections and the (possibly incomplete) GSS typings, the chains 
 may be assigned to specific residues in the protein sequence.  Combined with
-resonance typing, this is sufficient to obtain chemical shift assignments.
+resonance typing, this is sufficient to obtain chemical shift assignments
+\cite{hnco, hncacb, cbcaconh}.
 
 However, chemical shift assignment is complicated by missing, overlapped, and
 extraneous signals, as well as ambiguities in GSS typings, resonance typings,
-sequential GSS connectivity, and sequence-specific GSS-residue assignments. 
+sequential GSS connectivity, and sequence-specific GSS-residue assignments
+\cite{williamson2009automated, guerry2011automated}.
 The ambiguities in typings are caused by the non-uniqueness of average chemical
 shifts for most residue types (apart from Glycine, Alanine, Serine, and 
 Threonine) \cite{bmrb}.  The ambiguities in sequential
@@ -318,10 +340,11 @@ of a sequential chain and the primary sequence of the protein.
 
 Accurate and complete chemical shift assignment requires nearly complete and
 correct peak picking, as well as the presence in the spectra of nearly complete
-expected signals, well-dispersed such that there is little to no overlap.  It
-is often helpful to use a computational tool to quickly assign most of the
+expected signals, well-dispersed such that there is little to no overlap
+\cite{guntert2009automated, guerry2011automated}.
+It is often helpful to use a computational tool to quickly assign most of the
 chemical shifts, but later to make manual interventions to fix mistakes and
-assign any missed resonances.
+assign any missed resonances \cite{baran2004automated}.
 
 \subsection*{NOESY assignment}
 
@@ -337,23 +360,27 @@ resonances with chemical shift values close enough to match a single NOESY
 peak cross-section.  There are several strategies for mitigating this problem.
 One is to collect 3D or 4D NOESY experiments, in which the additional dimensions
 correlate covalently-bonded 13C or 15N nuclei to the protons involved in the
-NOE interaction.  This approach greatly reduces the ambiguity.  Furthermore,
+NOE interaction \cite{majumdar1993improved}.  
+This approach greatly reduces the ambiguity.  Furthermore,
 characteristic peak patterns are expected, such as intra-residue NOESYs between
 protons of that residue, as well as NOESY peaks between protons of sequential
-residues.
+residues.  Another approach is selective labeling, as applied in the SAIL FLYA
+approach \cite{takeda2007automated}.
 
 Accurate and complete NOESY interpretation requires nearly complete chemical
 shift assignment.  Furthermore, some manual intervention in NOESY assignment
 may be necessary to correct and validate troublesome cases, or to prevent
-automated assignment programs from making mistakes.
+automated assignment programs from making mistakes 
+\cite{guntert2009automated, guerry2011automated}.
 
 NOESY data may be assigned manually, but are often assigned computationally
 as well, or with a combination of the approaches.  The Cyana and Aria structure 
-calculation programs include facilities for automated NOESY assignment.  A
-third tactic for dealing with ambiguous NOESY data is to iteratively reduce the
+calculation programs include facilities for automated NOESY assignment
+\cite{cyana2004, aria2003}.  
+A third tactic for dealing with ambiguous NOESY data is to iteratively reduce the
 ambiguity using network-anchoring approaches, that use initial structure 
 estimates to drive further unambiguous NOESY assignment in a self-consistent
-cycle.
+cycle \cite{cyana2004, aria2003}.
 
 \subsection*{Structure calculation}
 
@@ -369,7 +396,7 @@ related to dihedral torsion angles through the Karplus equation
 These data are synthesized into a structural model by programs including Cyana,
 Aria, and XPlor-NIH.  Cyana is useful for quickly obtaining coarse structure
 estimates.  XPlor-NIH is able to provide more detailed structural models, but
-may take far longer to calculate a structure.
+may take far longer to calculate a structure \cite{xplor-nih, cyana2004}.
 
 \subsection*{Deposition}
 
@@ -378,7 +405,7 @@ A BMRB deposition may be prepared that includes chemical shift assignments,
 peaks, peak assignments, binary spectral and time-domain data, sample 
 preparation protocol, and various other relevant data.  The PDB is the main 
 repository for structural data.  It is possible and useful to link a BMRB
-deposition to a PDB deposition.
+deposition to a PDB deposition \cite{bmrb, pdb}.
 
 
 
