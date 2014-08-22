@@ -95,9 +95,9 @@ reproducible.  These include:
   their use; scientists have a well-developed understanding of what should,
   and what should not, be recorded.
 
-  \item Experimental execution.  Lab notebooks and Laboratory Information 
-  Management Systems 
-  (LIMS) are also important for recording the details of experiments, including 
+  \item Experimental execution.  Lab notebooks and 
+  Laboratory Information Management Systems (LIMS) 
+  are also important for recording the details of experiments, including 
   any problems such as contamination.  Recent efforts have applied 
   computational power to create Electronic Lab Notebooks (ELNs)
   \cite{talbott2005eln, rubacha2011eln, myers2001eln}.
@@ -232,11 +232,13 @@ In order to prove the utility of the reproducibility approach and annotation
 model in practice, it was applied to a full-scale protein structure 
 determination process.  Starting with time-domain data sets of the protein of 
 interest, the structure determination process was carried out from start to 
-finish, including peak-picking, sequence-specific assignment, NOESY analysis 
+finish, including peak-picking, sequence-specific assignment, 
+Nuclear Overhauser Effect Spectroscopy (NOESY) analysis 
 and structure calculation.  Intermediate snapshots were captured and 
 appropriately annotated.  This data set may now be found deposited in the BMRB.
 
-The data model used was based on the data models of the CCPN project \cite{ccpn}
+The data model used was based on the data models of the 
+Collaborative Computing Project for NMR (CCPN) \cite{ccpn}
 and of the BMRB \cite{bmrb}, with several 
 extensions as previously noted to enable reproducibility.  A library of NMR 
 phenomena and their use as deductive inferences rules was constructed.  
@@ -266,7 +268,9 @@ simple data snapshotting, annotation, and capture of extraneous results,
 without disrupting the standard Sparky user experience.  The increase in
 workload is minimal due to Sparky's keyboard accelerators.
 
-Second, a library for reading and writing of NMR-STAR files was implemented.  
+Second, a library for reading and writing of 
+NMR Self-defining Text Archival and Retrieval (NMR-STAR)
+files was implemented.  
 NMR-STAR is the standard format used by the BMRB for the deposition and 
 archival of NMR data \cite{hall1991star, hall1994star, hall1995star}.
 By storing ongoing data analysis in NMR-STAR files, 
@@ -293,10 +297,9 @@ sampling can help decrease the amount of data collection time required, and
 also help in avoiding the penalties imposed by the necessity of sampling past 
 the Rovnyak limit \cite{rovnyak2004accelerated}.  This project included,
 a novel data model of sample schedules which included non-uniformity not 
-only in the time dimensions but also in the number of transients per FID and 
-the quadrature, 
-a collection of common algorithms, gathered from descriptions in the 
-literature and implemented,
+only in the time dimensions but also in the number of transients per 
+Free Induction Decay (FID) and the quadrature, a collection of common 
+algorithms, gathered from descriptions in the literature and implemented,
 and facilitated easy reproducibility of sample schedule creation by capturing
 the parameterization.
 
