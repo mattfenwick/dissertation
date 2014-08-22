@@ -52,6 +52,34 @@ Chemical shifts and nuclear couplings form the basis of modern NMR
 spectroscopy.
 
 
+\subsection*{Populations and relaxation}
+
+Macroscopic effects are observed when energy levels are differentially 
+populated.  For example, in a uniform static magnetic field, a sample 
+containing spin-1/2 nuclei will show a slight variation in the populations of 
+the low-energy and high-energy states, according to the Boltzmann distribution.  
+This variation is observable at the macroscopic level as a net magnetization in 
+the same direction as the external magnetic field.  Different forms of magnetization
+may be induced by perturbing the sample.  When the sample is not at equilibrium,
+it will gradually relax back to equilibrium by utilizing a variety of
+pathways and transitions.  Some of these pathways and transitions will create
+additional macroscopically observable magnetizations.
+
+Relaxation is caused by fluctuating local magnetic fields.
+In molecules in solution, molecular tumbling causes nuclei to reorient with
+respect to the external magnetic field and thus changes the interactions
+between coupled nuclei; thus, a nucleus causes its nearby, coupled nuclei to
+experience a fluctuating magnetic field and may help them to relax.
+Relaxation may be described using the Bloch equations \cite{bloch1946nuclear},
+a set of differential equations which describe the change in magnetization 
+over time with respect to the difference from the equilibrium state.
+
+There are two separate relaxation rate constants: \mattftone{} governs 
+relaxation in the Z or longitudinal axis, parallel to the external magnetic
+field.  \mattfttwo{} governs relaxation in the rotating XY plane, also known
+as the transverse component.
+
+
 \subsection*{A spin system of one spin}
 
 In a spin system containing a single nucleus of spin-1/2 \ref{one_spin_1-2},
@@ -137,9 +165,9 @@ to the strength of the external magnetic field.
 
 The basic principle of the NOE experiment is to perturb the equilibrium 
 populations of a two-spin system, using an RF pulse which induces single-quantum
-transitions of one nucleus.  Then, relaxation proceeds through the zero-quantum
-and double-quantum pathways, both of which change the magnetization state of
-the other nucleus.
+transitions of one nucleus.  Then, the process of cross-relaxation induces a 
+change in the magnetization of the other, coupled nucleus.  Cross-relaxation
+exploits the zero-quantum and double-quantum transitions.
 
 The RF pulse equalizes the populations of the first nucleus between the low-
 and high-energy states.  Meanwhile, initially, the populations of the second
@@ -151,7 +179,8 @@ Depending on the rates of the two cross-relaxation transitions relative to
 each other, the population of the second nucleus in the high-energy state may 
 be depleted or enhanced.  There is a dependence of both cross-relaxation
 rates on the spectral density function, which is related to the molecular 
-weight.  
+weight.  It is important to note that relaxation may proceed by other pathways
+and transitions as well.
 
 The strength of the NOE depends on the distance between the nuclei, 
 the gyromagnetic ratios, and their orientation relative to the external 
@@ -171,6 +200,16 @@ If the w0 rate is faster, the high-energy state of the second spin will be
 enhanced \ref{two_spins_w0}.
 If the w2 cross-relaxation rate is faster, the low-energy state of the second
 spin will be enhanced \ref{two_spins_w2}.
+
+The key to the NOE experiment is that first, a non-equilibrium population of
+spins are created.  This then relaxes back to equilibrium, but because a 
+second spin is coupled, there are pathways for relaxation which modify the
+magnetization of the second spin.  Eventually, through a variety of relaxation
+pathways, equilibrium is again reached,
+but while the system is still relaxing, an observable change of the 
+magnetization of the second, coupled nucleus is created.  The strength of
+this change in magnetization depends on the relative rates of the various
+relaxation pathways available to the spin system.
 
 
 
@@ -449,25 +488,36 @@ deposition to a PDB deposition \cite{bmrb, pdb}.
 
 \begin{figure}[h]
   \includegraphics[scale=0.5]{figures/two_spins_initial}
-  \caption{The initial population distribution of a two-spin system.}
+  \caption[The initial population distribution of a two-spin system.]
+          {The initial population distribution of a two-spin system in a 
+           static uniform magnetic field.  The low-energy states of both
+           spins are more populated than the high-energy states, according to
+           the Boltzmann distribution.}
   \label{two_spins_initial}
 \end{figure}
 
 \begin{figure}[h]
   \includegraphics[scale=0.5]{figures/two_spins_rf}
-  \caption{An RF pulse on one nucleus equalizes its populations.}
+  \caption[An RF pulse on one nucleus equalizes its populations.]
+          {An RF pulse on one nucleus equalizes its populations, in a 
+           single-quantum transition.  The population of the second spin
+           is unchanged.}
   \label{two_spins_rf}
 \end{figure}
 
 \begin{figure}[h]
   \includegraphics[scale=0.5]{figures/two_spins_w0}
-  \caption{Relaxation in the case where the zero-quantum rate is faster.}
+  \caption[Cross-relaxation along the zero-quantum transition.]
+          {Cross-relaxation along the zero-quantum transition leads to 
+           an increase in the high-energy population of the second spin.}
   \label{two_spins_w0}
 \end{figure}
 
 \begin{figure}[h]
   \includegraphics[scale=0.5]{figures/two_spins_w2}
-  \caption{Relaxation in the case where the double-quantum rate is faster.}
+  \caption[Cross-relaxation along the double-quantum transition.]
+          {Cross-relaxation along the double-quantum transition leads to
+           a decrease in the high-energy population of the second spin.}
   \label{two_spins_w2}
 \end{figure}
 
