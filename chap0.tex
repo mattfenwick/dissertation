@@ -70,7 +70,7 @@ method of iterative experimental designing, data collection, analysis, and
 hypothesis formulation, which leads to new experiments, data and analysis,  
 and so on, resulting in the acquisition of knowledge about the natural world.
 
-A basic principle of scientific methods is that they enable reproducibility.  
+A basic property of scientific methods is that they enable reproducibility.  
 In order for scientific results to be reproducible, all components of the 
 experimental design, data collection and data analysis steps must be 
 reproducible.  These include:
@@ -230,12 +230,12 @@ suggestions.
 \section{Reproducible NMR Data Sets}
 In order to prove the utility of the reproducibility approach and annotation 
 model in practice, it was applied to a full-scale protein structure 
-determination process.  Starting with time-domain data sets of the protein of 
-interest, the structure determination process was carried out from start to 
+determination process.  Starting with time-domain data sets of the Samp3 
+protein, the structure determination process was carried out from start to 
 finish, including peak-picking, sequence-specific assignment, 
 Nuclear Overhauser Effect Spectroscopy (NOESY) analysis 
 and structure calculation.  Intermediate snapshots were captured and 
-appropriately annotated.  This data set may now be found deposited in the BMRB.
+appropriately annotated.
 
 The data model used was based on the data models of the 
 Collaborative Computing Project for NMR (CCPN) \cite{ccpn}
@@ -260,17 +260,17 @@ reproducibility of NMR analysis in various ways.
 	
 First, a Sparky reproducibility extension has been developed.  This extension
 facilitates reproducible data capture during the spectral analysis stage. Sparky 
-\cite{sparky} is a popular tool for analysis of NMR data.  One of the major 
-strengths of Sparky is its extensibility through user-defined Python modules.  
+\cite{sparky} is a popular tool for analysis of NMR data.  A major 
+strength of Sparky is its extensibility through user-defined Python modules.  
 While its core is written in C++ and is not extensible, a Python module can 
-be added without needing to touch the C++ core.  This extension allows
+be added without changing the C++ core.  This extension allows
 simple data snapshotting, annotation, and capture of extraneous results,
 without disrupting the standard Sparky user experience.  The increase in
 workload is minimal due to Sparky's keyboard accelerators.
 
 Second, a library for reading and writing of 
 NMR Self-defining Text Archival and Retrieval (NMR-STAR)
-files was implemented.  
+files was implemented \cite{fenwick2013}.  
 NMR-STAR is the standard format used by the BMRB for the deposition and 
 archival of NMR data \cite{hall1991star, hall1994star, hall1995star}.
 By storing ongoing data analysis in NMR-STAR files, 
@@ -282,7 +282,8 @@ software will remain easily usable and maintainable as NMR data expands
 and matures.
 
 Third, two tools for working with time- and frequency-domain data sets:  
-Connjur Spectrum Translator (ST) and Connjur Workflow Builder (WB).  ST 
+Connjur Spectrum Translator (ST) and Connjur Workflow Builder (WB)
+\cite{connjur-wb, connjur-st}.  ST 
 translates between various formats of time- and frequency-domain spectra; 
 such a tool is necessary because of the input and output requirements of 
 many spectral processing tools.  WB provides a high-level interface to 
@@ -290,12 +291,14 @@ spectral processing and stores the parameterization, functions, and
 intermediate data sets in a central, relational database.  This means 
 that the stage is reproducible.
 
-Fourth, a sample scheduler has been implemented.  This tool facilitates the 
+Fourth, a sample scheduler has been implemented \cite{maciejewski2011random}.  
+This tool facilitates the 
 creation of non-uniform sample schedules, which are used to collect time-domain 
 data which are non-uniformly sampled in the indirect dimension(s).  Non-uniform 
 sampling can help decrease the amount of data collection time required, and 
 also help in avoiding the penalties imposed by the necessity of sampling past 
-the Rovnyak limit \cite{rovnyak2004accelerated}.  This project included,
+the Rovnyak limit \cite{rovnyak2004accelerated}, which is 1.3 times the 
+transverse relaxation rate, \textit{R}\textsubscript{2}.  This project included
 a novel data model of sample schedules which included non-uniformity not 
 only in the time dimensions but also in the number of transients per 
 Free Induction Decay (FID) and the quadrature, a collection of common 
