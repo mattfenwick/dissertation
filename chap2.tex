@@ -19,7 +19,7 @@ analysis, and fourth, Figure \ref{data_overview_4}, is the final goal of
 an NMR study, information about the actual structure of the molecule of 
 interest.
 
-This chapter will present the data of interest during the NMR process.
+This chapter will present the data generated during the NMR process.
 Later chapters will focus in on subsets of the data, as well as show how
 the data is used during analysis.
 
@@ -45,8 +45,8 @@ and bond angles (see Table \ref{alanine_bond_angles}) are known
 
 \subsubsection{Nuclei}
 The gyromagnetic ratio of nuclei (see Table \ref{gyromagnetic_ratios}) and 
-pulse sequences.  The gyromagnetic ratio determines the approximate 
-frequency range at which nuclei appear in spectra.
+pulse sequences.  The gyromagnetic ratio and the magnetic field strength 
+determine the approximate frequency range at which nuclei appear in spectra.
 
 \subsubsection{Time-domain data}
 Resonances appear as decaying sinusoids, and the full data set is a sum of
@@ -78,9 +78,9 @@ information is not known until the correspondence between peak cross
 section and atom is found.
 
 \subsubsection{Resonance}
-An atom is expected to resonate at approximately the same frequency in all
-spectra (although factors such as temperature and the Bloch-Siegert shift 
-can produce differences).
+A particular nucleus is expected to resonate at approximately the same 
+frequency in all spectra (although factors such as temperature and the 
+Bloch-Siegert shift can produce differences).
 
 \subsubsection{Frequency-domain spectra}
 The Fourier Transform of a decaying sinusoid produces a frequency-domain 
@@ -136,7 +136,7 @@ NMR experiments.
 \subsection*{NMR}
 
 \subsubsection{Spectrometer}
-Operating characteristics of the spectrometer, such as its carrier frequency.
+Operating characteristics of the spectrometer, such as its field strength.
 
 \subsubsection{Time-domain data}
 The experimental conditions in which each time-domain data set is collected, 
@@ -159,9 +159,6 @@ different frequencies that can be distinguished, and resolution, or the
 ability to distinguish nearby but distinct signals in the frequency domain
 \cite{ernst2004}.  See Figure \ref{nhsqc} for an example Nitrogen 
 Heteronuclear Single-Quantum Coherence (HSQC) spectrum.
-Whether the data was collected as States, Time Proportional Phase Incrementation (TPPI), 
-or States-TPPI is also important, as it determines where and with what sign 
-aliased peaks will appear.
 
 \subsubsection{Stereospecific ambiguities}
 Given the set of spectra collected, the atoms in the molecule, and the isotope
@@ -223,7 +220,7 @@ across multiple spectra, which corresponds to a group of covalently bonded
 resonances; it is similar to a residue.  
 The key to GSSs is a battery of multi-dimensional pulse 
 sequences designed to correlate resonances within GSSs 
-\cite{cavanagh1995protein, hncacb, hnco, cbcaconh}.  These experiments are all
+\cite{cavanagh1995protein, hncacb, hnco, cbcaconh}, which are
 based on an N-H group (due to its sensitivity and chemical shift dispersion)
 and correlate additional nearby nuclei through covalent bonds.
 
