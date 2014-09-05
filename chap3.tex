@@ -10,10 +10,10 @@
 This chapter will describe the NMR data analysis process in detail,
 including the roles of computational and manual analysis, their interaction
 with the data types, and tools used in the process.
-In order to study proteins in solution using NMR, multi-step processes are 
-employed to collect and analyze data.  An example process is shown in 
-Figure \ref{nmr_overview} as a series of independent stages 
-\cite{guerry2011automated}.
+In order to study proteins in solution using NMR, a multi-step process is 
+employed to collect and analyze data, as shown in 
+Figure \ref{nmr_overview}, which breaks the process down into a series of 
+independent stages \cite{guerry2011automated}.
 Figure \ref{process_timeline} shows a view of the process in the context
 of the data discussed in the previous chapter.
 
@@ -66,8 +66,7 @@ a uniformly collected data set into a frequency spectrum.
 An example of an NMR spectrum of N-H groups is shown in Figure \ref{nhsqc}.
 Due to relaxation decreasing the amplitude of an NMR signal over time, peaks 
 have an intrinsic linewidth in the frequency spectrum.
-
-Alternative approaches include multidimensional decompsition \cite{mdd}
+Related approaches include multidimensional decomposition \cite{mdd}
 and maximum entropy reconstruction \cite{hoch1996nmr}.  When FIDs are 
 non-uniformly collected, these processing methods are required.
 
@@ -348,8 +347,8 @@ These experiments include
 the HBHA(CO)NH \cite{hbhaconh} in Figure \ref{ccpn_hbhaconh}, 
 the C(CO)NH-Tocsy \cite{cconhtocsy} in Figure \ref{ccpn_cconhtocsy}, 
 the HC(CO)NH-Tocsy \cite{hcconhtocsy} in Figure \ref{ccpn_hcconhtocsy}, 
-the HCCH-Tocsy \cite{hcchtocsy} in Figure \ref{ccpn_hcchtocsy}, 
-and aromatic Tocsys.  The purpose of these experiments is to 
+and the HCCH-Tocsy \cite{hcchtocsy} in Figure \ref{ccpn_hcchtocsy}.  
+The purpose of these experiments is to 
 obtain the chemical shift values of sidechain resonances of protons, since 
 proton frequencies are necessary in order to interpret NOESY spectra.  To 
 interpret these spectra, the peaks must be assigned to GSSs and atomtypes 
@@ -481,8 +480,10 @@ altieri2004automation, baran2004automated}.  As yet, computational tools
 are not able to deal perfectly with these issues, due to one or more of 
 several basic limitations: 
 \begin{enumerate}
-  \item they require high-quality input in order to function correctly 
-  \cite{saga, abacus_assignment, mars, autoassign2001, ezassign, pine, cyana2004}; 
+  \item they require high-quality input in order to function correctly:
+    SAGA \cite{saga}, ABACUS \cite{abacus}, Mars \cite{mars}, 
+    AutoAssign \cite{autoassign2001}, EZ-ASSIGN \cite{ezassign},
+    PINE \cite{pine}, and CYANA \cite{cyana2004};
   this input is generally assumed to have been manually prepared in order 
   to meet the stringent quality requirements of completeness and absence of 
   extraneous results
@@ -506,8 +507,8 @@ Thus, PINE and related efforts
 are an exciting effort to loosen these incidental restrictions.  Initial 
 results are promising, and show a marked improvement, although manual 
 intervention is still assumed to be necessary in order to obtain the best 
-results \cite{pine}.  Further tools such as \cite{shiftx2, cheshire}, 
-which calculate chemical shifts from structure,  
+results \cite{pine}.  Further tools such as SHIFTX2 and Cheshire 
+\cite{shiftx2, cheshire}, which calculate chemical shifts from structure,  
 bring additional information to bear, helping to validate assignments.
 Table \ref{data_connections} and Figure \ref{process_timeline} show some
 of the key connections between various data types, putting these tools in
