@@ -25,9 +25,8 @@ using NMRPipe, and then analyzed first in CCPN Analysis \cite{ccpn} and later
 in Sparky \cite{sparky}.  A preliminary analysis process used CCPN Analysis,
 along with git and several Python utilities to create and manage the 
 reproducible history.  The final analysis used Sparky, the model and approach
-described in the previous chapter, the extension described in the following
-chapter, and the extensions to the NMR-STAR data dictionary.  
-CYANA was used to assign NOEs,
+described in the previous chapter, and the extension described in the following
+chapter.  CYANA was used to assign NOEs,
 disambiguate stereospecific assignments, and calculate structure bundles.
 % TODO more detail?  pictures?
 
@@ -199,10 +198,31 @@ in some way.  The standard means for sharing NMR-derived data is the BMRB
 of reproducible data sets, we have collaborated with the BMRB to extend the
 NMR-STAR data dictionary, so that reproducible data sets may be collected and
 deposited in the NMR-STAR format.
-
 The NMR-STAR data dictionary, which may be found at 
 \url{http://www.bmrb.wisc.edu/dictionary/}, catalogs the names, structure,
 intended use, and definitions of the data types handled by the BMRB.
+The git repository may be extracted and converted to a single NMR-STAR file;
+code for doing this may be found at 
+\url{https://raw.githubusercontent.com/CONNJUR/Samp3-extractor/master/samp3_extractor.sh}:
+\begin{verbatim}
+filepath="sparky_data.json"
+myids=( $(git log --format="%H" $filepath) )
+ 
+for (( i=0,j=1; i < ${#myids[@]}; i++,j++ )) 
+    do
+        name="temp/a$j.txt"
+        sha=${myids[$i]}
+        git show $sha:$filepath > $name
+    done
+\end{verbatim}
+This is a Bash shell script which uses the git commands "log" and "show" to 
+first locate identifiers for
+each version of the JSON-formatted dump file, then to read the contents of
+those versions from the git database, producing new files, which are stored
+in the "temp/" directory.  A Python program is then used to load the file
+contents into memory, and perform a semantic diff algorithm which recognizes
+differences between file versions.  The final output is in the extended
+NMR-STAR format.
 
 
 \section{Assessing the difficulties encountered}
@@ -292,8 +312,8 @@ Valine.
 
 \section{Alternative implementations}
 
-While the approach taken was to create the data set as a single NMR-STAR
-file for reasons of compatibility with existing programs and data archival
+While the approach taken was to generate a single NMR-STAR file from the git
+repo for reasons of compatibility with existing programs and data archival
 and retrieval facilities, there are other solutions to this problem.  This
 section will inspect the strengths and weaknesses of an alternative solution
 which was taken during preliminary stages of this project.
