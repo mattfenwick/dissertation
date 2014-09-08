@@ -227,26 +227,25 @@ into practice, covering common roadblocks and problems as well as tips and
 suggestions.
 
 
-\section{Reproducible NMR Data Sets}
+\section{Reproducible NMR Data Set}
 In order to prove the utility of the reproducibility approach and annotation 
 model in practice, it was applied to a full-scale protein structure 
-determination process.  Starting with time-domain data sets of the Samp3 
+determination process.  Starting with time-domain data of the Samp3 
 protein, the structure determination process was carried out from start to 
 finish, including peak-picking, sequence-specific assignment, 
 Nuclear Overhauser Effect Spectroscopy (NOESY) analysis 
 and structure calculation.  Intermediate snapshots were captured and 
 appropriately annotated.
 
-The data model used was based on the data models of the 
-Collaborative Computing Project for NMR (CCPN) \cite{ccpn}
-and of the BMRB \cite{bmrb}, with several 
+The data model used was based on the those of the Collaborative Computing 
+Project for NMR (CCPN) \cite{ccpn} and of the BMRB \cite{bmrb}, with several 
 extensions as previously noted to enable reproducibility.  A library of NMR 
 phenomena and their use as deductive inferences rules was constructed.  
 These rules were applied for snapshot annotation.
 
 Whereas a single implementation of the previously described strategy is 
 here described, in principle the approach is platform-agnostic and 
-therefore could be implemented and used by other research group, or added 
+therefore could be implemented and used by other research groups, or added 
 into an existing tool as an extension.
 
 
@@ -281,14 +280,14 @@ from standard NMR software techniques; the approach ensures that the
 software will remain easily usable and maintainable as NMR data expands 
 and matures.
 
-Third, two tools for working with time- and frequency-domain data sets:  
+Third, two tools for working with time- and frequency-domain data:  
 Connjur Spectrum Translator (ST) and Connjur Workflow Builder (WB)
 \cite{connjur-wb, connjur-st}.  ST 
 translates between various formats of time- and frequency-domain spectra; 
 such a tool is necessary because of the input and output requirements of 
 many spectral processing tools.  WB provides a high-level interface to 
 spectral processing and stores the parameterization, functions, and 
-intermediate data sets in a central, relational database.  This means 
+intermediate data in a central, relational database.  This means 
 that the stage is reproducible.
 
 Fourth, a sample scheduler has been implemented \cite{maciejewski2011random}.  
