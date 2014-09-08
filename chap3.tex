@@ -73,7 +73,7 @@ non-uniformly collected, these processing methods are required.
 Considerations include minimization of processing artifacts, signal-to-noise 
 ratio, accounting for water lines, avoiding rolling baselines and baseline 
 offsets, linewidth and shape, phasing, and apodization.  Multiple software 
-packages exist for carrying out this conversion \cite{nmrpipe, rnmrtk}.
+packages exist for carrying out this conversion, such as NMRPipe and RNMRTK \cite{nmrpipe, rnmrtk}.
 These packages include functions for processing the data in specific ways to 
 guarantee desirable qualities.  A typical procedure for spectral processing 
 involves the sequential application of multiple functions from one of these 
@@ -83,9 +83,9 @@ points.  Each function may require the setting of one or more parameters in
 order to proceed.  Thus, in addition to the final frequency-domain spectrum, 
 the process generates several intermediate data sets, several 
 intermediate metadata sets, and the sequence of functions used along with 
-their parameterizations.  Previous work from our lab has enabled the 
-convenient collection of necessary metadata during spectral 
-processing \cite{connjur-wb}.
+their parameterizations.  A previous program developed by our lab, known
+as CONNJUR WB, has enabled the convenient collection of necessary metadata 
+during spectral processing \cite{connjur-wb}.
 
 
 
@@ -220,7 +220,8 @@ on \cite{autoassign1997}: % page 600 -- `reliability`
 \end{enumerate}
 
 Computational approaches for GSS construction tend to require manual 
-assistance in some cases \cite{autoassign1997, mars}.  Incorrect or 
+assistance in some cases, such as AutoAssign and Mars 
+\cite{autoassign1997, mars}.  Incorrect or 
 incomplete GSSs will have negative effects on the quality of later 
 analysis; several assignment tools assume that manual intervention will 
 verify and, if necessary, correct the GSSs \cite{williamson2009automated}; 
@@ -404,8 +405,10 @@ ambiguous interpretations of peak assignments; this can be greatly mitigated
 by the use of an extra dimension:  15N- or 13C-edited NOESY spectra reduce 
 the ambiguity, as well as incorrect or incomplete chemical shift assignments.
 
-NOESY assignment may be done automatically \cite{cyana2004, aria2003}.  
-NOESY peak-picking may be automated as well \cite{munin, korzhnev2001munin}.
+NOESY assignment may be done automatically by programs such as CYANA and 
+ARIA \cite{cyana2004, aria2003}.  
+NOESY peak-picking may be automated as well by programs such as
+MUNIN \cite{munin, korzhnev2001munin}.
 
 An alternative approach is taken by ABACUS \cite{abacus_assignment}, which uses
 Monte Carlo probabilistic methods for assignment, NOE assignment, and structure
@@ -421,16 +424,17 @@ Importantly, input to ABACUS -- correct NOESY peak picking and GSS construction
 The resonance assignments of the NOESY data are 
 interpreted to obtain distance restraints, which are then used to calculate 
 coarse-grained three-dimensional structures.  The structures may then be 
-refined and fine-tuned using a computational tool such as Amber \cite{amber}.  
+refined and fine-tuned using a computational tool such as 
+Assisted Model Building with Energy Refinement (AMBER) \cite{amber}.  
 Unambiguous resonance assignment of NOESY data purely on the basis of chemical 
 shift assignments may often be impossible or impractical, due to degenerate 
 chemical shifts and to non-stereospecific assignments.  While these 
 ambiguities can often be resolved through the collection of additional 
 NMR data, the expense involved in doing so may often make it more practical 
 to attempt to resolve the ambiguities through a structure determination 
-program such as Cyana \cite{cyana2004}.
+program such as CYANA \cite{cyana2004}.
 
-Cyana is able to calculate a three-dimensional structure from NOESY peaks, 
+CYANA is able to calculate a three-dimensional structure from NOESY peaks, 
 chemical shift assignments, and distance restraints \cite{cyana2004, aria2003} 
 using an iterative approach to NOESY peak assignment and building structural 
 models.  It also requires secondary structure information in the form of 
@@ -438,7 +442,7 @@ torsion angle restraints as input; as
 chemical shift values are correlated to secondary structure, as described
 by secondary chemical shift statistics \cite{spera1991empirical}, secondary 
 structure can be calculated from chemical shift assignments using a program 
-such as Talos \cite{talos+}.  As of version 3.0, Cyana is able to make use
+such as TALOS+ \cite{talos+}.  As of version 3.0, CYANA is able to make use
 of RDCs during structure calculation as well.
 
 Chemical shift assignments may also be used to calculate potential structures.
@@ -452,7 +456,7 @@ still offers a massive potential time savings by eliminating the need to
 collect and analyse NOESY spectra.
 
 Additional programs may be used to build, manipulate, and refine structures.
-Assisted Model Building with Energy Refinement (AMBER) \cite{amber} is a set 
+AMBER \cite{amber} is a set 
 of force fields which facilitate simulation of molecular dynamics.  The
 force fields are parameterizable and describe potential energy; when applied
 to a molecule they provide a description of the molecule's potential energy. 
@@ -507,7 +511,7 @@ Thus, PINE and related efforts
 are an exciting effort to loosen these incidental restrictions.  Initial 
 results are promising, and show a marked improvement, although manual 
 intervention is still assumed to be necessary in order to obtain the best 
-results \cite{pine}.  Further tools such as SHIFTX2 and Cheshire 
+results \cite{pine}.  Further tools such as SHIFTX2 and CHESHIRE 
 \cite{shiftx2, cheshire}, which calculate chemical shifts from structure,  
 bring additional information to bear, helping to validate assignments.
 Table \ref{data_connections} and Figure \ref{process_timeline} show some
@@ -605,10 +609,10 @@ prevents reproducibility.
       Spectrum -> peaks                         &  Sparky peak picker   &                    \\  \hline
       Peaks -> GSSs                             &                       &                    \\  \hline
       Sequence -> chemical shifts               &                       &  ShiftY            \\  \hline
-      Chemical shifts -> secondary structure    &  Talos                &                    \\  \hline
-      Chemical shifts -> tertiary structure     &  CS-Rosetta, Cheshire &  Sparta+, ShiftX   \\  \hline
-      Chemical shifts -> NOESY assignments      &  Cyana                &                    \\  \hline
-      NOESY assignments -> structure            &  Cyana                &                    \\  \hline
+      Chemical shifts -> secondary structure    &  TALOS+               &                    \\  \hline
+      Chemical shifts -> tertiary structure     &  CS-ROSETTA, CHESHIRE &  SPARTA+, ShiftX   \\  \hline
+      Chemical shifts -> NOESY assignments      &  CYANA                &                    \\  \hline
+      NOESY assignments -> structure            &  CYANA                &                    \\  \hline
       NOEs, shifts, j-couplings -> structure    &  XPLOR-NIH            &                    \\  \hline
     \end{tabular}
     \caption{Connections between various data types.}

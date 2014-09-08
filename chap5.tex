@@ -27,7 +27,7 @@ along with git and several Python utilities to create and manage the
 reproducible history.  The final analysis used Sparky, the model and approach
 described in the previous chapter, the extension described in the following
 chapter, and the extensions to the NMR-STAR data dictionary.  
-Cyana was used to assign NOEs,
+CYANA was used to assign NOEs,
 disambiguate stereospecific assignments, and calculate structure bundles.
 % TODO more detail?  pictures?
 
@@ -147,14 +147,14 @@ appropriate one.
 
 \subsection*{NOE assignment and structure calculation}
 The four NOESY spectra were peak picked with an automated peak picker.  
-Talos+ \cite{talos+} was run on the chemical shift assignments of the H, HA,
+TALOS+ \cite{talos+} was run on the chemical shift assignments of the H, HA,
 CA, CB, CO, and N nuclei in order to generate Phi and Psi torsion angle 
 constraints for backbone conformation.
-The Talos+ results can be seen in Figure \ref{talos+_results}.
+The TALOS+ results can be seen in Figure \ref{talos+_results}.
 
-Cyana was then run by providing it the NOESY peak lists, chemical shift
+CYANA was then run by providing it the NOESY peak lists, chemical shift
 assignments, torsion angle constraints, and Samp3 sequence.  The script
-used for running Cyana is shown here:
+used for running CYANA is shown here:
 \begin{verbatim}
 # NOESY peak lists in XEASY format
 peaks       := aromatic_gnoesy_chsqc.pks,aromatic_noesy.pks,
@@ -176,10 +176,10 @@ nproc=8
 
 noeassign peaks=$peaks prot=$prot autoaco
 \end{verbatim}
-After running Cyana once, the output indicated issues with stereospecificity
+After running CYANA once, the output indicated issues with stereospecificity
 of certain assignments (methylene protons, as well as Leucine and Valine
-CG groups).  These assignments were corrected according to Cyana's feedback,
-and Cyana re-run with the corrected stereospecific assignments.
+CG groups).  These assignments were corrected according to CYANA's feedback,
+and CYANA re-run with the corrected stereospecific assignments.
 The final structure is shown in Figure \ref{structure} as seen in 
 Jmol \cite{jmol}.
 
@@ -478,9 +478,9 @@ NOESY-CHSQC (D\textsubscript{2}O) & H   &  C            &  H            &  Yes  
 
 \begin{figure}
   \includegraphics[scale=0.25]{figures/talos+_results}
-  \caption[The secondary structure prediction according to Talos+.]
+  \caption[The secondary structure prediction according to TALOS+.]
           {The torsion angles and secondary structure prediction 
-           according to Talos+, along with a confidence interval.  
+           according to TALOS+, along with a confidence interval.  
            These results can be shown in a Ramachandran plot.}
   \label{talos+_results}
 \end{figure}
