@@ -54,41 +54,40 @@ spectroscopy.
 
 \subsection*{Populations}
 
-Spin systems can have multiple states with different energies.  The amount
+Spin systems have multiple states with different energies.  The distribution
 of spins occupying each energy level are referred to as populations.  Each
-energy level may have more or fewer spins than any other energy level -- 
-it is not necessary that they are all equal -- but at equilibrium, the amounts
-are determined by the relative energy levels.  Spins can move between energy
-levels, changing the populations, by utilizing transitions.
+energy level may have more or fewer spins than any other energy level.
+At equilibrium, the populations are determined by the relative energy levels.  
+Spins can move between energy levels, which changes the populations, in a 
+process known as a "transition".
 
-Macroscopic effects are observed when energy levels are differentially 
+Macroscopic effects are observed as longitudinal magnetization
+when energy levels are differentially 
 populated.  For example, in a uniform static magnetic field, a sample 
 containing spin-1/2 nuclei will show a slight variation in the populations of 
 the low-energy and high-energy states, according to the Boltzmann distribution.  
 This variation is observable at the macroscopic level as a net magnetization in 
 the same direction as the external magnetic field.  Different forms of magnetization
 may be induced by perturbing the sample.  When the sample is not at equilibrium,
-it will gradually relax back to equilibrium by utilizing a variety of
+it will gradually relax back to equilibrium by means of a variety of
 pathways and transitions.  Some of these pathways and transitions will create
 additional macroscopically observable magnetizations.
 
 
 \subsection*{Transitions}
 
-Transitions are what spins utilize to move from one energy level to another,
-changing the populations.
-A transition may move a spin from low energy to high energy, high energy to
-low energy, or have a small or negligible effect on the energy.
+Transitions allows spins to move from one energy level to another, changing 
+the populations.
+A transition may move a spin from low energy to high energy or vice versa.
 Some transitions involve a change in only one spin, whereas others involve a
-change in multiple spins.  Radiofrequency pulses are used to cause spins to
-utilize transitions which only change a single spin.
+change in multiple spins.  Radiofrequency pulses are used to excite transitions
+of a single spin.
 
-Spins utilizing transitions is caused by fluctuating local magnetic fields.  
-The frequency of
+Fluctuating local magnetic fields also cause transitions.  The frequency of
 the fluctuation of the magnetic field determines the energy available, and if 
-the energy matches the energy difference of a transition, the fluctuation is able
-to cause relaxation along that transition.  The ability of fluctuating magnetic
-fields to cause such transitions depends on the power available at the 
+the energy matches the energy difference of a transition, the fluctuation is 
+able to cause relaxation along that transition.  The ability of fluctuating 
+magnetic fields to cause such transitions depends on the power available at the 
 frequencies matching those of the energy differences (frequencies are directly
 proportional to energies), and the distribution of power along the various
 frequencies of local magnetic field fluctuation are described by the spectral
@@ -97,12 +96,11 @@ density function.
 
 \subsection*{Relaxation}
 
-Relaxation is the process of a spin ensemble in a non-equilibrium state, which
-means that the overall distribution of spins among the various energy levels
-is high-energy, returning to an equilibrium state.  This occurs as spins
-utilize transitions, changing the populations of energy levels such that the
-populations of high-energy states decrease and the populations of low-energy
-states increase.
+Relaxation is the process of a spin ensemble in a non-equilibrium state 
+returning to an equilibrium state.  As transitions are stimulated,
+the populations of energy levels change, decreasing the 
+populations of high-energy states decrease and the increasing the populations 
+of low-energy ones.
 
 The speed of relaxation depends on the available transitions and their rates.
 The spectral density function is related to the molecular weight,
@@ -135,7 +133,7 @@ there are two energy levels, and two transitions between those energy levels
 difference between energy levels, which is in turn by determined by the 
 local magnetic field, in which electrons play a role.
 
-Since only a single spin's orientation is changed when transitioning between
+Since only a single spin's orientation changes when transitioning between
 the energy levels, it is termed a "single-quantum transition".
 At equilibrium in a static external magnetic field, the difference in 
 populations of the two energy levels is governed by the Boltzmann distribution.
@@ -162,27 +160,19 @@ probability or rate.  These are grouped into three different kinds of transition
      of the nucleus that undergoes the change, meaning that these transitions may
      be exploited in order to capture chemical shifts
 
-  \item double-quantum.  Orange arrow.  Both nuclei start out with the same spin
+  \item double-quantum.  Both nuclei start out with the same spin
      orientation, both spin orientations change, and so both end up with the
      same final spin orientation.  In contrast to the zero-quantum transitions,
      there is a much larger energy difference involved.
 
-     These are known as cross-relaxation and are exploited in 
-     NOESY experiments.  Nuclei which are nearby to each other are directly
-     coupled (also known as dipole-dipole coupling).  Longitudinal magnetization
-     on one nucleus may be transferred to the other nucleus, then rotated 90
-     degrees into the rotating frame for detection
 \end{itemize}
    
-Radio Frequency (RF) pulses are used to induce single-quantum transitions, 
-but can not induce zero- or multiple-quantum transitions.  These transitions 
-are induced by fluctuations in local magnetic fields.
-The alpha/beta and beta/alpha energy levels are similar but distinct.  They are both
-very different from the alpha/alpha and beta/beta energy levels.  The spectra of this
-spin system includes two lines, or four lines grouped into pairs if the 
-nuclei are J-coupled.
-The Nuclear Overhauser Effect (NOE) is a relaxation phenomenon which utilizes 
-the zero-quantum and double-quantum transitions, known as "cross-relaxation".
+Radio Frequency (RF) pulses are used to induce single-quantum transitions.
+Zero- and multiple-quantum transitions are stimulated by fluctuations in 
+local magnetic fields.  The alpha/beta and beta/alpha energy levels are 
+similar but distinct.  They are both very different from the alpha/alpha 
+and beta/beta energy levels.  The spectra of this spin system includes 
+two lines, or four lines grouped into pairs if the nuclei are J-coupled.
 Sensitivity is determined by the population differences.
 In an isotropic medium such as water, dipolar couplings are not observed
 because they average out over the population.
@@ -211,23 +201,17 @@ to the strength of the external magnetic field.
 
 \subsection*{The NOE experiment}
 
-The basic principle of the NOE experiment is to perturb the equilibrium 
-populations of a two-spin system, using an RF pulse which induces single-quantum
-transitions of one nucleus.  This causes a change in the populations as the
-the low-energy and high-energy states for one nucleus will be equalized; this
-is a high-energy, non-equilibrium spin distribution.  Next, the spins will relax
-in order to bring the populations back to equilibrium by utilizing various 
-transitions.  The rate at which each transition is utilized depends on the
-spectral density function.  Some of the available transitions utilize the 
-coupling to the second nucleus, and are known as cross-relaxation.  
-Cross-relaxation transitions induce a change in the magnetization of the other
-nucleus which is observable.
-
-The RF pulse equalizes the populations of the first nucleus between the low-
-and high-energy states.  Meanwhile, initially, the populations of the second
-nucleus are not affected.  However, during relaxation, the utilization of
-cross-relaxation transtions (both the zero-quantum
-and double-quantum) change the populations of the second nucleus.
+The Nuclear Overhauser Effect (NOE) is a relaxation phenomenon in which
+longitudinal magnetization is transferred between dipole-dipole coupled spins.
+A non-equilibrium population distribution is created using an RF pulse,
+which initially affects only one spin, on which
+longitudinal magnetization is created.  Initially, the second spin is not
+afected.  The spin system then returns to
+equilibrium in a process known as relaxation.  Due to the dipole coupling,
+there are cross-relaxation pathways available, which transfer longitudinal
+magnetization from one nucleus to the other when the appropriate transitions
+are stimulated.  The rate at which each transition is utilized depends on the
+spectral density function.
 
 The phenomenological equation describing the NOE is 
 $ f_I\left\{S\right\} = (I - I_0) / I_0 $.
@@ -252,23 +236,13 @@ where I and S refer to the two spins of the two-spin system.
 
 The equilibrium state of the two-spin system in an external magnetic field:
 more nuclei are in the low-energy states (for both spins) than in the 
-high-energy states \ref{two_spins_initial}.
-Application of an RF pulse equalizes the populations of one spin by inducing
-single-quantum transitions \ref{two_spins_rf}.
-If the w0 rate is faster, the high-energy state of the second spin will be
-enhanced \ref{two_spins_w0}.
-If the w2 cross-relaxation rate is faster, the low-energy state of the second
-spin will be enhanced \ref{two_spins_w2}.
-
-The key to the NOE experiment is that first, a non-equilibrium population of
-spins are created.  This then relaxes back to equilibrium, but because a 
-second spin is coupled, there are pathways for relaxation which modify the
-magnetization of the second spin.  Eventually, through a variety of relaxation
-pathways, equilibrium is again reached,
-but while the system is still relaxing, an observable change of the 
-magnetization of the second, coupled nucleus is created.  The strength of
-this change in magnetization depends on the relative rates of the various
-relaxation pathways available to the spin system.
+high-energy states \ref{two_spins_initial}.  Application of an RF pulse 
+changes the populations of one spin \ref{two_spins_rf}, but does not affect
+the other spin.  Cross-relaxation transfers magnetization from one spin to
+the other.  If the w0 rate is faster, the high-energy state of the 
+second spin will be enhanced \ref{two_spins_w0}.  If the w2 cross-relaxation 
+rate is faster, the low-energy state of the second spin will be enhanced 
+\ref{two_spins_w2}.
 
 
 
