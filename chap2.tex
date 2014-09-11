@@ -1,527 +1,507 @@
-\chapter{A Data Overview}
-\label{ch_data_overview}
-
+\chapter{NMR Spectroscopy of Proteins}
 \begin{center}
-  \textit{With insufficient data it is easy to go wrong.}
+  \textit{Nature's imagination far surpasses our own.}
 
- - Carl Sagan
+ - Richard Feynman
 \end{center}
 
-NMR data can be broadly grouped into four categories based on when it
-is known.  First, Figure \ref{data_overview_1}, 
-there is information that is known without performing
-any NMR experiments: this includes information about the molecule as well
-as general NMR and molecular knowledge.  Second,
-Figure \ref{data_overview_2}, is data that is 
-collected using the NMR spectrometer, and is known before analysis begins.  
-Third, Figure \ref{data_overview_3}, is the information generated during 
-analysis, and fourth, Figure \ref{data_overview_4}, is the final goal of 
-an NMR study, information about the actual structure of the molecule of 
-interest.
 
-This chapter will present the data generated during the NMR process.
-Later chapters will focus in on subsets of the data, as well as show how
-the data is used during analysis.
+\section{Physical basis of the NMR experiment}
 
+Some atomic nuclei have non-zero magnetic moments \cite{zeeman1897effect}. 
+These can be manipulated using magnetic fields and electromagnetic radiation 
+\cite{bloch1946nuclear, rabi1938}.  The discovery was the subject of two 
+Nobel prizes, awarded to Rabi in 1944 and to Bloch and Purcell in 1952.
 
-\section{Global prior knowledge}
-Knowledge of NMR and molecules that is available before any experiments are
-performed.
+Continuous wave spectroscopy was first employed, in which a frequency source 
+was fixed and the magnetic field varied; the absorption was observed and 
+collected.  Later, advances led to Fourier Transform spectroscopy, in which
+the magnetic field was fixed and all frequencies were collected simultaneously
+\cite{aue1976two}.  The Fourier Transform made this possible by allowing the
+separation of individual frequency components from the time-domain signal
+\cite{ernst2004}.
 
-\subsection*{Molecule}
+Nuclei of spin-1/2 are especially well suited to NMR experiments.  In the 
+absence of an external magnetic field, spin-1/2 nuclei have two degenerate 
+energy levels.  In the presence of an external magnetic field, two distinct 
+energy levels are formed as the magnetic moments of the nuclei precess 
+around the external magnetic field \cite{hahn1950spin, bloembergen1948relaxation}.
 
-\subsubsection{Primary sequence}
-The primary sequence of amino acids -- for example, the sequence of Ubiquitin
-is MQIFVKTLTG KTITLEVEPS DTIENVKAKI QDKEGIPPDQ QRLIFAGKQL EDGRTLSDYN IQKESTLHLV LRLRGG
-according to Swiss-Prot -- of the protein is known.  
+The frequency of the precession is known as the Larmor frequency, and depends 
+on the gyromagnetic ratio of the nucleus as well as the strength of the 
+magnetic field, which may be modulated due to local effects
+\cite{carr1954effects, meiboom1958modified}.
 
-\subsubsection{Amino acids}
-The atoms contained in each amino acid (see Table \ref{alanine_atoms}), 
-bond lengths between atom pairs (see Table \ref{alanine_bond_lengths}), 
-and bond angles (see Table \ref{alanine_bond_angles}) are known 
-\cite{alanine_sreepad}.
+Nearby nuclei can interact through several mechanisms.  Covalently-bonded nuclei
+interact through the bonding electrons in a phenomenon known as J-coupling.
+Spatially near nuclei interact directly in a phenomenon known as dipole-dipole
+coupling.
 
-\subsection*{NMR}
-
-\subsubsection{Nuclei}
-The gyromagnetic ratio of nuclei (see Table \ref{gyromagnetic_ratios}) and 
-pulse sequences.  The gyromagnetic ratio and the magnetic field strength 
-determine the approximate frequency range at which nuclei appear in spectra.
-
-\subsubsection{Time-domain data}
-Resonances appear as decaying sinusoids, and the full data set is a sum of
-many of those sinusoids at varyious frequencies and intensities.
-This is exploited in transforming time-domain data sets to frequency-domain.
-
-\subsubsection{Through-bond experiments}
-Time-domain free induction decay (FID)s are collected using
-pulse sequences \cite{khaneja2005} designed to target specific nuclei by
-exploiting the coupling constants and characteristic chemical shifts of specific 
-atoms and functional groups.  The collected FIDs are sums of decaying sinusoids.
-
-The pulse sequence
-determines which covalently bond atom groups will be visible in experiments
-(see Tables \ref{nhsqc_peaktypes}, \ref{hnco_peaktypes}, 
-\ref{hncacb_peaktypes}, \ref{hbhaconh_peaktypes}, \ref{cconh_peaktypes}, and
-\ref{hcconh_peaktypes}).
-
-\subsubsection{Through-space experiments}
-Nuclear Overhauser Effect (NOE) \cite{noe_kaiser} experiments transfer 
-magnetization between spatially near proton pairs, and do not require a 
-network of covalent bonds.  Each true peak indicates a pair of protons within 
-approximately 5 Angstroms of each other.  This is different from 
-through-bond correlation spectra, in which peaks indicate covalently 
-bonded atoms; NOESY spectra do not depend on covalent bonds but rather 
-depend on spatial proximity.  Thus, each NOESY peak contains some information 
-about the actual three-dimensional structure of a molecule, although this
-information is not known until the correspondence between peak cross
-section and atom is found.
-
-\subsubsection{Resonance}
-A particular nucleus is expected to resonate at approximately the same 
-frequency in all spectra (although factors such as temperature and the 
-Bloch-Siegert shift can produce differences).
-
-\subsubsection{Frequency-domain spectra}
-The Fourier Transform of a decaying sinusoid produces a frequency-domain 
-spectrum with a peak at a frequency matching the oscillation frequency of 
-the sinusoid.  Since NMR time-domain data consists of multiple decaying 
-sinusoids caused by atoms resonating at characteristic chemical shifts, 
-the frequency domain spectrum will contain peaks for every oscillating 
-sinusoid present in the time-domain data.  
-
-Spectra contain peaks, which are characterized to obtain volume and peak
-cross section attributes; peak cross sections are characterized to obtain 
-position and width attributes (see Figure \ref{peak_1d}).
-
-\subsubsection{Chemical shift statistics}
-Statistics from previously analyzed molecules are maintained by the BMRB
-\cite{bmrb}, which show clear trends of average chemical shifts based on
-both amino acid type and atom (see Table \ref{alanine_atoms} for the 
-chemical shift statistics of Alanine).
-
-Chemical shift values are correlated to secondary structure, as described
-by secondary chemical shift statistics \cite{spera1991empirical}.  Chemical 
-shifts are also correlated to three-dimensional structure, as shown by 
-CHESHIRE \cite{cheshire} and CS-ROSETTA \cite{cs-rosetta}.  
+The phenomenon of chemical shift was discovered when experimental data showed
+that nuclei of the same type did not all resonate at the same frequency -- in
+fact, their resonance frequencies depended on the local electronic and 
+chemical environment \cite{arnold1951variations}.  
+It was further discovered that nuclei could interact
+with each other, both directly and indirectly.  Direct interactions are 
+known as dipole-dipole couplings.  Indirect interactions mediated
+by the electrons are known as "scalar couplings".
+Multi-dimensional experiments were first proposed by Jean Jeener 
+\cite{jeener1979investigation} and later developed by Richard Ernst
+\cite{ernst1992nuclear}, for which Ernst later won a Nobel Prize.  
+Chemical shifts and nuclear couplings form the basis of modern NMR 
+spectroscopy.
 
 
-\section{Local prior knowledge}
-Knowledge which is available after performing NMR experiments, but before
-performing analysis.
+\subsection*{Populations}
 
-\subsection*{Sample}
+Spin systems have multiple states with different energies.  The distribution
+of spins occupying each energy level are referred to as populations.  Each
+energy level may have more or fewer spins than any other energy level.
+At equilibrium, the populations are determined by the relative energy levels.  
+Spins can move between energy levels, which changes the populations, in a 
+process known as a "transition".
 
-\subsubsection{Preparation procedure}
-The procedure used to express and purify a sample of interest, including
-growth medium and conditions, expression organism, and buffer optimization.
-
-\subsubsection{Isotope labeling}
-The specific H, N, and C labeling pattern.  While \textsuperscript{1}H is 
-the most abundant isotopye of hydrogen, and convenient for NMR experiments,
-\textsuperscript{12}C is the most abundant isotope of Carbon and is not 
-NMR-active; \textsuperscript{2}H is not as easy to observe because of
-its nuclear spin value of 1 (as opposed to the proton's spin value of 1/2),
-but can improve the quality of experiments observing nearby protons because,
-in comparison to protons, nearby atoms are afforded fewer relaxation pathways.
-Labeling patterns with specific properties have been implemented to take
-advantage of these different properties, as in SAIL-FLYA \cite{sail_flya}.
-See Table \ref{gyromagnetic_ratios}.
-
-\subsubsection{Sample contents}
-The components present in the sample as well as their concentrations.
-Samples can degrade and aggregate over time, and may be affected by the
-NMR experiments.
-
-\subsection*{NMR}
-
-\subsubsection{Spectrometer}
-Operating characteristics of the spectrometer, such as its field strength.
-
-\subsubsection{Time-domain data}
-The experimental conditions in which each time-domain data set is collected, 
-its sampling schedule, and the FIDs themselves.
-
-For each time-domain data set, the delay between data points, number of 
-points collected, and total delay between the first and last point (or 
-acquisition time, which may be calculated from the first two parameters).
-
-The sample schedule gives rise to frequency-domain artifacts according to 
-its point spread function, and also determines which means can be used to
-process the time-domain data to frequency-domain.  Two examples of different
-types of sample schedule are shown in Figure \ref{schedule_uniform} and
-Figure \ref{schedule_nonuniform}.
-
-\subsubsection{Spectra}
-The set of frequency-domain spectra and the spectral processing workflow
-used to construct them.  Key attributes are the spectral width, or range of
-different frequencies that can be distinguished, and resolution, or the
-ability to distinguish nearby but distinct signals in the frequency domain
-\cite{ernst2004}.  See Figure \ref{nhsqc} for an example Nitrogen 
-Heteronuclear Single-Quantum Coherence (HSQC) spectrum.
-
-\subsubsection{Stereospecific ambiguities}
-Given the set of spectra collected, the atoms in the molecule, and the isotope
-labeling scheme, there may be stereospecifically ambiguous assignments.  See
-Table \ref{stereospecific_ambiguities} for a lost of potential ambiguities.
+Macroscopic effects are observed as longitudinal magnetization
+when energy levels are differentially 
+populated.  For example, in a uniform static magnetic field, a sample 
+containing spin-1/2 nuclei will show a slight variation in the populations of 
+the low-energy and high-energy states, according to the Boltzmann distribution.  
+This variation is observable at the macroscopic level as a net magnetization in 
+the same direction as the external magnetic field.  Different forms of magnetization
+may be induced by perturbing the sample.  When the sample is not at equilibrium,
+it will gradually relax back to equilibrium by means of a variety of
+pathways and transitions.  Some of these pathways and transitions will create
+additional macroscopically observable magnetizations.
 
 
+\subsection*{Transitions}
 
-\section{Analysis}
-Knowledge which is obtained while analyzing the experimentally collected data.
-% The analysis knowns before beginning the process are covered in the later section describing the library of deductive reasoning.
+Transitions allows spins to move from one energy level to another, changing 
+the populations.
+A transition may move a spin from low energy to high energy or vice versa.
+Some transitions involve a change in only one spin, whereas others involve a
+change in multiple spins.  Radiofrequency pulses are used to excite transitions
+of a single spin.
 
-This covers peak picking (see Figure \ref{nhsqc_peaks} for a peak picked spectrum), 
-the assembly of peaks into GSSs, GSS and resonance typing, sequential
-GSS assignments, and sequence-specific GSS assignments.
-In general, the correspondence between resonances, which appear in NMR 
-spectra as peak cross sections, and atoms is not known.  The correspondence 
-between resonances and peak cross sections is also not known, and is difficult 
-to determine in the presence of ambiguity.
-
-GSSs \cite{saga, ezassign, pistachio, autoassign1997, autoassign2001}
-and resonances \cite{ccpn} are parallel to residues and atoms.
-They are key to data analysis because they are the link between what is 
-observed in NMR experiments and the molecular details of the sample.
-Although these concepts had been used to a limited extent by earlier programs
-such as XEasy and Sparky \cite{xeasy, sparky}, more recent work has treated 
-GSSs and resonances as explicit, first-class members of data analysis 
-\cite{ccpn, bmrb}.  These definitions are based on the BMRB and CCPN data models,
-the complete documentation of the NMR-STAR data dictionary may be found online 
-at \url{http://www.bmrb.wisc.edu/dictionary/} and
-\url{http://www.ccpn.ac.uk/software/extras/datamodelfolder/datamodel}.
-% also \url{http://www2.ccpn.ac.uk/api-documentation/}. 
-% also \url{http://www2.ccpn.ac.uk/api-documentation/ccpnmr/ccpnmr2.2/python/doc/api.html}
-% also \url{http://www2.ccpn.ac.uk/api-documentation/ccpnmr/ccpnmr2.2/model/doc/ccp/nmr/index.html}
-
-\subsection*{Peak}
-A feature of a spectrum that corresponds to a group of covalently bond
-resonances (in a through-bond spectrum) or to a pair of nearby protons
-(in a NOESY spectrum).  A peak has a number of cross sections equal to
-the dimensionality of the spectrum in which it appears; each cross section
-corresponds to a resonance at a characteristic frequency.
-
-\subsection*{Resonance}
-A resonance is an NMR-visible signal which corresponds to an atom \cite{ccpn}.
-In general, an atom resonates at a single characteristic frequency based
-on its local environment;  the same resonance will be found at the same 
-frequency across multiple experiments.  This phenomenon is used to aid in 
-identification, although it is confounded by degeneracy as well as proteins
-with multiple conformations.
-
-A resonance is used to link a peak cross section to an atom, for a chemical shift
-assignment, by means of a spin system and a residue.  Each peak cross section is
-assigned a resonance, and the resonances are assigned to spin systems, with
-the semantics that they are covalently bound.
-
-\subsection*{Generic spin system}
-A generic spin system (GSS) is an NMR-visible group of peaks, typically 
-across multiple spectra, which corresponds to a group of covalently bonded 
-resonances; it is similar to a residue.  
-The key to GSSs is a battery of multi-dimensional pulse 
-sequences designed to correlate resonances within GSSs 
-\cite{cavanagh1995protein, hncacb, hnco, cbcaconh}, which are
-based on an N-H group (due to its sensitivity and chemical shift dispersion)
-and correlate additional nearby nuclei through covalent bonds.
-
-These pulse sequences use several types of overlap.  First, each pulse sequence
-includes the N-H group.  Second, due to the similar scalar couplings between
-N and the CA and CA(i-1) nuclei, it is possible to simultaneously correlate an
-N-H group with both nearby CA nuclei; this means that each CA may be correlated
-with two N-H groups, or in other words, may be a part of two GSSs. 
-Third, due to the scalar coupling between N and CO(i-1), correlations to 
-C*(i-1) appear in two pulse sequences of a pair (e.g. HNCACB and CBCA(CO)NH), 
-while C* appear in only the HNCACB.  See Figure \ref{ccpn_nhsqc}, 
-Figure \ref{ccpn_hncacb}, Figure \ref{ccpn_cbcaconh}, Figure \ref{ccpn_hnco}, 
-Figure \ref{ccpn_hncaco}, Figure \ref{ccpn_cconhtocsy}, Figure \ref{ccpn_hcchtocsy},
-Figure \ref{ccpn_hcconhtocsy}, and Figure \ref{ccpn_hbhaconh} for an 
-illustration of the correlated nuclei.  Table \ref{pulse_sequences} tabulates
-the number of distinct measurements of each nucleus that can be obtained from
-common pulse sequences under ideal conditions.
-
-These characteristics lead to a natural definition of a GSS: a root 
-resonance or resonances, typically an amide H-N group, and additional 
-covalently-bonded resonances.  The precise extent of a GSS is in principle 
-determined by the available NMR experiments \cite{hncacb, hnco, cbcaconh}.  
-In practice, a backbone GSS often is initially 
-comprised of a backbone H-N, CO, CA, CB, CO(i-1), CA(i-1), and CB(i-1).
-
-\subsubsection{Sidechain GSSs}
-The standard pulse sequences can also excite sidechain resonances, if the 
-chemical shifts of the resonances and the coupling constants between those
-resonances are similar to those of the targeted backbones resonances.
-Typically, sidechain GSSs are observed for Tryptophan, Asparagine, and Glutamine
-residues in H-N-rooted pulse sequences, and it is also possible to observe
-Arginine residues.
-As it is not always made explicitly clear what these potential GSS types
-are, Tables \ref{nhsqc_peaktypes}, \ref{hnco_peaktypes}, 
-\ref{hncacb_peaktypes}, \ref{hbhaconh_peaktypes}, \ref{cconh_peaktypes}, and
-\ref{hcconh_peaktypes} provide them in tabulated form for each pulse sequence.
+Fluctuating local magnetic fields also cause transitions.  The frequency of
+the fluctuation of the magnetic field determines the energy available, and if 
+the energy matches the energy difference of a transition, the fluctuation is 
+able to cause relaxation along that transition.  The ability of fluctuating 
+magnetic fields to cause such transitions depends on the power available at the 
+frequencies matching those of the energy differences (frequencies are directly
+proportional to energies), and the distribution of power along the various
+frequencies of local magnetic field fluctuation are described by the spectral
+density function.
 
 
-\section{Desired knowledge}
+\subsection*{Relaxation}
 
-\subsection*{Restraints}
-Through the analysis process, structural constraints are obtained.  These 
-constraints include H-H interatomic distances obtained from NOESY spectra
-(see Figure \ref{structure_restraints}), residual dipolar couplings (RDCs) 
-(see Figure \ref{structure_restraints}) which give orientation constraints
-between two nuclei, and torsion angles 
-(see Figure \ref{torsion_angles}) which constrain the orientation of three
-adjacent bonds.
-In structural models, it is often the case that some constraints are not 
-satisfied.  These are known as "violations".
+Relaxation is the process of a spin ensemble in a non-equilibrium state 
+returning to an equilibrium state.  As transitions are stimulated,
+the populations of energy levels change, decreasing the 
+populations of high-energy states decrease and the increasing the populations 
+of low-energy ones.
 
-\subsection*{Structure} 
-The three-dimensional coordinates of the atoms, or correspondingly, the
-three-bond torsion angles.  In other words, the structure of the molecule
-is unknown.
+The speed of relaxation depends on the available transitions and their rates.
+The spectral density function is related to the molecular weight,
+and is the Fourier Transform of the 
+correlation function, describing the amount of motion occurring over a 
+range of frequencies.  These molecular motions provide a means for relaxation
+to occur; thus the significance of the spectral density function is
+that it describes the likelihood for relaxation to occur based on resonance
+frequencies and energy differences.
+
+In molecules in solution, molecular tumbling causes nuclei to reorient with
+respect to the external magnetic field and thus changes the interactions
+between coupled nuclei; thus, a nucleus causes its nearby, coupled nuclei to
+experience a fluctuating magnetic field and may help them to relax.
+Relaxation may be described using the Bloch equations \cite{bloch1946nuclear},
+a set of differential equations which describe the change in magnetization 
+over time with respect to the difference from the equilibrium state.
+
+There are two separate relaxation rate constants: \mattftone{} describes 
+relaxation in the Z or longitudinal axis, parallel to the external magnetic
+field.  \mattfttwo{} describes relaxation in the rotating XY plane, also known
+as the transverse component.
+
+
+\subsection*{A spin system of one spin}
+
+In a spin system containing a single nucleus of spin-1/2 \ref{one_spin_1-2},
+there are two energy levels, and two transitions between those energy levels
+-- one in each direction.  The nucleus' Larmor frequency determines the 
+difference between energy levels, which is in turn by determined by the 
+local magnetic field, in which electrons play a role.
+
+Since only a single spin's orientation changes when transitioning between
+the energy levels, it is termed a "single-quantum transition".
+At equilibrium in a static external magnetic field, the difference in 
+populations of the two energy levels is governed by the Boltzmann distribution.
+
+
+\subsection*{Homonuclear AX spin system}
+
+In this spin system \ref{two_spins_1-2}, there are
+two nuclear spins of spin-1/2, each of which has two possible spin orientations,
+denoted by alpha and beta,
+four energy levels, denoted by alpha/alpha, alpha/beta, beta/alpha, and beta/beta, and
+twelve transitions between energy levels, grouped into six pairs and denoted
+by double-headed arrows.  Associated with each transition is a transition
+probability or rate.  These are grouped into three different kinds of transitions:
+
+\begin{itemize} 
+  \item zero-quantum.  Both nuclei change their spin orientations, 
+     but the energy difference is very small because both in the initial and
+     final states, one nucleus is in the high-enery orientation and one is in
+     the low-energy orientation
+
+  \item single-quantum.  One nucleus' spin orientation changes, but
+     the other does not.  The energy difference is related to the Larmor frequency
+     of the nucleus that undergoes the change, meaning that these transitions may
+     be exploited in order to capture chemical shifts
+
+  \item double-quantum.  Both nuclei start out with the same spin
+     orientation, both spin orientations change, and so both end up with the
+     same final spin orientation.  In contrast to the zero-quantum transitions,
+     there is a much larger energy difference involved.
+
+\end{itemize}
+   
+Radio Frequency (RF) pulses are used to induce single-quantum transitions.
+Zero- and multiple-quantum transitions are stimulated by fluctuations in 
+local magnetic fields.  The alpha/beta and beta/alpha energy levels are 
+similar but distinct.  They are both very different from the alpha/alpha 
+and beta/beta energy levels.  The spectra of this spin system includes 
+two lines, or four lines grouped into pairs if the nuclei are J-coupled.
+Sensitivity is determined by the population differences.
+In an isotropic medium such as water, dipolar couplings are not observed
+because they average out over the population.
+However, in an alignment medium, there is incomplete averaging
+and so some residual dipolar coupling (RDC) is observed, which indicates 
+some information about the relative orientations of the vector connecting
+the two nuclei compared to the external magnetic field.
+
+
+\subsection*{The chemical shift}
+
+The chemical shifts are deviations in the Larmor frequencies of specific 
+nuclei based on the local chemical environment, due to varying
+electron density.  This is because the electrons can shield or deshield nuclei
+from the external magnetic field, modulating the field such that it is weaker
+or stronger.
+
+The energy difference between the two spin states is, to a good approximation,
+linearly dependent on the local magnetic field strength 
+\cite{cavanagh1995protein}.  Therefore, the 
+result is that nuclei with different local electron fields which experience
+different local magnetic fields will resonate at different frequencies, and
+different chemical shifts when those frequencies are normalized with respect
+to the strength of the external magnetic field.
+
+
+\subsection*{The NOE experiment}
+
+The Nuclear Overhauser Effect (NOE) is a relaxation phenomenon in which
+longitudinal magnetization is transferred between dipole-dipole coupled spins.
+A non-equilibrium population distribution is created using an RF pulse,
+which initially affects only one spin, on which
+longitudinal magnetization is created.  Initially, the second spin is not
+afected.  The spin system then returns to
+equilibrium in a process known as relaxation.  Due to the dipole coupling,
+there are cross-relaxation pathways available, which transfer longitudinal
+magnetization from one nucleus to the other when the appropriate transitions
+are stimulated.  The rate at which each transition is utilized depends on the
+spectral density function.
+
+The phenomenological equation describing the NOE is 
+$ f_I\left\{S\right\} = (I - I_0) / I_0 $.
+The strength of the NOE depends on the distance between the nuclei, 
+the gyromagnetic ratios, and their orientation relative to the external 
+magnetic field, as described by $B(l) = c * m * (3*(cos^2 w)-1) / r^3$
+where 
+m    is the gyromagnetic ratio,
+B(l) is the magnetic field strength due to other nucleus,
+w    is the angle between external B field and vector connecting two nuclei, and
+r    is the distance between the two nuclei.
+The above equation can be expanded using the Solomon equation such that the
+% this is all from http://www.bioc.aecom.yu.edu/labs/girvlab/nmr/course/COURSE_2012/RelaxNoe2012.pdf
+NOE depends on the $ W_0 $, $ W_1 $, and $ W_2 $ rate constants, giving
+$ f_I\left\{S\right\} = c * (W_2 - W_0) / (W_0 + 2 * W_1I + W_2) $.
+The equations for the rate constants are as follows:
+$ W_0 = K^2 * J * (w_I - w_S) / 20 $,
+$ W_1I = 3 * K^2 * J * w_I / 40 $,
+$ W_IS = 3 * K^2 * J * w_S / 40 $,
+$ W_2 = 3 * K^2 * J * (w_I + w_S) / 10 $,
+where I and S refer to the two spins of the two-spin system.
+
+The equilibrium state of the two-spin system in an external magnetic field:
+more nuclei are in the low-energy states (for both spins) than in the 
+high-energy states \ref{two_spins_initial}.  Application of an RF pulse 
+changes the populations of one spin \ref{two_spins_rf}, but does not affect
+the other spin.  Cross-relaxation transfers magnetization from one spin to
+the other.  If the w0 rate is faster, the high-energy state of the 
+second spin will be enhanced \ref{two_spins_w0}.  If the w2 cross-relaxation 
+rate is faster, the low-energy state of the second spin will be enhanced 
+\ref{two_spins_w2}.
 
 
 
-\clearpage
-\section{Tables}
+\section{Protein NMR}
 
-\begin{table}[h]
-  \begin{tabular}{ | c | c | }
-    \hline
-    Atom name   &  Average chemical shift (PPM)  \\  \hline
-    C           &  187.20     \\  \hline
-    O           &  --         \\  \hline
-    N           &  123.32     \\  \hline
-    H           &  8.19       \\  \hline
-    HA          &  4.25       \\  \hline
-    CA          &  53.16      \\  \hline
-    HB1         &  1.35       \\  \hline
-    HB2         &  1.35       \\  \hline    
-    HB3         &  1.35       \\  \hline
-    CB          &  19.06      \\  \hline
-  \end{tabular}
-  \caption[The atoms in alanine, in a protein chain.]
-          {The atoms in alanine, in a protein chain.
-           Average chemical shift statistics are taken from the BMRB.}
-  \label{alanine_atoms}
-\end{table}
+Proteins containing spin-1/2 nuclei may be studied using NMR.  Hydrogen, 
+Carbon and Nitrogen are all plentiful in proteins, and have isotopes of 
+spin-1/2.  Useful biophysical characterization of proteins that may be 
+obtained using NMR includes structural, dynamics, and binding information.
 
-\begin{table}
-  \begin{tabular}{ | c | c | c | }
-    \hline
-    Atom 1  &   Atom 2  &  length (Angstroms)   \\  \hline
-    C   &   N   &   1.45  \\  \hline
-    C   &   C   &   1.51  \\  \hline
-    C   &   O   &   1.25  \\  \hline
-    N   &   H   &   1.03  \\  \hline
-    C   &   H   &   1.1   \\  \hline
-    O   &   H   &   1.1   \\  \hline
-  \end{tabular}
-  \caption[Alanine bond lengths, calculated from first principles.]
-          {Alanine bond lengths, calculated from first principles
-           in \cite{alanine_sreepad}.}
-  \label{alanine_bond_lengths}
-\end{table}
+\subsection*{Sample preparation}
 
-\begin{table}
-  \begin{tabular}{ | c | c | c | c | }
-    \hline
-    Atom 1  &   Atom 2  &  Atom 3  &  estimated angle (degrees)   \\  \hline
-    C   &   CA  &   CB  &   128  \\  \hline
-    C   &   CA  &   N   &   112  \\  \hline
-    N   &   CA  &   CB  &   110  \\  \hline
-    O   &   C   &   CA  &   120  \\  \hline
-  \end{tabular}
-  \caption[Estimates of Alanine bond angles.]
-          {Estimates of Alanine bond angles.  The first two are
-           calculated from first priniciples in \cite{alanine_sreepad};
-           the latter two are based on number of atoms bonded
-           to the central atom.}
-  \label{alanine_bond_angles}
-\end{table}
+The first step of an NMR analysis process is to obtain a sample of the protein
+of interest.  NMR is a relatively insensitive technique, and so it is important
+to get a sample with relatively high concentration compared to other structural
+biology techniques, often in the millimolar range.  The protein is produced
+by transforming a plasmid into bacteria, and then inducing transcription 
+of the plasmid followed by translation.  If specific isotopes, such as 15N or 
+13C are required for their NMR properties, they may be provided in the 
+bacteria's growth media.  Finally, the protein is isolated and purified
+\cite{derome1987modern}.
 
-\begin{table}
-  \begin{tabular}{ | c | c | }
-    \hline
-    Nucleus &   gyromagnetic ratio (MHz / Tesla)  \\  \hline
-    \textsuperscript{1}H    &   42.576  \\  \hline
-    \textsuperscript{13}C   &   10.705  \\  \hline
-    \textsuperscript{15}N   &   -4.316  \\  \hline
-    \textsuperscript{19}F   &   40.052  \\  \hline
-    \textsuperscript{31}P   &   17.235  \\  \hline
-  \end{tabular}
-  \caption{Gyromagnetic ratios of biologically important nuclei.}
-  \label{gyromagnetic_ratios}
-\end{table}
+\subsection*{Data collection}
 
-\begin{table}
-  \begin{tabular}{ | c | c | }
-    \hline
-    Covalently-bound atom group  &  Amino acid sequence  \\  \hline
-    H-N                          &  [\^{}P]              \\  \hline
-    HE-NE                        &  R                    \\  \hline
-    HD21-ND2                     &  N                    \\  \hline
-    HD22-ND2                     &  N                    \\  \hline
-    HE21-NE2                     &  Q                    \\  \hline
-    HE22-NE2                     &  Q                    \\  \hline
-    HE1-NE1                      &  W                    \\  \hline
-  \end{tabular}
-  \caption{The covalent atom groups visible in the NHSQC experiment.}
-  \label{nhsqc_peaktypes}
-\end{table}
+Assuming the purified, high-concentration protein sample does not aggregate
+or denature, NMR experiments are run by placing a tube of the sample inside 
+of a spectrometer, running sequences of radio-frequency pulses which selectively
+excite nuclei within the sample, and observing the results.  The data a 
+superposition of decaying sinusoids of different frequencies and amplitudes;
+the frequencies are caused by the precession at the Larmor frequency along with
+the resonance phenomenon of the various nuclei, and the decay is the result
+of the system gradually relaxing back to equilibrium \cite{bloch1946nuclear}.
 
-\begin{table}
-  \begin{tabular}{ | c | c | }
-    \hline
-    Covalently-bound atom group  &  Amino acid sequence  \\  \hline
-    H-N-C(i-1)                   &  .[\^{}P]             \\  \hline
-    HE-NE-CZ                     &  R                    \\  \hline
-    HD21-ND2-CG                  &  N                    \\  \hline
-    HD22-ND2-CG                  &  N                    \\  \hline
-    HE21-NE2-CD                  &  Q                    \\  \hline
-    HE22-NE2-CD                  &  Q                    \\  \hline
-    HE1-NE1-CE1                  &  W                    \\  \hline
-  \end{tabular}
-  \caption{The covalent atom groups visible in the HNCO experiment.}
-  \label{hnco_peaktypes}
-\end{table}
-    
-\begin{table}
-  \begin{tabular}{ | c | c | }
-    \hline
-    Covalently-bound atom group  &  Amino acid sequence  \\  \hline
-    H-N-CA                       &  .[\^{}P]             \\  \hline
-    H-N-CA(i-1)                  &  .[\^{}P]             \\  \hline
-    H-N-CB                       &  .[\^{}PG]            \\  \hline
-    H-N-CB(i-1)                  &  [\^{}G][\^{}P]       \\  \hline
-    HE-NE-CD                     &  R                    \\  \hline
-    HD21-ND2-CB                  &  N                    \\  \hline
-    HD21-ND2-CA                  &  N                    \\  \hline
-    HD22-ND2-CB                  &  N                    \\  \hline
-    HD22-ND2-CA                  &  N                    \\  \hline
-    HE21-NE2-CG                  &  Q                    \\  \hline
-    HE21-NE2-CB                  &  Q                    \\  \hline
-    HE22-NE2-CG                  &  Q                    \\  \hline
-    HE22-NE2-CB                  &  Q                    \\  \hline
-  \end{tabular}
-  \caption{The covalent atom groups visible in the HNCACB experiment.}
-  \label{hncacb_peaktypes}
-\end{table}
+Various pulse sequences are used to probe specific functional groups within
+the protein.  There are two major categories of pulse sequences, based on the
+nature of the interactions they exploit: the first group exploits scalar 
+couplings which exist between covalently-bonded nuclei, and are thus called 
+"through-bond" experiments \cite{davis1985assignment}.  
+The second group exploits dipole-dipole couplings
+between protons that are spatially close but do not have to be covalently
+bonded, and are thus called "through-space" experiments
+\cite{solomon1955relaxation}.  The data produced by
+these two experiments are also used in very different ways, as we will see
+later.
 
-\begin{table}
-  \begin{tabular}{ | c | c | }
-    \hline
-    Covalently-bound atom group  &  Amino acid sequence         \\  \hline
-    H-N-HA(i-1)                  &  [\^{}G][\^{}P]              \\  \hline
-    H-N-HA2(i-1)                 &  G[\^{}P]                    \\  \hline
-    H-N-HA3(i-1)                 &  G[\^{}P]                    \\  \hline
-    H-N-HB(i-1)                  &  [ITV][\^{}P]                \\  \hline
-    H-N-QB(i-1)                  &  A[\^{}P]                    \\  \hline
-    H-N-HB2(i-1)                 &  [PRNDCQEHLKMFSWY][\^{}P]    \\  \hline
-    H-N-HB3(i-1)                 &  [PRNDCQEHLKMFSWY][\^{}P]    \\  \hline
-  \end{tabular}
-  \caption{The covalent atom groups visible in the HBHA(CO)NH experiment.}
-  \label{hbhaconh_peaktypes}
-\end{table}
+Two important parameters of data collection are the dwell time and the number
+of points collected.  The dwell time determines the range of frequencies that
+can be distinguished.  The number of points collected determines the resolution
+(the ability to distinguish between nearby, but distinct, frequencies).  Instead
+of the number of points, one can also use the acquisition time, which is the
+product of the dwell time and the number of points.
 
-\begin{table}
-  \begin{tabular}{ | c | c | }
-    \hline
-    Covalently-bound atom group         &  Amino acid sequence  \\  \hline
-    H-N-C*(i-1), * in (A)               &  G[\^{}P]             \\  \hline
-    H-N-C*(i-1), * in (A, B)            &  [HDSNCAFYW][\^{}P]   \\  \hline
-    H-N-C*(i-1), * in (A, B, G)         &  [EQM][\^{}P]         \\  \hline
-    H-N-C*(i-1), * in (A, B, G2)        &  T[\^{}P]             \\  \hline
-    H-N-C*(i-1), * in (A, B, G, D)      &  [RP][\^{}P]          \\  \hline
-    H-N-C*(i-1), * in (A, B, G1, G2)    &  V[\^{}P]             \\  \hline
-    H-N-C*(i-1), * in (A, B, G, D, E)   &  K[\^{}P]             \\  \hline
-    H-N-C*(i-1), * in (A, B, G1, G2, D1)&  I[\^{}P]             \\  \hline
-    H-N-C*(i-1), * in (A, B, G, D1, D2) &  L[\^{}P]             \\  \hline
-    % sidechain 
-    HD21-ND2-C*, * in (B, A)            &  N (sidechain)            \\  \hline
-    HD22-ND2-C*, * in (B, A)            &  N (sidechain)            \\  \hline
-    HE21-NE2-C*, * in (G, B, A)         &  Q (sidechain)            \\  \hline
-    HE22-NE2-C*, * in (G, B, A)         &  Q (sidechain)            \\  \hline
-    % TODO what about K, R, W sidechains?
-  \end{tabular}
-  \caption{The covalent atom groups visible in the C(CO)NH-Tocsy experiment.}
-  \label{cconh_peaktypes}
-\end{table}
+Maximizing sensitivity is also helpful for later data analysis.
+Sensitivity depends not only on the gyromagnetic ratios of nuclei, but also
+on the strength of the external magnetic field due to the magnitude of the
+difference between the high- and low-energy states of a spin-1/2 nucleus
+according to the Boltzmann distribution.
+Running an experiment multiple times and summing the results is a 
+means of increasing sensitivity as the signal increases faster
+than the noise, assuming random distribution of the noise
+\cite{ardenkjaer2003increase}.
 
-\begin{table}
-  \begin{tabular}{ | c | c | }
-    \hline
-    H-N-*(i-1), * in (HA2, HA3)                         &  G[\^{}P]             \\  \hline
-    H-N-*(i-1), * in (HA, HB2, HB3)                     &  [HDSNCFYW][\^{}P]    \\  \hline
-    H-N-*(i-1), * in (HA, QB)                           &  A[\^{}P]             \\  \hline
-    H-N-*(i-1), * in (HA, HB, QG2)                      &  T[\^{}P]             \\  \hline
-    H-N-*(i-1), * in (HA, HB2, HB3, HG2, HG3)           &  [EQM][\^{}P]         \\  \hline
-    H-N-*(i-1), * in (HA, HB2, HB3, HG2, HG3, HD2, HD3) &  [RP][\^{}P]          \\  \hline
-    H-N-*(i-1), * in (HA, HB, QG1, QG2)                 &  V[\^{}P]             \\  \hline
-    H-N-*(i-1), * in (HA, HB2, HB3, HG3, HG3, HD2, HD3, HE2, HE3)   &  K[\^{}P] \\  \hline
-    H-N-*(i-1), * in (HA, HB, HG12, HG13, QG2, QD1)     &  I[\^{}P]             \\  \hline
-    H-N-*(i-1), * in (HA, HB2, HB3, HG, QD1, QD2)       &  L[\^{}P]             \\  \hline
-    % sidechain
-    HD21-ND2-*, * in (HB3, HB2, HA)   &  N (sidechain)                  \\  \hline
-    HD22-ND2-*, * in (HB3, HB2, HA)   &  N (sidechain)                  \\  \hline
-    HE21-NE2-*, * in (HG3, HG2, HB3, HB2, HA)   &  Q (sidechain)        \\  \hline
-    HE22-NE2-*, * in (HG3, HG2, HB3, HB2, HA)   &  Q (sidechain)        \\  \hline
-  \end{tabular}
-  \caption{The covalent atom groups visible in the HC(CO)NH-Tocsy experiment.}
-  \label{hcconh_peaktypes}
-\end{table}
+Referencing is done to ensure that results are comparable from multiple
+spectrometers.  While the absolute Larmor frequencies of nuclei vary depending
+on the magnetic field of the spectrometer, the normalized values, when compared
+to a known material, of which a small amount is placed in the spectrometer,
+are consistent \cite{wishart19951h}.  These are known as chemical shift values,
+and are reported in parts per million of deviation.
 
-% TODO hcch-tocsy peaktypes
+\subsection*{Spectral processing}
 
-\begin{table}
-  \begin{tabular}{ | c | c | c |}
-    \hline
-    Ambiguity type    &  Atoms        &  Amino acid types     \\  \hline 
-    3 atoms, 1 peak   &  QB           &  A                    \\  \hline 
-    3 atoms, 1 peak   &  QG1          &  I                    \\  \hline 
-    3 atoms, 1 peak   &  QG2          &  [TI]                 \\  \hline 
-    3 atoms, 1 peak   &  QE           &  M                    \\  \hline 
-    2 atoms, 2 peaks  &  HA2/HA3      &  G                    \\  \hline 
-    2 atoms, 2 peaks  &  HB2/HB3      &  [RHKDESNQCPLMFYW]    \\  \hline 
-    2 atoms, 2 peaks  &  HG2/HG3      &  [RKEQPM]             \\  \hline 
-    2 atoms, 2 peaks  &  HG12/HG13    &  I                    \\  \hline 
-    2 atoms, 2 peaks  &  HD2/HD3      &  [RKP]                \\  \hline 
-    2 atoms, 2 peaks  &  HD21/HD22    &  N                    \\  \hline 
-    2 atoms, 2 peaks  &  HE2/HE3      &  K                    \\  \hline 
-    2 atoms, 2 peaks  &  HE21/HE22    &  Q                    \\  \hline 
-    2 atoms, 2 peaks  &  CG1/CG2      &  V                    \\  \hline 
-    2 atoms, 2 peaks  &  CD1/CD2      &  L                    \\  \hline 
-    2 atoms, 2 peaks or 2 atoms, 1 peak  &  HD1/HD2  &  [YF]  \\  \hline 
-    2 atoms, 2 peaks or 2 atoms, 1 peak  &  HE1/HE2  &  [YF]  \\  \hline 
-    2 groups of 3 atoms, 2 peaks  &  QG1/QG2  &  V            \\  \hline
-    2 groups of 3 atoms, 2 peaks  &  QD1/QD2  &  L            \\  \hline
-  \end{tabular}
-  \caption{Ambiguities in stereospecific assignments}
-  \label{stereospecific_ambiguities}
-\end{table}
+The time-domain experimental data are converted to frequency-domain spectral
+data to facilitate analysis.  A decaying sinusoid in the time-domain becomes
+a peak with a finite and non-zero linewidth at the corresponding frequency
+in the frequency-domain.  The Fourier Transform \cite{cooley1965algorithm}
+is a standard method for 
+converting between time- and frequency-domains, and is often used on NMR data.
+Through appropriate use of scaling and normalization, the frequency axis is
+converted to chemical shifts.
 
-\begin{table}
-    \begin{tabular}{ | c || c | c | c | c | c |}
-    \hline
-              & NHSQC & HNCO & HN(CA)CO & HNCACB & CBCA(CO)NH \\
-    \hline
-      H       & 1 & 1 & 2 & 4 & 2 \\
-    \hline
-      N       & 1 & 1 & 2 & 4 & 2 \\
-    \hline
-      CO      & 0 & 1 & 0 & 0 & 0 \\
-    \hline
-      CO(i-1) & 0 & 1 & 1 & 0 & 0 \\
-    \hline
-      CA      & 0 & 0 & 0 & 1 & 0 \\
-    \hline
-      CA(i-1) & 0 & 0 & 0 & 1 & 1 \\
-    \hline
-      CB      & 0 & 0 & 0 & 1 & 0 \\
-    \hline
-      CB(i-1) & 0 & 0 & 0 & 1 & 1 \\
-    \hline
-    \end{tabular}
-    \caption{The number of times nuclei typically appear in pulse sequences}
-    \label{pulse_sequences}
-\end{table}
+The Nyquist theorem \cite{nyquist1928certain, shannon1949communication}
+places bounds on the dwell time with respect to the 
+final spectral width.  A poor choice of dwell time can lead to spectral 
+aliasing, in which peaks appear in unexpected spectral regions because their
+frequencies are outside the range supported by the chosen dwell time.
+Two factors confound resolution:  coincidental
+closeness of resonances frequencies, and experimental quality.  In general, 
+larger proteins, which have more atoms than smaller proteins, have more resonance
+frequencies in close proximity to each other, increasing the probability of 
+overlap.  To increase resolution, it is necessary to collect data points at 
+large time intervals.  Care must be taken to avoid decreasing the sensitivity;
+non-uniform sampling and Maximum Entropy reconstruction offer one means of so
+doing \cite{rovnyak2004accelerated, hoch1985maximum}.
+
+A peak in a through-bond spectrum and in a through-space spectrum have 
+different meanings.  In a through-bond spectrum, a peak indicates the 
+observation of several resonating nuclei connected by a small number of
+covalent bonds.  However, a peak in a through-space NOESY spectrum indicates
+the presence of two protons within approximately 5 Angstroms of each other
+\cite{neuhaus1989nuclear}.
+
+\subsection*{Peak picking}
+
+Peak picking is the process of identifying signals in an NMR spectrum using
+peaks as a proxy.  The position of the multi-dimensional peak indicates the
+chemical shifts of the nuclei giving rise to it, and the amplitude may have
+significance in some but not all experiments.
+
+Peak picking would be if easy if several conditions were met by the spectra:
+
+\begin{itemize}
+  \item all expected signals appear
+  \item all signals are easily distinguishable from noise and artifacts
+  \item all signals are well dispersed from all others
+  \item no unexpected signals appear
+\end{itemize}
+ 
+However, in practice, none of these conditions are met \cite{williamson2009automated}.  
+Thus, it is commonly
+the case that expected signals are missing, some signals are close to the noise
+level, some noise appears to be signal, some artifacts appear, signals overlap
+to greater or lesser extents, and some unexpected signals appear, perhaps due
+to contamination or multiple conformations \cite{baran2004automated}.
+
+Therefore, accurate peak picking must deal with these problems, in order to
+identify all the true signals, none of the false signals, and to correctly 
+characterize the position and volume of the true signals.  Initial peak picking
+is often performed using a computational tool, but there typically is some
+level of manual intervention in order to correct mistakes and other problems
+\cite{guerry2011automated}.
+
+\subsection*{Chemical shift assignment}
+
+Nuclei in NMR experiments resonate at characteristic frequencies; 
+chemical shift assignment is the process of drawing the correspondence between
+the resonance frequencies identified from picked peaks and the nuclei in the
+protein of interest.  Assignment is typically accomplished using a set of
+through-bond spectra, many of which are based around H-N groups and nearby
+atoms, and others which obtain the chemical shifts of the aliphatic sidechains
+(both carbons and protons) and still others for the aromatic portions of
+sidechains \cite{hnco, hncacb, cbcaconh, hbhaconh, cconhtocsy}.
+
+Assignment proceeds through two key intermediate data types: generalized spin
+systems (or GSSs) and resonances \cite{bmrb, ccpn}.  
+Resonances are the NMR-visible incarnations
+of nuclei: they resonate at characteristic frequencies across spectra.  GSSs
+are similar to NMR-visible incarnations of amino acid residues, but may span
+multiple residues and are therefore networks of covalently-bonded resonances
+\cite{abacus_assignment}.
+
+Peaks are assembled into GSSs by exploiting the redundancy between several 
+experiments: resonances appear in multiple spectra, at the same characteristic
+frequency giving rise to peaks (signals), and this is used to match these
+peaks into the same GSSs and resonances.  Peaks can also be matched within
+a single spectrum into the same GSS, depending on the nature of the experiment
+\cite{ccpn}.
+
+GSSs and resonances can be typed, that is, assigned to an amino acid type or
+an atom type respectively.  As can be found in the BMRB, there is large 
+variation in average chemical shifts depending on amino acid type and atom type,
+especially for Serine/Threonine, Glycine, and Alanine residues, for which the
+CB, CA, and CB atoms' chemical shifts are essentially unique
+\cite{guntert2009automated}.
+
+A second type of overlap is used in chemical shift assignment: due to the 
+similar J-couplings of the CA both of the previous and same residue to the
+backbone Nitrogen, it is possible to correlate a backbone amide group with
+both adjacent sidechains.  Thus, each sidechain may be correlated with two
+backbone amide groups, causing their resonances to appear in conjunction with
+two other groups.  As the atoms resonate at a characteristic frequency, this
+can be used to identify a sequential connection between the two GSSs based on
+backbone amide groups.  Once a sufficiently long chain is built using these
+sequential connections and the (possibly incomplete) GSS typings, the chains 
+may be assigned to specific residues in the protein sequence.  Combined with
+resonance typing, this is sufficient to obtain chemical shift assignments
+\cite{hnco, hncacb, cbcaconh}.
+
+However, chemical shift assignment is complicated by missing, overlapped, and
+extraneous signals, as well as ambiguities in GSS typings, resonance typings,
+sequential GSS connectivity, and sequence-specific GSS-residue assignments
+\cite{williamson2009automated, guerry2011automated}.
+The ambiguities in typings are caused by the non-uniqueness of average chemical
+shifts for most residue types (apart from Glycine, Alanine, Serine, and 
+Threonine) \cite{bmrb}.  The ambiguities in sequential
+assignments are caused by degenerate chemical shifts across multiple residues,
+as well as by missing and extraneous signals, and those in sequence-specific
+assignments are caused by non-uniqueness of the match between GSS typing
+of a sequential chain and the primary sequence of the protein.
+
+Accurate and complete chemical shift assignment requires nearly complete and
+correct peak picking, as well as the presence in the spectra of nearly complete
+expected signals, well-dispersed such that there is little to no overlap
+\cite{guntert2009automated, guerry2011automated}.
+It is often helpful to use a computational tool to quickly assign most of the
+chemical shifts, but later to make manual interventions to fix mistakes and
+assign any missed resonances \cite{baran2004automated}.
+
+\subsection*{NOESY assignment}
+
+NOESY spectra provide distance restraints between proton pairs.  In order to
+make use of their latent structural information, the peaks must be assigned
+to resonances and thereby to atoms.  This is done with the help of the 
+chemical shift assignments: NOESY peak cross-sections are matched to atoms
+based on similarity of the cross-section's chemical shift to that of the
+resonance assigned to the atom.
+
+However, NOESY data are heavily ambiguous, because there are typically several
+resonances with chemical shift values close enough to match a single NOESY
+peak cross-section.  There are several strategies for mitigating this problem.
+One is to collect 3D or 4D NOESY experiments, in which the additional dimensions
+correlate covalently-bonded 13C or 15N nuclei to the protons involved in the
+NOE interaction \cite{majumdar1993improved}.  
+This approach greatly reduces the ambiguity.  Furthermore,
+characteristic peak patterns are expected, such as intra-residue NOESYs between
+protons of that residue, as well as NOESY peaks between protons of sequential
+residues.  Another approach is selective labeling \cite{takeda2007automated}.
+
+Accurate and complete NOESY interpretation requires nearly complete chemical
+shift assignment.  Furthermore, some manual intervention in NOESY assignment
+may be necessary to correct and validate troublesome cases, or to prevent
+automated assignment programs from making mistakes 
+\cite{guntert2009automated, guerry2011automated}.
+
+NOESY data may be assigned manually, but are often assigned computationally
+as well, or with a combination of the approaches.  The CYANA and ARIA structure 
+calculation programs include facilities for automated NOESY assignment
+\cite{cyana2004, aria2003}.  
+A third tactic for dealing with ambiguous NOESY data is to iteratively reduce the
+ambiguity using network-anchoring approaches, that use initial structure 
+estimates to drive further unambiguous NOESY assignment in a self-consistent
+cycle \cite{cyana2004, aria2003}.
+
+\subsection*{Structure calculation}
+
+There are several other types of structural information obtained through NMR
+besides the proton-proton distance restraints provided by NOESY spectra.
+Using a program such as TALOS+ \cite{talos+}, backbone torsion angles can be 
+predicted.  TALOS+
+uses the chemical shift assignments of backbone atoms in conjunction with a
+database search to make its predictions.  3-J-coupling constants can be 
+related to dihedral torsion angles through the Karplus equation
+\cite{karplus1959contact, karplus1963vicinal}.  Residual dipolar couplings
+(RDCs) provide information about bond orientations.
+
+These data are synthesized into a structural model by programs including CYANA,
+ARIA, and XPLOR-NIH.  CYANA is useful for quickly obtaining coarse structure
+estimates.  XPLOR-NIH is able to provide more detailed structural models, but
+may take far longer to calculate a structure \cite{xplor-nih, cyana2004}.
+
+\subsection*{Deposition}
+
+The BMRB is the main repository for information derived using NMR spectroscopy.
+A BMRB deposition may be prepared that includes chemical shift assignments,
+peaks, peak assignments, binary spectral and time-domain data, sample 
+preparation protocol, and various other relevant data.  The PDB is the main 
+repository for structural data.  It is possible and useful to link a BMRB
+deposition to a PDB deposition \cite{bmrb, pdb}.
+
+
 
 
 % figures
@@ -529,192 +509,49 @@ is unknown.
 \section{Figures}
 
 \begin{figure}[h]
-  \includegraphics[scale=0.7]{figures/data_overview_1}
-  \caption[General NMR and molecular knowledge.]
-          {General NMR and molecular knowledge, including NMR phenomenon
-           such as through-bond and through-space interactions, primary
-           sequence, and gyromagnetic ratios.}
-  \label{data_overview_1}
+  \includegraphics[scale=0.5]{figures/one_spin_1-2}
+  \caption{An energy-level diagram for a spin system of a single nucleus.}
+  \label{one_spin_1-2}
 \end{figure}
 
-\begin{figure}
-  \includegraphics[scale=0.7]{figures/data_overview_2}
-  \caption[Experimentally determined knowledge: obtained before analysis.]
-          {Experimentally determined knowledge: obtained before analysis,
-           including sample preparation and conditions, isotopic labeling,
-           and time-domain and frequency-domain data.}
-  \label{data_overview_2}
+\begin{figure}[h]
+  \includegraphics[scale=0.5]{figures/two_spins_1-2}
+  \caption{An energy-level diagram for a spin system containing two nuclei.}
+  \label{two_spins_1-2}
 \end{figure}
 
-\begin{figure}
-  \includegraphics[scale=0.6]{figures/data_overview_3}
-  \caption[Knowledge obtained during analysis.]
-          {Knowledge obtained during analysis, including peaks, GSSs,
-           resonances, sequential and sequence-specific assignments, and
-           chemical shifts.}
-  \label{data_overview_3}
+\begin{figure}[h]
+  \includegraphics[scale=0.5]{figures/two_spins_initial}
+  \caption[The initial population distribution of a two-spin system.]
+          {The initial population distribution of a two-spin system in a 
+           static uniform magnetic field.  The low-energy states of both
+           spins are more populated than the high-energy states, according to
+           the Boltzmann distribution.}
+  \label{two_spins_initial}
 \end{figure}
 
-\begin{figure}
-  \includegraphics[scale=0.6]{figures/data_overview_4}
-  \caption[Information about the actual physical properties of a molecule.]
-          {Information about the actual physical properties of a molecule
-           is derived from structural and angle restraints.}
-  \label{data_overview_4}
+\begin{figure}[h]
+  \includegraphics[scale=0.5]{figures/two_spins_rf}
+  \caption[An RF pulse on one nucleus equalizes its populations.]
+          {An RF pulse on one nucleus equalizes its populations, in a 
+           single-quantum transition.  The population of the second spin
+           is unchanged.}
+  \label{two_spins_rf}
 \end{figure}
 
-\begin{figure}
-  \includegraphics[scale=0.4]{figures/peak_1d}
-  \caption[A 1-dimensional cross-section of Gaussian peaks]
-          {A 1-dimensional cross-section of Gaussian peaks.
-           Each peak cross section may be characterized by its 
-           position, as well as its width.  The peak as a whole
-           has an intensity or height.  This image is in the
-           public domain and was accessed at 
-           \url{http://en.wikipedia.org/wiki/File:Normal_Distribution_PDF.svg}.}
-  \label{peak_1d}
+\begin{figure}[h]
+  \includegraphics[scale=0.5]{figures/two_spins_w0}
+  \caption[Cross-relaxation along the zero-quantum transition.]
+          {Cross-relaxation along the zero-quantum transition leads to 
+           an increase in the high-energy population of the second spin.}
+  \label{two_spins_w0}
 \end{figure}
 
-\begin{figure}
-  \includegraphics[scale=0.5]{figures/schedule_uniform}
-  \caption[A uniform sample schedule]
-          {A uniform sample schedule.  The gaps between the points
-           are constant.  The two axes represent the 
-           variable time delays in the two indirect dimensions of a
-           three-dimensional experiment.}
-  \label{schedule_uniform}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.5]{figures/schedule_nonuniform}
-  \caption[A non-uniform sample schedule]
-          {A non-uniform sample schedule.  The gaps between the points
-           are not constant.  The two axes represent the 
-           variable time delays in the two indirect dimensions of a
-           three-dimensional experiment.}
-  \label{schedule_nonuniform}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.6]{figures/structure_restraints}
-  \caption[Restraints are used to build a structural model.]
-          {Restraints are used to build a structural model.
-           Residual dipolar couplings give orientation constraints,
-           and NOESY spectra give interatomic (H-H) distance constraints.}
-  \label{structure_restraints}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.5]{figures/torsion_angles}
-  \caption[Torsion angles provide structural information.]
-          {Torsion angles provide structural information.
-           A torsion angle is described by the positions of four
-           atoms, and is the angle between two planes.  For protein
-           structures, two key torsion angles are between the backbone
-           atoms of each residue.
-           This image is in the public domain, and was accessed
-           from \url{http://en.wikipedia.org/wiki/File:Peptide_angles.png}.}
-  \label{torsion_angles}
-\end{figure}
-
-% prevents a "! LaTeX Error: Too many unprocessed floats."
-% see http://tex.stackexchange.com/a/46514/28358
-\clearpage
-
-\begin{figure}
-  \includegraphics[scale=0.35]{figures/nhsqc}
-  \caption[A frequency-domain NHSQC spectrum]
-          {A frequency-domain NHSQC spectrum. 
-           The x- and y-axes are nitrogen and proton, respectively.}
-  \label{nhsqc}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.35]{figures/nhsqc_peaks}
-  \caption[A peak-picked NHSQC spectrum]
-          {A peak-picked NHSQC spectrum. 
-           Peaks are indicated by squares and crosses.}
-  \label{nhsqc_peaks}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.75]{figures/ccpn_nhsqc}
-  \caption[The nuclei correlated by an NHSQC.]
-          {The nuclei correlated by an NHSQC.
-           This figure is reproduced from \url{http://www.protein-nmr.org.uk/}
-           with the permission of Victoria Higman.}
-  \label{ccpn_nhsqc}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.75]{figures/ccpn_hncacb}
-  \caption[The nuclei correlated by an HNCACB.]
-          {The nuclei correlated by an HNCACB.
-           This figure is reproduced from \url{http://www.protein-nmr.org.uk/}
-           with the permission of Victoria Higman.}
-  \label{ccpn_hncacb}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.75]{figures/ccpn_cbcaconh}
-  \caption[The nuclei correlated by a CBCA(CO)NH.]
-          {The nuclei correlated by a CBCA(CO)NH.
-           This figure is reproduced from \url{http://www.protein-nmr.org.uk/}
-           with the permission of Victoria Higman.}
-  \label{ccpn_cbcaconh}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.75]{figures/ccpn_hnco}
-  \caption[The nuclei correlated by an HNCO.]
-          {The nuclei correlated by an HNCO.
-           This figure is reproduced from \url{http://www.protein-nmr.org.uk/}
-           with the permission of Victoria Higman.}
-  \label{ccpn_hnco}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.75]{figures/ccpn_hncaco}
-  \caption[The nuclei correlated by an HN(CA)CO.]
-          {The nuclei correlated by an HN(CA)CO.
-           This figure is reproduced from \url{http://www.protein-nmr.org.uk/}
-           with the permission of Victoria Higman.}
-  \label{ccpn_hncaco}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.75]{figures/ccpn_hbhaconh}
-  \caption[The nuclei correlated by an HBHA(CO)NH.]
-          {The nuclei correlated by an HBHA(CO)NH.
-           This figure is reproduced from \url{http://www.protein-nmr.org.uk/}
-           with the permission of Victoria Higman.}
-  \label{ccpn_hbhaconh}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.75]{figures/ccpn_hcconhtocsy}
-  \caption[The nuclei correlated by an H(CCO)NH-Tocsy.]
-          {The nuclei correlated by an H(CCO)NH-Tocsy.
-           This figure is reproduced from \url{http://www.protein-nmr.org.uk/}
-           with the permission of Victoria Higman.}
-  \label{ccpn_hcconhtocsy}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.75]{figures/ccpn_cconhtocsy}
-  \caption[The nuclei correlated by a C(CO)NH-Tocsy.]
-          {The nuclei correlated by a C(CO)NH-Tocsy.
-           This figure is reproduced from \url{http://www.protein-nmr.org.uk/}
-           with the permission of Victoria Higman.}
-  \label{ccpn_cconhtocsy}
-\end{figure}
-
-\begin{figure}
-  \includegraphics[scale=0.75]{figures/ccpn_hcchtocsy}
-  \caption[The nuclei correlated by an HCCH-Tocsy.]
-          {The nuclei correlated by an HCCH-Tocsy.
-           This figure is reproduced from \url{http://www.protein-nmr.org.uk/}
-           with the permission of Victoria Higman.}
-  \label{ccpn_hcchtocsy}
+\begin{figure}[h]
+  \includegraphics[scale=0.5]{figures/two_spins_w2}
+  \caption[Cross-relaxation along the double-quantum transition.]
+          {Cross-relaxation along the double-quantum transition leads to
+           a decrease in the high-energy population of the second spin.}
+  \label{two_spins_w2}
 \end{figure}
 

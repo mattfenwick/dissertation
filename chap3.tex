@@ -1,624 +1,527 @@
-\chapter{A Process Overview}
+\chapter{A Data Overview}
+\label{ch_data_overview}
 
 \begin{center}
-  \textit{If you can't describe what you are doing as a process, you don't 
-          know what you're doing.}
+  \textit{With insufficient data it is easy to go wrong.}
 
- - W. Edwards Deming
+ - Carl Sagan
 \end{center}
 
-This chapter will describe the NMR data analysis process in detail,
-including the roles of computational and manual analysis, their interaction
-with the data types, and tools used in the process.
-In order to study proteins in solution using NMR, a multi-step process is 
-employed to collect and analyze data, as shown in 
-Figure \ref{nmr_overview}, which breaks the process down into a series of 
-independent stages \cite{guerry2011automated}.
-Figure \ref{process_timeline} shows a view of the process in the context
-of the data discussed in the previous chapter.
+NMR data can be broadly grouped into four categories based on when it
+is known.  First, Figure \ref{data_overview_1}, 
+there is information that is known without performing
+any NMR experiments: this includes information about the molecule as well
+as general NMR and molecular knowledge.  Second,
+Figure \ref{data_overview_2}, is data that is 
+collected using the NMR spectrometer, and is known before analysis begins.  
+Third, Figure \ref{data_overview_3}, is the information generated during 
+analysis, and fourth, Figure \ref{data_overview_4}, is the final goal of 
+an NMR study, information about the actual structure of the molecule of 
+interest.
+
+This chapter will present the data generated during the NMR process.
+Later chapters will focus in on subsets of the data, as well as show how
+the data is used during analysis.
+
+
+\section{Global prior knowledge}
+Knowledge of NMR and molecules that is available before any experiments are
+performed.
+
+\subsection*{Molecule}
+
+\subsubsection{Primary sequence}
+The primary sequence of amino acids -- for example, the sequence of Ubiquitin
+is MQIFVKTLTG KTITLEVEPS DTIENVKAKI QDKEGIPPDQ QRLIFAGKQL EDGRTLSDYN IQKESTLHLV LRLRGG
+according to Swiss-Prot -- of the protein is known.  
+
+\subsubsection{Amino acids}
+The atoms contained in each amino acid (see Table \ref{alanine_atoms}), 
+bond lengths between atom pairs (see Table \ref{alanine_bond_lengths}), 
+and bond angles (see Table \ref{alanine_bond_angles}) are known 
+\cite{alanine_sreepad}.
+
+\subsection*{NMR}
+
+\subsubsection{Nuclei}
+The gyromagnetic ratio of nuclei (see Table \ref{gyromagnetic_ratios}) and 
+pulse sequences.  The gyromagnetic ratio and the magnetic field strength 
+determine the approximate frequency range at which nuclei appear in spectra.
+
+\subsubsection{Time-domain data}
+Resonances appear as decaying sinusoids, and the full data set is a sum of
+many of those sinusoids at varyious frequencies and intensities.
+This is exploited in transforming time-domain data sets to frequency-domain.
+
+\subsubsection{Through-bond experiments}
+Time-domain free induction decay (FID)s are collected using
+pulse sequences \cite{khaneja2005} designed to target specific nuclei by
+exploiting the coupling constants and characteristic chemical shifts of specific 
+atoms and functional groups.  The collected FIDs are sums of decaying sinusoids.
+
+The pulse sequence
+determines which covalently bond atom groups will be visible in experiments
+(see Tables \ref{nhsqc_peaktypes}, \ref{hnco_peaktypes}, 
+\ref{hncacb_peaktypes}, \ref{hbhaconh_peaktypes}, \ref{cconh_peaktypes}, and
+\ref{hcconh_peaktypes}).
+
+\subsubsection{Through-space experiments}
+Nuclear Overhauser Effect (NOE) \cite{noe_kaiser} experiments transfer 
+magnetization between spatially near proton pairs, and do not require a 
+network of covalent bonds.  Each true peak indicates a pair of protons within 
+approximately 5 Angstroms of each other.  This is different from 
+through-bond correlation spectra, in which peaks indicate covalently 
+bonded atoms; NOESY spectra do not depend on covalent bonds but rather 
+depend on spatial proximity.  Thus, each NOESY peak contains some information 
+about the actual three-dimensional structure of a molecule, although this
+information is not known until the correspondence between peak cross
+section and atom is found.
+
+\subsubsection{Resonance}
+A particular nucleus is expected to resonate at approximately the same 
+frequency in all spectra (although factors such as temperature and the 
+Bloch-Siegert shift can produce differences).
+
+\subsubsection{Frequency-domain spectra}
+The Fourier Transform of a decaying sinusoid produces a frequency-domain 
+spectrum with a peak at a frequency matching the oscillation frequency of 
+the sinusoid.  Since NMR time-domain data consists of multiple decaying 
+sinusoids caused by atoms resonating at characteristic chemical shifts, 
+the frequency domain spectrum will contain peaks for every oscillating 
+sinusoid present in the time-domain data.  
+
+Spectra contain peaks, which are characterized to obtain volume and peak
+cross section attributes; peak cross sections are characterized to obtain 
+position and width attributes (see Figure \ref{peak_1d}).
+
+\subsubsection{Chemical shift statistics}
+Statistics from previously analyzed molecules are maintained by the BMRB
+\cite{bmrb}, which show clear trends of average chemical shifts based on
+both amino acid type and atom (see Table \ref{alanine_atoms} for the 
+chemical shift statistics of Alanine).
+
+Chemical shift values are correlated to secondary structure, as described
+by secondary chemical shift statistics \cite{spera1991empirical}.  Chemical 
+shifts are also correlated to three-dimensional structure, as shown by 
+CHESHIRE \cite{cheshire} and CS-ROSETTA \cite{cs-rosetta}.  
+
+
+\section{Local prior knowledge}
+Knowledge which is available after performing NMR experiments, but before
+performing analysis.
+
+\subsection*{Sample}
+
+\subsubsection{Preparation procedure}
+The procedure used to express and purify a sample of interest, including
+growth medium and conditions, expression organism, and buffer optimization.
+
+\subsubsection{Isotope labeling}
+The specific H, N, and C labeling pattern.  While \textsuperscript{1}H is 
+the most abundant isotopye of hydrogen, and convenient for NMR experiments,
+\textsuperscript{12}C is the most abundant isotope of Carbon and is not 
+NMR-active; \textsuperscript{2}H is not as easy to observe because of
+its nuclear spin value of 1 (as opposed to the proton's spin value of 1/2),
+but can improve the quality of experiments observing nearby protons because,
+in comparison to protons, nearby atoms are afforded fewer relaxation pathways.
+Labeling patterns with specific properties have been implemented to take
+advantage of these different properties, as in SAIL-FLYA \cite{sail_flya}.
+See Table \ref{gyromagnetic_ratios}.
+
+\subsubsection{Sample contents}
+The components present in the sample as well as their concentrations.
+Samples can degrade and aggregate over time, and may be affected by the
+NMR experiments.
+
+\subsection*{NMR}
+
+\subsubsection{Spectrometer}
+Operating characteristics of the spectrometer, such as its field strength.
+
+\subsubsection{Time-domain data}
+The experimental conditions in which each time-domain data set is collected, 
+its sampling schedule, and the FIDs themselves.
+
+For each time-domain data set, the delay between data points, number of 
+points collected, and total delay between the first and last point (or 
+acquisition time, which may be calculated from the first two parameters).
+
+The sample schedule gives rise to frequency-domain artifacts according to 
+its point spread function, and also determines which means can be used to
+process the time-domain data to frequency-domain.  Two examples of different
+types of sample schedule are shown in Figure \ref{schedule_uniform} and
+Figure \ref{schedule_nonuniform}.
+
+\subsubsection{Spectra}
+The set of frequency-domain spectra and the spectral processing workflow
+used to construct them.  Key attributes are the spectral width, or range of
+different frequencies that can be distinguished, and resolution, or the
+ability to distinguish nearby but distinct signals in the frequency domain
+\cite{ernst2004}.  See Figure \ref{nhsqc} for an example Nitrogen 
+Heteronuclear Single-Quantum Coherence (HSQC) spectrum.
+
+\subsubsection{Stereospecific ambiguities}
+Given the set of spectra collected, the atoms in the molecule, and the isotope
+labeling scheme, there may be stereospecifically ambiguous assignments.  See
+Table \ref{stereospecific_ambiguities} for a lost of potential ambiguities.
 
 
 
-\section{Data Collection}
+\section{Analysis}
+Knowledge which is obtained while analyzing the experimentally collected data.
+% The analysis knowns before beginning the process are covered in the later section describing the library of deductive reasoning.
 
-See panel A of Figure \ref{nmr_overview}.
+This covers peak picking (see Figure \ref{nhsqc_peaks} for a peak picked spectrum), 
+the assembly of peaks into GSSs, GSS and resonance typing, sequential
+GSS assignments, and sequence-specific GSS assignments.
+In general, the correspondence between resonances, which appear in NMR 
+spectra as peak cross sections, and atoms is not known.  The correspondence 
+between resonances and peak cross sections is also not known, and is difficult 
+to determine in the presence of ambiguity.
 
-\subsection*{Sample preparation}
-The protein or molecule of interest is isolated and a solution 
-obtained.  The preparation procedure employed will determine isotope labeling
-and concentration.
+GSSs \cite{saga, ezassign, pistachio, autoassign1997, autoassign2001}
+and resonances \cite{ccpn} are parallel to residues and atoms.
+They are key to data analysis because they are the link between what is 
+observed in NMR experiments and the molecular details of the sample.
+Although these concepts had been used to a limited extent by earlier programs
+such as XEasy and Sparky \cite{xeasy, sparky}, more recent work has treated 
+GSSs and resonances as explicit, first-class members of data analysis 
+\cite{ccpn, bmrb}.  These definitions are based on the BMRB and CCPN data models,
+the complete documentation of the NMR-STAR data dictionary may be found online 
+at \url{http://www.bmrb.wisc.edu/dictionary/} and
+\url{http://www.ccpn.ac.uk/software/extras/datamodelfolder/datamodel}.
+% also \url{http://www2.ccpn.ac.uk/api-documentation/}. 
+% also \url{http://www2.ccpn.ac.uk/api-documentation/ccpnmr/ccpnmr2.2/python/doc/api.html}
+% also \url{http://www2.ccpn.ac.uk/api-documentation/ccpnmr/ccpnmr2.2/model/doc/ccp/nmr/index.html}
 
-\subsection*{Time-domain data acquisition}
-The solution is placed in an NMR spectrometer and an array of pulse sequences
-are used to collect time-domain data.
+\subsection*{Peak}
+A feature of a spectrum that corresponds to a group of covalently bond
+resonances (in a through-bond spectrum) or to a pair of nearby protons
+(in a NOESY spectrum).  A peak has a number of cross sections equal to
+the dimensionality of the spectrum in which it appears; each cross section
+corresponds to a resonance at a characteristic frequency.
 
-The collection of data suitable for Fourier Transform processing, described
-in the next section, requires uniformly collected data in each dimension.
+\subsection*{Resonance}
+A resonance is an NMR-visible signal which corresponds to an atom \cite{ccpn}.
+In general, an atom resonates at a single characteristic frequency based
+on its local environment;  the same resonance will be found at the same 
+frequency across multiple experiments.  This phenomenon is used to aid in 
+identification, although it is confounded by degeneracy as well as proteins
+with multiple conformations.
 
-Sensitivity, which determines the ability to discern true signals
-from noise in the frequency domain, places constraints on data collection
-\cite{rovnyak2004accelerated}.  Non-uniform sampling approaches 
-\cite{maciejewski2011random} avoid these tradeoffs by collecting more data
-points where the signal-to-noise ratio is high, but maintain resolution by
-still collecting some data points where the signal-to-noise is low.
+A resonance is used to link a peak cross section to an atom, for a chemical shift
+assignment, by means of a spin system and a residue.  Each peak cross section is
+assigned a resonance, and the resonances are assigned to spin systems, with
+the semantics that they are covalently bound.
 
+\subsection*{Generic spin system}
+A generic spin system (GSS) is an NMR-visible group of peaks, typically 
+across multiple spectra, which corresponds to a group of covalently bonded 
+resonances; it is similar to a residue.  
+The key to GSSs is a battery of multi-dimensional pulse 
+sequences designed to correlate resonances within GSSs 
+\cite{cavanagh1995protein, hncacb, hnco, cbcaconh}, which are
+based on an N-H group (due to its sensitivity and chemical shift dispersion)
+and correlate additional nearby nuclei through covalent bonds.
 
-\section{Spectral processing}
+These pulse sequences use several types of overlap.  First, each pulse sequence
+includes the N-H group.  Second, due to the similar scalar couplings between
+N and the CA and CA(i-1) nuclei, it is possible to simultaneously correlate an
+N-H group with both nearby CA nuclei; this means that each CA may be correlated
+with two N-H groups, or in other words, may be a part of two GSSs. 
+Third, due to the scalar coupling between N and CO(i-1), correlations to 
+C*(i-1) appear in two pulse sequences of a pair (e.g. HNCACB and CBCA(CO)NH), 
+while C* appear in only the HNCACB.  See Figure \ref{ccpn_nhsqc}, 
+Figure \ref{ccpn_hncacb}, Figure \ref{ccpn_cbcaconh}, Figure \ref{ccpn_hnco}, 
+Figure \ref{ccpn_hncaco}, Figure \ref{ccpn_cconhtocsy}, Figure \ref{ccpn_hcchtocsy},
+Figure \ref{ccpn_hcconhtocsy}, and Figure \ref{ccpn_hbhaconh} for an 
+illustration of the correlated nuclei.  Table \ref{pulse_sequences} tabulates
+the number of distinct measurements of each nucleus that can be obtained from
+common pulse sequences under ideal conditions.
 
-In Figure \ref{nmr_overview} panel B, 
-spectral processing operates on these FID data sets.  They are 
-converted to frequency-domain spectra using tools such as NMRPipe \cite{nmrpipe}
-and the Rowland NMR ToolKit \cite{rnmrtk}.  Functions such as 
-zero-fills, Fourier transforms, phase shifts, apodizations, and linear 
-predictions are applied to the data as a processing pipeline.  These 
-functions are used to ensure that the spectra are amenable to further 
-analysis, by optimizing peak size and shape and minimizing processing 
-artifacts.
+These characteristics lead to a natural definition of a GSS: a root 
+resonance or resonances, typically an amide H-N group, and additional 
+covalently-bonded resonances.  The precise extent of a GSS is in principle 
+determined by the available NMR experiments \cite{hncacb, hnco, cbcaconh}.  
+In practice, a backbone GSS often is initially 
+comprised of a backbone H-N, CO, CA, CB, CO(i-1), CA(i-1), and CB(i-1).
 
-The raw data collected from an NMR spectrometer is referred to as 
-time-domain data.  In a typical NMR experiment, these data represent the 
-sum of multiple decaying sinusoids.  These FIDs are converted to 
-frequency-domain spectra which are used in further analysis.  The goal of 
-this phase is to construct a frequency spectrum which indicates the resonance 
-frequencies of the atoms that were observed in the experiment.  A common tool 
-for such a transformation is the Fourier Transform, which is able to convert 
-a uniformly collected data set into a frequency spectrum.  
-An example of an NMR spectrum of N-H groups is shown in Figure \ref{nhsqc}.
-Due to relaxation decreasing the amplitude of an NMR signal over time, peaks 
-have an intrinsic linewidth in the frequency spectrum.
-Related approaches include multidimensional decomposition \cite{mdd}
-and maximum entropy reconstruction \cite{hoch1996nmr}.  When FIDs are 
-non-uniformly collected, these processing methods are required.
-
-Considerations include minimization of processing artifacts, signal-to-noise 
-ratio, accounting for water lines, avoiding rolling baselines and baseline 
-offsets, linewidth and shape, phasing, and apodization.  Multiple software 
-packages exist for carrying out this conversion, such as NMRPipe and RNMRTK \cite{nmrpipe, rnmrtk}.
-These packages include functions for processing the data in specific ways to 
-guarantee desirable qualities.  A typical procedure for spectral processing 
-involves the sequential application of multiple functions from one of these 
-packages.  At each stage, the input is a data set and associated metadata, 
-which includes information such as spectral width, dwell time, and number of 
-points.  Each function may require the setting of one or more parameters in 
-order to proceed.  Thus, in addition to the final frequency-domain spectrum, 
-the process generates several intermediate data sets, several 
-intermediate metadata sets, and the sequence of functions used along with 
-their parameterizations.  A previous program developed by our lab, known
-as CONNJUR WB, has enabled the convenient collection of necessary metadata 
-during spectral processing \cite{connjur-wb}.
-
-
-
-\section{Spectral analysis}
-
-In the spectral analysis stage, Figure \ref{nmr_overview} panel C,
-the overall goal is to identify the chemical shifts of individual atoms.
-The spectra may be analyzed using a tool such as XEasy \cite{xeasy}, 
-Sparky \cite{sparky}, NMRViewJ \cite{nmrviewj}, or CCPN Analysis \cite{ccpn}.  
-
-In each spectrum, peak-picking is performed, and true signal peaks must 
-be identified and separated from peaks caused by noise and artifacts.  
-Additionally, signal peaks caused by contaminants must be identified.  
-Next, GSSs are identified and constructed \cite{ccpn}. 
-The connectivity of resonances in a GSS is exploited 
-in through-bond experiments.  GSSs then must be assigned 
-connectivities to other GSSs through overlap of mutual resonances, 
-amino acid types, and finally specific residues of the sample of interest. 
-Resonances must also be assigned to specific atoms \cite{ccpn}, 
-with the final result being that specific atoms in the sample of interest 
-are assigned chemical shift values.  Currently, 100\% assignments are not 
-achievable due to several factors such as data quality, ambiguity,
-missing resonances, and metal ions \cite{guerry2011automated}.
-Between 80\% and 95\% completion may be required \cite{williamson2009automated}
-for successful analysis at later stages.
-
-\subsection*{Peak picking}
-Peak picking is the process of identifying and characterizing the peaks in 
-a spectrum.  The goal is to identify all true signal peaks, while recognizing
-and separating false peaks.
-
-To a first approximation, a peak is identified by a local maximum in the 
-frequency spectrum.  However, not all local maxima are necessarily true
-peaks: noise and artifacts give rise to false peaks.  Nor do all peaks show 
-up as local maxima if 
-they are weak and close to the noise level, which causes them 
-to be nearly indistinguishable from the noise and baseline; this may be due to 
-sample instability such as aggregation or precipitation, or low sample 
-concentration \cite{picky, munin, korzhnev2001munin, apart, autopsy, pine}
-\cite{williamson2009automated, guntert2009automated, altieri2004automation,
-baran2004automated}.
-Each peak cross section has a non-zero width; adjacent signals may give rise
-to overlapping peaks, distorting measurement of their attributes and possibly
-also leading to disappearance of a local maximum.
-Figure \ref{nhsqc_peaks} shows a portion of a peak-picked
-NHSQC spectrum; note the overlap, and that some -- but not
-all -- low-intensity spectral features have been identified as peaks.
-
-Given these inherent issues, a general strategy for peak picking is 
-described in \cite{autopsy, picky} and summarized here.
-First, the noise level is estimated and points below the noise are discarded.
-Next, of the remaining spectral regions, isolated areas are picked as peaks.
-Finally, overlap is resolved by lineshape matching, the peaks are picked
-and their attributes measured.  An optional additional step is filtering
-based on symmetry and linewidth \cite{autopsy, picky}.
-
-Correct peaks are important because they form the basis for the construction 
-of GSSs, the assignment of chemical shifts to atoms, and the interpretation of 
-NOESY spectra which give rise to distance restraints as a preliminary to 
-structure calculation \cite{guerry2011automated}.  
-Incorrect peak identification or position can result 
-in misinterpretation of NOESY spectra, which could lead to false distance 
-restraints between atoms which are in fact very far apart in the actual 
-protein structure.
-
-Estimates of the amount of false positive and false negative peaks picked 
-by computational tools range from low (10-40\%) to high (70-135\%) \cite{pine}. 
-The quality of the results generally depends on characteristics of the 
-spectrum, especially the signal/noise ratio, and resolution, as well as 
-characteristics of the molecule including \mattfttwo{} (which has an 
-effect on peak width) and number of atoms -- more atoms give rise to
-more peaks, and therefore a higher chance of overlap.
-
-Since none of these approaches yields perfect 
-results \cite{guerry2011automated}, manual intervention during peak picking 
-is important for obtaining results of sufficiently high quality
-\cite{guntert2009automated}; many peak picking 
-programs allow and encourage semi-automated interaction in order to clear 
-up troublesome spectral features.  
-Manual intervention is often accomplished based on knowledge outside of the 
-spectrum: existence, position, and shape of peaks in other spectra, knowledge 
-of the solvent, characteristic artifactual patterns caused by a specific 
-processing scheme, knowledge of the local dynamics of a small region of the 
-protein.  \cite{williamson2009automated, guntert2009automated, 
-altieri2004automation, baran2004automated}
-Because of this, peak picking can often not be completely finished until 
-later analysis has been accomplished.
-
-\subsection*{GSS and resonance construction}
-As many pulse sequences are specificially designed to exploit the strong
-backbone H-N coupling and correlate additional nearby atoms, H-N groups appear 
-in many through-bond spectra and are given a privileged position in analysis: 
-the signals which H-N groups give rise to appear at matching chemical shifts
-across multiple spectra.
-This H-N matching enables grouping of peaks into GSSs; given multiple spectra
-which include N-H dimensions, peaks with matching N and H chemical shifts are
-determined to belong to the same GSS.
-Table \ref{pulse_sequences} shows that H-N chemical shifts are captured in 
-multiple spectra, and sometimes multiple times within a single spectrum.
-At a later stage, GSSs are often augmented with additional sidechain resonances.
-	
-In addition to GSSs of backbone resonances, H-N-rooted GSSs typically are 
-visible for Asparagine and Glutamine sidechains, and smaller GSSs of 
-Tryptophan sidechains are visible.  Arginine sidechains may also give rise 
-to an H-N-rooted GSS under certain experimental conditions. 
-
-The difficulty in constructing these GSSs correctly and unambiguously stems 
-from the issues inherent in NMR data.  First, the success of the standard 
-suite of experiments rooted in H-N -- NHSQC, HNCO, HNCACB, etc. -- depends 
-on \cite{autoassign1997}: % page 600 -- `reliability`
-\begin{enumerate}
-  \item good dispersion, i.e. no overlap, otherwise it is difficult to determine 
-    which peaks belong with which H-N-rooted spin system.
-  \item the H-N chemical shifts being nearly identical across all spectra.  
-    This may not be the case if there are variations in the sample or the 
-    temperature.  The Bloch-Siegert shift and experimental error also can have 
-    an effect on chemical shift.
-  \item nuclei appearing at a single chemical shift.  If there are multiple 
-    conformations or chemical heterogeneity \cite{autoassign1997}, 
-    a nucleus may appear at multiple chemical shifts and appear to be two 
-    different resonances.
-  \item the presence of an H-N group -- Proline is a notable exception, and 
-    so it does not show up in experiments which rely on the presence of an H-N group
-  \item extraneous peaks which do not seem to fit into a spin system, or 
-    peaks which do not seem to match peaks in other spectra
-  \item accurate (or at least consistent) spectral referencing.  
-    Misreferenced spectra will cause the same nucleus to show up at different 
-    chemical shifts across multiple spectra.
-  \item quality of peak-picking \cite{autoassign1997, mars}: 
-    chemical shifts, lineshapes, as well as the numbers of 
-    false positives, false negatives, extraneous peaks
-\end{enumerate}
-
-Computational approaches for GSS construction tend to require manual 
-assistance in some cases, such as AutoAssign and Mars 
-\cite{autoassign1997, mars}.  Incorrect or 
-incomplete GSSs will have negative effects on the quality of later 
-analysis; several assignment tools assume that manual intervention will 
-verify and, if necessary, correct the GSSs \cite{williamson2009automated}; 
-this allows the tools to be conservative in their 
-predictions \cite{autoassign1997}.  However, it may not be 
-possible to unambiguously and completely construct GSSs until the results 
-of later analysis are available: some approaches use NOESY peaks and 
-assignments as well as structure results to verify and correct GSSs 
-\cite{autoassign1997}.
-
-Figure \ref{nhsqc_hncacb} shows an example of matching peaks between two
-spectra.  The quality of the match -- how closely the chemical shifts line up,
-as well as the lack of overlapping peaks -- means the peaks are easily
-identified as members of the same GSS.
-
-\subsection*{Resonance typing}
-Before assigning a resonance to a specific 
-atom, the atomtype of a resonance may be assigned.  In an HNCO experiment, 
-this is typically straightforward, because for each backbone spin system, 
-the H dimension always corresponds to the backbone H, the N dimension always 
-corresponds to the backbone N, and the C dimension always corresponds to the 
-backbone C(i-1).  However, the situation is more complicated in an HNCACB 
-experiment, as there are generally four choices of atomtype assignment for 
-the C dimension:  CA, CB, CA(i-1), and CB(i-1).  Thus, the resonance given 
-by the C dimension of each peak must be assigned one of these choices.  
-Reasons for choosing a specific assignment include peak sign, as well as 
-chemical shift compared to statistics available in the BMRB.  In addition, 
-the overlap between experiment pairs such as the HNCACB and CBCA(CO)NH 
-facilitates resonance-atomtype assignment: while the CA(i-1) and CB(i-1) 
-are expected to appear in both experiments at the same chemical shift for 
-a given backbone H-N root, the CA and CB are expected to appear only in the 
-HNCACB spectrum.
-
-\subsection*{GSS typing}
-Correspondingly, GSSs are also assigned amino acid types.  This phase 
-interacts strongly with the assignment of atomtypes to resonances, in 
-that the possible atomtypes to which a resonance may be assigned depends 
-on the amino acid type, and the expected chemical shift ranges for various 
-atomtypes depends on amino acid type as well.  For instance, GSSs assigned 
-to the Glycine amino acid type should not have a CB; and the CB resonance's 
-chemical shift of a GSS assigned to Alanine is expected to be very different 
-from all other CB chemical shifts.  Backbone amino acid types may be split 
-into several categories \cite{saga} based on BMRB statistics for 
-CA and CB chemical shifts \cite{bmrb}:
-\begin{enumerate}
-  \item Ala
-  \item Gly 
-  \item Pro
-  \item Ser, Thr
-  \item Val, Met, Lys, His, Arg, Glu, Gln, Trp, Cys
-  \item Asp, Asn, Ile, Leu, Phe, Tyr
-\end{enumerate}
-However, GSS typings are complicated by several factors.  First, GSS typing 
-requires correct and complete GSS construction.  Second, correctly assembled 
-GSSs may include overlapped or extraneous peaks, expected peaks (based on a 
-spectrum's typical results) may also be missing.  Third, most GSSs can not 
-be uniquely typed based solely on CA and CB chemical shifts, as groups 5 and 
-6 (above) as well as 4 are ambiguous.  Fourth, sidechain GSSs must be 
-identified and separated.
-
-\subsection*{Sequential GSS assignment}
-Sequential GSS assignments exploit the previously mentioned overlap of pulse
-sequences such as the HNCACB and HN(CA)CO.  Sequential GSSs 
-are expected to have CA/CA(i-1), CB/CB(i-1), and CO/CO(i-1) resonances at 
-identical chemical shifts.  This duplication enables sequential assignment 
-of GSSs.  Note that there is substantial interaction between atomtype-resonance 
-assignment and sequential GSS assignment: assigning two GSSs sequentially 
-implies the CB vs CB(i-1), CA vs CA(i-1), and C vs C(i-1) atomtype assignments 
-of the resonances in both GSSs; knowing the atomtype-resonance assignments of 
-two spin systems can prevent their sequential assignment (if, for example, the 
-matching resonances are both CB(i-1)); and not knowing the atomtype-resonance 
-assignment implies that the sequential GSS assignment may be invalid.  
-Sequential GSS assignment is complicated by: 
-\begin{enumerate}
-  \item missing peaks, possibly caused 
-  by local dynamics, which reduce the number of overlapping resonances between 
-  potential sequential GSSs, and can also disrupt atomtype assignments of 
-  resonances; 
-  \item extraneous peaks, which may be false positives or caused by 
-  multiple conformations of the protein, causing incorrect matches
-  \item degeneracy of chemical shifts:  given two GSSs with identical CA(i-1) 
-  and CB(i-1) resonances, as well as a third GSS with matching CA and CB 
-  resonances, it is impossible to unambiguously assign sequentially solely 
-  on the basis of chemical shift matching between the two GSSs 
-  \cite{autoassign1997}.
-\end{enumerate}
-
-An example of GSS overlap is shown in Figure \ref{hncacb_overlap}.  Green peaks
-are CA, and purple peaks are CB; note that one each of green and purple peaks
-match between the two GSSs.
-
-\subsection*{Sequence-specific GSS assignment}
-Since backbone GSSs are H-N-rooted, a GSS is assigned to a 
-backbone-amide; this implies the assignment of resonances to atoms as well, 
-based on matching of atomtypes.  When a typical GSS is assigned to a residue, 
-the H, N, C, C(i-1), CA, CA(i-1), CB, and CB(i-1) atoms will be assigned 
-resonances as well.  Sequence-specific assignment interacts heavily with 
-sequential GSS assignment, because the protein sequence must be compatible 
-with the GSS sequence, where `compatible' means that the amino acid types 
-of the GSS match those of the protein sequence.  Note that full assignment 
-of amino acid type to GSS is not a prerequisite for GSS-residue assignment; 
-in fact, GSS-residue assignment may lead to GSS-amino acid type assignment 
-for sequentially connected GSSs.  GSS-residue assignment is facilitated by 
-long chains of sequential GSSs in which some of the GSSs are typed as Serine, 
-Threonine, Glycine, or Alanine.  The longer a GSS chain, the fewer places it 
-might possibly fit into the protein sequence \cite{saga}.  Also, 
-as sequence-specific assignment proceeds, the number of unassigned GSSs and 
-residues decreases; the result is that initially ambiguous assignments become 
-unambiguous as choices are removed.  Conversely, complications arise from 
-incomplete sequential GSS assignments resulting in short, ambiguous chains.  
-The presence of prolines generally ends chains due to the lack of a backbone 
-H-N group.  Missing GSSs also terminate chains.  Relatively few Ser, Thr, Gly, 
-and Ala residues means the number of unambiguous anchor points will be lower.
-
-Figure \ref{ss-residue} shows an example of sequence-specific GSS assignment.
-Although not all of the GSSs have been typed, the presence of a Glycine and
-Serine in the GSS chain reduces the possible assignments to residues.
-Additionally, the length of the GSS chain helps reduce the ambiguity compared
-to shorter GSS chains.
-
-\subsection*{Sidechain: spin system and resonance assignment}
-The next group of experiments collects chemical shifts of sidechain atoms.  
-These experiments include 
-the HBHA(CO)NH \cite{hbhaconh} in Figure \ref{ccpn_hbhaconh}, 
-the C(CO)NH-Tocsy \cite{cconhtocsy} in Figure \ref{ccpn_cconhtocsy}, 
-the HC(CO)NH-Tocsy \cite{hcconhtocsy} in Figure \ref{ccpn_hcconhtocsy}, 
-and the HCCH-Tocsy \cite{hcchtocsy} in Figure \ref{ccpn_hcchtocsy}.  
-The purpose of these experiments is to 
-obtain the chemical shift values of sidechain resonances of protons, since 
-proton frequencies are necessary in order to interpret NOESY spectra.  To 
-interpret these spectra, the peaks must be assigned to GSSs and atomtypes 
-must be assigned to the new resonances. While several of these experiments 
-are also rooted in backbone H-N groups, facilitating the addition of peaks 
-to the correct GSS, others -- such as the HCCH-Tocsy -- are not.  These are 
-analyzed by the matching of resonance chemical shifts with those from other 
-experiments targeting sidechains.  Atomtype-resonance assignments can generally 
-be made with reference to compiled BMRB statistics.  Complications in this 
-phase include: stereospecificity -- nuclei such as HA2 and HA3 may give rise 
-to different chemical shifts, but resolving the correspondence may be 
-impossible without further data; overlap -- especially in the HCCH-Tocsy 
-where sidechains of the same amino acid type but different residue may have 
-many closing matching chemical shifts; overlap between resonances within the 
-same GSS, especially in Leu and Ile; missing and extraneous data; and the 
-difficulty of both obtaining and unambiguously interpreting aromatic data.  
-New approaches for sidechain data collection and assignment have recently 
-been developed \cite{mobli2010non, hiller2008apsy} which seek to address 
-these issues by reducing ambiguity of chemical shifts.
-
-\subsection*{Alternative approach: probabilistic assignment}
-The previously described approach views analysis as a pipeline: input is 
-transformed into output, which becomes the input for the next stage, and so on.  
-PINE \cite{pine} removes the pipeline constraint by connecting each stage to 
-each other and allowing information to flow freely; this enables statistical 
-weighting of interpretation as well as dependencies such as peak picking 
-on GSS construction (a dependency which is not possible in the pipeline 
-approach).  PINE does not remove the need for manual intervention; it is
-still assumed that some level of intervention is necessary to obtain the
-best results \cite{pine}.
+\subsubsection{Sidechain GSSs}
+The standard pulse sequences can also excite sidechain resonances, if the 
+chemical shifts of the resonances and the coupling constants between those
+resonances are similar to those of the targeted backbones resonances.
+Typically, sidechain GSSs are observed for Tryptophan, Asparagine, and Glutamine
+residues in H-N-rooted pulse sequences, and it is also possible to observe
+Arginine residues.
+As it is not always made explicitly clear what these potential GSS types
+are, Tables \ref{nhsqc_peaktypes}, \ref{hnco_peaktypes}, 
+\ref{hncacb_peaktypes}, \ref{hbhaconh_peaktypes}, \ref{cconh_peaktypes}, and
+\ref{hcconh_peaktypes} provide them in tabulated form for each pulse sequence.
 
 
-\section{Structure determination}
+\section{Desired knowledge}
 
-In the final stage, Figure \ref{nmr_overview} panel D, the chemical shift 
-assignments are used to interpret the NOESY experiments and a structure
-is calculated and refined.
+\subsection*{Restraints}
+Through the analysis process, structural constraints are obtained.  These 
+constraints include H-H interatomic distances obtained from NOESY spectra
+(see Figure \ref{structure_restraints}), residual dipolar couplings (RDCs) 
+(see Figure \ref{structure_restraints}) which give orientation constraints
+between two nuclei, and torsion angles 
+(see Figure \ref{torsion_angles}) which constrain the orientation of three
+adjacent bonds.
+In structural models, it is often the case that some constraints are not 
+satisfied.  These are known as "violations".
 
-\subsection*{NOESY peak-picking and assignment}
-NOESY peaks provide structural restraints if it can be 
-determined which protons gave rise to the peak.  Analysis of NOESY spectra 
-therefore requires chemical shift assignments of atoms to 
-determine the protons involved in a peak.  
-NOESY spectra are  processed and peak-picked, similarly to through-bond 
-spectra, and resonance assignments of peaks made.  
-Considerations used to analyze 
-NOESY spectra include: symmetry -- a peak is expected to correspond to a 
-matching peak with the frequencies of the two 1H dimensions swapped; patterns 
-based on known proximity of atoms from the primary sequence giving rise to 
-many short-distance NOE peaks; network anchoring.  Complications include 
-overlap caused by degenerate chemical shifts of protons, leading to 
-ambiguous interpretations of peak assignments; this can be greatly mitigated 
-by the use of an extra dimension:  15N- or 13C-edited NOESY spectra reduce 
-the ambiguity, as well as incorrect or incomplete chemical shift assignments.
-
-NOESY assignment may be done automatically by programs such as CYANA and 
-ARIA \cite{cyana2004, aria2003}.  
-NOESY peak-picking may be automated as well by programs such as
-MUNIN \cite{munin, korzhnev2001munin}.
-
-An alternative approach is taken by ABACUS \cite{abacus_assignment}, which uses
-Monte Carlo probabilistic methods for assignment, NOE assignment, and structure
-calculation.  A key difference of the ABACUS approach is the reduced dependency
-on the quality and analysis of through-bond experiments; through-bond experiments
-are used mainly to assemble peaks into GSSs, but sequential connectivities are
-obtained from NOESY experiments.  A more detailed explanation may be found at 
-\url{http://www.nmr2.buffalo.edu/nesg.wiki/Resonance_Assignment/Abacus/Introduction_to_ABACUS}.
-Importantly, input to ABACUS -- correct NOESY peak picking and GSS construction
--- must be complete and accurate.
-
-\subsection*{Structure calculation}
-The resonance assignments of the NOESY data are 
-interpreted to obtain distance restraints, which are then used to calculate 
-coarse-grained three-dimensional structures.  The structures may then be 
-refined and fine-tuned using a computational tool such as 
-Assisted Model Building with Energy Refinement (AMBER) \cite{amber}.  
-Unambiguous resonance assignment of NOESY data purely on the basis of chemical 
-shift assignments may often be impossible or impractical, due to degenerate 
-chemical shifts and to non-stereospecific assignments.  While these 
-ambiguities can often be resolved through the collection of additional 
-NMR data, the expense involved in doing so may often make it more practical 
-to attempt to resolve the ambiguities through a structure determination 
-program such as CYANA \cite{cyana2004}.
-
-CYANA is able to calculate a three-dimensional structure from NOESY peaks, 
-chemical shift assignments, and distance restraints \cite{cyana2004, aria2003} 
-using an iterative approach to NOESY peak assignment and building structural 
-models.  It also requires secondary structure information in the form of 
-torsion angle restraints as input; as
-chemical shift values are correlated to secondary structure, as described
-by secondary chemical shift statistics \cite{spera1991empirical}, secondary 
-structure can be calculated from chemical shift assignments using a program 
-such as TALOS+ \cite{talos+}.  As of version 3.0, CYANA is able to make use
-of RDCs during structure calculation as well.
-
-Chemical shift assignments may also be used to calculate potential structures.
-CS-ROSETTA \cite{cs-rosetta} uses chemical shift assignments of atoms in 
-backbone GSSs and produces a set of structures.  The general method is to 
-compare the chemical shifts with those of proteins of known chemical shift
-and structure, and then to select structure fragments from those known 
-proteins.  By assembling these fragments into a complete structure, a full
-model is constructed.  Although CS-ROSETTA is computationally intensive, it
-still offers a massive potential time savings by eliminating the need to
-collect and analyse NOESY spectra.
-
-Additional programs may be used to build, manipulate, and refine structures.
-AMBER \cite{amber} is a set 
-of force fields which facilitate simulation of molecular dynamics.  The
-force fields are parameterizable and describe potential energy; when applied
-to a molecule they provide a description of the molecule's potential energy. 
-Major components of the force fields are contributed by atomic bonds, 
-electron orbitals, bond torsions, van der Waals interactions, and electrostatics.
-XPLOR-NIH \cite{xplor-nih} is a
-powerful structural calculation and refinement program that is capable of
-incorporating torsion angle restraints, j coupling restraints, isotope 
-effects, 13C secondary shifts, proton chemical shift restraints, RDCS, and NOEs.
-These data are modeled by means of a set of energy terms which the program
-attempts to minimize.  XPLOR-NIH is also capable of modeling explicit 
-solvent molecules in order to determine their effect on the structure, 
-although this approach is superceded by the potential energy term model
-to a certain extent \cite{xplor-nih}.
+\subsection*{Structure} 
+The three-dimensional coordinates of the atoms, or correspondingly, the
+three-bond torsion angles.  In other words, the structure of the molecule
+is unknown.
 
 
 
-\section{Discussion}
-
-The inherent NMR issues of ambiguous, missing, and extraneous data cause 
-problems throughout the entire analysis process.  Correctly dealing with 
-these issues is difficult, but absolutely critical in order to obtain 
-high-quality results \cite{williamson2009automated, guntert2009automated, 
-altieri2004automation, baran2004automated}.  As yet, computational tools 
-are not able to deal perfectly with these issues, due to one or more of 
-several basic limitations: 
-\begin{enumerate}
-  \item they require high-quality input in order to function correctly:
-    SAGA \cite{saga}, ABACUS \cite{abacus_assignment}, Mars \cite{mars}, 
-    AutoAssign \cite{autoassign2001}, EZ-ASSIGN \cite{ezassign},
-    PINE \cite{pine}, and CYANA \cite{cyana2004};
-  this input is generally assumed to have been manually prepared in order 
-  to meet the stringent quality requirements of completeness and absence of 
-  extraneous results
-  \item even with high-quality input data, tools are not able to produce 
-  perfect results 
-  \item tools perform differently in different contexts, although 
-  performance generally decreases as protein size increases and spectral quality 
-  decreases
-  \item manual verification and correction of the results is assumed, 
-  even for tools that claim to be fully automated 
-  \cite{williamson2009automated, guntert2009automated, altieri2004automation,
-  baran2004automated}
-\end{enumerate}
-
-A key limitation of many analysis tools is the fixed input data.  While
-this simplifies the use of the tool in a simple pipeline, it may also lead
-to reduced quality of results and explain the necessity of manual intervention:  
-while the input data that a tool handles is restricted, manual interventions can
-make use of any additional information required to make specific deductions. 
-Thus, PINE and related efforts  
-are an exciting effort to loosen these incidental restrictions.  Initial 
-results are promising, and show a marked improvement, although manual 
-intervention is still assumed to be necessary in order to obtain the best 
-results \cite{pine}.  Further tools such as SHIFTX2 and CHESHIRE 
-\cite{shiftx2, cheshire}, which calculate chemical shifts from structure,  
-bring additional information to bear, helping to validate assignments.
-Table \ref{data_connections} and Figure \ref{process_timeline} show some
-of the key connections between various data types, putting these tools in
-the overall context of NMR data analysis.
-
-Another exciting development is the rise of probabilistic methods 
-\cite{saga, pine}.  These methods reflect the reality that the 
-confidence of a specific interpretation depends on the exact state of the 
-data; in other words, an assignment which is 50\% confident given only an 
-HNCA spectrum may become 90\% confident if an HN(CO)CA spectrum is added.  
-The significance of this confidence level is that it enables easy tracking 
-of ambiguous and/or low-confidence interpretations -- i.e. those that stand 
-to benefit from collecting additional data sets.  By including confidence 
-values on all assignments, an understanding of the troublesome areas is 
-facilitated.  This helps to reduce the cost of cascading errors -- if the 
-uncertainty is tracked as a confidence level, further interpretations based 
-on a highly uncertain datum will also receive low confidence levels.  In 
-addition, confidence levels are an alternative to the inherent balance 
-between completeness and correctness -- it is no longer necessary to 
-sacrifice one for the other \cite{autoassign2001, pine}.
-
-
-\section{Conclusions}
-
-The massive amount of data involved in a structure determination process --
-often on the order of gigabytes -- necessitates the use of computational
-tools for data management as well as efficiency of analysis.  To address
-specific problems in the NMR analysis process, many software implementations 
-of useful data processing algorithms have been created, distributed, and 
-maintained in recent years 
-(\url{http://nmrbox.org/NMRbox.org/Registry.html}, 
-\url{http://nmrwiki.org/wiki/index.php?title=Category:Software}, 
-\url{http://bmrb.wisc.edu/tools/prog\_corner.shtml}).  
-Additionally, several groups have 
-accelerated the process by producing software tools spanning and integrating 
-multiple steps to decrease the necessity for time-consuming human intervention
-\cite{abacus_assignment}.
-This allows automated or semi-automated structure determination for small 
-proteins.  Other groups have built integrated pipelines, using one specific 
-tool for each step \cite{baran2004automated, sail_flya}, 
-and allowing manual intervention at traditionally 
-difficult stages.  Many recent methods re-envision structure determination 
-as an iterative process, where the results of a later stage may require the 
-researcher to re-evaluate or re-perform an earlier stage \cite{cyana2004}; 
-this has been applied to interpretation of NOE-derived 
-restraints \cite{aria2003}.  Altogether, the structure determination 
-process can often take several months \cite{guerry2011automated}.
-
-In general, while computational tools are able to deliver results relatively 
-quickly compared to manual analysis, they may not be able to produce more 
-accurate results, especially when the input data is low-quality, irregular, or 
-otherwise problematic; this can result in false positives and negatives
-\cite{williamson2009automated}.  This is a problem at every stage of spectral
-analysis.
-
-This has the consequence that NMR structure determination data analysis 
-processes cannot be fully automated if high-quality results are required.  
-An effective solution to this problem combines the strengths of the automated 
-and manual approaches, in a semi-automated fashion:  computational tools are 
-used to quickly perform the majority of analyses such as peak-picking and 
-GSS construction, and manual analysis is used to clear up the 
-relatively small number of cases involving ambiguities and errors caused 
-by problematic or unclear data.  Thus, some amount of manual analysis may 
-be required at all stages of the data analysis process 
-\cite{guntert2009automated, williamson2009automated}.   
-
-Manual analysis therefore plays a critical role in NMR data analysis, due 
-to the inherent issues of analysis which complicate automated tools, and 
-to the ability to bring sufficient context to bear to solve difficult cases.  
-Manual intervention is assumed to be necessary by 
-most tools, even automated ones, to ensure the completeness and correctness 
-of results.  However, despite the importance that manual intervention plays 
-in analysis, the specific modifications made and their reasons for -- 
-which may be quite complicated -- are not captured \cite{guntert2009automated}.  
-Thus, the metadata of manual intervention is lost, and analysis is 
-irreproducible.
-Figure \ref{nmr_process} shows which data are and are not required for 
-deposition by the BMRB, indicating data missing from final results that
-prevents reproducibility.
-
-
-
-% tables
 \clearpage
 \section{Tables}
 
-% TODO more examples
-% TODO some inputs, outputs have multiple data types
 \begin{table}[h]
-    \begin{tabular}{ | c || c | c | c | c | c |}
+  \begin{tabular}{ | c | c | }
     \hline
-      Data                                      &  Example              &  Reverse example   \\  \hline
-      FID -> spectrum                           &  Frequency-domain     &  NMRPipe, RNMRTK   \\  \hline
-      Spectrum -> peaks                         &  Sparky peak picker   &                    \\  \hline
-      Peaks -> GSSs                             &                       &                    \\  \hline
-      Sequence -> chemical shifts               &                       &  ShiftY            \\  \hline
-      Chemical shifts -> secondary structure    &  TALOS+               &                    \\  \hline
-      Chemical shifts -> tertiary structure     &  CS-ROSETTA, CHESHIRE &  SPARTA+, ShiftX   \\  \hline
-      Chemical shifts -> NOESY assignments      &  CYANA                &                    \\  \hline
-      NOESY assignments -> structure            &  CYANA                &                    \\  \hline
-      NOEs, shifts, j-couplings -> structure    &  XPLOR-NIH            &                    \\  \hline
-    \end{tabular}
-    \caption{Connections between various data types.}
-    \label{data_connections}
+    Atom name   &  Average chemical shift (PPM)  \\  \hline
+    C           &  187.20     \\  \hline
+    O           &  --         \\  \hline
+    N           &  123.32     \\  \hline
+    H           &  8.19       \\  \hline
+    HA          &  4.25       \\  \hline
+    CA          &  53.16      \\  \hline
+    HB1         &  1.35       \\  \hline
+    HB2         &  1.35       \\  \hline    
+    HB3         &  1.35       \\  \hline
+    CB          &  19.06      \\  \hline
+  \end{tabular}
+  \caption[The atoms in alanine, in a protein chain.]
+          {The atoms in alanine, in a protein chain.
+           Average chemical shift statistics are taken from the BMRB.}
+  \label{alanine_atoms}
 \end{table}
 
+\begin{table}
+  \begin{tabular}{ | c | c | c | }
+    \hline
+    Atom 1  &   Atom 2  &  length (Angstroms)   \\  \hline
+    C   &   N   &   1.45  \\  \hline
+    C   &   C   &   1.51  \\  \hline
+    C   &   O   &   1.25  \\  \hline
+    N   &   H   &   1.03  \\  \hline
+    C   &   H   &   1.1   \\  \hline
+    O   &   H   &   1.1   \\  \hline
+  \end{tabular}
+  \caption[Alanine bond lengths, calculated from first principles.]
+          {Alanine bond lengths, calculated from first principles
+           in \cite{alanine_sreepad}.}
+  \label{alanine_bond_lengths}
+\end{table}
+
+\begin{table}
+  \begin{tabular}{ | c | c | c | c | }
+    \hline
+    Atom 1  &   Atom 2  &  Atom 3  &  estimated angle (degrees)   \\  \hline
+    C   &   CA  &   CB  &   128  \\  \hline
+    C   &   CA  &   N   &   112  \\  \hline
+    N   &   CA  &   CB  &   110  \\  \hline
+    O   &   C   &   CA  &   120  \\  \hline
+  \end{tabular}
+  \caption[Estimates of Alanine bond angles.]
+          {Estimates of Alanine bond angles.  The first two are
+           calculated from first priniciples in \cite{alanine_sreepad};
+           the latter two are based on number of atoms bonded
+           to the central atom.}
+  \label{alanine_bond_angles}
+\end{table}
+
+\begin{table}
+  \begin{tabular}{ | c | c | }
+    \hline
+    Nucleus &   gyromagnetic ratio (MHz / Tesla)  \\  \hline
+    \textsuperscript{1}H    &   42.576  \\  \hline
+    \textsuperscript{13}C   &   10.705  \\  \hline
+    \textsuperscript{15}N   &   -4.316  \\  \hline
+    \textsuperscript{19}F   &   40.052  \\  \hline
+    \textsuperscript{31}P   &   17.235  \\  \hline
+  \end{tabular}
+  \caption{Gyromagnetic ratios of biologically important nuclei.}
+  \label{gyromagnetic_ratios}
+\end{table}
+
+\begin{table}
+  \begin{tabular}{ | c | c | }
+    \hline
+    Covalently-bound atom group  &  Amino acid sequence  \\  \hline
+    H-N                          &  [\^{}P]              \\  \hline
+    HE-NE                        &  R                    \\  \hline
+    HD21-ND2                     &  N                    \\  \hline
+    HD22-ND2                     &  N                    \\  \hline
+    HE21-NE2                     &  Q                    \\  \hline
+    HE22-NE2                     &  Q                    \\  \hline
+    HE1-NE1                      &  W                    \\  \hline
+  \end{tabular}
+  \caption{The covalent atom groups visible in the NHSQC experiment.}
+  \label{nhsqc_peaktypes}
+\end{table}
+
+\begin{table}
+  \begin{tabular}{ | c | c | }
+    \hline
+    Covalently-bound atom group  &  Amino acid sequence  \\  \hline
+    H-N-C(i-1)                   &  .[\^{}P]             \\  \hline
+    HE-NE-CZ                     &  R                    \\  \hline
+    HD21-ND2-CG                  &  N                    \\  \hline
+    HD22-ND2-CG                  &  N                    \\  \hline
+    HE21-NE2-CD                  &  Q                    \\  \hline
+    HE22-NE2-CD                  &  Q                    \\  \hline
+    HE1-NE1-CE1                  &  W                    \\  \hline
+  \end{tabular}
+  \caption{The covalent atom groups visible in the HNCO experiment.}
+  \label{hnco_peaktypes}
+\end{table}
+    
+\begin{table}
+  \begin{tabular}{ | c | c | }
+    \hline
+    Covalently-bound atom group  &  Amino acid sequence  \\  \hline
+    H-N-CA                       &  .[\^{}P]             \\  \hline
+    H-N-CA(i-1)                  &  .[\^{}P]             \\  \hline
+    H-N-CB                       &  .[\^{}PG]            \\  \hline
+    H-N-CB(i-1)                  &  [\^{}G][\^{}P]       \\  \hline
+    HE-NE-CD                     &  R                    \\  \hline
+    HD21-ND2-CB                  &  N                    \\  \hline
+    HD21-ND2-CA                  &  N                    \\  \hline
+    HD22-ND2-CB                  &  N                    \\  \hline
+    HD22-ND2-CA                  &  N                    \\  \hline
+    HE21-NE2-CG                  &  Q                    \\  \hline
+    HE21-NE2-CB                  &  Q                    \\  \hline
+    HE22-NE2-CG                  &  Q                    \\  \hline
+    HE22-NE2-CB                  &  Q                    \\  \hline
+  \end{tabular}
+  \caption{The covalent atom groups visible in the HNCACB experiment.}
+  \label{hncacb_peaktypes}
+\end{table}
+
+\begin{table}
+  \begin{tabular}{ | c | c | }
+    \hline
+    Covalently-bound atom group  &  Amino acid sequence         \\  \hline
+    H-N-HA(i-1)                  &  [\^{}G][\^{}P]              \\  \hline
+    H-N-HA2(i-1)                 &  G[\^{}P]                    \\  \hline
+    H-N-HA3(i-1)                 &  G[\^{}P]                    \\  \hline
+    H-N-HB(i-1)                  &  [ITV][\^{}P]                \\  \hline
+    H-N-QB(i-1)                  &  A[\^{}P]                    \\  \hline
+    H-N-HB2(i-1)                 &  [PRNDCQEHLKMFSWY][\^{}P]    \\  \hline
+    H-N-HB3(i-1)                 &  [PRNDCQEHLKMFSWY][\^{}P]    \\  \hline
+  \end{tabular}
+  \caption{The covalent atom groups visible in the HBHA(CO)NH experiment.}
+  \label{hbhaconh_peaktypes}
+\end{table}
+
+\begin{table}
+  \begin{tabular}{ | c | c | }
+    \hline
+    Covalently-bound atom group         &  Amino acid sequence  \\  \hline
+    H-N-C*(i-1), * in (A)               &  G[\^{}P]             \\  \hline
+    H-N-C*(i-1), * in (A, B)            &  [HDSNCAFYW][\^{}P]   \\  \hline
+    H-N-C*(i-1), * in (A, B, G)         &  [EQM][\^{}P]         \\  \hline
+    H-N-C*(i-1), * in (A, B, G2)        &  T[\^{}P]             \\  \hline
+    H-N-C*(i-1), * in (A, B, G, D)      &  [RP][\^{}P]          \\  \hline
+    H-N-C*(i-1), * in (A, B, G1, G2)    &  V[\^{}P]             \\  \hline
+    H-N-C*(i-1), * in (A, B, G, D, E)   &  K[\^{}P]             \\  \hline
+    H-N-C*(i-1), * in (A, B, G1, G2, D1)&  I[\^{}P]             \\  \hline
+    H-N-C*(i-1), * in (A, B, G, D1, D2) &  L[\^{}P]             \\  \hline
+    % sidechain 
+    HD21-ND2-C*, * in (B, A)            &  N (sidechain)            \\  \hline
+    HD22-ND2-C*, * in (B, A)            &  N (sidechain)            \\  \hline
+    HE21-NE2-C*, * in (G, B, A)         &  Q (sidechain)            \\  \hline
+    HE22-NE2-C*, * in (G, B, A)         &  Q (sidechain)            \\  \hline
+    % TODO what about K, R, W sidechains?
+  \end{tabular}
+  \caption{The covalent atom groups visible in the C(CO)NH-Tocsy experiment.}
+  \label{cconh_peaktypes}
+\end{table}
+
+\begin{table}
+  \begin{tabular}{ | c | c | }
+    \hline
+    H-N-*(i-1), * in (HA2, HA3)                         &  G[\^{}P]             \\  \hline
+    H-N-*(i-1), * in (HA, HB2, HB3)                     &  [HDSNCFYW][\^{}P]    \\  \hline
+    H-N-*(i-1), * in (HA, QB)                           &  A[\^{}P]             \\  \hline
+    H-N-*(i-1), * in (HA, HB, QG2)                      &  T[\^{}P]             \\  \hline
+    H-N-*(i-1), * in (HA, HB2, HB3, HG2, HG3)           &  [EQM][\^{}P]         \\  \hline
+    H-N-*(i-1), * in (HA, HB2, HB3, HG2, HG3, HD2, HD3) &  [RP][\^{}P]          \\  \hline
+    H-N-*(i-1), * in (HA, HB, QG1, QG2)                 &  V[\^{}P]             \\  \hline
+    H-N-*(i-1), * in (HA, HB2, HB3, HG3, HG3, HD2, HD3, HE2, HE3)   &  K[\^{}P] \\  \hline
+    H-N-*(i-1), * in (HA, HB, HG12, HG13, QG2, QD1)     &  I[\^{}P]             \\  \hline
+    H-N-*(i-1), * in (HA, HB2, HB3, HG, QD1, QD2)       &  L[\^{}P]             \\  \hline
+    % sidechain
+    HD21-ND2-*, * in (HB3, HB2, HA)   &  N (sidechain)                  \\  \hline
+    HD22-ND2-*, * in (HB3, HB2, HA)   &  N (sidechain)                  \\  \hline
+    HE21-NE2-*, * in (HG3, HG2, HB3, HB2, HA)   &  Q (sidechain)        \\  \hline
+    HE22-NE2-*, * in (HG3, HG2, HB3, HB2, HA)   &  Q (sidechain)        \\  \hline
+  \end{tabular}
+  \caption{The covalent atom groups visible in the HC(CO)NH-Tocsy experiment.}
+  \label{hcconh_peaktypes}
+\end{table}
+
+% TODO hcch-tocsy peaktypes
+
+\begin{table}
+  \begin{tabular}{ | c | c | c |}
+    \hline
+    Ambiguity type    &  Atoms        &  Amino acid types     \\  \hline 
+    3 atoms, 1 peak   &  QB           &  A                    \\  \hline 
+    3 atoms, 1 peak   &  QG1          &  I                    \\  \hline 
+    3 atoms, 1 peak   &  QG2          &  [TI]                 \\  \hline 
+    3 atoms, 1 peak   &  QE           &  M                    \\  \hline 
+    2 atoms, 2 peaks  &  HA2/HA3      &  G                    \\  \hline 
+    2 atoms, 2 peaks  &  HB2/HB3      &  [RHKDESNQCPLMFYW]    \\  \hline 
+    2 atoms, 2 peaks  &  HG2/HG3      &  [RKEQPM]             \\  \hline 
+    2 atoms, 2 peaks  &  HG12/HG13    &  I                    \\  \hline 
+    2 atoms, 2 peaks  &  HD2/HD3      &  [RKP]                \\  \hline 
+    2 atoms, 2 peaks  &  HD21/HD22    &  N                    \\  \hline 
+    2 atoms, 2 peaks  &  HE2/HE3      &  K                    \\  \hline 
+    2 atoms, 2 peaks  &  HE21/HE22    &  Q                    \\  \hline 
+    2 atoms, 2 peaks  &  CG1/CG2      &  V                    \\  \hline 
+    2 atoms, 2 peaks  &  CD1/CD2      &  L                    \\  \hline 
+    2 atoms, 2 peaks or 2 atoms, 1 peak  &  HD1/HD2  &  [YF]  \\  \hline 
+    2 atoms, 2 peaks or 2 atoms, 1 peak  &  HE1/HE2  &  [YF]  \\  \hline 
+    2 groups of 3 atoms, 2 peaks  &  QG1/QG2  &  V            \\  \hline
+    2 groups of 3 atoms, 2 peaks  &  QD1/QD2  &  L            \\  \hline
+  \end{tabular}
+  \caption{Ambiguities in stereospecific assignments}
+  \label{stereospecific_ambiguities}
+\end{table}
+
+\begin{table}
+    \begin{tabular}{ | c || c | c | c | c | c |}
+    \hline
+              & NHSQC & HNCO & HN(CA)CO & HNCACB & CBCA(CO)NH \\
+    \hline
+      H       & 1 & 1 & 2 & 4 & 2 \\
+    \hline
+      N       & 1 & 1 & 2 & 4 & 2 \\
+    \hline
+      CO      & 0 & 1 & 0 & 0 & 0 \\
+    \hline
+      CO(i-1) & 0 & 1 & 1 & 0 & 0 \\
+    \hline
+      CA      & 0 & 0 & 0 & 1 & 0 \\
+    \hline
+      CA(i-1) & 0 & 0 & 0 & 1 & 1 \\
+    \hline
+      CB      & 0 & 0 & 0 & 1 & 0 \\
+    \hline
+      CB(i-1) & 0 & 0 & 0 & 1 & 1 \\
+    \hline
+    \end{tabular}
+    \caption{The number of times nuclei typically appear in pulse sequences}
+    \label{pulse_sequences}
+\end{table}
 
 
 % figures
@@ -626,47 +529,192 @@ prevents reproducibility.
 \section{Figures}
 
 \begin{figure}[h]
-  \includegraphics[scale=0.42]{figures/nmr_overview}
-  \caption{An overview of the NMR process for protein structure determination}
-  \label{nmr_overview}
+  \includegraphics[scale=0.7]{figures/data_overview_1}
+  \caption[General NMR and molecular knowledge.]
+          {General NMR and molecular knowledge, including NMR phenomenon
+           such as through-bond and through-space interactions, primary
+           sequence, and gyromagnetic ratios.}
+  \label{data_overview_1}
 \end{figure}
 
 \begin{figure}
-  \includegraphics[scale=0.35]{figures/process_timeline}
-  \caption{The connections between various data types.}
-  \label{process_timeline}
+  \includegraphics[scale=0.7]{figures/data_overview_2}
+  \caption[Experimentally determined knowledge: obtained before analysis.]
+          {Experimentally determined knowledge: obtained before analysis,
+           including sample preparation and conditions, isotopic labeling,
+           and time-domain and frequency-domain data.}
+  \label{data_overview_2}
 \end{figure}
 
 \begin{figure}
-  \includegraphics[scale=0.3]{figures/nhsqc_hncacb}
-  \caption[Matching peaks between an NHSQC and an HNCACB spectrum]
-          {Matching peaks between an NHSQC and an HNCACB spectrum.
-           This likely indicates that the peaks belong to the same GSS.}
-  \label{nhsqc_hncacb}
+  \includegraphics[scale=0.6]{figures/data_overview_3}
+  \caption[Knowledge obtained during analysis.]
+          {Knowledge obtained during analysis, including peaks, GSSs,
+           resonances, sequential and sequence-specific assignments, and
+           chemical shifts.}
+  \label{data_overview_3}
 \end{figure}
 
 \begin{figure}
-  \includegraphics[scale=0.35]{figures/hncacb_overlap}
-  \caption{Overlap of Carbon resonances in an HNCACB spectrum.}
-  \label{hncacb_overlap}
+  \includegraphics[scale=0.6]{figures/data_overview_4}
+  \caption[Information about the actual physical properties of a molecule.]
+          {Information about the actual physical properties of a molecule
+           is derived from structural and angle restraints.}
+  \label{data_overview_4}
 \end{figure}
 
 \begin{figure}
-  \includegraphics[scale=0.45]{figures/ss-residue}
-  \caption[Assignment of a GSS chain to residues]
-          {Assignment of a GSS chain to residues.  The circles are residues,
-           black lines are peptide bonds, squares are GSSs, red lines are 
-           sequential GSS assignments, and green lines are GSS-residue 
-           assignments.}
-  \label{ss-residue}
+  \includegraphics[scale=0.4]{figures/peak_1d}
+  \caption[A 1-dimensional cross-section of Gaussian peaks]
+          {A 1-dimensional cross-section of Gaussian peaks.
+           Each peak cross section may be characterized by its 
+           position, as well as its width.  The peak as a whole
+           has an intensity or height.  This image is in the
+           public domain and was accessed at 
+           \url{http://en.wikipedia.org/wiki/File:Normal_Distribution_PDF.svg}.}
+  \label{peak_1d}
 \end{figure}
 
 \begin{figure}
-  \includegraphics[scale=0.3]{figures/nmr_process}
-  \caption[Breakdown of the NMR process by reproducibility.]
-          {Breakdown of the NMR process by reproducibility.  The BMRB currently
-           requires deposition of some data types, and accepts others.  However,
-           these data are incomplete.}
-  \label{nmr_process}
+  \includegraphics[scale=0.5]{figures/schedule_uniform}
+  \caption[A uniform sample schedule]
+          {A uniform sample schedule.  The gaps between the points
+           are constant.  The two axes represent the 
+           variable time delays in the two indirect dimensions of a
+           three-dimensional experiment.}
+  \label{schedule_uniform}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.5]{figures/schedule_nonuniform}
+  \caption[A non-uniform sample schedule]
+          {A non-uniform sample schedule.  The gaps between the points
+           are not constant.  The two axes represent the 
+           variable time delays in the two indirect dimensions of a
+           three-dimensional experiment.}
+  \label{schedule_nonuniform}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.6]{figures/structure_restraints}
+  \caption[Restraints are used to build a structural model.]
+          {Restraints are used to build a structural model.
+           Residual dipolar couplings give orientation constraints,
+           and NOESY spectra give interatomic (H-H) distance constraints.}
+  \label{structure_restraints}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.5]{figures/torsion_angles}
+  \caption[Torsion angles provide structural information.]
+          {Torsion angles provide structural information.
+           A torsion angle is described by the positions of four
+           atoms, and is the angle between two planes.  For protein
+           structures, two key torsion angles are between the backbone
+           atoms of each residue.
+           This image is in the public domain, and was accessed
+           from \url{http://en.wikipedia.org/wiki/File:Peptide_angles.png}.}
+  \label{torsion_angles}
+\end{figure}
+
+% prevents a "! LaTeX Error: Too many unprocessed floats."
+% see http://tex.stackexchange.com/a/46514/28358
+\clearpage
+
+\begin{figure}
+  \includegraphics[scale=0.35]{figures/nhsqc}
+  \caption[A frequency-domain NHSQC spectrum]
+          {A frequency-domain NHSQC spectrum. 
+           The x- and y-axes are nitrogen and proton, respectively.}
+  \label{nhsqc}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.35]{figures/nhsqc_peaks}
+  \caption[A peak-picked NHSQC spectrum]
+          {A peak-picked NHSQC spectrum. 
+           Peaks are indicated by squares and crosses.}
+  \label{nhsqc_peaks}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.75]{figures/ccpn_nhsqc}
+  \caption[The nuclei correlated by an NHSQC.]
+          {The nuclei correlated by an NHSQC.
+           This figure is reproduced from \url{http://www.protein-nmr.org.uk/}
+           with the permission of Victoria Higman.}
+  \label{ccpn_nhsqc}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.75]{figures/ccpn_hncacb}
+  \caption[The nuclei correlated by an HNCACB.]
+          {The nuclei correlated by an HNCACB.
+           This figure is reproduced from \url{http://www.protein-nmr.org.uk/}
+           with the permission of Victoria Higman.}
+  \label{ccpn_hncacb}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.75]{figures/ccpn_cbcaconh}
+  \caption[The nuclei correlated by a CBCA(CO)NH.]
+          {The nuclei correlated by a CBCA(CO)NH.
+           This figure is reproduced from \url{http://www.protein-nmr.org.uk/}
+           with the permission of Victoria Higman.}
+  \label{ccpn_cbcaconh}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.75]{figures/ccpn_hnco}
+  \caption[The nuclei correlated by an HNCO.]
+          {The nuclei correlated by an HNCO.
+           This figure is reproduced from \url{http://www.protein-nmr.org.uk/}
+           with the permission of Victoria Higman.}
+  \label{ccpn_hnco}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.75]{figures/ccpn_hncaco}
+  \caption[The nuclei correlated by an HN(CA)CO.]
+          {The nuclei correlated by an HN(CA)CO.
+           This figure is reproduced from \url{http://www.protein-nmr.org.uk/}
+           with the permission of Victoria Higman.}
+  \label{ccpn_hncaco}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.75]{figures/ccpn_hbhaconh}
+  \caption[The nuclei correlated by an HBHA(CO)NH.]
+          {The nuclei correlated by an HBHA(CO)NH.
+           This figure is reproduced from \url{http://www.protein-nmr.org.uk/}
+           with the permission of Victoria Higman.}
+  \label{ccpn_hbhaconh}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.75]{figures/ccpn_hcconhtocsy}
+  \caption[The nuclei correlated by an H(CCO)NH-Tocsy.]
+          {The nuclei correlated by an H(CCO)NH-Tocsy.
+           This figure is reproduced from \url{http://www.protein-nmr.org.uk/}
+           with the permission of Victoria Higman.}
+  \label{ccpn_hcconhtocsy}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.75]{figures/ccpn_cconhtocsy}
+  \caption[The nuclei correlated by a C(CO)NH-Tocsy.]
+          {The nuclei correlated by a C(CO)NH-Tocsy.
+           This figure is reproduced from \url{http://www.protein-nmr.org.uk/}
+           with the permission of Victoria Higman.}
+  \label{ccpn_cconhtocsy}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[scale=0.75]{figures/ccpn_hcchtocsy}
+  \caption[The nuclei correlated by an HCCH-Tocsy.]
+          {The nuclei correlated by an HCCH-Tocsy.
+           This figure is reproduced from \url{http://www.protein-nmr.org.uk/}
+           with the permission of Victoria Higman.}
+  \label{ccpn_hcchtocsy}
 \end{figure}
 
