@@ -1,0 +1,40 @@
+\documentclass[11pt,a4paper]{report}
+\usepackage[top=30mm, bottom=30mm, left=30mm, right=30mm]{geometry}
+\usepackage{microtype} % makes things look nicer ??
+\usepackage{times} % ???
+\usepackage{graphicx} % for pictures
+\usepackage{hyperref} % for internal links
+\usepackage{fixltx2e} % for subscript text
+\usepackage{url} % to allow linebreaks in urls (apparently is already loaded by another package -- perhaps `hyperref`)
+\linespread{2}
+\DeclareGraphicsExtensions{.jpg, .png}
+\usepackage[T1]{fontenc} % see http://tex.stackexchange.com/questions/664/
+\newcommand{\mattftitle}{Reproducible Protein NMR Data Analysis}
+\newcommand{\mattftone}{\textit{T}\textsubscript{1}}
+\newcommand{\mattfttwo}{\textit{T}\textsubscript{2}}
+
+
+\begin{document}
+
+
+\clearpage
+\pagenumbering{arabic}
+
+\input{title}
+
+\tableofcontents
+\listoftables
+\listoffigures
+
+\input{intro}
+\input{problem}
+\input{solution}
+\input{conclusions}
+
+\clearpage % apparently necessary to get the table of contents to point to the right page for the references
+\addcontentsline{toc}{chapter}{References}
+\bibliographystyle{ieeetr}
+\bibliography{main}
+
+\end{document}
+

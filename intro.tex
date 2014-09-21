@@ -1,0 +1,80 @@
+\chapter{Introduction}
+
+NMR (Nuclear Magnetic Resonance) spectroscopy is an experimental technique for 
+studying proteins and other biological molecules at atomic resolution.  In 
+NMR is used to collect detailed molecular data, which 
+is analyzed to get information about structure, dynamics,  
+activity, and inter-molecular interactions.  
+Since 1990, the structures of nearly 9,000 
+proteins that were solved using NMR have been deposited in the Protein Data 
+Bank (PDB) \cite{pdb}, a facility for the archival and sharing of protein-related 
+data, and NMR data is available for over 10,000 proteins in the BioMagnetic 
+Resonance Bank (BMRB) \cite{bmrb}, a facility for the archival and sharing of 
+specifically NMR-derived data.  The data collected using NMR techniques is 
+important to the field of drug design 
+\cite{stockman2002drugs, moore2003leveraging, reckel2011proteorhodopsin}.
+
+A major problem is that NMR analysis is irreproducible.  This document will
+explain reproducibility and its significance, why NMR is irreproducible,
+and present a strategy for rendering NMR analysis reproducible.
+
+
+
+\section{Reproducibility}
+Reproducibility is a critical component of science.
+When the process for obtaining a result is captured in sufficient detail that
+an independent scientist can execute the same process and get the same result,
+it is said to be "reproducible" \cite{russell2013reproducibility, nih2014reproducibility}.
+This allows it to be independently tested and verified.
+
+There are several components of reproducibility: 
+\begin{itemize}
+
+  \item Experimental design.
+
+  \item Experimental execution.
+
+  \item Computational.  Indiscriminate computational use may be irreproducible \cite{donoho2009, peng2011reproducible}.  
+    \cite{donoho_wavelab} provides a definition of computational reproducibility, and a strategy for achieving it.
+    It is important that all tools, scripts, platforms and code are available, including the exact versions used
+    \cite{ince2012open, nekrutenko2012next, blankenberg2014dissemination}.
+    Parameters \cite{landis2012call}, input and output data must be captured.
+
+  \item non-computational analysis.  failing to recognize analytical bias and to 
+    use appropriate statistical measures has long been a source of 
+    irreproducibility in scientific endeavors \cite{sackett1979bias}.
+    See also \cite{ioannidis2005most, nuzzo2014statistical, begley2013reproducibility}, 
+    and a recent Nature special (\url{http://www.nature.com/nature/focus/reproducibility/}).
+    To ensure reproducibility of analysis, appropriate, necessary, and sufficient
+    statistical measures should be used \cite{pashler2012replicability, vaux2012numbers}.
+    If bias is present in the experimental data, its sources should be recognized
+    and accounted for \cite{macarthur2012reproducibility, wagenmakers2012agenda}.
+
+\end{itemize}
+
+
+
+\section{Why is reproducibility important?}
+Reproducibility is important to science for several reasons \cite{borgman2012conundrum}.
+\begin{itemize}
+  \item make it possible to judge the quality and value of a result
+  \item facilitates the discovery and correction of bias
+  \item facilitate transfer of knowledge and techniques between scientists \cite{rung2013reuse}
+  \item facilitate collaboration
+  \item facilitate error detection and correction
+  \item facilitate teaching by explicitly capturing all relevant information,
+        reducing information loss and reliance on implicits
+  \item facilitate future reinterpretation and perusal of data and results
+  \item higher quality results
+  \item reduces time wastage due to inability to replicate results 
+        \cite{ioannidis2005most, mullard2011reliability, prinz2011reproducibility, begley2012drug}. 
+\end{itemize}
+
+
+\section{NMR analysis is irreproducible}
+Why?
+
+
+\section{An Approach for Reproducible Analysis}
+An approach for reproducibly analyzing NMR data was created and applied.
+
