@@ -14,10 +14,6 @@ specifically NMR-derived data.  The data collected using NMR techniques is
 important to the field of drug design 
 \cite{stockman2002drugs, moore2003leveraging, reckel2011proteorhodopsin}.
 
-A major problem is that NMR analysis is irreproducible.  This document will
-explain reproducibility and its significance, why NMR is irreproducible,
-and present a strategy for rendering NMR analysis reproducible.
-
 
 
 \section{Reproducibility}
@@ -27,27 +23,25 @@ an independent scientist can execute the same process and get the same result,
 it is said to be "reproducible" \cite{russell2013reproducibility, nih2014reproducibility}.
 This allows it to be independently tested and verified.
 
-There are several components of reproducibility: 
+There are several aspects of reproducibility: 
 \begin{itemize}
 
   \item Experimental design.
 
-  \item Experimental execution.
+  \item Experimental execution.  What was actually done, including reagents, conditions,
+    mixing times, etc.
 
-  \item Computational.  Indiscriminate computational use may be irreproducible \cite{donoho2009, peng2011reproducible}.  
+  \item computational analysis.  Indiscriminate computational use may be irreproducible \cite{donoho2009, peng2011reproducible}.  
     \cite{donoho_wavelab} provides a definition of computational reproducibility, and a strategy for achieving it.
-    It is important that all tools, scripts, platforms and code are available, including the exact versions used
+    All tools, scripts, platforms and code must be available, including the exact versions used
     \cite{ince2012open, nekrutenko2012next, blankenberg2014dissemination}.
     Parameters \cite{landis2012call}, input and output data must be captured.
 
-  \item non-computational analysis.  failing to recognize analytical bias and to 
-    use appropriate statistical measures has long been a source of 
-    irreproducibility in scientific endeavors \cite{sackett1979bias}.
-    See also \cite{ioannidis2005most, nuzzo2014statistical, begley2013reproducibility}, 
-    and a recent Nature special (\url{http://www.nature.com/nature/focus/reproducibility/}).
-    To ensure reproducibility of analysis, appropriate, necessary, and sufficient
-    statistical measures should be used \cite{pashler2012replicability, vaux2012numbers}.
-    If bias is present in the experimental data, its sources should be recognized
+  \item non-computational analysis.  Analytical bias must be avoided \cite{sackett1979bias}.
+    Appropriate, necessary, and sufficient statistical measures must be used 
+    \cite{ioannidis2005most, nuzzo2014statistical, begley2013reproducibility,
+          pashler2012replicability, vaux2012numbers}.
+    Bias in the experimental data must be recognized
     and accounted for \cite{macarthur2012reproducibility, wagenmakers2012agenda}.
 
 \end{itemize}
@@ -59,22 +53,14 @@ Reproducibility is important to science for several reasons \cite{borgman2012con
 \begin{itemize}
   \item make it possible to judge the quality and value of a result
   \item facilitates the discovery and correction of bias
-  \item facilitate transfer of knowledge and techniques between scientists \cite{rung2013reuse}
-  \item facilitate collaboration
-  \item facilitate error detection and correction
-  \item facilitate teaching by explicitly capturing all relevant information,
+  \item enables transfer of knowledge and techniques between scientists \cite{rung2013reuse}
+  \item promotes collaboration
+  \item enables error detection and correction
+  \item facilitates teaching by explicitly capturing all relevant information,
         reducing information loss and reliance on implicits
-  \item facilitate future reinterpretation and perusal of data and results
-  \item higher quality results
+  \item makes future reinterpretation and perusal of data and results possible
+  \item leads to higher quality results
   \item reduces time wastage due to inability to replicate results 
         \cite{ioannidis2005most, mullard2011reliability, prinz2011reproducibility, begley2012drug}. 
 \end{itemize}
-
-
-\section{NMR analysis is irreproducible}
-Why?
-
-
-\section{An Approach for Reproducible Analysis}
-An approach for reproducibly analyzing NMR data was created and applied.
 
