@@ -10,8 +10,10 @@
 \section{Protein NMR}
 
 Proteins containing spin-1/2 nuclei may be studied using NMR.  Hydrogen, 
-Carbon and Nitrogen are all plentiful in proteins, and have isotopes of 
-spin-1/2.  Useful biophysical characterization of proteins that may be 
+Carbon and Nitrogen are plentiful in proteins, and have isotopes of 
+spin-1/2, although the NMR-friendly isotopes, \nmrisoc{} and \nmrison{}, 
+are not the most plentiful isotopes.
+Useful biophysical characterization of proteins that may be 
 obtained using NMR includes structural, dynamics, and binding information.
 
 \subsection*{Sample preparation}
@@ -19,35 +21,36 @@ obtained using NMR includes structural, dynamics, and binding information.
 The first step of an NMR analysis process is to obtain a sample of the protein
 of interest.  NMR is a relatively insensitive technique, and so it is important
 to get a sample with relatively high concentration compared to other structural
-biology techniques, often in the millimolar range.  The protein is produced
-by transforming a plasmid into bacteria, and then inducing transcription 
-of the plasmid followed by translation.  If specific isotopes, such as 15N or 
-13C are required for their NMR properties, they may be provided in the 
-bacteria's growth media.  Finally, the protein is isolated and purified
-\cite{derome1987modern}.
+biology techniques, often in the millimolar range.  
+One technique for obtaining such a high concentration of sample protein is
+to express the protein in bacteria.  Bacteria are relatively cheap and easy
+to grow, and their food sources can be regulated to provide NMR-friendly 
+isotopes such as \nmrisoc{} or \nmrison{} if desired, by controlling the growth media.
+The protein is produced by transforming bacteria through adding a plasmid,
+and then inducing transcription of the plasmid followed by translation.  
+Finally, the protein is isolated and purified \cite{derome1987modern}.
 
 \subsection*{Data collection}
 
 Assuming the purified, high-concentration protein sample does not aggregate
 or denature, NMR experiments are run by placing a tube of the sample inside 
 of a spectrometer, running sequences of radio-frequency pulses which selectively
-excite nuclei within the sample, and observing the results.  The data a 
+excite nuclei within the sample, and observing the results.  The data are a 
 superposition of decaying sinusoids of different frequencies and amplitudes;
-the frequencies are caused by the precession at the Larmor frequency along with
-the resonance phenomenon of the various nuclei, and the decay is the result
-of the system gradually relaxing back to equilibrium \cite{bloch1946nuclear}.
+the frequencies correspond to the precession at the Larmor frequency
+of the various nuclei, and the decay is the result
+of the gradually return to equilibrium \cite{bloch1946nuclear}.
 
 Various pulse sequences are used to probe specific functional groups within
 the protein.  There are two major categories of pulse sequences, based on the
 nature of the interactions they exploit: the first group exploits scalar 
 couplings which exist between covalently-bonded nuclei, and are thus called 
 "through-bond" experiments \cite{davis1985assignment}.  
-The second group exploits dipole-dipole couplings
-between protons that are spatially close but do not have to be covalently
-bonded, and are thus called "through-space" experiments
-\cite{solomon1955relaxation}.  The data produced by
-these two experiments are also used in very different ways, as we will see
-later.
+The second group exploits cross-relaxation between proton pairs that are
+dipole-dipole coupled; these protonsare spatially close but do not have to 
+be covalently bonded, and are thus called "through-space" experiments
+\cite{solomon1955relaxation}.  The data produced by these two experiments are 
+also used in very different ways, as we will see later.
 
 Two important parameters of data collection are the dwell time and the number
 of points collected.  The dwell time determines the range of frequencies that
@@ -69,7 +72,7 @@ than the noise, assuming random distribution of the noise
 Referencing is done to ensure that results are comparable from multiple
 spectrometers.  While the absolute Larmor frequencies of nuclei vary depending
 on the magnetic field of the spectrometer, the normalized values, when compared
-to a known material, of which a small amount is placed in the spectrometer,
+to a known material, of which a small amount is placed in the sample,
 are consistent \cite{wishart19951h}.  These are known as chemical shift values,
 and are reported in parts per million of deviation.
 
@@ -91,7 +94,8 @@ aliasing, in which peaks appear in unexpected spectral regions because their
 frequencies are outside the range supported by the chosen dwell time.
 Two factors confound resolution:  coincidental
 closeness of resonances frequencies, and experimental quality.  In general, 
-larger proteins, which have more atoms than smaller proteins, have more resonance
+larger proteins, which have more atoms than smaller proteins and therefore
+more nuclei as well, have more resonance
 frequencies in close proximity to each other, increasing the probability of 
 overlap.  To increase resolution, it is necessary to collect data points at 
 large time intervals.  Care must be taken to avoid decreasing the sensitivity;
@@ -142,7 +146,7 @@ chemical shift assignment is the process of drawing the correspondence between
 the resonance frequencies identified from picked peaks and the nuclei in the
 protein of interest.  Assignment is typically accomplished using a set of
 through-bond spectra, many of which are based around H-N groups and nearby
-atoms, and others which obtain the chemical shifts of the aliphatic sidechains
+nuclei, and others which obtain the chemical shifts of the aliphatic sidechains
 (both carbons and protons) and still others for the aromatic portions of
 sidechains \cite{hnco, hncacb, cbcaconh, hbhaconh, cconhtocsy}.
 
@@ -161,19 +165,23 @@ peaks into the same GSSs and resonances.  Peaks can also be matched within
 a single spectrum into the same GSS, depending on the nature of the experiment
 \cite{ccpn}.
 
-GSSs and resonances can be typed, that is, assigned to an amino acid type or
-an atom type respectively.  As can be found in the BMRB, there is large 
-variation in average chemical shifts depending on amino acid type and atom type,
+GSSs and resonances are assigned an amino acid type or a nucleus type, 
+respectively.  As can be found in the BMRB, there is large variation in 
+average chemical shifts depending on amino acid type and nucleus type,
 especially for Serine/Threonine, Glycine, and Alanine residues, for which the
-CB, CA, and CB atoms' chemical shifts are essentially unique
+CB, CA, and CB nucleis' chemical shifts are essentially unique
 \cite{guntert2009automated}.
 
 A second type of overlap is used in chemical shift assignment: due to the 
 similar J-couplings of the CA both of the previous and same residue to the
 backbone Nitrogen, it is possible to correlate a backbone amide group with
-both adjacent sidechains.  Thus, each sidechain may be correlated with two
+both adjacent sidechains.  While the J-coupling to the CA is typically larger
+than the J-coupling to the CA(i-1), the relative ratio is usually within a 
+factor of two.  The practical implication is that the correlations to both
+CA nuclei can be collected in the same experiment.
+Thus, each sidechain may be correlated with two
 backbone amide groups, causing their resonances to appear in conjunction with
-two other groups.  As the atoms resonate at a characteristic frequency, this
+two other groups.  As the nuclei resonate at a characteristic frequency, this
 can be used to identify a sequential connection between the two GSSs based on
 backbone amide groups.  Once a sufficiently long chain is built using these
 sequential connections and the (possibly incomplete) GSS typings, the chains 
@@ -205,17 +213,17 @@ assign any missed resonances \cite{baran2004automated}.
 
 NOESY spectra provide distance restraints between proton pairs.  In order to
 make use of their latent structural information, the peaks must be assigned
-to resonances and thereby to atoms.  This is done with the help of the 
-chemical shift assignments: NOESY peak cross-sections are matched to atoms
+to resonances and thereby to nuclei.  This is done with the help of the 
+chemical shift assignments: NOESY peak cross-sections are matched to nuclei
 based on similarity of the cross-section's chemical shift to that of the
-resonance assigned to the atom.
+resonance assigned to the nuclei.
 
 However, NOESY data are heavily ambiguous, because there are typically several
 resonances with chemical shift values close enough to match a single NOESY
 peak cross-section.  There are several strategies for mitigating this problem.
 One is to collect 3D or 4D NOESY experiments, in which the additional dimensions
-correlate covalently-bonded 13C or 15N nuclei to the protons involved in the
-NOE interaction \cite{majumdar1993improved}.  
+correlate covalently-bonded \nmrisoc{} or \nmrison{} nuclei to the protons involved 
+in the NOE interaction \cite{majumdar1993improved}.  
 This approach greatly reduces the ambiguity.  Furthermore,
 characteristic peak patterns are expected, such as intra-residue NOESYs between
 protons of that residue, as well as NOESY peaks between protons of sequential
@@ -242,11 +250,11 @@ There are several other types of structural information obtained through NMR
 besides the proton-proton distance restraints provided by NOESY spectra.
 Using a program such as TALOS+ \cite{talos+}, backbone torsion angles can be 
 predicted.  TALOS+
-uses the chemical shift assignments of backbone atoms in conjunction with a
+uses the chemical shift assignments of backbone nuclei in conjunction with a
 database search to make its predictions.  3-J-coupling constants can be 
 related to dihedral torsion angles through the Karplus equation
 \cite{karplus1959contact, karplus1963vicinal}.  Residual dipolar couplings
-(RDCs) provide information about bond orientations.
+(RDCs) provide information about internuclear orientations.
 
 These data are synthesized into a structural model by programs including CYANA,
 ARIA, and XPLOR-NIH.  CYANA is useful for quickly obtaining coarse structure
