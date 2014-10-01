@@ -86,9 +86,9 @@ results are consistent with expectations.
 
 \subsection*{GSS and resonance}
 Sparky's data model is shown in Figure \ref{sparky_model}.  It includes 
-entities for spectra, peaks, resonances, GSS, atoms, and molecules, among
+entities for spectra, peaks, resonances, GSS, nuclei, and molecules, among
 others.  Sparky does not natively distinguish between a GSS (generic spin 
-system) and a residue, nor between a resonance and an atom.
+system) and a residue, nor between a resonance and a nucleu.
 
 Both GSSs and resonances have been implemented in the extension, based 
 on the CCPN model \cite{ccpn}.
@@ -256,8 +256,8 @@ A resonance is assigned to each cross section of each group which is in a GSS.
 If a peak cross section has a unique chemical shift value within a GSS, it will
 be the only one assigned to that resonance; if multiple cross sections share 
 the same or similar chemical shift value, they will be assigned to the same
-resonance.  This reflects the fundamental NMR property that an atom resonates
-at the same frequency across spectra. 
+resonance.  This reflects the fundamental NMR property that a nucleus resonates
+at a characteristic frequency across spectra. 
 
 Peak cross section to resonance assignment can fail in two cases, and these
 can be resolved by manually modifying the assignments to resonances.

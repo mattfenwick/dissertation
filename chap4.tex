@@ -60,7 +60,7 @@ time-domain data.  In a typical NMR experiment, these data represent the
 sum of multiple decaying sinusoids.  These FIDs are converted to 
 frequency-domain spectra which are used in further analysis.  The goal of 
 this phase is to construct a frequency spectrum which indicates the resonance 
-frequencies of the atoms that were observed in the experiment.  A common tool 
+frequencies of the nuclei that were observed in the experiment.  A common tool 
 for such a transformation is the Fourier Transform, which is able to convert 
 a uniformly collected data set into a frequency spectrum.  
 An example of an NMR spectrum of N-H groups is shown in Figure \ref{nhsqc}.
@@ -92,7 +92,7 @@ during spectral processing \cite{connjur-wb}.
 \section{Spectral analysis}
 
 In the spectral analysis stage, Figure \ref{nmr_overview} panel C,
-the overall goal is to identify the chemical shifts of individual atoms.
+the overall goal is to identify the chemical shifts of individual nuclei.
 The spectra may be analyzed using a tool such as XEasy \cite{xeasy}, 
 Sparky \cite{sparky}, NMRViewJ \cite{nmrviewj}, or CCPN Analysis \cite{ccpn}.  
 
@@ -104,8 +104,8 @@ The connectivity of resonances in a GSS is exploited
 in through-bond experiments.  GSSs then must be assigned 
 connectivities to other GSSs through overlap of mutual resonances, 
 amino acid types, and finally specific residues of the sample of interest. 
-Resonances must also be assigned to specific atoms \cite{ccpn}, 
-with the final result being that specific atoms in the sample of interest 
+Resonances must also be assigned to specific nuclei \cite{ccpn}, 
+with the final result being that specific nuclei in the sample of interest 
 are assigned chemical shift values.  Currently, 100\% assignments are not 
 achievable due to several factors such as data quality, ambiguity,
 missing resonances, and metal ions \cite{guerry2011automated}.
@@ -143,7 +143,7 @@ and their attributes measured.  An optional additional step is filtering
 based on symmetry and linewidth \cite{autopsy, picky}.
 
 Correct peaks are important because they form the basis for the construction 
-of GSSs, the assignment of chemical shifts to atoms, and the interpretation of 
+of GSSs, the assignment of chemical shifts to nuclei, and the interpretation of 
 NOESY spectra which give rise to distance restraints as a preliminary to 
 structure calculation \cite{guerry2011automated}.  
 Incorrect peak identification or position can result 
@@ -156,7 +156,7 @@ by computational tools range from low (10-40\%) to high (70-135\%) \cite{pine}.
 The quality of the results generally depends on characteristics of the 
 spectrum, especially the signal/noise ratio, and resolution, as well as 
 characteristics of the molecule including \mattfttwo{} (which has an 
-effect on peak width) and number of atoms -- more atoms give rise to
+effect on peak width) and number of nuclei -- more nuclei give rise to
 more peaks, and therefore a higher chance of overlap.
 
 Since none of these approaches yields perfect 
@@ -176,7 +176,7 @@ later analysis has been accomplished.
 
 \subsection*{GSS and resonance construction}
 As many pulse sequences are specificially designed to exploit the strong
-backbone H-N coupling and correlate additional nearby atoms, H-N groups appear 
+backbone H-N coupling and correlate additional nearby nuclei, H-N groups appear 
 in many through-bond spectra and are given a privileged position in analysis: 
 the signals which H-N groups give rise to appear at matching chemical shifts
 across multiple spectra.
@@ -239,28 +239,28 @@ identified as members of the same GSS.
 
 \subsection*{Resonance typing}
 Before assigning a resonance to a specific 
-atom, the atomtype of a resonance may be assigned.  In an HNCO experiment, 
+nuclei, the type of a resonance may be assigned.  In an HNCO experiment, 
 this is typically straightforward, because for each backbone spin system, 
 the H dimension always corresponds to the backbone H, the N dimension always 
 corresponds to the backbone N, and the C dimension always corresponds to the 
 backbone C(i-1).  However, the situation is more complicated in an HNCACB 
-experiment, as there are generally four choices of atomtype assignment for 
+experiment, as there are generally four choices of type assignment for 
 the C dimension:  CA, CB, CA(i-1), and CB(i-1).  Thus, the resonance given 
 by the C dimension of each peak must be assigned one of these choices.  
 Reasons for choosing a specific assignment include peak sign, as well as 
 chemical shift compared to statistics available in the BMRB.  In addition, 
 the overlap between experiment pairs such as the HNCACB and CBCA(CO)NH 
-facilitates resonance-atomtype assignment: while the CA(i-1) and CB(i-1) 
+facilitates resonance typing: while the CA(i-1) and CB(i-1) 
 are expected to appear in both experiments at the same chemical shift for 
 a given backbone H-N root, the CA and CB are expected to appear only in the 
 HNCACB spectrum.
 
 \subsection*{GSS typing}
 Correspondingly, GSSs are also assigned amino acid types.  This phase 
-interacts strongly with the assignment of atomtypes to resonances, in 
-that the possible atomtypes to which a resonance may be assigned depends 
+interacts strongly with the assignment of nuclei to resonances, in 
+that the possible nuclei to which a resonance may be assigned depends 
 on the amino acid type, and the expected chemical shift ranges for various 
-atomtypes depends on amino acid type as well.  For instance, GSSs assigned 
+types depends on amino acid type as well.  For instance, GSSs assigned 
 to the Glycine amino acid type should not have a CB; and the CB resonance's 
 chemical shift of a GSS assigned to Alanine is expected to be very different 
 from all other CB chemical shifts.  Backbone amino acid types may be split 
@@ -287,19 +287,18 @@ Sequential GSS assignments exploit the previously mentioned overlap of pulse
 sequences such as the HNCACB and HN(CA)CO.  Sequential GSSs 
 are expected to have CA/CA(i-1), CB/CB(i-1), and CO/CO(i-1) resonances at 
 identical chemical shifts.  This duplication enables sequential assignment 
-of GSSs.  Note that there is substantial interaction between atomtype-resonance 
+of GSSs.  Note that there is substantial interaction between nucleus-resonance 
 assignment and sequential GSS assignment: assigning two GSSs sequentially 
-implies the CB vs CB(i-1), CA vs CA(i-1), and C vs C(i-1) atomtype assignments 
-of the resonances in both GSSs; knowing the atomtype-resonance assignments of 
+implies the CB vs CB(i-1), CA vs CA(i-1), and C vs C(i-1) type assignments 
+of the resonances in both GSSs; knowing the resonance typings of 
 two spin systems can prevent their sequential assignment (if, for example, the 
-matching resonances are both CB(i-1)); and not knowing the atomtype-resonance 
-assignment implies that the sequential GSS assignment may be invalid.  
+matching resonances are both CB(i-1)); and not knowing the resonance typing 
+implies that the sequential GSS assignment may be invalid.  
 Sequential GSS assignment is complicated by: 
 \begin{enumerate}
   \item missing peaks, possibly caused 
   by local dynamics, which reduce the number of overlapping resonances between 
-  potential sequential GSSs, and can also disrupt atomtype assignments of 
-  resonances; 
+  potential sequential GSSs, and can also disrupt resonance typing 
   \item extraneous peaks, which may be false positives or caused by 
   multiple conformations of the protein, causing incorrect matches
   \item degeneracy of chemical shifts:  given two GSSs with identical CA(i-1) 
@@ -315,9 +314,9 @@ match between the two GSSs.
 
 \subsection*{Sequence-specific GSS assignment}
 Since backbone GSSs are H-N-rooted, a GSS is assigned to a 
-backbone-amide; this implies the assignment of resonances to atoms as well, 
-based on matching of atomtypes.  When a typical GSS is assigned to a residue, 
-the H, N, C, C(i-1), CA, CA(i-1), CB, and CB(i-1) atoms will be assigned 
+backbone-amide; this implies the assignment of resonances to nuclei as well, 
+based on matching of resonance typing.  When a typical GSS is assigned to a residue, 
+the H, N, C, C(i-1), CA, CA(i-1), CB, and CB(i-1) nuclei will be assigned 
 resonances as well.  Sequence-specific assignment interacts heavily with 
 sequential GSS assignment, because the protein sequence must be compatible 
 with the GSS sequence, where `compatible' means that the amino acid types 
@@ -343,7 +342,7 @@ Additionally, the length of the GSS chain helps reduce the ambiguity compared
 to shorter GSS chains.
 
 \subsection*{Sidechain: spin system and resonance assignment}
-The next group of experiments collects chemical shifts of sidechain atoms.  
+The next group of experiments collects chemical shifts of sidechain atomic nuclei.  
 These experiments include 
 the HBHA(CO)NH \cite{hbhaconh} in Figure \ref{ccpn_hbhaconh}, 
 the C(CO)NH-Tocsy \cite{cconhtocsy} in Figure \ref{ccpn_cconhtocsy}, 
@@ -352,12 +351,12 @@ and the HCCH-Tocsy \cite{hcchtocsy} in Figure \ref{ccpn_hcchtocsy}.
 The purpose of these experiments is to 
 obtain the chemical shift values of sidechain resonances of protons, since 
 proton frequencies are necessary in order to interpret NOESY spectra.  To 
-interpret these spectra, the peaks must be assigned to GSSs and atomtypes 
-must be assigned to the new resonances. While several of these experiments 
+interpret these spectra, the peaks must be assigned to GSSs and the new 
+resonances typed.  While several of these experiments 
 are also rooted in backbone H-N groups, facilitating the addition of peaks 
 to the correct GSS, others -- such as the HCCH-Tocsy -- are not.  These are 
 analyzed by the matching of resonance chemical shifts with those from other 
-experiments targeting sidechains.  Atomtype-resonance assignments can generally 
+experiments targeting sidechains.  Resonance typing can generally 
 be made with reference to compiled BMRB statistics.  Complications in this 
 phase include: stereospecificity -- nuclei such as HA2 and HA3 may give rise 
 to different chemical shifts, but resolving the correspondence may be 
@@ -391,15 +390,15 @@ is calculated and refined.
 \subsection*{NOESY peak-picking and assignment}
 NOESY peaks provide structural restraints if it can be 
 determined which protons gave rise to the peak.  Analysis of NOESY spectra 
-therefore requires chemical shift assignments of atoms to 
+therefore requires chemical shift assignments of nuclei to 
 determine the protons involved in a peak.  
 NOESY spectra are  processed and peak-picked, similarly to through-bond 
 spectra, and resonance assignments of peaks made.  
 Considerations used to analyze 
 NOESY spectra include: symmetry -- a peak is expected to correspond to a 
 matching peak with the frequencies of the two 1H dimensions swapped; patterns 
-based on known proximity of atoms from the primary sequence giving rise to 
-many short-distance NOE peaks; network anchoring.  Complications include 
+based on known proximity of nuclei from the primary sequence giving rise to 
+many short-distance NOE peaks; and network anchoring.  Complications include 
 overlap caused by degenerate chemical shifts of protons, leading to 
 ambiguous interpretations of peak assignments; this can be greatly mitigated 
 by the use of an extra dimension:  15N- or 13C-edited NOESY spectra reduce 
@@ -446,7 +445,7 @@ such as TALOS+ \cite{talos+}.  As of version 3.0, CYANA is able to make use
 of RDCs during structure calculation as well.
 
 Chemical shift assignments may also be used to calculate potential structures.
-CS-ROSETTA \cite{cs-rosetta} uses chemical shift assignments of atoms in 
+CS-ROSETTA \cite{cs-rosetta} uses chemical shift assignments of nuclei in 
 backbone GSSs and produces a set of structures.  The general method is to 
 compare the chemical shifts with those of proteins of known chemical shift
 and structure, and then to select structure fragments from those known 

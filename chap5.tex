@@ -225,7 +225,7 @@ deleted and do not show up in the final results.  This is a problem because the
 fact that a peak was found, and later interpreted as noise does not show up in 
 the final data set.  The same problem applies to GSSs that are found 
 but can not be assigned to any residue of the sample of interest, or are 
-believed to correspond to atoms of a contaminant.  Such GSSs should 
+believed to correspond to atomic nuclei of a contaminant.  Such GSSs should 
 be represented in the final data set.
 
 During analysis, some portion of the positive results are not of direct interest
@@ -297,13 +297,13 @@ A simple example is non-stereospecific sidechain proton assignments:
 a residue such as a Histidine or Lysine which has two beta protons will 
 often give rise to two resonances, one for each beta proton; however, 
 without additional information, it is impossible to assign a resonance to
-a specific atom.  A related example is caused by the two delta and epsilon
+a specific nucleus.  A related example is caused by the two delta and epsilon
 protons in Phenylalanine and Tyrosine aromatic sidechains; the two resonances,
-even if distinguishable, can not be uniquely assigned to atoms.  In both
+even if distinguishable, can not be uniquely assigned to nuclei.  In both
 cases, the ambiguity is resolvable through the use of additional information;
 however, before that additional information is provided, it is useful to be
 able to store what is known -- that there are two peaks, each of which 
-corresonds to one atom, but exactly which is unsure -- as an indication to
+corresonds to one nuclei, but exactly which is unsure -- as an indication to
 future analysis or perusal that a problem has been identified but not yet
 solved.
 
@@ -321,7 +321,7 @@ suspected and that the characterizations may be in error points this out.
 Building unambiguous and complete sequential GSS assignments is complicated 
 when multiple GSSs have the same or nearly the same chemical shift values
 for resonances which are or potentially may be assigned to CA, CB, CO, or the
-corresponding (i-1) atoms.  Leaving a note in the data set describing what
+corresponding (i-1) nuclei.  Leaving a note in the data set describing what
 the ambiguity is ensures that this information is not lost, and is clearly
 marked for re-analysis when more data becomes available.
 % TODO make sure I don't describe the solution in this section -- rather, it should be about the problem !!
@@ -500,7 +500,7 @@ A further category of extraneous data is peaks from amino acid sidechains;
 it is presented in Tables \ref{nhsqc_peaktypes}, \ref{hnco_peaktypes}, 
 \ref{hncacb_peaktypes}, \ref{hbhaconh_peaktypes}, \ref{cconh_peaktypes}, and
 \ref{hcconh_peaktypes}.  While most of the
-peaks in these experiments correspond to backbone covalently bond atom groups, 
+peaks in these experiments correspond to backbone covalently bound groups, 
 and are used for backbone sequential assignments, many sidechain GSSs are
 visible as well.  Although these peaks are often ignored, they do contain
 useful information.  They also can confound analysis if they are not properly

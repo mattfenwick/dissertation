@@ -64,7 +64,7 @@ A parse tree is far easier to run queries against than a flat,
 unstructure string.  Finally, a query to extract the chemical shifts
 from the parse tree is executed, and the results are used to calculate the
 standard deviation of chemical shift assignments, grouped by residue type
-and atom name; see Figure \ref{nmrpystar_query}.
+and resonance type; see Figure \ref{nmrpystar_query}.
 
 The key to this example is the flexibility of the library: since it does not
 impose any unnecessary restrictions on its use, it is easily adapted to
@@ -536,9 +536,9 @@ flexibility to be applied in different ways as part of a large program.
   \caption[The results of a query run against the parse tree]
           {The results of a query run against the parse tree.
            The query groups the assigned chemical shifts by
-           amino acid type and atom name, and calculates the 
+           amino acid type and resonance type, and calculates the 
            standard deviation of each group.  The first column
-           is the amino acid name.  The second column is the atom name.
+           is the amino acid name.  The second column is the resonance type.
            The third column is the number of measurements, and
            the fourth column is the standard deviation of the
            measurements.}

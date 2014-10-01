@@ -57,11 +57,10 @@ This is exploited in transforming time-domain data sets to frequency-domain.
 Time-domain free induction decay (FID)s are collected using
 pulse sequences \cite{khaneja2005} designed to target specific nuclei by
 exploiting the coupling constants and characteristic chemical shifts of specific 
-atoms and functional groups.  The collected FIDs are sums of decaying sinusoids.
+nuclei and functional groups.  The collected FIDs are sums of decaying sinusoids.
 
-The pulse sequence
-determines which covalently bond atom groups will be visible in experiments
-(see Tables \ref{nhsqc_peaktypes}, \ref{hnco_peaktypes}, 
+The pulse sequence determines which covalently bound groups will appear in 
+experiments (see Tables \ref{nhsqc_peaktypes}, \ref{hnco_peaktypes}, 
 \ref{hncacb_peaktypes}, \ref{hbhaconh_peaktypes}, \ref{cconh_peaktypes}, and
 \ref{hcconh_peaktypes}).
 
@@ -70,12 +69,12 @@ Nuclear Overhauser Effect (NOE) \cite{noe_kaiser} experiments transfer
 magnetization between spatially near proton pairs, and do not require a 
 network of covalent bonds.  Each true peak indicates a pair of protons within 
 approximately 5 Angstroms of each other.  This is different from 
-through-bond correlation spectra, in which peaks indicate covalently 
+through-bond correlation spectra, in which peaks indicate the nuclei of covalently 
 bonded atoms; NOESY spectra do not depend on covalent bonds but rather 
 depend on spatial proximity.  Thus, each NOESY peak contains some information 
 about the actual three-dimensional structure of a molecule, although this
-information is not known until the correspondence between peak cross
-section and atom is found.
+information is not used until the correspondence between peak cross
+section and an atom's nucleus is determined.
 
 \subsubsection{Resonance}
 A particular nucleus is expected to resonate at approximately the same 
@@ -86,7 +85,7 @@ Bloch-Siegert shift can produce differences).
 The Fourier Transform of a decaying sinusoid produces a frequency-domain 
 spectrum with a peak at a frequency matching the oscillation frequency of 
 the sinusoid.  Since NMR time-domain data consists of multiple decaying 
-sinusoids caused by atoms resonating at characteristic chemical shifts, 
+sinusoids caused by nuclei resonating at characteristic chemical shifts, 
 the frequency domain spectrum will contain peaks for every oscillating 
 sinusoid present in the time-domain data.  
 
@@ -97,7 +96,7 @@ position and width attributes (see Figure \ref{peak_1d}).
 \subsubsection{Chemical shift statistics}
 Statistics from previously analyzed molecules are maintained by the BMRB
 \cite{bmrb}, which show clear trends of average chemical shifts based on
-both amino acid type and atom (see Table \ref{alanine_atoms} for the 
+both amino acid type and nucleus (see Table \ref{alanine_atoms} for the 
 chemical shift statistics of Alanine).
 
 Chemical shift values are correlated to secondary structure, as described
@@ -123,7 +122,7 @@ the most abundant isotopye of hydrogen, and convenient for NMR experiments,
 NMR-active; \textsuperscript{2}H is not as easy to observe because of
 its nuclear spin value of 1 (as opposed to the proton's spin value of 1/2),
 but can improve the quality of experiments observing nearby protons because,
-in comparison to protons, nearby atoms are afforded fewer relaxation pathways.
+in comparison to protons, nearby nuclei are afforded fewer relaxation pathways.
 Labeling patterns with specific properties have been implemented to take
 advantage of these different properties, as in SAIL-FLYA \cite{sail_flya}.
 See Table \ref{gyromagnetic_ratios}.
@@ -174,13 +173,13 @@ Knowledge which is obtained while analyzing the experimentally collected data.
 This covers peak picking (see Figure \ref{nhsqc_peaks} for a peak picked spectrum), 
 the assembly of peaks into GSSs, GSS and resonance typing, sequential
 GSS assignments, and sequence-specific GSS assignments.
-In general, the correspondence between resonances, which appear in NMR 
-spectra as peak cross sections, and atoms is not known.  The correspondence 
+In general, the correspondence between resonances, which appear in NMR spectra 
+as peak cross sections, and atomic nuclei is not known.  The correspondence 
 between resonances and peak cross sections is also not known, and is difficult 
 to determine in the presence of ambiguity.
 
 GSSs \cite{saga, ezassign, pistachio, autoassign1997, autoassign2001}
-and resonances \cite{ccpn} are parallel to residues and atoms.
+and resonances \cite{ccpn} are parallel to residues and nuclei.
 They are key to data analysis because they are the link between what is 
 observed in NMR experiments and the molecular details of the sample.
 Although these concepts had been used to a limited extent by earlier programs
@@ -202,17 +201,17 @@ the dimensionality of the spectrum in which it appears; each cross section
 corresponds to a resonance at a characteristic frequency.
 
 \subsection*{Resonance}
-A resonance is an NMR-visible signal which corresponds to an atom \cite{ccpn}.
-In general, an atom resonates at a single characteristic frequency based
+A resonance is an NMR-visible signal which corresponds to a nucleus \cite{ccpn}.
+In general, a nucleu resonates at a single characteristic frequency based
 on its local environment;  the same resonance will be found at the same 
 frequency across multiple experiments.  This phenomenon is used to aid in 
 identification, although it is confounded by degeneracy as well as proteins
 with multiple conformations.
 
-A resonance is used to link a peak cross section to an atom, for a chemical shift
-assignment, by means of a spin system and a residue.  Each peak cross section is
-assigned a resonance, and the resonances are assigned to spin systems, with
-the semantics that they are covalently bound.
+A resonance is used to link a peak cross section to a nucleus, for a chemical 
+shift assignment, by means of a spin system and a residue.  Each peak cross 
+section is assigned a resonance, and the resonances are assigned to spin 
+systems, with the semantics that they are covalently bound.
 
 \subsection*{Generic spin system}
 A generic spin system (GSS) is an NMR-visible group of peaks, typically 
@@ -285,7 +284,7 @@ is unknown.
 \begin{table}[h]
   \begin{tabular}{ | c | c | }
     \hline
-    Atom name   &  Average chemical shift (PPM)  \\  \hline
+    Atom name   &  Average chemical shift (PPM) of nucleus \\  \hline
     C           &  187.20     \\  \hline
     O           &  --         \\  \hline
     N           &  123.32     \\  \hline
@@ -297,8 +296,8 @@ is unknown.
     HB3         &  1.35       \\  \hline
     CB          &  19.06      \\  \hline
   \end{tabular}
-  \caption[The atoms in alanine, in a protein chain.]
-          {The atoms in alanine, in a protein chain.
+  \caption[The atomic nuclei in alanine, in a protein chain.]
+          {The atomic nuclei in alanine, in a protein chain.
            Average chemical shift statistics are taken from the BMRB.}
   \label{alanine_atoms}
 \end{table}
@@ -354,7 +353,7 @@ is unknown.
 \begin{table}
   \begin{tabular}{ | c | c | }
     \hline
-    Covalently-bound atom group  &  Amino acid sequence  \\  \hline
+    Covalently-bound group  &  Amino acid sequence  \\  \hline
     H-N                          &  [\^{}P]              \\  \hline
     HE-NE                        &  R                    \\  \hline
     HD21-ND2                     &  N                    \\  \hline
@@ -363,14 +362,14 @@ is unknown.
     HE22-NE2                     &  Q                    \\  \hline
     HE1-NE1                      &  W                    \\  \hline
   \end{tabular}
-  \caption{The covalent atom groups visible in the NHSQC experiment.}
+  \caption{The covalent groups that appear in the NHSQC experiment.}
   \label{nhsqc_peaktypes}
 \end{table}
 
 \begin{table}
   \begin{tabular}{ | c | c | }
     \hline
-    Covalently-bound atom group  &  Amino acid sequence  \\  \hline
+    Covalently-bound group  &  Amino acid sequence  \\  \hline
     H-N-C(i-1)                   &  .[\^{}P]             \\  \hline
     HE-NE-CZ                     &  R                    \\  \hline
     HD21-ND2-CG                  &  N                    \\  \hline
@@ -379,14 +378,14 @@ is unknown.
     HE22-NE2-CD                  &  Q                    \\  \hline
     HE1-NE1-CE1                  &  W                    \\  \hline
   \end{tabular}
-  \caption{The covalent atom groups visible in the HNCO experiment.}
+  \caption{The covalent groups that appear in the HNCO experiment.}
   \label{hnco_peaktypes}
 \end{table}
     
 \begin{table}
   \begin{tabular}{ | c | c | }
     \hline
-    Covalently-bound atom group  &  Amino acid sequence  \\  \hline
+    Covalently-bound group  &  Amino acid sequence  \\  \hline
     H-N-CA                       &  .[\^{}P]             \\  \hline
     H-N-CA(i-1)                  &  .[\^{}P]             \\  \hline
     H-N-CB                       &  .[\^{}PG]            \\  \hline
@@ -401,14 +400,14 @@ is unknown.
     HE22-NE2-CG                  &  Q                    \\  \hline
     HE22-NE2-CB                  &  Q                    \\  \hline
   \end{tabular}
-  \caption{The covalent atom groups visible in the HNCACB experiment.}
+  \caption{The covalent groups that appear in the HNCACB experiment.}
   \label{hncacb_peaktypes}
 \end{table}
 
 \begin{table}
   \begin{tabular}{ | c | c | }
     \hline
-    Covalently-bound atom group  &  Amino acid sequence         \\  \hline
+    Covalently-bound group  &  Amino acid sequence         \\  \hline
     H-N-HA(i-1)                  &  [\^{}G][\^{}P]              \\  \hline
     H-N-HA2(i-1)                 &  G[\^{}P]                    \\  \hline
     H-N-HA3(i-1)                 &  G[\^{}P]                    \\  \hline
@@ -417,14 +416,14 @@ is unknown.
     H-N-HB2(i-1)                 &  [PRNDCQEHLKMFSWY][\^{}P]    \\  \hline
     H-N-HB3(i-1)                 &  [PRNDCQEHLKMFSWY][\^{}P]    \\  \hline
   \end{tabular}
-  \caption{The covalent atom groups visible in the HBHA(CO)NH experiment.}
+  \caption{The covalent groups that appear in the HBHA(CO)NH experiment.}
   \label{hbhaconh_peaktypes}
 \end{table}
 
 \begin{table}
   \begin{tabular}{ | c | c | }
     \hline
-    Covalently-bound atom group         &  Amino acid sequence  \\  \hline
+    Covalently-bound group         &  Amino acid sequence  \\  \hline
     H-N-C*(i-1), * in (A)               &  G[\^{}P]             \\  \hline
     H-N-C*(i-1), * in (A, B)            &  [HDSNCAFYW][\^{}P]   \\  \hline
     H-N-C*(i-1), * in (A, B, G)         &  [EQM][\^{}P]         \\  \hline
@@ -441,7 +440,7 @@ is unknown.
     HE22-NE2-C*, * in (G, B, A)         &  Q (sidechain)            \\  \hline
     % TODO what about K, R, W sidechains?
   \end{tabular}
-  \caption{The covalent atom groups visible in the C(CO)NH-Tocsy experiment.}
+  \caption{The covalent groups that appear in the C(CO)NH-Tocsy experiment.}
   \label{cconh_peaktypes}
 \end{table}
 
@@ -464,7 +463,7 @@ is unknown.
     HE21-NE2-*, * in (HG3, HG2, HB3, HB2, HA)   &  Q (sidechain)        \\  \hline
     HE22-NE2-*, * in (HG3, HG2, HB3, HB2, HA)   &  Q (sidechain)        \\  \hline
   \end{tabular}
-  \caption{The covalent atom groups visible in the HC(CO)NH-Tocsy experiment.}
+  \caption{The covalent groups that appear in the HC(CO)NH-Tocsy experiment.}
   \label{hcconh_peaktypes}
 \end{table}
 
@@ -473,25 +472,25 @@ is unknown.
 \begin{table}
   \begin{tabular}{ | c | c | c |}
     \hline
-    Ambiguity type    &  Atoms        &  Amino acid types     \\  \hline 
-    3 atoms, 1 peak   &  QB           &  A                    \\  \hline 
-    3 atoms, 1 peak   &  QG1          &  I                    \\  \hline 
-    3 atoms, 1 peak   &  QG2          &  [TI]                 \\  \hline 
-    3 atoms, 1 peak   &  QE           &  M                    \\  \hline 
-    2 atoms, 2 peaks  &  HA2/HA3      &  G                    \\  \hline 
-    2 atoms, 2 peaks  &  HB2/HB3      &  [RHKDESNQCPLMFYW]    \\  \hline 
-    2 atoms, 2 peaks  &  HG2/HG3      &  [RKEQPM]             \\  \hline 
-    2 atoms, 2 peaks  &  HG12/HG13    &  I                    \\  \hline 
-    2 atoms, 2 peaks  &  HD2/HD3      &  [RKP]                \\  \hline 
-    2 atoms, 2 peaks  &  HD21/HD22    &  N                    \\  \hline 
-    2 atoms, 2 peaks  &  HE2/HE3      &  K                    \\  \hline 
-    2 atoms, 2 peaks  &  HE21/HE22    &  Q                    \\  \hline 
-    2 atoms, 2 peaks  &  CG1/CG2      &  V                    \\  \hline 
-    2 atoms, 2 peaks  &  CD1/CD2      &  L                    \\  \hline 
-    2 atoms, 2 peaks or 2 atoms, 1 peak  &  HD1/HD2  &  [YF]  \\  \hline 
-    2 atoms, 2 peaks or 2 atoms, 1 peak  &  HE1/HE2  &  [YF]  \\  \hline 
-    2 groups of 3 atoms, 2 peaks  &  QG1/QG2  &  V            \\  \hline
-    2 groups of 3 atoms, 2 peaks  &  QD1/QD2  &  L            \\  \hline
+    Ambiguity type    &  Atomic nuclei &  Amino acid types     \\  \hline 
+    3 nuclei, 1 peak   &  QB           &  A                    \\  \hline 
+    3 nuclei, 1 peak   &  QG1          &  I                    \\  \hline 
+    3 nuclei, 1 peak   &  QG2          &  [TI]                 \\  \hline 
+    3 nuclei, 1 peak   &  QE           &  M                    \\  \hline 
+    2 nuclei, 2 peaks  &  HA2/HA3      &  G                    \\  \hline 
+    2 nuclei, 2 peaks  &  HB2/HB3      &  [RHKDESNQCPLMFYW]    \\  \hline 
+    2 nuclei, 2 peaks  &  HG2/HG3      &  [RKEQPM]             \\  \hline 
+    2 nuclei, 2 peaks  &  HG12/HG13    &  I                    \\  \hline 
+    2 nuclei, 2 peaks  &  HD2/HD3      &  [RKP]                \\  \hline 
+    2 nuclei, 2 peaks  &  HD21/HD22    &  N                    \\  \hline 
+    2 nuclei, 2 peaks  &  HE2/HE3      &  K                    \\  \hline 
+    2 nuclei, 2 peaks  &  HE21/HE22    &  Q                    \\  \hline 
+    2 nuclei, 2 peaks  &  CG1/CG2      &  V                    \\  \hline 
+    2 nuclei, 2 peaks  &  CD1/CD2      &  L                    \\  \hline 
+    2 nuclei, 2 peaks or 2 nuclei, 1 peak  &  HD1/HD2  &  [YF]  \\  \hline 
+    2 nuclei, 2 peaks or 2 nuclei, 1 peak  &  HE1/HE2  &  [YF]  \\  \hline 
+    2 groups of 3 nuclei, 2 peaks  &  QG1/QG2  &  V            \\  \hline
+    2 groups of 3 nuclei, 2 peaks  &  QD1/QD2  &  L            \\  \hline
   \end{tabular}
   \caption{Ambiguities in stereospecific assignments}
   \label{stereospecific_ambiguities}
