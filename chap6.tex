@@ -179,17 +179,8 @@ The final structure is shown in Figure \ref{structure} as seen in
 Jmol \cite{jmol}.
 
 
-% \section{NMR-STAR data set} TODO
-% TODO get the data set
-% what should I talk about here?  the various approaches and deductions used?
-% queries performed on the data, that show certain things?
-% the order in which I did things?
-
-
-\section{Archiving reproducible data sets}
-A major portion of the value derived from collecting reproducible data sets
-is disseminating them so that others may obtain and use or inspect the data
-in some way.  The standard means for sharing NMR-derived data is the BMRB
+\section{NMR-STAR deposition to the BMRB}
+The standard means for sharing NMR-derived data is the BMRB
 \cite{bmrb}, which uses the NMR-STAR file format.  In order to enable archival
 of reproducible data sets, we have collaborated with the BMRB to extend the
 NMR-STAR data dictionary, so that reproducible data sets may be collected and
@@ -219,6 +210,10 @@ in the "temp/" directory.  A Python program is then used to load the file
 contents into memory, and perform a semantic diff algorithm which recognizes
 differences between file versions.  The final output is in the extended
 NMR-STAR format.
+
+The BMRB accession ID is 25258, and includes the full Sparky analysis, TALOS+
+and CYANA input and output, time and frequency domain data, and a git 
+repository of the analysis including annotated snapshots.
 
 
 \section{Assessing the difficulties encountered}
