@@ -74,7 +74,7 @@ design.  The parse tree, which is the output from the parser, holds a
 representation of the file, and queries are easily run against it.
 
 
-\section{Connjur-ST}
+\section{CONNJUR ST}
 The spectral reconstruction phase involves the processing of time-domain 
 FID data to frequency-domain spectra.  There are several approaches for such
 a transformation, including the Fourier Transform, Maximum Entropy reconstruction,
@@ -96,10 +96,10 @@ handled, and reproducibility requires that all of the parameters are captured
 as well (if the exact software versions used are captured, then it is not
 necessary to capture the input and output primary and meta data from each
 operation, since these can be regenerated as needed).  Two recent tools from
-our lab, Connjur-ST \cite{connjur-st} and Connjur-WB, alleviate the
+our lab, ST \cite{connjur-st} and WB, alleviate the
 reproduciblity problem in the area of spectral reconstruction.
 
-Connjur-ST, or Spectrum Translator, was designed with the general goal of
+ST was designed with the general goal of
 translating between various spectral formats, of which there are many, 
 including Bruker, Varian/Agilent, XEasy, UCSF, RNMRTK, to name a few.  
 It is necessary to convert between multiple formats during spectral 
@@ -116,10 +116,10 @@ performs a single conversion -- grows with the square of the number of formats.
 Such a solution clearly requires too much time and effort for initial
 implementation, as well as future maintenance effort.
 
-Spectrum Translator addresses this problem by means of a common data model,
+ST addresses this problem by means of a common data model,
 which can be converted to and from any format.  For each format, a single
 importer and a single exporter is required, which deal with conversion between
-the format and Spectrum Translator's common data model.  This reduces the number
+the format and ST's common data model.  This reduces the number
 of converters required to the number of formats.  Thus, for translation between
 any of five formats, the number of conversions required is reduced from 25 to
 10 -- a 60\% reduction in the amount of conversions.  The discrepancy is even
@@ -130,12 +130,12 @@ library available from our website at \url{http://connjur.uchc.edu/downloads/st/
 The advantage of using Java is that Java is "write once, run anywhere": Java
 code, once compiled, may run on any Java Virtual Machine (JVM).  JVMs have been
 implemented for many platforms, including Windows, Macintosh, and Linux.
-This enables Spectrum Translator to run without modification on virtually any
+This enables ST to run without modification on virtually any
 computer.  A further advantage of Java is that as a popular programming 
 language, there are many developers familiar with its syntax, semantics, 
 class libraries, tooling, and deployment.
 
-Spectrum Translator promotes data integration and consistency through the use
+ST promotes data integration and consistency through the use
 of a common data model and a single, unified conversion strategy.  It also
 incorporates features for automatically reading meta data, which ease the
 burden of meta data correctness for the user, which helps to ensure that the
@@ -143,25 +143,25 @@ meta data is more correct.  By applying a single interface to any format
 conversion, the program has a smaller learning curve compared to learning
 multiple differing interfaces for multiple tools.
 
-Spectrum Translator has recently been extended to support non-uniform time-domain
+ST has recently been extended to support non-uniform time-domain
 data.  As the Rowland NMR Toolkit format is required in order to use its 
-implementation of Maximum Entropy reconstruction \cite{rnmrtk}, Spectrum
-Translator is an important enabler of the use of the technique, helping to 
+implementation of Maximum Entropy reconstruction \cite{rnmrtk}, ST
+is an important enabler of the use of the technique, helping to 
 make non-uniform data collection a realistic possibility for users who might
 otherwise face significant hurdles in tooling.
 
 
-\section{Connjur-WB}
-Connjur-WB, or Workflow Builder, is a tool for spectral reconstruction which
+\section{CONNJUR WB}
+WB is a tool for spectral reconstruction which
 builds on the successes of tools such as RNMRTK \cite{rnmrtk}, NMRPipe \cite{nmrpipe},
-and Spectrum Translator \cite{connjur-st} by providing additional features
+and ST \cite{connjur-st} by providing additional features
 for data integration, reproducibility, meta data correctness, interactivity,
-and expressiveness of spectral processing pipelines.  While Workflow Builder
+and expressiveness of spectral processing pipelines.  While WB
 is a standalone tool, it relies on external tools for the actual execution of
 spectral processing functions.  This allows it to capitalize of user's 
 familiarity with and knowledge of existing tools.
 
-The general architecture of Workflow Builder is three tiers.  The first is 
+The general architecture of WB is three tiers.  The first is 
 the user-facing Graphical User Interface (GUI).  The GUI is responsible for
 providing an intuitive, obvious, integrated, pleasant, and consistent experience
 to users, and for ensuring that the critical information is present and easily
@@ -170,25 +170,25 @@ At the other end is the third layer, or back-end, which is
 responsible for data persistence, integrity, and integration.  The back-end
 is implemented as a MySQL relational database management system (RDBMS), in
 which are stored both the spectral meta data and the spectra themselves (if
-desired); information specific to Workflow Builder and its internal model
+desired); information specific to WB and its internal model
 of spectral reconstruction is also stored in the database.  The middle layer
 is responsible for mediating the data exchanges between the GUI, the back-end,
 and third-party tools such as RNMRTK and NMRPipe.
 
-Workflow Builder allows viewing and modification of spectral meta data, which 
-is important for ensuring correctness.  By capturing the meta data, Workflow
-Builder facilitates reproducibility of spectral reconstruction.  Similar to
-Spectrum Translator, Workflow Builder is implemented in Java, allowing it to
+WB allows viewing and modification of spectral meta data, which 
+is important for ensuring correctness.  By capturing the meta data, WB
+facilitates reproducibility of spectral reconstruction.  Similar to
+ST, WB is implemented in Java, allowing it to
 run anywhere that a JVM does; however, since it uses third-party tools which 
 are platform-dependent, its usefulness on a platform is restricted if those
-additional tools do not run there.  Workflow Builder also allows export of
+additional tools do not run there.  WB also allows export of
 spectral reconstruction data in the eXtensible Markup Language (XML) 
 and NMR-STAR formats.  The XML export
 facilitates sharing between peers, while the NMR-STAR exporting capabilities
 enables reproducible archival as well.
 
-A key component of Workflow Builder's success is its robust model of spectral
-reconstruction, and the presentatio of its model to the user.  Workflow Builder
+A key component of WB's success is its robust model of spectral
+reconstruction, and the presentatio of its model to the user.  WB
 treats spectral reconstruction as a workflow composed of actors, which are
 analagous to functions.  Each actor takes as input primary data and meta data,
 and produces primary data and meta data as output.  The actor is responsible
@@ -200,12 +200,12 @@ this actor is able to both estimate the noise level, as well as parameterize
 the RNMRTK implementation \cite{rnmrtk}.  A portion of the model is shown
 in Figure \ref{wb_model}.
 
-A further benefit of Workflow Builder's approach was noted at a workshop
+A further benefit of WB's approach was noted at a workshop
 hosted at the University of Connecticut Health Center in June, 2012.  For
 beginning NMR spectroscopists, the barrier to entry is rather high.  Not only
 is a large amount of domain knowledge required, but one must also be familiar
 with the incidental complexity of NMR, including idiomatic expressions and
-implicit data.  Workflow Builder was observed to greatly reduce the learning
+implicit data.  WB was observed to greatly reduce the learning
 curve due to its integration of necessary domain knowledge, explicit handling
 of relevant data, and GUI-based presentation.  While such an interface may 
 not be necessary for experts, beginners stand to gain from using such a 
@@ -360,7 +360,7 @@ support reproducible data analysis in a very real way.  The Sparky extension
 provides functionality for tracking intermediate, derived, and extraneous data
 during spectral analysis, and integrates with the NMR-STAR library for recording
 that data in NMR-STAR files for later deposition to the BMRB, where the data is
-made publicly available for dissemination.  Spectrum Translater, Workflow Builder
+made publicly available for dissemination.  ST, WB
 and the sample scheduler model and capture the meta data associated with 
 data collection and spectral reconstruction, by making that meta data explicit,
 visible, and modifiable.
@@ -405,8 +405,8 @@ that bottom-up software is a more natural fit for science, due to the ever-chang
 software needs of scientists.
 
 Such has been my experience.  The tools presented here -- the NMR-STAR library,
-the sample scheduler, the Sparky extension, as well as Spectrum Translator and
-Workflow Builder to a limited extent -- have been purposely designed with 
+the sample scheduler, the Sparky extension, as well as ST and
+WB to a limited extent -- have been purposely designed with 
 the bottom-up approach in mind.  The result is a library or tool that is 
 extremely flexible, and readily adapted to different uses; extensions is also
 straightforward.  The key realization encountered while designing these tools
@@ -544,8 +544,8 @@ flexibility to be applied in different ways as part of a large program.
 
 \begin{figure}
   \includegraphics[scale=0.35]{figures/wb_model}
-  \caption[Workflow Builder's data model]
-          {Workflow Builder's data model.  Generated with MySQLWorkbench.}
+  \caption[WB's data model]
+          {WB's data model.  Generated with MySQLWorkbench.}
   \label{wb_model}
 \end{figure}
 
