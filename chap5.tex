@@ -47,22 +47,18 @@ however, it is intended for use in high-throughput studies.  ELNs
 data, are not designed to support in-depth analysis, nor are they intended
 to interface with NMR tools.
 
-While the need for integration of automation with occasional manual 
-validation and editing has been recognized \cite{baran2006spins}, no 
-current systems are capable of combining these features with full 
-meta data capturing.  
+While the need for integration of automation with occasional manual validation 
+and editing has been recognized \cite{baran2006spins}, no current systems are 
+capable of combining these features with full meta data capture.  
 What is still missing is an approach and tooling for collecting all the primary 
 data and meta data of NMR spectral analysis and structure determination.  Much 
 time and effort is expended in these stages, but the data is not recorded.  The 
 result is that the final data sets deposited into the BMRB are incomplete.
-
-
-
 NMR data analysis is irreproducible because insufficient information is
-captured during the process.  
+captured, recorded, or disseminated during the analysis process.  
 This chapter will outline the data involved in NMR, and then 
 describe in more detail the missing data, its role and importance, 
-then a model for capturing that data, and a strategy for using
+then a model for capturing that data, and finally a strategy for using
 the model during the analysis process.
 
 
@@ -71,7 +67,7 @@ the model during the analysis process.
 The data involved in the NMR process was covered abstractly in Chapter 
 \ref{ch_data_overview}.  During execution of the NMR process, these data
 are embodied concretely as structured files, read to and written from
-local hard drives, databases, and remote hosts.  Final data sets are 
+file and databases on local and remote hosts.  Final data sets are 
 deposited to the BMRB and are then shared as NMR-STAR files.  Since files
 are used as the means of transfer and sharing of NMR information, it is 
 necessary to define the meaning and extent of a data set in terms of the
@@ -89,14 +85,14 @@ During spectral analysis, a data set includes peak lists and chemical shift
 assignments.  Depending on which analysis tool one uses, these data are saved
 in various formats along with additional parameters and settings which 
 describe the configuration and state of the tool itself (such as contour
-levels and peak ornament colors on a spectral display) which are not of direct
-importance to NMR.  When integrating analysis with tools such as TALOS+ and
+levels and peak ornament colors on a spectral display).
+When integrating analysis with tools such as TALOS+ and
 CS-ROSETTA \cite{talos+, cs-rosetta}, specially formatted files may be 
 temporarily generated to transmit information to those tools, such as 
 chemical shift assignments in a specific format.  The protein sequence is
 often stored as a textual file containing the protein's amino acids.
 
-Once the structure determination stage is reached, the data set now includes
+Once the structure determination stage is reached, the data set includes
 torsion angle restraints, structure files, lists of restraint violations, 
 NOESY peak lists, RDC lists, and scripts for running and analyzing results 
 from tools such as CYANA.
@@ -146,20 +142,19 @@ reasoning.  It follows a general pattern:
 
 The information describing the deductive process of reasoning employed in 
 manually interpreting a feature of the primary data is not captured, although
-it is important because it provides the explanation 
-of why something was done.
+it is important because it provides the explanation of why something was done.
 
-Each deductive reason is an embodiment of NMR-specific knowledge of how to 
+Each deductive reason is based on NMR knowledge of how to 
 interpret a data feature.  In general, a deductive rule requires an input, 
 produces an output, and has an intuitive justification for its action.
 
-Application of these rules provides a rationale for manual modifications.  The
-rationale is a justification that the change modification is correct, as
-well as an indication of why the change was made.  Therefore, capturing the
-deductive rules employed enables verification of the veracity of modifications. 
+Application of these rules provides a rationale for manual modifications.  A
+rationale justifies the correctness of a change and indicates why it was made.
+Therefore, capturing the
+deductive rules employed enables verification of the modifications. 
 It also facilitates knowledge transfer, both in the contexts of collaboration
-and teaching, by providing a meaningful annotation (with reference to the
-domain of NMR) for actions taken.
+and teaching, by providing a meaningful annotation, with reference to the
+domain of NMR, for actions taken.
 
 
 \subsection*{Intermediate results: the data set is the deductive context}
@@ -167,15 +162,16 @@ When the output of a computational tool, whether peak picking, GSS construction,
 or sequence-specific GSS assignment, is modified to correct mistakes,
 a discrepancy is introduced between the output of the tool 
 given the input and a suitable parameterization, and the final data set. 
-This indicates that the final results are not the output of a single 
+Thus, the final results are not the output of a single 
 replicable step, but rather of a series of steps of refinement and 
-modification.  Thus, new data sets are implicitly generated from the previous
-one during the analysis process after every modification, whether manual or automated.
+modification.  An alternative viewpoint is that a new data set is implicitly 
+generated from the previous one during the analysis process after every 
+modification, whether manual or automated.
 The application of a deductive rule to modify the data set is sensitive to
 the current state of the data set -- in other words, the validity of the 
 use of a given rule, as well as its effect, depends on the exact state of
 the data set.  Therefore, it is important to record the data context when
-applying a deductive rule.  The intermediate results rectifies the discrepancy 
+applying a deductive rule.  The intermediate results rectify the discrepancy 
 between automated tool output and the final data set.  However, this data is 
 not recorded.
 
@@ -189,7 +185,6 @@ analysis, but also to employ error detection and correction strategies by
 analysis of deductions and their contexts.  An interesting side-effect of 
 capturing contexts is that analysis can be restarted in the middle, by 
 selecting an appropriate context and applying a different deduction.
-
 
 Furthermore, during manual analysis and modification of results, when the 
 state of the data is continually being modified and improved, the analyses
@@ -206,11 +201,10 @@ made and the confidence level of each deduction.
 
 
 \subsection*{Extraneous results}
-Standard approaches use the 
-assumption that all peaks are true signal, with no provision for storing peaks 
+Standard approaches treat all peaks as true signal, with no provision for storing peaks 
 determined to be processing artifacts or noise.  Such spurious peaks are simply 
 deleted and do not show up in the final results.  This is a problem because the 
-fact that a peak was found, and later interpreted as noise does not show up in 
+fact that a peak was found, and later interpreted as noise is not present in 
 the final data set.  The same problem applies to GSSs that are found 
 but can not be assigned to any residue of the sample of interest, or are 
 believed to correspond to atomic nuclei of a contaminant.  Such GSSs should 
@@ -222,10 +216,9 @@ The positive results include both false positives, caused by noise or
 artifacts, and true positives, caused by contaminants.
 
 Although not of direct interest, such extraneous results play a role in 
-the process of analysis: as was covered earlier, when making a manual
-modification, a deductive rule is applied to a context (data set).  Changing 
-the context affects which rules apply and what deductions are made; 
-therefore, as a part of the context, extraneous results matter during analysis. 
+the process of analysis because they provide part of the context of analysis.
+Changing the context affects which rules apply and what deductions are made.
+Therefore, as a part of the context, extraneous results matter during analysis. 
 If incorrectly identified or left unrecognized, extraneous features can
 lead to incorrect peak picking, chemical shift assignments, GSSs, and GSS
 assignments.
@@ -237,9 +230,9 @@ phase; in the later "interpretation" phase, these peaks are separated into
 false positives and true positives.  This allows rectification of the 
 discrepancies between uncorrected computational results and the final,
 deposited results as well as marking potentially suspicious results for 
-future perusal.  It should also be noted that picking a peak, then
+future perusal.  Picking a peak, then
 interpreting it as extraneous and discarding it is typically not reported in
-final data sets, despite containing important information.
+final data sets, despite containing information about the spectrum.
 There is a balance between false positives and false negatives \cite{pine};
 false negatives are more undesirable \cite{pine, saga, guntert2009automated},
 and capturing extraneous results helps to avoid this tradeoff: by reducing
