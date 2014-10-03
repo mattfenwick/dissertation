@@ -11,11 +11,14 @@ followed by an explanation of its meaning and applicability.
 
 \subsection*{Local extremum of spectral intensity}
 Peaks can be naively picked by identifying local maxima and minima in spectra.
+This may be done by a software tool or manually.
 
 \subsection*{Chemical shift matching}
 One or more peaks assigned to a GSS may be used to pick a new peak,
 based on matching one or more chemical shifts of the existing peaks
-as well as spectral features.
+as well as spectral features.  For instance, a peak in an NHSQC spectrum
+may be used to locate peaks in an HNCACB spectrum using the hydrogen and
+nitrogen chemical shifts.
 
 
 
@@ -155,7 +158,7 @@ single GSS is unambiguously typed, merely that each GSS typing is consistent
 with the primary sequence.
 
 \subsection*{GSS typing + primary sequence + GSS-residue}
-This is similar to the previous deduction, but takes previous sequence-specific
+This is similar to the previous rule, but takes previous sequence-specific
 assignments into account using the process of elimination: for example, if a
 GSS is typed as an Arginine, and there is only one unassigned Arginine residue 
 remaining, the GSS may correspond to the Arginine.
@@ -191,11 +194,13 @@ in section \ref{subsec_shift_matching_seq_gss}.
 
 \subsection*{Characteristic splitting pattern}
 Methylene groups, such as CB/HB2/HB3 in many amino acids, often show 
-splitting in the 1H axis due to the two non-equivalent protons.
+splitting in the 1H axis due to the two non-equivalent protons.  When such 
+a splitting pattern is observed, assignment to a methyl group or to a group
+with a single hydrogen attached to a carbon can both be ruled out.
 
 \subsection*{Pulse sequence}
 The pulse sequence places constraints on the possible resonance typings of the
-resonances of each peak: there is a limited list of spin systems which the
+cross sections of each peak: there is a limited list of spin systems which the
 pulse sequence is capable of capturing; each peak from the spectrum must have
 resonance typings corresponding to one of the possible spin systems.
 For example, hbCBcgcdHD experiment targets aromatics; a peak from that spectrum
@@ -208,10 +213,11 @@ For example, a resonance in a Glycine GSS cannot be assigned to CB(i).
 
 \subsection*{BMRB statistics}
 Resonances can often be assigned a nucleus type unambiguously using BMRB
-statistics.  Process of elimination may also be employed.
+statistics in conjunction with the spectra in which a resonance appears.  
+Process of elimination may also be employed.
 
 \subsection*{BMRB statistics}
-The BMRB average chemical shift stats -- along with the sstype assignment -- 
+The BMRB average chemical shift stats in conjunction with the GSS typing
 are useful for spectra such as the C(CO)NH-TOCSY, HBHA(CO)NH, and 
 HC(CO)NH-TOCSY, where there are multiple peaks in a strip along a carbon or
 hydrogen dimension. Most amino acid types feature good dispersion, making it 
@@ -230,8 +236,8 @@ Splitting patterns also help to identify methylene groups.
 Several aliphatic C/H groups are difficult to distinguish using BMRB statistics,
 including Leucine's CG, CD1, and CD2, as well as Isoleucine's CG2 and CD1, and
 its QG2 and QD1. These can often be resolved by characteristic intensity 
-patterns for each amino acid type due to the TOCSY nature of experiment,
-as well as the observation that methyl peaks are often sharper and more intense.
+patterns for each amino acid type due to the TOCSY nature of experiment;
+also, peaks from methyl gruops are often sharper and more intense.
 
 \subsection*{CYANA: stereospecific resonance typing}
 Many pairs of nuclei give rise to two peaks which can not be immediately
