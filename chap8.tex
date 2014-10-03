@@ -11,18 +11,18 @@
 
 Software plays an indispensable role in NMR data analysis, allowing us
 to effectively manage and process massive data sets.  This chapter will
-present several software projects that facilitate reproducibility.
+present several software projects that facilitate reproducible analysis.
+
 
 \section{NMR-STAR library}
-NMR-STAR is the file format used by the BMRB \cite{bmrb} for archival of
+NMR-STAR is a file format used by the BMRB \cite{bmrb} for archival of
 NMR data.  As such data is useful for further studies, and archiving
 data in the BMRB is the primary means of dissemination, it is important
 to be able to work with NMR-STAR files.
 
-This library facilitates reproducibility by providing a robust interface
-for working with NMR-STAR files.  It allows both the creation of NMR-STAR 
-files as well as extraction of data -- for further querying -- of existing
-files.  It is used by the previously mentioned Sparky extension.
+This library provides a robust interface for working with NMR-STAR files; 
+it allows the creation of NMR-STAR files as well as extraction of data from 
+existing files.
 
 To handle these files, a library was implemented both in Java 
 \cite{fenwick2013} and in Python.  This library provides capabilities both
@@ -35,14 +35,14 @@ there are several attributes of this library which set it apart:
     information to quickly pinpoint and diagnose the problem.
   \item complete, standards-compliant NMR-STAR syntax definition.
   \item open source under the MIT license.  This allows other interested 
-    developers to peruse the source code to gain ideas, use the library in
+    developers to inspect the source code to gain ideas, use the library in
     new applications, and modify and extend the library to fix problems or
     add new features if necessary.
   \item low coupling.  In order to use it, the library is simply imported 
     using standard language facilities.  It does not require any external tools
     or dependencies, reducing the barrier to setup and installation.  It does
-    not require learning to use additional tools or languages, merely the 
-    host language; it takes advantage of the native facilities for abstraction
+    not require learning to use additional tools or languages; 
+    it takes advantage of the native facilities for abstraction
     and composition provided by the host language.
   \item high cohesion.  The library provides a simple, focused interface.
     This means it is easy to learn and use because it only deals with parsing
@@ -54,20 +54,19 @@ The library is freely available online (
 ).
 
 An example of NMRPyStar in action is shown in Figure \ref{nmrpystar_bmrb}.
-As a regular Python library, in order to use it, it only needs to be 
-imported into the client module.  Then, using a library for reading URLs
-(which is bundled with Python distributions), an NMR-STAR file is downloaded
+First, it is imported into the client module.  Then, using a built-in Python 
+library to read URLs, an NMR-STAR file is downloaded
 from the BMRB \cite{bmrb}.  The file is then parsed, and a parse tree, 
 representing the structure of the file, is returned; see 
 Figure \ref{nmrpystar_structure} Figure \ref{nmrpystar_json}.  
-A parse tree is far easier to run queries against than a flat,
-unstructure string.  Finally, a query to extract the chemical shifts
+A parse tree is easier to query than an unstructured string.  
+Finally, a query to extract the chemical shifts
 from the parse tree is executed, and the results are used to calculate the
 standard deviation of chemical shift assignments, grouped by residue type
 and resonance type; see Figure \ref{nmrpystar_query}.
 
-The key to this example is the flexibility of the library: since it does not
-impose any unnecessary restrictions on its use, it is easily adapted to
+This examples demonstrates the library's flexibility: since it imposes
+no restrictions on its use, it is easily adapted to
 different situations; in this example, to reading NMR-STAR files downloaded
 programatically from the BMRB.  This flexibility is enabled by its bottom-up
 design.  The parse tree, which is the output from the parser, holds a 
@@ -88,20 +87,19 @@ of multiple functions, including linear prediction, zero fill, and apodization,
 each of which must be parameterized appropriately, for the purposes of 
 optimizing spectral characteristics such as peak shape, line width, and
 signal-to-noise ratio.  In general, the exact effect of each of these operations
-may depend on both the primary data as well as the meta data, and both types of
-data may be modified as well.
+may depend on both the primary data as well as the meta data, and both
+may be modified during the operation.
 
 Correct spectral reconstruction requires that the meta data is correctly 
 handled, and reproducibility requires that all of the parameters are captured
 as well (if the exact software versions used are captured, then it is not
 necessary to capture the input and output primary and meta data from each
-operation, since these can be regenerated as needed).  Two recent tools from
-our lab, ST \cite{connjur-st} and WB, alleviate the
-reproduciblity problem in the area of spectral reconstruction.
+operation, since these can be regenerated as needed as long as the initial
+primary and meta data are captured).  Two recent tools from our lab, ST 
+\cite{connjur-st} and WB, facilitate reproducible spectral reconstruction.
 
-ST was designed with the general goal of
-translating between various spectral formats, of which there are many, 
-including Bruker, Varian/Agilent, XEasy, UCSF, RNMRTK, to name a few.  
+ST was designed with the goal of translating between various formats of time- 
+and frequency-domain data, including Bruker, Varian/Agilent, NMRPipe, and RNMRTK.
 It is necessary to convert between multiple formats during spectral 
 reconstruction and analysis because different tools, each of which provides
 valuable functionality, require different formats for input and output.
@@ -127,17 +125,17 @@ greater when larger numbers of formats are considered.
 
 This program is implemented in the Java programming language as an open source
 library available from our website at \url{http://connjur.uchc.edu/downloads/st/}.
-The advantage of using Java is that Java is "write once, run anywhere": Java
+The first major advantage of using Java is that the
 code, once compiled, may run on any Java Virtual Machine (JVM).  JVMs have been
 implemented for many platforms, including Windows, Macintosh, and Linux.
-This enables ST to run without modification on virtually any
-computer.  A further advantage of Java is that as a popular programming 
+This enables ST to run without modification on virtually any computer.  
+The second major advantage of Java is that as a popular programming 
 language, there are many developers familiar with its syntax, semantics, 
 class libraries, tooling, and deployment.
 
 ST promotes data integration and consistency through the use
 of a common data model and a single, unified conversion strategy.  It also
-incorporates features for automatically reading meta data, which ease the
+automatically reads meta data, easing the
 burden of meta data correctness for the user, which helps to ensure that the
 meta data is more correct.  By applying a single interface to any format
 conversion, the program has a smaller learning curve compared to learning
@@ -165,7 +163,7 @@ The general architecture of WB is three tiers.  The first is
 the user-facing Graphical User Interface (GUI).  The GUI is responsible for
 providing an intuitive, obvious, integrated, pleasant, and consistent experience
 to users, and for ensuring that the critical information is present and easily
-accessible.  This layer is implemented using Java's swing library.
+accessible.  This layer is implemented using Java's Swing library.
 At the other end is the third layer, or back-end, which is
 responsible for data persistence, integrity, and integration.  The back-end
 is implemented as a MySQL relational database management system (RDBMS), in
@@ -181,14 +179,15 @@ facilitates reproducibility of spectral reconstruction.  Similar to
 ST, WB is implemented in Java, allowing it to
 run anywhere that a JVM does; however, since it uses third-party tools which 
 are platform-dependent, its usefulness on a platform is restricted if those
-additional tools do not run there.  WB also allows export of
-spectral reconstruction data in the eXtensible Markup Language (XML) 
-and NMR-STAR formats.  The XML export
+additional tools do not run there.  Nevertheless, WB can be used to build
+spectral reconstruction workflows on any platform that has a JVM.
+WB also allows export of spectral reconstruction data in the eXtensible Markup 
+Language (XML) and NMR-STAR formats.  The XML export
 facilitates sharing between peers, while the NMR-STAR exporting capabilities
 enables reproducible archival as well.
 
-A key component of WB's success is its robust model of spectral
-reconstruction, and the presentatio of its model to the user.  WB
+WB has a robust model of spectral reconstruction, and clearly and simply
+presents its model to the user.  WB
 treats spectral reconstruction as a workflow composed of actors, which are
 analagous to functions.  Each actor takes as input primary data and meta data,
 and produces primary data and meta data as output.  The actor is responsible
@@ -208,8 +207,7 @@ with the incidental complexity of NMR, including idiomatic expressions and
 implicit data.  WB was observed to greatly reduce the learning
 curve due to its integration of necessary domain knowledge, explicit handling
 of relevant data, and GUI-based presentation.  While such an interface may 
-not be necessary for experts, beginners stand to gain from using such a 
-tool.
+not be necessary for experts, it is certainly useful for beginners.
 
 
 
@@ -230,7 +228,7 @@ collection of popular algorithms for creating non-uniform sample schedules
 with specific, desirable properties.  The algorithms are integrated within
 a single uniform, consistent interface which allows all input parameters
 and outputs to be captured and archived.  It integrates with previous work
- \url{http://sbtools.uchc.edu/nmr/sample_scheduler/}.
+\url{http://sbtools.uchc.edu/nmr/sample_scheduler/}.
 
 The tool implements a data model of sample schedules; see 
 Figure \ref{schedule_model}.  The model deals with non-uniform quadrature
@@ -251,10 +249,9 @@ combine multiple different sampling approaches to create a schedule.  This
 flexibility stems from its breakdown of sampling algorithms into independent
 pieces with standard interfaces; by selecting one piece of each category, 
 a combinatorial number of different choices can be made, resulting in sample
-schedules with all imaginable kinds of properties.  This removes artificial
-restrictions of what kinds of sample schedules can be constructed, making it
-easier to experiment with various algorithsm.  The general categories of 
-algorithms are:
+schedules with all imaginable kinds of properties.  This avoids artificial
+restrictions of what kinds of sample schedules can be constructed and
+faciliates experimentation.  The general categories of algorithms are:
 \begin{itemize}
   \item coordinate generator.  Responsible for generating N-dimensional time
     delays.  Includes algorithms for generating all combinations within finite
@@ -281,12 +278,11 @@ algorithms are:
     sample schedule in RNMRTK \cite{rnmrtk}, Bruker, JSON, and Agilent formats.
     See Table \ref{scheduler_formatters}.
 \end{itemize}
-Creating a sample schedule requires choosing from among the many algorithms 
-available, and supplying the appropriate parameters.  While the various algorithms
-are implemented as functions in standard Python modules, which could be imported
-and used as a simple library, a command-line interface is also included.  The
-interface requires the parameters -- both for choice of algorithm, as well as
-for the algorithms themselves -- to be passed in through an appropriately
+To create a sample schedule, the algorithms must be chosen and parameterized.
+The algorithms are implemented as functions in standard Python modules, 
+and could therefore be imported and used as a simple library.
+A command-line interface is also included.  The interface requires the choice 
+of algorithms and parameters to be passed in through an appropriately
 formatted file.  The parameters are then extracted and passed to the appropriate
 algorithms, the sample schedule is constructed, and the output is returned. 
 
@@ -296,20 +292,19 @@ text; this is passed in to the program.  The program then generates a sample
 schedule, and writes the schedule out as a file, a part of which is shown in
 the second figure (a graphical view of a sample schedule is shown in Figure \ref{sched1};
 the numbers are delay times in the indirect dimensions which are shown as x- 
-and y-coordinates in the chart).  Note that the parameter file includes parameters which 
+and y-coordinates in the chart).  The parameter file includes parameters which 
 apply to the schedule as a whole, as well as to specific dimensions; the output
 file includes a single line for each set of time increments, and includes the
 associated quadrature components.
 
-
-
 This program was also integrated with an existing Java-based program written
 by Mark Maciejewski, Val Gorbatyuk, and Jeffrey Hoch 
 (\url{http://sbtools.uchc.edu/nmr/sample_scheduler/}), in order to leverage
-the Java program's GUI capabilities for parameterizing sample schedule creation,
-as well as displaying sample schedules and pointspread functions.  
-Figure \ref{sched1} shows a sample schedule created by my tool, by using the
-Java GUI, which is then displayed in the Java GUI.  Note the increasing
+the Java program's GUI capabilities for parameterizing sample schedule creation
+and displaying sample schedules and pointspread functions.
+Figure \ref{sched1} shows a sample schedule created by my tool.  The Java
+GUI is used to set the parameters, and it then invokes the Python program,
+and finally displays the results.  Note the increasing
 sparsity as time delay increases in both non-uniformly sampled dimensions.
 Figure \ref{fft1} shows the pointspread function of this sample schedule,
 indicating artifacts that it will create in the frequency domain.  This was 
@@ -322,18 +317,15 @@ change in its pointspread function, seen in Figure \ref{fft2}.
 
 
 
-
-
 \section{Discussion and conclusions}
-
 
 All software discussed in this chapter is available under standard open source
 licenses (either the MIT licence or the LGPL).  These licenses grant the rights
 to inspect the source code, use the code in a program, modify the code, and
 incorporate the code into a larger program.  While I do not believe that it is
 necessary or desirable to force all scientists to publish source code under
-open source licenses, I do believe that there are very real concrete benefits
-to doing so.  
+open source licenses, I do believe that there are concrete benefits
+to publishing source code under such licenses.  
 
 A major theme of this dissertation is reproducibility and its importance to
 science.  Reproducibility is fostered by explicitness both in data collection
@@ -355,21 +347,20 @@ lift such restrictions, it seems to offer clear benefits to scientists and
 funding agencies alike.
 
 The choice for which programs to describe in this section was driven by the
-theme of reproducibility.  All of the programs covered here facilitate and 
-support reproducible data analysis in a very real way.  The Sparky extension
+theme of reproducibility.  All of the programs described in this section 
+facilitate reproducible data analysis.  The Sparky extension
 provides functionality for tracking intermediate, derived, and extraneous data
 during spectral analysis, and integrates with the NMR-STAR library for recording
-that data in NMR-STAR files for later deposition to the BMRB, where the data is
-made publicly available for dissemination.  ST, WB
-and the sample scheduler model and capture the meta data associated with 
+that data in NMR-STAR files for later deposition to the BMRB.  
+ST, WB and the sample scheduler model and capture the meta data associated with 
 data collection and spectral reconstruction, by making that meta data explicit,
-visible, and modifiable.
+visible, and possible to correct and modify if necessary.
 
 The use of explicit data models provides succinct, precise documentation as to
 the intended use of a program and the semantics of its input and output data.
 The design and dissemination of data models was an important part of the
 implementation of the software programs described in this section.  A data 
-model, expressed as an entity-relationshi model or in some similar format, 
+model, expressed as an entity-relationship model or a similar format, 
 provides an overview of the core functionality of a program through the data 
 types which it documents.
 
@@ -377,7 +368,7 @@ A critical challenge that must be faced in the development of scientic software
 is the apparent tradeoff between flexibility and adaptability on the one hand,
 and robustness and strong guarantees on the other.  In the first case, the 
 need is driven by the ever-changing nature of the scientific enterprise: as
-new phenomena are discovered and studied, as new techniques and strategies for
+new phenomena are discovered and studied, and new techniques and strategies for
 analysis are invented and applied, the requirements of the supporting software
 naturally must be correspondingly updated.  In the second case, scientists 
 need to have at their disposal software which works correctly in order to 
@@ -398,21 +389,20 @@ implemented directly as code.  While both strategies can lead to successful
 outcomes, the key difference that has been observed is that while top-down
 approaches typically require the solution to be known in advance and do not
 react well to changing requirements, bottom-up solutions are easier to implement
-effectively when the solution is not known in advance, and are also better
-equipped for dealing with changing requirements 
+effectively with incomplete prior knowledge of the problem and of the desired
+solution, and are also better equipped for dealing with changing requirements 
 \cite{topdown_bottomup, bottomup1994, bottomup2004}.  Therefore, it would seem
-that bottom-up software is a more natural fit for science, due to the ever-changing
-software needs of scientists.
+that bottom-up software is a more natural fit for science, due to the 
+ever-changing software needs of scientists.
 
-Such has been my experience.  The tools presented here -- the NMR-STAR library,
-the sample scheduler, the Sparky extension, as well as ST and
-WB to a limited extent -- have been purposely designed with 
-the bottom-up approach in mind.  The result is a library or tool that is 
-extremely flexible, and readily adapted to different uses; extensions is also
-straightforward.  The key realization encountered while designing these tools
+The tools presented here, including the NMR-STAR library, the sample scheduler, 
+the Sparky extension, as well as ST and WB have been purposely designed with 
+the bottom-up approach in mind.  The result is a flexible tool
+that is readily adapted to different uses and straightforward to extend.
+The key realization encountered while designing these tools
 was the importance of avoiding coupling \cite{coupling1992} whenever possible:
 by specifying as few irrelevant details as possible, a software solution gains
-flexibility to be applied in different ways as part of a large program.
+flexibility to be applied in different ways as part of larger programs.
  
 
 % tables
@@ -426,7 +416,7 @@ flexibility to be applied in different ways as part of a large program.
     HyperTable       &  a Cartesian product of points               \\  \hline
     Poisson gap      &  Poisson gap method                          \\  \hline
     Poisson disk     &  Poisson disk method                         \\  \hline
-    Concentric shell & points on concentric shells                  \\  \hline
+    Concentric shell &  points on concentric shells                 \\  \hline
     Spiral           &  points spiraling outward from the origin    \\  \hline
     Radial           &  spokes directed outward from the origin     \\  \hline
   \end{tabular}
@@ -486,10 +476,10 @@ flexibility to be applied in different ways as part of a large program.
 \begin{table}[h]
   \begin{tabular}{ | c | c | }
     \hline
-    Bruker      &  output schedule in Bruker format  \\  \hline
+    Bruker      &  output schedule in Bruker format   \\  \hline
     Agilent     &  output schedule in Agilent format  \\  \hline
-    RNMRTK      &  output schedule in RNMRTK format  \\  \hline
-    JSON      &  output schedule in JSON format  \\  \hline
+    RNMRTK      &  output schedule in RNMRTK format   \\  \hline
+    JSON        &  output schedule in JSON format     \\  \hline
   \end{tabular}
   \caption{The formatters of the sample scheduler.}
   \label{scheduler_formatters}
