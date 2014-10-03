@@ -104,8 +104,6 @@ from tools such as CYANA.
 
 
 \section{Missing data and its role in analysis}
-% need to cover what the data is, how it plays a role in NMR analysis, 
-% why it's important to capture
 The key deficiencies causing irreproducibility are missing primary data and 
 meta data which are modeled neither in the CCPN data model nor in the 
 NMR-STAR data dictionary, and are not archived and disseminated.
@@ -154,7 +152,6 @@ of why something was done.
 Each deductive reason is an embodiment of NMR-specific knowledge of how to 
 interpret a data feature.  In general, a deductive rule requires an input, 
 produces an output, and has an intuitive justification for its action.
-% TODO example
 
 Application of these rules provides a rationale for manual modifications.  The
 rationale is a justification that the change modification is correct, as
@@ -193,11 +190,6 @@ analysis of deductions and their contexts.  An interesting side-effect of
 capturing contexts is that analysis can be restarted in the middle, by 
 selecting an appropriate context and applying a different deduction.
 
-% TODO
-% come up with a simple example that demonstrates: 
-%   1) the dependence of deductive ability on context
-%   2) the concept and utility of multiple snapshots
-%   3) the concept and utility of tracking logical dependencies
 
 Furthermore, during manual analysis and modification of results, when the 
 state of the data is continually being modified and improved, the analyses
@@ -206,15 +198,11 @@ For example, assignment of a GSS to a residue may allow a further
 unambiguous assignment of a different GSS to a residue (an assignment 
 which previously would have been ambiguous) by eliminating one of two 
 assignment possibilities based on matching amino acid type.
-% TODO explain better, provide an example
 Implicit in the sequence of data sets are logical dependencies of derived
 data upon features of the previous data set: the context of each deduction
 is important, because the exact context determines what deductions may be
 made and the confidence level of each deduction. 
 
-% TODO I need to discuss what the intermediate results need to do
-%   i.e. they need to make the process recapitulatable
-%   and this is done by capturing the contexts
 
 
 \subsection*{Extraneous results}
@@ -277,7 +265,6 @@ and consistency.
 During the course of data analysis, it is often the case that odd, ambiguous,
 abnormal, or otherwise unexpected situations noticed during analysis
 \cite{nuseibeh2000inconsistency}.  
-% TODO however, no record is made, blah blah .... these are valuable b/c blah blah
 As notes indicate the deficiencies and 
 potential problems present in a data set, they are valuable to future 
 scientists as they highlight a data set's flaws and how it can be improved.
@@ -307,7 +294,6 @@ corresonds to one nuclei, but exactly which is unsure -- as an indication to
 future analysis or perusal that a problem has been identified but not yet
 solved.
 
-% TODO add a picture
 Correctly identifying and characterizing peaks in the presence of significant
 amounts of overlap is a notoriously difficult problem \cite{guerry2011automated}.
 The number, position, and intensity of peaks become distorted by the overlap.
@@ -317,14 +303,12 @@ as a higher-dimensional spectrum in which the additional dimension removes
 the overlap, may resolve the problem); a note explaining that overlap is
 suspected and that the characterizations may be in error points this out.
 
-% TODO add a picture
 Building unambiguous and complete sequential GSS assignments is complicated 
 when multiple GSSs have the same or nearly the same chemical shift values
 for resonances which are or potentially may be assigned to CA, CB, CO, or the
 corresponding (i-1) nuclei.  Leaving a note in the data set describing what
 the ambiguity is ensures that this information is not lost, and is clearly
 marked for re-analysis when more data becomes available.
-% TODO make sure I don't describe the solution in this section -- rather, it should be about the problem !!
 
 
 \section{A Model for Reproducible NMR}
@@ -425,7 +409,7 @@ that they are useful for future perusal:
     Each snapshot should have a clear and simple focus on analyzing a single
     feature or performing a single type of interpretation.  For example, a snapshot
     should not include changes both to resonance typing and to peak lists if those
-    changes are not inter-dependent.  % this ensure that logical dependencies are recoverable ? ... 
+    changes are not inter-dependent.  
   \item cohesion.
     Similarly to the previous point, changes which are inter-dependent belong in
     the same snapshot.  For example, when assigning GSSs sequentially, assume there
@@ -443,9 +427,6 @@ that they are useful for future perusal:
     sets.
 \end{itemize}
 
-% devote more space to discussing diffs/comparisons, logical dependencies
-%   what, why, and how.  
-%   also, how the VCS-based solution supports these goals
 The primary goal of capturing intermediate data sets is to 
 facilitate reproducibility by modeling and saving the process of analysis.  
 A system which does so by capturing a sequence of snapshots of the data set 
@@ -508,11 +489,6 @@ recognized as sidechain peaks.  Lastly, their presence is surprising to
 newcomers to the analysis process, as they are typically not explicitly 
 recognized as part of the standard experiments.
 
-% TODO a pictoral representation of this model
-% TODO examples
-% TODO 
-% CCPN peak pick as initial peak list, then corrections I made as peak list 
-%   where each peak has additional fields
 
 
 \subsection*{Notes}
@@ -531,8 +507,6 @@ be resolved (although that is optional).  As the purpose of a note is to
 explicitly indicate known deficiencies, incompletions, or uncertainties in 
 the data set, wherever and whatever they may be, this approach is able to do
 so.
-% TODO a pictoral representation of this model
-% TODO example: odd feature in data, unable to resolve
 
 Enabling the representation of such data has similarities to the probabilistic
 approach applied by PINE \cite{pine} to great effect.  
@@ -597,9 +571,6 @@ as covering common problems and how they can be avoided.
     collaborators and learners.
 \end{itemize}
    
-% maybe talk about the culture of the lab notebook?
-% could this belong in its own chapter?
-% or in the software chapter, or in the 'reproducible data sets' chapter?
 
 
 \section{Future directions}

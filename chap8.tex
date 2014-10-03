@@ -210,7 +210,7 @@ curve due to its integration of necessary domain knowledge, explicit handling
 of relevant data, and GUI-based presentation.  While such an interface may 
 not be necessary for experts, beginners stand to gain from using such a 
 tool.
-% TODO add some screenshots
+
 
 
 \section{Sample Scheduler}
@@ -301,8 +301,8 @@ apply to the schedule as a whole, as well as to specific dimensions; the output
 file includes a single line for each set of time increments, and includes the
 associated quadrature components.
 
-% TODO point out features like decay, randomness
-%   maybe this should include the text of the schedule, and the parameters too
+
+
 This program was also integrated with an existing Java-based program written
 by Mark Maciejewski, Val Gorbatyuk, and Jeffrey Hoch 
 (\url{http://sbtools.uchc.edu/nmr/sample_scheduler/}), in order to leverage
@@ -320,13 +320,13 @@ except that the first points along each axis are all collected (this is an
 example of a special point selector).  This difference causes a noticable 
 change in its pointspread function, seen in Figure \ref{fft2}.
 
-% TODO mention that it was used to generate data for the PNAS paper
-% TODO add more discussion of the context, significance, and future value
+
+
 
 
 \section{Discussion and conclusions}
 
-% open source
+
 All software discussed in this chapter is available under standard open source
 licenses (either the MIT licence or the LGPL).  These licenses grant the rights
 to inspect the source code, use the code in a program, modify the code, and
@@ -354,7 +354,6 @@ While releasing code under open source licenses is clearly not the only way to
 lift such restrictions, it seems to offer clear benefits to scientists and
 funding agencies alike.
 
-% reproducibility
 The choice for which programs to describe in this section was driven by the
 theme of reproducibility.  All of the programs covered here facilitate and 
 support reproducible data analysis in a very real way.  The Sparky extension
@@ -366,7 +365,6 @@ and the sample scheduler model and capture the meta data associated with
 data collection and spectral reconstruction, by making that meta data explicit,
 visible, and modifiable.
 
-% explicit data models
 The use of explicit data models provides succinct, precise documentation as to
 the intended use of a program and the semantics of its input and output data.
 The design and dissemination of data models was an important part of the
@@ -375,7 +373,6 @@ model, expressed as an entity-relationshi model or in some similar format,
 provides an overview of the core functionality of a program through the data 
 types which it documents.
 
-% bottom-up design
 A critical challenge that must be faced in the development of scientic software
 is the apparent tradeoff between flexibility and adaptability on the one hand,
 and robustness and strong guarantees on the other.  In the first case, the 
