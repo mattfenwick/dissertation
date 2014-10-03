@@ -60,7 +60,7 @@ expected if it were a true peak.
 \section*{Assign peak cross section to resonance}
 
 \subsection*{Peak cross section lineshape}
-Peak cross sections from the same atom may have similar lineshapes;
+Peak cross sections from the same nucleus may have similar lineshapes;
 if they are grouped into the same GSS, the matching cross sections can be
 assigned to the same resonance.
 
@@ -82,7 +82,7 @@ possible to return to the first spectrum and correctly resolve its overlap.
 Based on matching of corresponding peak cross sections, peaks are combined into
 GSSs.  The matching of peaks may be within a single spectrum, or between 
 multiple spectra -- as long as the spectral dimensions match (both nucleus
-and atomtype).  The tolerances allowed are important in determining which
+and resonance type).  The tolerances allowed are important in determining which
 peaks match.
 
 
@@ -106,15 +106,14 @@ even be subject to splitting if they appear sufficiently far outside of the
 decoupling band.
 
 \subsection*{Resonance typing}
-The atomtypes assigned to the resonances of a GSS place constraints on the
-GSS's type.  For example, a GSS with a CB(i) resonance cannot be assigned to 
-Glycine.
+The typings of the resonances of a GSS constrain the GSS typing.  For example,
+a GSS with a CB(i) resonance cannot be assigned to Glycine.
 
 \subsection*{BMRB statistics: backbone Ala, Gly, Ser/Thr}
 Alanine's CB resonates at a characteristic chemical shift relative to other 
-CB's due to its lack of additional carbon atoms.
+CB's due to its lack of additional carbon nuclei.
 Glycine's CA resonates at a characteristic chemical shift relative to other
-CA's, and also lacks a CB atom.  In experiments such as an HNCACB or 
+CA's, and also lacks a CB nucleus.  In experiments such as an HNCACB or 
 C(CO)NH-TOCSY, Glycine strips appear without a CB peak.
 Serine's and Threonine's CB resonates at a characteristic chemical shift 
 relative to other CB's due to the -OH groups.
@@ -141,7 +140,7 @@ are satisfied (note that the last two are not inviolable):
 If the resonances are already typed (perhaps with the help of an auxiliary
 experiment such as a C(CO)NH-TOCSY or HN(CO)CACB in addition to the HNCACB), 
 sequential GSS assignment can be accomplished by matching resonances with
-appropriate atomtype assignments: for example, a GSS with a CA(i) and CB(i)
+appropriate nucleus type assignments: for example, a GSS with a CA(i) and CB(i)
 resonance whose chemical shifts match the CA(i-1) and CB(i-1) resonance
 frequencies can be deduced to form a sequential chain.
 
@@ -177,8 +176,8 @@ about the resonance typing in the 13C axis: CA resonances from backbone
 GSSs have opposite signs from the CB resonances.
 
 \subsection*{Resonance typing}
-By process of elimination, if one resonance is assigned to a specific atomtype,
-another resonance from the same GSS can not be assigned to the same atomtype.
+By process of elimination, if one resonance is typed as a specific nucleus,
+another resonance from the same GSS can not be assigned the same type.
 
 \subsection*{Peak sign + GSS type}
 The GSS type and peak sign can be used in conjunction with certain pulse 
@@ -208,7 +207,7 @@ A GSS's assigned type places constraints on the types of its resonances.
 For example, a resonance in a Glycine GSS cannot be assigned to CB(i).
 
 \subsection*{BMRB statistics}
-The atomtype of resonances can often be assigned unambiguously using BMRB
+Resonances can often be assigned a nucleus type unambiguously using BMRB
 statistics.  Process of elimination may also be employed.
 
 \subsection*{BMRB statistics}
@@ -216,7 +215,7 @@ The BMRB average chemical shift stats -- along with the sstype assignment --
 are useful for spectra such as the C(CO)NH-TOCSY, HBHA(CO)NH, and 
 HC(CO)NH-TOCSY, where there are multiple peaks in a strip along a carbon or
 hydrogen dimension. Most amino acid types feature good dispersion, making it 
-easy to get the correct assignments straight directly from the statistics.
+easy to get the correct assignments directly from the statistics.
 
 \subsection*{TOCSY aliphatic sidechain}
 After assigning HNCACB and HBHA(CO)NH spectra, C(CO)NH-TOCSY, HC(CO)NH-TOCSY 
@@ -235,9 +234,9 @@ patterns for each amino acid type due to the TOCSY nature of experiment,
 as well as the observation that methyl peaks are often sharper and more intense.
 
 \subsection*{CYANA: stereospecific resonance typing}
-Many pairs of atoms/groups give rise to two peaks which can not be immediately
-assigned unambiguously, although it is known that each atom/group corresponds 
-to one of the peaks, and the other atom/group to the other peak.
+Many pairs of nuclei give rise to two peaks which can not be immediately
+assigned unambiguously, although it is known that each nucleus corresponds 
+to one of the peaks, and the other nucleus to the other peak.
 Examples include HB2/HB3 of Y, and QD1/QD2 of L.
 For additional examples of ambiguities see \ref{stereospecific_ambiguities}.
 CYANA can often resolve these ambiguities during structure calculation.

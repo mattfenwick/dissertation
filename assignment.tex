@@ -43,18 +43,18 @@ This approach is similar to that applied in \cite{fox2004delineation}; a major
 difference is that NMR-specific details such as specific J-coupling values, 
 decoupling pulses, shaped pulses, and transfer efficiencies have all been 
 omitted.  These were omitted in order to keep the model simple and easy to use,
-so that it is possible to quickly determine which atoms and spin systems are 
-expected in an NMR experiment.
+so that it is possible to quickly determine which nuclei and spin systems are 
+expected to appear in an NMR experiment.
 
 
 \section{Partial ambiguities in resonance typing}
 Resonance typing interacts with GSS typing, as the GSS type(s) determine
-which atoms may possibly be present in a GSS, and which atoms a pulse 
-sequence can observe.  However, it is still possible to obtain partial 
+which nuclei may possibly be present in a GSS.
+However, it is still possible to obtain partial 
 resonance typings -- depending on the pulse sequences used -- without
 unambiguously typing the containing GSS.  Two cases where such information
 is obtainable are an HNCACB, which distinguishes between the "CA" and "CB"
-atoms by means of a 180-degree phase shift, and experiment pairs such as the
+nuclei by means of a 180-degree phase shift, and experiment pairs such as the
 HNCACB and HN(CO)CACB, which allows for distinguishing between CA and CA(i-1),
 and CB and CB(i-1) based on peaks which do and do not appear at the same 
 chemical shift in both spectra.
@@ -150,7 +150,7 @@ key given in Table \ref{partial_typing_notation}.
 \begin{table}
   \begin{tabular}{ | c | c | c |}
     \hline
-    Atoms       &  Together &  Separate      \\  \hline 
+    Nuclei      &  Together &  Separate      \\  \hline 
     HA2/HA3     &  HA*      &  HA*1, HA*2    \\  \hline 
     HB2/HB3     &  HB*      &  HB*1, HB*2    \\  \hline 
     HE21/HE22   &  HE2*     &  HE2*1, HE2*2  \\  \hline 
@@ -163,9 +163,9 @@ key given in Table \ref{partial_typing_notation}.
            In general, each group includes multiple nuclei which may be 
            ambiguous depending on the pulse sequences used and the 
            state of the assignment of the full data set.
-           For stereospecially ambiguous atoms, the names are formed by
-           replacing the number with a * to signify all atoms, and appending
-           a unique index to signify one but not all of the atoms.}
+           For stereospecifically ambiguous nuclei, the names are formed by
+           replacing the number with a * to signify all nuclei, and appending
+           a unique index to signify one but not all of the nuclei.}
   \label{partial_typing_notation}
 \end{table}
 
@@ -177,7 +177,7 @@ key given in Table \ref{partial_typing_notation}.
   \includegraphics[scale=0.75]{figures/generic_hncacb}
   \caption[The portion of a GSS observable from an HNCACB experiment.]
           {The portion of a GSS observable from an HNCACB experiment.
-           The atom names reflect their relationships: Ca11 and Ca21 are
+           The names of the nuclei reflect their relationships: Ca11 and Ca21 are
            distinguishable from Ca12 and Ca22 by a 180-degree phase shift,
            while Ca11 and Ca12 form a distinct covalent group from Ca21 and Ca22.}
   \label{generic_hncacb}
