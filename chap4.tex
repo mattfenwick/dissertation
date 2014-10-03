@@ -96,7 +96,7 @@ the overall goal is to identify the chemical shifts of individual nuclei.
 The spectra may be analyzed using a tool such as XEasy \cite{xeasy}, 
 Sparky \cite{sparky}, NMRViewJ \cite{nmrviewj}, or CCPN Analysis \cite{ccpn}.  
 
-In each spectrum, peak-picking is performed, and true signal peaks must 
+In each spectrum, peak picking is performed, and true signal peaks must 
 be identified and separated from peaks caused by noise and artifacts.  
 Additionally, signal peaks caused by contaminants must be identified.  
 Next, GSSs are identified and constructed \cite{ccpn}. 
@@ -130,7 +130,7 @@ baran2004automated}.
 Each peak cross section has a non-zero width; adjacent signals may give rise
 to overlapping peaks, distorting measurement of their attributes and possibly
 also leading to disappearance of a local maximum.
-Figure \ref{nhsqc_peaks} shows a portion of a peak-picked
+Figure \ref{nhsqc_peaks} shows a portion of a peak picked
 NHSQC spectrum; note the overlap, and that some -- but not
 all -- low-intensity spectral features have been identified as peaks.
 
@@ -214,7 +214,7 @@ on \cite{autoassign1997}: % page 600 -- `reliability`
   \item accurate (or at least consistent) spectral referencing.  
     Misreferenced spectra will cause the same nucleus to show up at different 
     chemical shifts across multiple spectra.
-  \item quality of peak-picking \cite{autoassign1997, mars}: 
+  \item quality of peak picking \cite{autoassign1997, mars}: 
     chemical shifts, lineshapes, as well as the numbers of 
     false positives, false negatives, extraneous peaks
 \end{enumerate}
@@ -387,12 +387,12 @@ In the final stage, Figure \ref{nmr_overview} panel D, the chemical shift
 assignments are used to interpret the NOESY experiments and a structure
 is calculated and refined.
 
-\subsection*{NOESY peak-picking and assignment}
+\subsection*{NOESY peak picking and assignment}
 NOESY peaks provide structural restraints if it can be 
 determined which protons gave rise to the peak.  Analysis of NOESY spectra 
 therefore requires chemical shift assignments of nuclei to 
 determine the protons involved in a peak.  
-NOESY spectra are  processed and peak-picked, similarly to through-bond 
+NOESY spectra are  processed and peak picked, similarly to through-bond 
 spectra, and resonance assignments of peaks made.  
 Considerations used to analyze 
 NOESY spectra include: symmetry -- a peak is expected to correspond to a 
@@ -406,7 +406,7 @@ the ambiguity, as well as incorrect or incomplete chemical shift assignments.
 
 NOESY assignment may be done automatically by programs such as CYANA and 
 ARIA \cite{cyana2004, aria2003}.  
-NOESY peak-picking may be automated as well by programs such as
+NOESY peak picking may be automated as well by programs such as
 MUNIN \cite{munin, korzhnev2001munin}.
 
 An alternative approach is taken by ABACUS \cite{abacus_assignment}, which uses
@@ -571,7 +571,7 @@ This has the consequence that NMR structure determination data analysis
 processes cannot be fully automated if high-quality results are required.  
 An effective solution to this problem combines the strengths of the automated 
 and manual approaches, in a semi-automated fashion:  computational tools are 
-used to quickly perform the majority of analyses such as peak-picking and 
+used to quickly perform the majority of analyses such as peak picking and 
 GSS construction, and manual analysis is used to clear up the 
 relatively small number of cases involving ambiguities and errors caused 
 by problematic or unclear data.  Thus, some amount of manual analysis may 

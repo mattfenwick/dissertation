@@ -20,7 +20,7 @@ must be reproducible, as well as the exact experimental conditions,
 spectrometer, pulse sequences and collection times used to collect the 
 time-domain data must be captured.  Second, the software, platform, functions, 
 and parameterizations for spectral processing stage must be captured.  
-Third, both the computational results of peak-picking, GSS construction,
+Third, both the computational results of peak picking, GSS construction,
 GSS assignment, and resonance assignment as well as any manual changes, 
 along with the associated deductive process of reasoning, must be captured.  
 Fourth, analysis and assignment of NOESY spectra, structure calculation, 
@@ -124,7 +124,7 @@ reasoning.  It follows a general pattern:
 \begin{enumerate}
   \item identification: a feature of the data is identified as amenable to 
     interpretation.  For example, the feature may be a false negative (such as 
-    a signal peak misclassified as noise by the automated peak-picker), a false 
+    a signal peak misclassified as noise by the automated peak picker), a false 
     positive (such as an artifactual peak misclassified as signal), or an 
     ambiguity (such as overlapped GSSs, causing clustering algorithms to fail).
   \item pattern recognition: the spectroscopist identifies a potential method 
@@ -163,7 +163,7 @@ domain of NMR) for actions taken.
 
 
 \subsection*{Intermediate results: the data set is the deductive context}
-When the output of a computational tool, whether peak-picking, GSS construction, 
+When the output of a computational tool, whether peak picking, GSS construction, 
 or sequence-specific GSS assignment, is modified to correct mistakes,
 a discrepancy is introduced between the output of the tool 
 given the input and a suitable parameterization, and the final data set. 
@@ -255,7 +255,7 @@ By providing additional context, it may be possible to estimate the quality
 of an analysis, where errors may be most likely found in the borderline 
 cases; it will also help assigning confidence levels to datums by not.
 Additional quality measures enabled include the number of peaks found by the
-peak-picker, the number of false positives, the number of peaks assigned to
+peak picker, the number of false positives, the number of peaks assigned to
 GSSs, and the number of GSSs assigned to residues.  It may also be possible
 to estimate contamination, incompleteness and overcompleteness, overfitting, 
 and consistency.
