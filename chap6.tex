@@ -109,28 +109,28 @@ well.  It was also necessary that these GSSs were not already assigned as
 part of a GSS chain because ambiguous assignments were disqualified.
 Second, assigning a GSS chain to residues reduced the number of unassigned
 residues, and therefore the number of possibilities for other unassigned chains
-as well.  It was several times the case that assigning a chain led immediately
+as well.  Several times, assigning a chain led immediately
 to the assignment of another chain by the process of elimination.  Third,
-assigning GSSs sequentially narrowed the number of places in the sequence that
+assigning GSSs sequentially reduced the number of sites in the sequence that
 could potentially accomodate the chain, both because of the chain-ending
-constraints imposed by proline residues as well as the necessity of matching
-all GSS typing to residue typing.
+constraints imposed by proline residues as well as the matching of GSS typing 
+to residue typing.
 
 \subsection*{Sidechain: GSS augmentation and resonance typing}
 The C(CO)NH-TOCSY provided information on the chemical shifts of aliphatic
 sidechain carbons, as covered in the previous section.  The HBHA(CO)NH, 
 HC(CO)NH-TOCSY, and HCCH-TOCSY provided the chemical shifts of aliphatic
-protons, as well as additional corroborating information of aliphatic carbons.
+protons, and corroborated the aliphatic carbon assignments.
 
-First, these spectra were peak picked, as before, by an automated peak picker.
-The results were then corrected in a coarse validation step, before assembling
-the peaks into GSSs based on matching chemical shifts.  For the HC(CO)NH-TOCSY
+First, these spectra were peak picked by an automated peak picker.  These
+initial peak picks were corrected in a coarse validation step, and the peaks
+assembled into GSSs based on matching chemical shifts.  For the HC(CO)NH-TOCSY
 and HBHA(CO)NH spectra, this was based on matching of backbone H and N
-resonances and was unambiguous for the most part.  The HCCH-TOCSY, lacking these
-resonaces, was based on matching to sidechain H and C resonances, and was
+resonances and was mostly unambiguous.  The HCCH-TOCSY, lacking these
+resonances, was based on matching to sidechain H and C resonances, and was
 slightly more difficult to interpret due to ambiguities.  
 Average BMRB statistics as well as peak patterns based on prochiral methylene
-groups were sufficient for resonance typing.
+groups were used for resonance typing.
 
 \subsection*{Aromatic assignment}
 The two final through-bond experiments, the hbCBcgcdHD and hbCBcgcdceHE, were
@@ -172,7 +172,7 @@ nproc=8
 noeassign peaks=$peaks prot=$prot autoaco
 \end{verbatim}
 After running CYANA once, the output indicated issues with stereospecificity
-of certain assignments (methylene protons, as well as Leucine and Valine
+of certain assignments (methylene protons, as well as leucine and valine
 CG groups).  These assignments were corrected according to CYANA's feedback,
 and CYANA re-run with the corrected stereospecific assignments.
 The final structure is shown in Figure \ref{structure} as seen in 
@@ -229,29 +229,28 @@ the three-dimensional triple-resonance experiments.
 Table \ref{nhsqc_peakpick} gives an overview of the results.
 The precision of the peak pick was 99 / 105 = 94.3\%{}; the 6 false positives 
 were likely caused by sinc wiggles from an extremely intense peak, as they
-matched the 1H chemical shift of a signal peak, and there were not matching
-signals found in the three-dimensional spectra.
-The recall was 99 / 118 = 83.9\%{}, and the 
+matched the 1H chemical shift of a signal peak; no matching signals were found 
+in the three-dimensional spectra.  The recall was 99 / 118 = 83.9\%{}, and the 
 F1-score was 2 * precision * recall / (precision + recall) = 88.8\%{}.
 See Figure \ref{false_negative} for an example of a false negative.
 
-\subsection*{Completeness of observed NMR signals in NHSQC}
-Whether a signal is observable in NMR experiments is not always predictable
+\subsection*{Completeness of detected NMR signals in NHSQC}
+Whether a signal is detectable in NMR experiments is not always predictable
 directly from the primary sequence:  it may depend on the structure and
 dynamics of the molecule.  Table \ref{nhsqc_signals} presents the numbers
 of expected signals based solely of off the primary sequence, and of found 
-signals, based off of the chemical shift assignments.  Note that an 
-extraneous GSS was found that could not be fit into the sequential assignments
+signals, based off of the chemical shift assignments.  An extraneous GSS was 
+found that could not be fit into the sequential assignments
 (See Figure \ref{extraneous_gss}).
 
 \subsection*{Overlap in the NHSQC}
 Overlap presents difficulties during both sequential and NOESY assignment
 because individual signals are not identifiable and assignable.
-In the NHSQC, 2 signals from two different Aspartate residues were heavily
+In the NHSQC, 2 signals from two different aspartate residues were heavily
 overlapped; although it was clear from the NHSQC that there were two separate
 peaks, it was not possible to determine their centers; furthermore, the
-correlated CO as well as CA/CB (8 separate resonances were expected -- but 
-only 2 were observed) resonances in the three-dimensional experiments were all
+correlated CO as well as CA/CB (8 separate resonances were expected, but 
+only 2 were detected) resonances in the three-dimensional experiments were all
 overlapped as well.  These GSSs appear to come from a group of 4 consecutive
 Aspartate residues.
 
@@ -347,14 +346,12 @@ all the data, primary and meta, is in a single file.  While the git approach
 makes it easier to query a single snapshot in time, it is more difficult to
 query across multiple snapshots, or meta data.  The single file approach makes
 it more difficult to query a single snapshot (other than the most recent one),
-but easier to query across the complete data set including meta data.  It is
-important to note that these differences are merely incidental, and not 
-fundamental -- the same data is represented and stored in both approaches, it
-is merely writing specific queries that becomes somewhat harder or easier.
+but easier to query across the complete data set including meta data.
+These differences are merely incidental, and not 
+fundamental, as the same data is represented and stored in both approaches.
 
-Git includes additional features that were not taken advantage of in our
-implementation, which could perhaps prove valuable at some later date.  An
-important example is branches, which allow data analysis to fork and rejoin.
+Git includes more features that were not used in our implementation.
+One such feature is branches, which allow data analysis to fork and rejoin.
 This could potentially be useful for interpreting ambiguous or unclear features
 in multiple ways, because it would allow an explicit record of the choice point.
 It could also be useful for error correction, to show the cascading effect of
@@ -362,20 +359,16 @@ an incorrect analysis early in the process.
 
 
 \section{Discussion}
-Applying the reproducibility approach, described in the previous chapter, first
-and foremost proves that the approach is viable: that it can be used to 
-effectively analyze NMR data, and lead to a final data set which is usable.  
-The approach I have applied is not the only one 
+Applying the reproducibility approach proves that it is viable. It can be used 
+to effectively analyze NMR data. The approach I have applied is not the only one 
 which could possibly be employed; rather, it is one of several.  The principles
 embodied in the approach are to make data explicit -- whether that data is the
 context of a deduction, or the deduction itself, or the motivation behind a
 deduction -- and to capture that data efficiently.  In this respect, it is 
-similar to recording the process of analysis in a lab notebook, except that 
-the data requirements for the electronic "lab notebook" are far larger.
-The overal proof of the effectiveness of such an electronic lab notebook is
-that the relevant information is explicitly captured, such that it is made
-available for later perusal.  This approach does effectively capture such 
-information.  This ground-breaking work also shows how to
+similar to recording the process of analysis in a lab notebook.
+The overal proof of the effectiveness of the approach is that the relevant 
+information is explicitly captured and available for later inspection.
+This ground-breaking work also shows how to
 use the approach, including possible pitfalls;  the final, reproducible data
 set is valuable in that it shows what can be achieved through a reproducible
 approach, as well as creating a platform for future work towards enhanced
@@ -443,7 +436,7 @@ NOESY-CHSQC (D\textsubscript{2}O) & H   &  C            &  H            &  Yes  
     \caption[Quantification of the completeness of the signals in the NHSQC.]
             {Quantification of the completeness of the signals in the NHSQC.
              Out of 106 residues, 3 are prolines and thus lacking a backbone
-             N-H group, and the first residue is also not observable.
+             N-H group; also, the first residue is not detectable.
              Each Q/N sidechain has two protons, giving rise to two signals;
              partial deuteration gives rise to a second signal for each proton,
              for a total of 4 signals; there are three Q/N sidechains.  The
@@ -470,9 +463,8 @@ NOESY-CHSQC (D\textsubscript{2}O) & H   &  C            &  H            &  Yes  
     \caption[Quantification of the completeness and unambiguity of the backbone GSSs.]
             {Quantification of the completeness and unambiguity of the backbone GSSs,
              based on the presence of the CA, CA(i-1), CB, and CB(i-1) resonances
-             correlated with each backbone amide group.  Backbone GSSs, either
-             part of which is a glycine residue, do not have a corresponding
-             CB resonance; this was handled in the analysis.}
+             correlated with each backbone amide group.  Backbone glycine GSSs
+             do not have a CB resonance; this was taken into account.}
     \label{backbone_gss_quality}
 \end{table}
 
