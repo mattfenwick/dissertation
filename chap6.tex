@@ -47,12 +47,12 @@ according to the H and N dimensions.  Peaks either in the NHSQC or HNCO
 which did not match peaks in the other spectra were verified manually, and
 many were labeled as extraneous and not included in GSSs.
 
-Several sidechain spin systems, including Asparagine, Glutamine, Tryptophan,
-and Arginine, were identified based on either peaks with matching N and C
+Several sidechain spin systems, including asparagine, glutamine, tryptophan,
+and arginine, were identified based on either peaks with matching N and C
 chemical shifts but different H shifts, spectral position, or peak intensity
-combined with splitting.  An example of an Asparagine sidechain is shown in
+combined with splitting.  An example of an asparagine sidechain is shown in
 Figure \ref{asn_sidechain}.  Several factors allow these peaks to be grouped
-into a single GSS, and that GSS to be typed as an Asparagine:
+into a single GSS, and that GSS to be typed as an asparagine:
 \begin{itemize}
   \item two peaks in the NHSQC with matching N frequencies, but different H
     frequencies, in the top right of the spectrum.  These are caused by the
@@ -64,8 +64,8 @@ into a single GSS, and that GSS to be typed as an Asparagine:
     and matching each other as well.  These are caused by the CB and CA; 
     however, the signs of the peaks are swapped from what they should be for
     a backbone GSS, since the CB is now closer to the H-N group than the CA.
-  \item characteristic chemical shifts which match a CB/CA of Asparagine, 
-    and do not match a CG/CB of Glutamine.
+  \item characteristic chemical shifts which match a CB/CA of asparagine, 
+    and do not match a CG/CB of glutamine.
 \end{itemize}
 
 \subsection*{GSS and resonance typing}
@@ -96,7 +96,7 @@ that the overlap be unambiguous; ambiguous overlaps were deferred until later
 when additional information would provide disambiguation.
 Simultaneously, chains were assigned to residue sequences based on GSS typing
 and chain order matching the residue typing and chain order.  GSS chains
-were often anchored on a Glycine, Serine, Threonine, or Alanine residue due
+were often anchored on a glycine, serine, threonine, or alanine residue due
 to their unique carbon chemical shifts.
 
 The whole process was heavily interdependent for several reasons.  First, by
@@ -113,7 +113,7 @@ as well.  It was several times the case that assigning a chain led immediately
 to the assignment of another chain by the process of elimination.  Third,
 assigning GSSs sequentially narrowed the number of places in the sequence that
 could potentially accomodate the chain, both because of the chain-ending
-constraints imposed by Proline residues as well as the necessity of matching
+constraints imposed by proline residues as well as the necessity of matching
 all GSS typing to residue typing.
 
 \subsection*{Sidechain: GSS augmentation and resonance typing}
@@ -256,8 +256,8 @@ overlapped as well.  These GSSs appear to come from a group of 4 consecutive
 Aspartate residues.
 
 A second region of NHSQC overlapped was caused by 5 peaks from 3 separate 
-GSSs: one backbone, one Arginine sidechain contributing 2 signals, and one
-Asparagine sidechain contributing 2 signals.  The signals essentially were not
+GSSs: one backbone, one arginine sidechain contributing 2 signals, and one
+asparagine sidechain contributing 2 signals.  The signals essentially were not
 distinguishable based on the NHSQC alone, and were initially believed to be 
 a single GSS, but additional data from the HNCO, HNCACB, and CCONH yielded
 more signals than could be expected from a single GSS and enable resolution of
@@ -277,7 +277,7 @@ CA(i-1).
 The amount of ambiguity in the final chemical shift assignments was
 quantified by means of a 0.2 PPM threshold for CA and CB chemical shift 
 assignments: given any two residues for which the CA/CB chemical shifts 
-were assigned (CA only for Glycine), check whether both corresponding
+were assigned (CA only for glycine), check whether both corresponding
 shift pairs are withing 0.2 PPM.  The significance of this is that CA and CB
 chemical shifts are used to build sequential connectivities in some assignment
 strategies, and ambiguous assignments confound its simplicity -- ambiguities
@@ -424,7 +424,7 @@ NOESY-CHSQC (D\textsubscript{2}O) & H   &  C            &  H            &  Yes  
     \caption[Quality of the NHSQC automated peak pick.]
             {Quality of the NHSQC automated peak pick.  The 6 peaks which
              were determined to not be signals all appeared to be sinc wiggles
-             off of an extremely intense backbone Glycine peak.  Of the 19 
+             off of an extremely intense backbone glycine peak.  Of the 19 
              unpicked signals, many were low-intensity.}
     \label{nhsqc_peakpick}
 \end{table}
@@ -442,13 +442,13 @@ NOESY-CHSQC (D\textsubscript{2}O) & H   &  C            &  H            &  Yes  
     \end{tabular}
     \caption[Quantification of the completeness of the signals in the NHSQC.]
             {Quantification of the completeness of the signals in the NHSQC.
-             Out of 106 residues, 3 are Prolines and thus lacking a backbone
+             Out of 106 residues, 3 are prolines and thus lacking a backbone
              N-H group, and the first residue is also not observable.
              Each Q/N sidechain has two protons, giving rise to two signals;
              partial deuteration gives rise to a second signal for each proton,
              for a total of 4 signals; there are three Q/N sidechains.  The
              two missing signals were the partial deuteration signals from N77.
-             Each Arginine sidechain, if outside the decoupling band,
+             Each arginine sidechain, if outside the decoupling band,
              produces two signals.  Only three were observed; the sidechains
              of R4, R26, R61, and R79 were not observed.}
     \label{nhsqc_signals}
@@ -471,7 +471,7 @@ NOESY-CHSQC (D\textsubscript{2}O) & H   &  C            &  H            &  Yes  
             {Quantification of the completeness and unambiguity of the backbone GSSs,
              based on the presence of the CA, CA(i-1), CB, and CB(i-1) resonances
              correlated with each backbone amide group.  Backbone GSSs, either
-             part of which is a Glycine residue, do not have a corresponding
+             part of which is a glycine residue, do not have a corresponding
              CB resonance; this was handled in the analysis.}
     \label{backbone_gss_quality}
 \end{table}
@@ -482,7 +482,7 @@ NOESY-CHSQC (D\textsubscript{2}O) & H   &  C            &  H            &  Yes  
 
 \begin{figure}[h]
   \includegraphics[scale=0.25]{figures/asn_sidechain}
-  \caption{An Asparagine sidechain in the NHSQC and HNCACB spectra.}
+  \caption{An asparagine sidechain in the NHSQC and HNCACB spectra.}
   \label{asn_sidechain}
 \end{figure}
 
