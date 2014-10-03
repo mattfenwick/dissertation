@@ -53,16 +53,15 @@ features in depth, may be found at
 
 \subsection*{Sparky keyboard shortcuts}
 While all Sparky functionality can be accessed through its point-and-click
-menu interface, it is far faster to use the keyboard shortcuts, especially
+menu interface, it is faster to use the keyboard shortcuts, especially
 for common tasks.  The most useful of these shortcuts are covered in Table
 \ref{sparky_shortcuts}.
 
 \subsection*{Sparky extensions}
-Extensions are accessible through the "extensions" pull-down menu,
-as shown in Figure \ref{sparky_extensions}.
-Additionally, the reproducibility extension is accessible through
-the "re" shortcut (see Figure \ref{sparky_reproducibility}),
-and the "rg" shortcut brings up the group editor.
+Extensions are accessible through the "extensions" pull-down menu, as shown 
+in Figure \ref{sparky_extensions}. The reproducibility extension is also 
+accessible through the "re" shortcut (see Figure \ref{sparky_reproducibility}),
+and the "rg" shortcut open the group editor.
 
 
 
@@ -72,8 +71,8 @@ Automated peak picking,
 GSS construction, and GSS-residue assignment need manual validation and
 correction.  These manual modifications are inherently difficult, tedious,
 and error-prone because they are the most complicated to correctly analyze.
-However, correctly analyzing them has an important impact on the quality
-of the final result.
+However, a correct and complete interpretation is necessary to obtain a 
+high-quality final result.
 The main goal of this extension is to facilitate reproducibility
 by capturing the entire analysis process, including manual modifications.
 
@@ -88,9 +87,8 @@ results are consistent with expectations.
 Sparky's data model is shown in Figure \ref{sparky_model}.  It includes 
 entities for spectra, peaks, resonances, GSS, nuclei, and molecules, among
 others.  Sparky does not natively distinguish between a GSS (generic spin 
-system) and a residue, nor between a resonance and a nucleu.
-
-Both GSSs and resonances have been implemented in the extension, based 
+system) and a residue, nor between a resonance and a nucleus.
+GSSs and resonances have been implemented in the extension, based 
 on the CCPN model \cite{ccpn}.
 
 \subsection*{Extraneous data}
@@ -100,9 +98,8 @@ systems (not assigned to any residue) are typically deleted and/or ignored.
 In this extension, \textbf{data is never deleted}.  Such results are kept,
 since they have valuable information content, even if they are not used for
 the immediate purpose of the analysis process (be it structure or dynamics
-determination).  These results are kept by, instead of deleting them, 
-explicitly marking them as not of interest, and placed in a different
-category.
+determination).  These results are kept by explicitly marking them as not of 
+interest, and placing them in a different category.
 
 \subsection*{Snapshots}
 Snapshots of intermediate states during analysis are used to enable rehashing
@@ -112,8 +109,8 @@ is captured.
 
 An additional benefit of capturing snapshots is that they allow one to go 
 backward in time.  This is useful for understanding what happened and
-why, but is also useful for fixing mistakes and accidents -- this is
-important because Sparky can not undo changes.
+why, but is also useful for fixing mistakes and accidents, which usually 
+can not be undone from within Sparky.
 If a datum is accidentally changed, it may not even be noticed, and it is 
 impossible to easily restore.  Capturing snapshots trivially solves both
 of these problems.
@@ -121,7 +118,7 @@ of these problems.
 \subsection*{Deductive reasoning}
 Capturing the deductive rules applied during the process of manual assignment
 provides semantic information about what is being done and why.  This makes it
-far more meaningful to examine the sequence of snapshots of an analysis
+more meaningful to examine the sequence of snapshots of an analysis
 process and determine the context.
 
 
@@ -159,6 +156,7 @@ Now start Sparky and take care of tedious initial project setup.  This includes:
 \end{itemize}
 Now it is time to take a snapshot of this configuration.
 
+
 \section{Capturing a snapshot}
 Whenever a snapshot is desired, this procedure must be followed:
 \begin{itemize}
@@ -171,30 +169,24 @@ Whenever a snapshot is desired, this procedure must be followed:
 This will use git to create a new snapshot.  At any time, the contents of
 the git repo can be examined using the terminal and the file browser.  Git
 supports many features for examining and manipulating history.  These may
-all be accessed from the terminal.
-
-% TODO does this paragraph make any sense?
-Snapshots provide a record of the process of analysis.  By capturing snapshots
-at appropriate intervals, effective perusal of the process at a later date is
-enabled.  A more immediate benefit is the ability undo mistakes, which is 
-important because most mistakes can not be undone using Sparky.
-In general, it is necessary to capture a snapshot immediately after
-running an automated tool and before making any manual modifications.  During
-manual analysis, capturing a snapshot after each focused sub-goal is necessary.
+all be accessed from the terminal or from a git client program.
+Snapshots should be captured immediately after running an automated tool and 
+before making any manual modifications.  During manual analysis, snapshots 
+should be captured after each focused sub-goal is completed.
 
 
 
 \section{Reproducible backbone assignment tutorial}
-There is a nice tutorial and dataset in Sparky format at 
+A a nice tutorial and dataset in Sparky format may be found at 
 \url{http://www.nmr.chem.uu.nl/~abonvin/tutorials/Assignment-Data/assignment.html}.
-It includes the NHSQC, HNCACB, and HN(CO)CACB of a small protein -- enough
-to carry out sequential backbone assignments.
+It includes the NHSQC, HNCACB, and HN(CO)CACB spectra of a small protein,
+providing enough data to carry out sequential backbone assignments.
 This section will show how to reproducibly make these chemical shift
 assignments.
 
 \subsection*{NHSQC peak picking}
 Use standard Sparky facilities to peak pick your NHSQC spectrum.
-First, make sure to set the contour levels high enough that few noise and 
+Set the contour levels high enough that few noise and 
 artifact peaks will be picked, but low enough that most true signal peaks
 will be picked.
 
@@ -239,7 +231,7 @@ for a 1H axis but this can vary based on the alignment between spectra.
 Finally, select all the peaks in the "from" spectrum that should be used;
 you can select all signal peaks using the "select signal peaks" drop-down.
 
-The way that GSS construction works is that for each peak in the "from"
+In GSS construction, for each peak in the "from"
 spectrum, all peaks in the "to" spectrum within the tolerances will be
 assigned to the same GSS as the "from" peak.  Peaks in the "to" spectrum that
 match 0 "from" peaks will not be assigned to any GSS; those that match more
@@ -252,16 +244,15 @@ assignments of the peak cross sections will be carried over for matching dimensi
 and new resonances will be created for the C dimension.
 
 \subsection*{Peak cross section to resonance assignment}
-A resonance is assigned to each cross section of each group which is in a GSS.
+A resonance is assigned to each cross section of each peak which is in a GSS.
 If a peak cross section has a unique chemical shift value within a GSS, it will
 be the only one assigned to that resonance; if multiple cross sections share 
 the same or similar chemical shift value, they will be assigned to the same
-resonance.  This reflects the fundamental NMR property that a nucleus resonates
-at a characteristic frequency across spectra. 
+resonance.  This reflects the NMR property that a nucleus resonates
+at a characteristic frequency across spectra.
 
 Peak cross section to resonance assignment can fail in two cases, and these
 can be resolved by manually modifying the assignments to resonances.
-
 First, when the chemical shifts between the peak cross sections do not match
 within the tolerances, multiple resonances are created.  These can be merged
 using the built-in Sparky assignment tools by changing the assignment of one
@@ -274,7 +265,7 @@ one peak dimention to a fresh resonance id.
 \subsection*{Changing peak-GSS assignments}
 There are two major cases for moving a peak from one GSS to another.
 First, for GSS types such as Q and N sidechains, there are usually multiple
-peaks in the NHSQC (because of the two protons).  Simply select the appropriate
+peaks in the NHSQC (because of the two protons).  Select the appropriate
 peaks, choose a GSS id (typically the lowest of the GSS ids of the selected
 peaks, just for convenience and consistency) and press the "set groups of
 selected peaks" button.
@@ -291,7 +282,7 @@ have more choices: for the HNCACB, resonances in backbone GSSs in the C
 dimension can be CA, CA(i-1), CB, or CB(i-1).
 
 There are two ways to assign resonance types.  First, each resonance assigned
-to a peak's cross sections a peak may be assigned at once.  The possibilities
+to a peak's cross sections may be assigned at once.  The possibilities
 for these resonance typings are called "peaktypes" and depend on the pulse 
 sequence of the spectrum in which the peak is found.
 This can be done using "assign peaktype" drop-down menu.  Select the correct
@@ -341,6 +332,8 @@ Sparky's data model was extended to support reproducible analysis.
 However, it is possible to circumvent the extension's model and assign peaks
 and resonances differently. If care is not taken when doing so, the data
 may be incompatible with the extension.
+
+
 
 \section{Creating an NMR-STAR file}
 While the data is stored as standard Sparky-formatted files in a git repository
