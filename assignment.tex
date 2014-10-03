@@ -1,14 +1,15 @@
 \chapter{Assignment: Considerations, Notations, Strategy}
-This presents several strategies and tools for understanding and applying
-the concepts of resonances and GSSs during chemical shift assignment.
+This appendix presents several strategies and tools for understanding and 
+applying the concepts of resonances and GSSs during chemical shift assignment.
 These were all developed during the course of analysis of the Samp3 data set,
 and were concurrently applied in order to facilitate correct analysis.
 
 
-\section{GSS typing}
-There are several types of H-N-rooted GSSs.  Backbone GSSs are rooted in the
-H-N of the peptide backbone.  Sidechain GSSs are rooted in H-N groups of
-amino acid sidechains.
+\section{Typing of H-N-rooted GSSs}
+Type assignment of GSSs is an important intermediate for obtaining 
+sequence-specific GSS assignments.  There are several categories of H-N-rooted
+GSSs.  Backbone GSSs are rooted in the H-N of the peptide backbone.  Sidechain 
+GSSs are rooted in H-N groups of amino acid sidechains.
 The backbone ones may span multiple amino acid residues; the typing of the 
 corresponding residues may be known partially or fully for each piece.
 
@@ -24,17 +25,15 @@ independent typing of each amino acid spanned by the GSS.
 
 
 \section{Graph patterns of pulse sequences}
-A simplistic but useful way to view pulse sequences is as a pattern which
-acts upon graphs (in this case, the graphs are molecules in which nuclei are
-nodes and scalar couplings are edges); wherever the pattern matches, signals 
-are observed in the output spectra.  In this view, pulse sequence design 
-requires careful tailoring of the pattern in order to observe the desired 
-resonances, but not undesired ones.
+Modeling pulse sequences as patterns which act upon graphs is simplistic but
+useful.  The graphs are molecules, the nodes are nuclei, and scalar and
+dipolar couplings are edges.  Wherever a pulse sequence pattern matches 
+a molecular graph, signals are expected in the corresponding spectra.
 
-The basic approach is to separate nuclei into groups based on atomic number
+The model separates nuclei into groups based on atomic number
 and chemical shift range, yielding protons, nitrogens, aliphatic Carbon,
 aromatic Carbon, and carbonyl Carbon (see Table \ref{pulse_sequence_key}).
-Then, nuclei are connected by J-couplings or through-space couplings, 
+Nuclei are connected by J-couplings or through-space couplings, 
 indicating transfer of magnetization between nuclei.
 Finally, a differentiation is made between nuclei whose chemical shift is 
 and is not recorded.  See Tables \ref{pulse_sequence_key} and 
@@ -43,17 +42,17 @@ and is not recorded.  See Tables \ref{pulse_sequence_key} and
 This approach is similar to that applied in \cite{fox2004delineation}; a major
 difference is that NMR-specific details such as specific J-coupling values, 
 decoupling pulses, shaped pulses, and transfer efficiencies have all been 
-omitted.  The rationale behind these omissions is that such details obscure
-the intended use -- to quickly determine which atoms and spin systems are 
-observable in an NMR experiment.
+omitted.  These were omitted in order to keep the model simple and easy to use,
+so that it is possible to quickly determine which atoms and spin systems are 
+expected in an NMR experiment.
 
 
 \section{Partial ambiguities in resonance typing}
-Resonance typing is dependent on GSS typing, as the GSS type(s) determine
+Resonance typing interacts with GSS typing, as the GSS type(s) determine
 which atoms may possibly be present in a GSS, and which atoms a pulse 
 sequence can observe.  However, it is still possible to obtain partial 
-resonance typings -- depending on the pulse sequences used -- without fully
-or even partially typing the containing GSS.  Two cases where such information
+resonance typings -- depending on the pulse sequences used -- without
+unambiguously typing the containing GSS.  Two cases where such information
 is obtainable are an HNCACB, which distinguishes between the "CA" and "CB"
 atoms by means of a 180-degree phase shift, and experiment pairs such as the
 HNCACB and HN(CO)CACB, which allows for distinguishing between CA and CA(i-1),
@@ -102,8 +101,8 @@ key given in Table \ref{partial_typing_notation}.
       \hline
       Symbol    &  Explanation              \\  \hline
       \hline
-      H         &  Any H                    \\  \hline
-      N         &  Any N                    \\  \hline
+      Hn        &  Any H                    \\  \hline
+      Nn        &  Any N                    \\  \hline
       Ca        &  Aliphatic C              \\  \hline
       Co        &  Carbonyl C               \\  \hline
       Cr        &  Aromatic C               \\  \hline
@@ -123,26 +122,25 @@ key given in Table \ref{partial_typing_notation}.
 \begin{table}
     \begin{tabular}{ | c | c | }
     \hline
-    NHSQC           &  H -- N                               \\  \hline
-    HNCO            &  H -- N -- Co                         \\  \hline
-    HN(CA)CO        &  H -- N -- [Ca] -- Co                 \\  \hline
-    HNCA            &  H -- N -- Ca                         \\  \hline
-    HNCACB          &  H -- N -- Ca1                        \\  \hline
-    HNCACB          &  H -- N -- [Ca1] -- Ca2               \\  \hline
-    HN(CO)CACB      &  H -- N -- [Co] -- Ca1                \\  \hline
-    HN(CO)CACB      &  H -- N -- [Co] -- [Ca1] -- Ca2       \\  \hline
-    C(CO)NH-Tocsy   &  H -- N -- [Co] -- [Ca]* -- Ca        \\  \hline
-    H(CCO)NH-Tocsy  &  H -- N -- [Co] -- [Ca]+ -- H         \\  \hline
-    HBHA(CO)NH      &  H -- N -- [Co] -- [Ca] -- H          \\  \hline
-    HBHA(CO)NH      &  H -- N -- [Co] -- [Ca] -- [Ca] -- H  \\  \hline
-    HCCH-Tocsy      &  H -- Ca -- [Ca]* -- H                \\  \hline
-    Tocsy-NHSQC     &  H -- N -- [Ca]+ -- H                 \\  \hline
-    hbCBcgcdHD      &  [H] -- Ca -- [Cr]{2} -- H            \\  \hline
-    hbCBcgcdceHE    &  [H] -- Ca -- [Cr]{2,3} -- H          \\  \hline  
-    CHSQC           &  H -- C                               \\  \hline
-    Noesy-NHSQC     &  H <--> H -- N                        \\  \hline
-    Noesy-CHSQC     &  H <--> H -- C                        \\  \hline
-    % TODO what about aromatic NOESY and TOCSY?
+    NHSQC           &  Hn -- Nn                                \\  \hline
+    HNCO            &  Hn -- Nn -- Co                          \\  \hline
+    HN(CA)CO        &  Hn -- Nn -- [Ca] -- Co                  \\  \hline
+    HNCA            &  Hn -- Nn -- Ca                          \\  \hline
+    HNCACB          &  Hn -- Nn -- Ca1                         \\  \hline
+    HNCACB          &  Hn -- Nn -- [Ca1] -- Ca2                \\  \hline
+    HN(CO)CACB      &  Hn -- Nn -- [Co] -- Ca1                 \\  \hline
+    HN(CO)CACB      &  Hn -- Nn -- [Co] -- [Ca1] -- Ca2        \\  \hline
+    C(CO)NH-Tocsy   &  Hn -- Nn -- [Co] -- [Ca]* -- Ca         \\  \hline
+    H(CCO)NH-Tocsy  &  Hn -- Nn -- [Co] -- [Ca]+ -- Hn         \\  \hline
+    HBHA(CO)NH      &  Hn -- Nn -- [Co] -- [Ca] -- Hn          \\  \hline
+    HBHA(CO)NH      &  Hn -- Nn -- [Co] -- [Ca] -- [Ca] -- Hn  \\  \hline
+    HCCH-Tocsy      &  Hn -- Ca -- [Ca]* -- Hn                 \\  \hline
+    Tocsy-NHSQC     &  Hn -- Nn -- [Ca]+ -- Hn                 \\  \hline
+    hbCBcgcdHD      &  [Hn] -- Ca -- [Cr]{2} -- Hn             \\  \hline
+    hbCBcgcdceHE    &  [Hn] -- Ca -- [Cr]{2,3} -- Hn           \\  \hline  
+    CHSQC           &  Hn -- C                                 \\  \hline
+    Noesy-NHSQC     &  Hn <--> Hn -- Nn                        \\  \hline
+    Noesy-CHSQC     &  Hn <--> Hn -- C                         \\  \hline
     \end{tabular}
     \caption{Common pulse sequences and their graph patterns using the key
              given in Table \ref{pulse_sequence_key}.}
@@ -162,8 +160,8 @@ key given in Table \ref{partial_typing_notation}.
   \end{tabular}
   \caption[Notation for partial resonance typings.]
           {Notation for partial resonance typings.
-           In general, each group includes multiple atoms which may be 
-           ambiguous using the pulse sequences employed, depending on the
+           In general, each group includes multiple nuclei which may be 
+           ambiguous depending on the pulse sequences used and the 
            state of the assignment of the full data set.
            For stereospecially ambiguous atoms, the names are formed by
            replacing the number with a * to signify all atoms, and appending
@@ -180,7 +178,7 @@ key given in Table \ref{partial_typing_notation}.
   \caption[The portion of a GSS observable from an HNCACB experiment.]
           {The portion of a GSS observable from an HNCACB experiment.
            The atom names reflect their relationships: Ca11 and Ca21 are
-           disinguishable from Ca12 and Ca22 by a 180-degree phase shift,
+           distinguishable from Ca12 and Ca22 by a 180-degree phase shift,
            while Ca11 and Ca12 form a distinct covalent group from Ca21 and Ca22.}
   \label{generic_hncacb}
 \end{figure}    
@@ -188,7 +186,7 @@ key given in Table \ref{partial_typing_notation}.
 \begin{figure}
   \includegraphics[scale=0.75]{figures/generic_hncacb_ambiguous}
   \caption[An alternative naming scheme which accounts for ambiguity.]
-          {An alterantive naming scheme which accounts for ambiguity for
+          {An alternative naming scheme which accounts for ambiguity for
            GSSs observed through an HNCACB.  Distinct, placeholder names are
            used to indicate the important relationships between resonances:
            the number of bonds distance of the aliphatic Carbons from the
@@ -198,9 +196,9 @@ key given in Table \ref{partial_typing_notation}.
 
 \begin{figure}
   \includegraphics[scale=0.75]{figures/backbone_hncacb_ambiguous}
-  \caption[A backbone GSS observed through an HNCACB.]
-          {A backbone GSS observed through an HNCACB.  Note that initially, 
-           the Ca11/Ca21 and Ca12/Ca22 may be ambiguous.}
+  \caption[A backbone GSS in HNCACB.]
+          {A backbone GSS in HNCACB.  Note that 
+           the Ca11/Ca21 and Ca12/Ca22 pairs may be ambiguous.}
   \label{backbone_hncacb_ambiguous}
 \end{figure}
 
@@ -214,16 +212,18 @@ key given in Table \ref{partial_typing_notation}.
 
 \begin{figure}
   \includegraphics[scale=0.75]{figures/sidechain_q_hncacb}
-  \caption[A GSS observed through an HNCACB, assigned to a Q sidechain.]
-          {A GSS observed through an HNCACB, assigned to a Q sidechain.
-           The resonance typings have been mapped to specific atom names,
-           although the proton assignments remain ambiguous.}
+  \caption[A GSS in an HNCACB, assigned to a Q sidechain.]
+          {A GSS in an HNCACB, assigned to a Q sidechain.
+           The nitrogen and carbon resonances have been unambiguously
+           typed, while the proton resonances are ambiguous.}
   \label{sidechain_q_hncacb}
 \end{figure}
 
 \begin{figure}
   \includegraphics[scale=0.75]{figures/sidechain_r_hncacb}
-  \caption{A sidechain R GSS observed through an HNCACB.}
+  \caption[A sidechain R gss in an HNCACB].
+          {A sidechain R GSS in an HNCACB.  The resonances have not
+           yet been typed.}
   \label{sidechain_r_hncacb}
 \end{figure}
 
