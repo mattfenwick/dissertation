@@ -14,7 +14,7 @@ carbon and nitrogen are plentiful in proteins, and have isotopes of
 spin-1/2, although the NMR-friendly isotopes, \nmrisoc{} and \nmrison{}, 
 are not the most plentiful isotopes.
 Useful biophysical characterization of proteins that may be 
-obtained using NMR includes structural, dynamics, and binding information.
+obtained using NMR includes structure, dynamics, and binding.
 
 \subsection*{Sample preparation}
 
@@ -33,8 +33,8 @@ Finally, the protein is isolated and purified \cite{derome1987modern}.
 \subsection*{Data collection}
 
 Assuming the purified, high-concentration protein sample does not aggregate
-or denature, NMR experiments are run by placing a tube of the sample inside 
-of a spectrometer, running sequences of radio-frequency pulses which selectively
+or denature, NMR experiments are run by inserting a tube of the sample into 
+a spectrometer, running sequences of radio-frequency pulses which selectively
 excite nuclei within the sample, and observing the results.  The data are a 
 superposition of decaying sinusoids of different frequencies and amplitudes;
 the frequencies correspond to the precession at the Larmor frequency
@@ -50,7 +50,7 @@ The second group exploits cross-relaxation between proton pairs that are
 dipole-dipole coupled; these protonsare spatially close but do not have to 
 be covalently bonded, and are thus called "through-space" experiments
 \cite{solomon1955relaxation}.  The data produced by these two experiments are 
-also used in very different ways, as we will see later.
+used differently.
 
 Two important parameters of data collection are the dwell time and the number
 of points collected.  The dwell time determines the range of frequencies that
@@ -59,9 +59,9 @@ can be distinguished.  The number of points collected determines the resolution
 of the number of points, one can also use the acquisition time, which is the
 product of the dwell time and the number of points.
 
-Maximizing sensitivity is also helpful for later data analysis.
-Sensitivity depends not only on the gyromagnetic ratios of nuclei, but also
-on the strength of the external magnetic field due to the magnitude of the
+Maximizing sensitivity is helpful for later data analysis.
+Sensitivity depends on the gyromagnetic ratios of nuclei and 
+the strength of the external magnetic field due to the magnitude of the
 difference between the high- and low-energy states of a spin-1/2 nucleus
 according to the Boltzmann distribution.
 Running an experiment multiple times and summing the results is a 
@@ -69,17 +69,18 @@ means of increasing sensitivity as the signal increases faster
 than the noise, assuming random distribution of the noise
 \cite{ardenkjaer2003increase}.
 
-Referencing is done to ensure that results are comparable from multiple
+Referencing ensures that results are comparable from multiple
 spectrometers.  While the absolute Larmor frequencies of nuclei vary depending
 on the magnetic field of the spectrometer, the normalized values, when compared
-to a known material, of which a small amount is placed in the sample,
-are consistent \cite{wishart19951h}.  These are known as chemical shift values,
-and are reported in parts per million of deviation.
+to a known material are consistent \cite{wishart19951h}.  
+These are known as chemical shift values, and are reported in parts per 
+million of deviation.  A small amount of a known material is placed in the 
+sample to provide referencing.
 
 \subsection*{Spectral processing}
 
 The time-domain experimental data are converted to frequency-domain spectral
-data to facilitate analysis.  A decaying sinusoid in the time-domain becomes
+data.  A decaying sinusoid in the time-domain becomes
 a peak with a finite and non-zero linewidth at the corresponding frequency
 in the frequency-domain.  The Fourier Transform \cite{cooley1965algorithm}
 is a standard method for 
@@ -97,8 +98,8 @@ closeness of resonances frequencies, and experimental quality.  In general,
 larger proteins, which have more atoms than smaller proteins and therefore
 more nuclei as well, have more resonance
 frequencies in close proximity to each other, increasing the probability of 
-overlap.  To increase resolution, it is necessary to collect data points at 
-large time intervals.  Care must be taken to avoid decreasing the sensitivity;
+overlap.  To increase resolution, data points are collected at 
+larger time intervals.  Care must be taken to avoid decreasing the sensitivity;
 non-uniform sampling and Maximum Entropy reconstruction offer one means of so
 doing \cite{rovnyak2004accelerated, hoch1985maximum}.
 
@@ -126,8 +127,7 @@ Peak picking would be if easy if several conditions were met by the spectra:
 \end{itemize}
  
 However, in practice, none of these conditions are met \cite{williamson2009automated}.  
-Thus, it is commonly
-the case that expected signals are missing, some signals are close to the noise
+Thus, expected signals are missing, some signals are close to the noise
 level, some noise appears to be signal, some artifacts appear, signals overlap
 to greater or lesser extents, and some unexpected signals appear, perhaps due
 to contamination or multiple conformations \cite{baran2004automated}.
@@ -151,10 +151,10 @@ nuclei, and others which obtain the chemical shifts of the aliphatic sidechains
 sidechains \cite{hnco, hncacb, cbcaconh, hbhaconh, cconhtocsy}.
 
 Assignment proceeds through two key intermediate data types: generalized spin
-systems (or GSSs) and resonances \cite{bmrb, ccpn}.  
-Resonances are the NMR-visible incarnations
-of nuclei: they resonate at characteristic frequencies across spectra.  GSSs
-are similar to NMR-visible incarnations of amino acid residues, but may span
+systems (GSSs) and resonances \cite{bmrb, ccpn}.  
+Resonances are the NMR incarnations of nuclei: a nucleus resonates at a 
+characteristic frequencies across spectra.  GSSs
+are similar to NMR incarnations of amino acid residues, but may span
 multiple residues and are therefore networks of covalently-bonded resonances
 \cite{abacus_assignment}.
 
@@ -186,7 +186,7 @@ can be used to identify a sequential connection between the two GSSs based on
 backbone amide groups.  Once a sufficiently long chain is built using these
 sequential connections and the (possibly incomplete) GSS typings, the chains 
 may be assigned to specific residues in the protein sequence.  Combined with
-resonance typing, this is sufficient to obtain chemical shift assignments
+resonance typing, chemical shift assignments may be obtained
 \cite{hnco, hncacb, cbcaconh}.
 
 However, chemical shift assignment is complicated by missing, overlapped, and
@@ -222,8 +222,8 @@ However, NOESY data are heavily ambiguous, because there are typically several
 resonances with chemical shift values close enough to match a single NOESY
 peak cross-section.  There are several strategies for mitigating this problem.
 One is to collect 3D or 4D NOESY experiments, in which the additional dimensions
-correlate covalently-bonded \nmrisoc{} or \nmrison{} nuclei to the protons involved 
-in the NOE interaction \cite{majumdar1993improved}.  
+correlate covalently-bonded \nmrisoc{} or \nmrison{} nuclei to the protons 
+involved in the NOE interaction \cite{majumdar1993improved}.  
 This approach greatly reduces the ambiguity.  Furthermore,
 characteristic peak patterns are expected, such as intra-residue NOESYs between
 protons of that residue, as well as NOESY peaks between protons of sequential
@@ -267,8 +267,8 @@ The BMRB is the main repository for information derived using NMR spectroscopy.
 A BMRB deposition may be prepared that includes chemical shift assignments,
 peaks, peak assignments, binary spectral and time-domain data, sample 
 preparation protocol, and various other relevant data.  The PDB is the main 
-repository for structural data.  It is possible and useful to link a BMRB
-deposition to a PDB deposition \cite{bmrb, pdb}.
+repository for structural data.  BMRB depositions may be linked to PDB
+depositions \cite{bmrb, pdb}.
 
 
 
