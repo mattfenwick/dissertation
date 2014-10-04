@@ -33,7 +33,6 @@ chemical shifts, and understanding biological processes.
 
 
 
-
 \section{Scientific Methods and Reproducibility}
 The term "science" can refer to both the enterprise of knowledge acquisition 
 through empirical means, and the body of knowledge acquired through such means 
@@ -58,8 +57,8 @@ scientific method".  These techniques share many characteristics, most notably:
 
 Reproducible research is the combination
 of a scientific result, along with the data, experiments, and analyses used 
-to obtain that result, in sufficient detail such that an indepdendent researcher
-could, in principle, perform the same produce and reach the same result.
+to obtain that result, in sufficient detail such that an independent researcher
+could, in principle, perform the same procedure and reach the same result.
 
 Two example orderings of these basic steps are shown in 
 Figure \ref{scientific_method_pipeline}, in which a rigid structure is
@@ -120,7 +119,7 @@ reproducible.  These include:
   By the early 1990's, researchers began defining reproducible 
   computational analysis \cite{donoho_wavelab}, and describing strategies for 
   achieving it.  A key point is that all tools, scripts, platforms and code 
-  available, including the exact versions used
+  are available, including the exact versions used
    \cite{ince2012open, nekrutenko2012next, blankenberg2014dissemination}.
   In addition, all parameterizations \cite{landis2012call}, as well
   as input and output data should be recorded.
@@ -151,11 +150,11 @@ by a study, whether by extending the experimental design and data collection,
 applying the experiment in a different context, or applying additional analyses 
 to existing data.  Third, reproducibility promotes collaboration between fellow 
 scientists by enabling sharing of data \cite{rung2013reuse}, 
-information, knowledge and experimental 
-designs.  Fourth, reproducibility reduces time wastage due to inability to 
-replicate results 
+information, knowledge and experimental designs.  Fourth, reproducibility 
+reduces time wastage due to inability to replicate results 
 \cite{ioannidis2005most, mullard2011reliability, prinz2011reproducibility,
 begley2012drug}. 
+
 
 
 \section{Irreproducibility of computational and manual analysis in NMR}
@@ -168,12 +167,12 @@ results to back-predict intermediate data, also provide consistency checks
 which are useful for evaluating reproducibility.  The AQUA 
 \cite{laskowski1996aqua} program was also used to evaluate structure quality 
 across the entire BMRB \cite{doreleijers1998quality}.  The BMRB's efforts to 
-model, archives, and disseminate NMR-obtained data and results are critical 
+model, archive, and disseminate NMR-obtained data and results are critical 
 to efficient sharing of techniques and results between NMR spectroscopists.
 Projects such as RECOORD \cite{nederveen2005recoord} have produced interesting
 results, recalculating the structures of 500 deposited proteins using new 
 techniques and data, and getting improved results, although the specific
-reasons of why the final results are better is not clear.
+reasons for why the final results are better are not yet clear.
 
 However, computational results are often irreproducible due to missing code and 
 data; additionally, strategies for computational reproducibility covering all 
@@ -182,7 +181,7 @@ uses of computation are not yet in place despite efforts such as
 Sequential, deductive processes pose different challenges for reproducibility,
 as strategies for efficiently capturing the full set of information in a 
 meaningful and easy-to-understand way continue to be elusive.  Integration
-of manual analysis with computational analysis poses further unsolved
+of manual analysis with computational analysis poses further
 challenges for reproducibility.
 
 Thus, this work will focus on the irreproducibility of computational and manual
@@ -190,9 +189,9 @@ analysis in the field of NMR protein structure determination.
 The context of NMR will be explored from a data-centric standpoint, as well as
 the process of analysis and its interaction with the data.
 This will be used to demonstrate that NMR data analysis, both computational
-and manual, is not reproducible
-because of several broad categories of data which are not explicitly 
-recorded during the analysis process and are lost.
+and manual, is not reproducible because of several broad categories of data 
+which are not explicitly recorded during the analysis process and are lost.
+
 
 
 \section{The significance of reproducibility to NMR}
@@ -205,7 +204,7 @@ assignments, etc.) effectively between scientists, as well as preventing close
 collaborations during data analysis and leading to time wastage as 
 irreproducible results are discovered and following up on them is found to be 
 impossible.  In addition, irreproducibility renders error detection and 
-correcting difficult, because the data that would show when, why, and how an 
+correction difficult, because the data that would show when, why, and how an 
 error occurred would be lost.  It also causes the teaching of analysis methods 
 to students and other newcomers to be difficult due to implicit, missing data; 
 by capturing and making explicit these data, a more complete picture of the 
@@ -217,6 +216,7 @@ reproducibility of NMR spectral analysis and structure determination will lead
 to better quality results.
 
 
+
 \section{An Approach for Reproducible Analysis}
 One possible approach for rendering analysis reproducible will be discussed.
 The limitations of current practices in capturing insufficient data are 
@@ -225,6 +225,7 @@ Then, a general strategy for using the data model is described.
 Additionally, this section will discuss how to effectively put this strategy 
 into practice, covering common roadblocks and problems as well as tips and 
 suggestions.
+
 
 
 \section{Reproducible NMR Data Set}
@@ -238,16 +239,17 @@ and structure calculation.  Intermediate snapshots were captured and
 appropriately annotated.  This data set has been deposited to the BMRB
 with id 25258.
 
-The data model used was based on the those of the Collaborative Computing 
+The data model used was based on those of the Collaborative Computing 
 Project for NMR (CCPN) \cite{ccpn} and of the BMRB \cite{bmrb}, with several 
 extensions as previously noted to enable reproducibility.  A library of NMR 
-phenomena and their use as deductive inferences rules was constructed.  
+phenomena and their use as deductive inference rules was constructed.  
 These rules were applied for snapshot annotation.
 
 Whereas a single implementation of the previously described strategy is 
 here described, in principle the approach is platform-agnostic and 
 therefore could be implemented and used by other research groups, or added 
 into an existing tool as an extension.
+
 
 
 \section{Software for Practical Reproducibility}
@@ -261,19 +263,17 @@ reproducibility of NMR analysis in various ways.
 First, a Sparky reproducibility extension has been developed.  This extension
 facilitates reproducible data capture during the spectral analysis stage. Sparky 
 \cite{sparky} is a popular tool for analysis of NMR data.  A major 
-strength of Sparky is its extensibility through user-defined Python modules.  
-While its core is written in C++ and is not extensible, a Python module can 
-be added without changing the C++ core.  This extension allows
+strength of Sparky is its extensibility through user-defined Python modules,
+which can be added without recompiling the program.  This extension allows
 simple data snapshotting, annotation, and capture of extraneous results,
 without disrupting the standard Sparky user experience.  The increase in
 workload is minimal due to Sparky's keyboard accelerators.
 
-Second, a library for reading and writing of 
-NMR Self-defining Text Archival and Retrieval (NMR-STAR)
-files was implemented \cite{fenwick2013}.  
+Second, a library for reading and writing of NMR Self-defining Text Archival 
+and Retrieval (NMR-STAR) files was implemented \cite{fenwick2013}.  
 NMR-STAR is the standard format used by the BMRB for the deposition and 
 archival of NMR data \cite{hall1991star, hall1994star, hall1995star}.
-By storing ongoing data analysis in NMR-STAR files, 
+By storing data analysis in NMR-STAR files, 
 users gain the benefits of data integration with the BMRB -- analysis results 
 can be uploaded and thereby shared with fellow researchers.  The approach 
 taken in implementing and using this parser represents a radical departure 
@@ -281,9 +281,9 @@ from standard NMR software techniques; the approach ensures that the
 software will remain easily usable and maintainable as NMR data expands 
 and matures.
 
-Third, two tools for working with time- and frequency-domain data:  
-CONNJUR Spectrum Translator (ST) and CONNJUR Workflow Builder (WB)
-\cite{connjur-wb, connjur-st}.  ST 
+Third, two tools for working with time- and frequency-domain data are 
+presented:  CONNJUR Spectrum Translator (ST) and CONNJUR Workflow Builder (WB)
+\cite{connjur-st, connjur-wb}.  ST 
 translates between various formats of time- and frequency-domain spectra; 
 such a tool is necessary because of the input and output requirements of 
 many spectral processing tools.  WB provides a high-level interface to 
@@ -298,13 +298,14 @@ data which are non-uniformly sampled in the indirect dimension(s).  Non-uniform
 sampling can help decrease the amount of data collection time required, and 
 also help in avoiding the penalties imposed by the necessity of sampling past 
 the Rovnyak limit \cite{rovnyak2004accelerated}, which is 1.3 times the 
-transverse relaxation rate, \textit{R}\textsubscript{2}.  This project includes
-a novel data model of sample schedules which covering non-uniformity not 
+transverse relaxation rate, \textit{R}\textsubscript{2}.
+A novel data model of sample schedules covering non-uniformity not 
 only in the time dimensions but also in the number of transients per 
-Free Induction Decay (FID) and the quadrature, a collection of common 
-algorithms, gathered from descriptions in the literature and implemented,
-and facilitated easy reproducibility of sample schedule creation by capturing
-the parameterization.
+Free Induction Decay (FID) and the quadrature was implemented.
+Several common algorithms were gathered from descriptions in the literature and 
+implemented.  This project facilitates reproducibility of sample schedule 
+creation by capturing the parameterization.
+
 
 
 \section{CONNJUR is Free and Open Source}
@@ -314,8 +315,8 @@ movement first became popular as a means for users to get control and legal
 rights over software that they had purchased.  This level of ownership is 
 important because it enables users to freely and perpetually use, share, 
 inspect, fix, maintain, and improve their software.  Such considerations 
-become important in view of the rapid changes that scientific fields -- 
-including NMR -- undergo: new datatypes, analyses, statistical measures, 
+become important in view of the rapid changes that scientific fields, 
+including NMR, undergo: new datatypes, analyses, statistical measures, 
 and protocols are developed, requiring updates to old software or entirely 
 new software to be written from scratch.  Open source software provides 
 additional value in the context of reproducibility: in order to replicate a
@@ -323,7 +324,7 @@ study, one must have access to the exact same computational tools that the
 original study used \cite{ince2012open}.  
 This involves both physical access -- in the sense of 
 being able to get a program loaded onto a computer -- as well as licensing 
-issues: does the second group have the rights to use the software in the 
+issues: whether the second group has the right to use the software in the 
 exact same way as in the original study.
 
 Our belief is that open source software can help mitigate these and other 
