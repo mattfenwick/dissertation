@@ -136,7 +136,7 @@ all -- low-intensity spectral features have been identified as peaks.
 
 Given these inherent issues, a general strategy for peak picking is 
 described in \cite{autopsy, picky} and summarized here.
-First, the noise level is estimated and points below the noise are discarded.
+First, the noise level is estimated and points below it are discarded.
 Next, of the remaining spectral regions, isolated areas are picked as peaks.
 Finally, overlap is resolved by lineshape matching, the peaks are picked
 and their attributes measured.  An optional additional step is filtering
@@ -159,10 +159,9 @@ characteristics of the molecule including \mattfttwo{} (which has an
 effect on peak width) and number of nuclei -- more nuclei give rise to
 more peaks, and therefore a higher chance of overlap.
 
-Since none of these approaches yields perfect 
-results \cite{guerry2011automated}, manual intervention during peak picking 
-is important for obtaining results of sufficiently high quality
-\cite{guntert2009automated}; many peak picking 
+Since none of these approaches yields perfect results \cite{guerry2011automated}, 
+manual intervention during peak picking is important for obtaining results of 
+sufficiently high quality \cite{guntert2009automated}; many peak picking 
 programs allow and encourage semi-automated interaction in order to clear 
 up troublesome spectral features.  
 Manual intervention is often accomplished based on knowledge outside of the 
@@ -239,7 +238,7 @@ identified as members of the same GSS.
 
 \subsection*{Resonance typing}
 Before assigning a resonance to a specific 
-nuclei, the type of a resonance may be assigned.  In an HNCO experiment, 
+nucleus, the type of a resonance may be assigned.  In an HNCO experiment, 
 this is typically straightforward, because for each backbone spin system, 
 the H dimension always corresponds to the backbone H, the N dimension always 
 corresponds to the backbone N, and the C dimension always corresponds to the 
@@ -287,7 +286,7 @@ Sequential GSS assignments exploit the previously mentioned overlap of pulse
 sequences such as the HNCACB and HN(CA)CO.  Sequential GSSs 
 are expected to have CA/CA(i-1), CB/CB(i-1), and CO/CO(i-1) resonances at 
 identical chemical shifts.  This duplication enables sequential assignment 
-of GSSs.  Note that there is substantial interaction between nucleus-resonance 
+of GSSs.  There is substantial interaction between nucleus-resonance 
 assignment and sequential GSS assignment: assigning two GSSs sequentially 
 implies the CB vs CB(i-1), CA vs CA(i-1), and C vs C(i-1) type assignments 
 of the resonances in both GSSs; knowing the resonance typings of 
@@ -319,7 +318,7 @@ based on matching of resonance typing.  When a typical GSS is assigned to a resi
 the H, N, C, C(i-1), CA, CA(i-1), CB, and CB(i-1) nuclei will be assigned 
 resonances as well.  Sequence-specific assignment interacts heavily with 
 sequential GSS assignment, because the protein sequence must be compatible 
-with the GSS sequence, where `compatible' means that the amino acid types 
+with the GSS sequence, where 'compatible' means that the amino acid types 
 of the GSS match those of the protein sequence.  Note that full assignment 
 of amino acid type to GSS is not a prerequisite for GSS-residue assignment; 
 in fact, GSS-residue assignment may lead to GSS-amino acid type assignment 
@@ -391,17 +390,16 @@ is calculated and refined.
 NOESY peaks provide structural restraints if it can be 
 determined which protons gave rise to the peak.  Analysis of NOESY spectra 
 therefore requires chemical shift assignments of nuclei to 
-determine the protons involved in a peak.  
-NOESY spectra are  processed and peak picked, similarly to through-bond 
-spectra, and resonance assignments of peaks made.  
-Considerations used to analyze 
+determine the protons involved in a peak.  NOESY spectra are processed and 
+peak picked, similarly to through-bond spectra, and resonance assignments of 
+peaks made.  Considerations used to analyze 
 NOESY spectra include: symmetry -- a peak is expected to correspond to a 
-matching peak with the frequencies of the two 1H dimensions swapped; patterns 
+matching peak with the frequencies of the two \nmrisoh{} dimensions swapped; patterns 
 based on known proximity of nuclei from the primary sequence giving rise to 
 many short-distance NOE peaks; and network anchoring.  Complications include 
 overlap caused by degenerate chemical shifts of protons, leading to 
 ambiguous interpretations of peak assignments; this can be greatly mitigated 
-by the use of an extra dimension:  15N- or 13C-edited NOESY spectra reduce 
+by the use of an extra dimension:  \nmrison{}- or \nmrisoc{}-edited NOESY spectra reduce 
 the ambiguity, as well as incorrect or incomplete chemical shift assignments.
 
 NOESY assignment may be done automatically by programs such as CYANA and 
@@ -463,8 +461,8 @@ Major components of the force fields are contributed by atomic bonds,
 electron orbitals, bond torsions, van der Waals interactions, and electrostatics.
 XPLOR-NIH \cite{xplor-nih} is a
 powerful structural calculation and refinement program that is capable of
-incorporating torsion angle restraints, j coupling restraints, isotope 
-effects, 13C secondary shifts, proton chemical shift restraints, RDCS, and NOEs.
+incorporating torsion angle restraints, J coupling restraints, isotope 
+effects, \nmrisoc{} secondary shifts, proton chemical shift restraints, RDCS, and NOEs.
 These data are modeled by means of a set of energy terms which the program
 attempts to minimize.  XPLOR-NIH is also capable of modeling explicit 
 solvent molecules in order to determine their effect on the structure, 
