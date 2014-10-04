@@ -255,11 +255,9 @@ and consistency.
 
 
 \subsection*{Notes: incompletions, uncertainties, ambiguities}
-During the course of data analysis, it is often the case that odd, ambiguous,
-abnormal, or otherwise unexpected situations noticed during analysis
-\cite{nuseibeh2000inconsistency}.  
-As notes indicate the deficiencies and 
-potential problems present in a data set, they are valuable to future 
+Odd, ambiguous, abnormal, or otherwise unexpected situations occur during 
+analysis \cite{nuseibeh2000inconsistency}.  As notes indicate the deficiencies 
+and potential problems present in a data set, they are valuable to future 
 scientists as they highlight a data set's flaws and how it can be improved.
 
 Due to the difficulties inherent in data analysis, situations are reached
@@ -274,21 +272,20 @@ in which the interpretation of a specific feature is problematic:
     deduction would leave it in an inconsistent state.
 \end{itemize}
 A simple example is non-stereospecific sidechain proton assignments: 
-a residue such as a Histidine or Lysine which has two beta protons will 
+a residue such as a histidine or lysine which has two beta protons will 
 often give rise to two resonances, one for each beta proton; however, 
 without additional information, it is impossible to assign a resonance to
-a specific nucleus.  A related example is caused by the two delta and epsilon
-protons in Phenylalanine and Tyrosine aromatic sidechains; the two resonances,
+a specific nucleus.  A related example is the two delta and epsilon
+protons in phenylalanine and tyrosine aromatic sidechains; the two resonances,
 even if distinguishable, can not be uniquely assigned to nuclei.  In both
 cases, the ambiguity is resolvable through the use of additional information;
 however, before that additional information is provided, it is useful to be
 able to store what is known -- that there are two peaks, each of which 
-corresonds to one nuclei, but exactly which is unsure -- as an indication to
-future analysis or perusal that a problem has been identified but not yet
-solved.
+corresponds to one nuclei, but exactly which is unsure -- as an indication to
+future analysis that a problem has been identified but not yet solved.
 
 Correctly identifying and characterizing peaks in the presence of significant
-amounts of overlap is a notoriously difficult problem \cite{guerry2011automated}.
+amounts of overlap is difficult \cite{guerry2011automated}.
 The number, position, and intensity of peaks become distorted by the overlap.
 In such a case, it may not initially be possible to fully and correctly
 resolve the overlap (although later information from additional spectra, such
@@ -312,13 +309,12 @@ information may be used as inputs and outputs for computational tools, or
 it may be archived and available for reference use.  Data models are useful
 because they provide a formal specification of the structure, which enables
 unambiguous, correct, and automated use of data.  Data models are
-abstract specifications; they must be implemented in source code in order
-to become a usable artifact.
+abstract specifications; concrete implementations are used in programs
 
 This section will cover a data model for reproducibility.  Once a data
 model exists, it can be implemented as part of a software program that
-facilitates reproducible data analysis, as will be covered in a later 
-chapter.  The core of this data model is formed by the BMRB \cite{bmrb}
+facilitates reproducible data analysis.
+The core of this data model is formed by the BMRB \cite{bmrb}
 and CCPN \cite{ccpn} data models.  These models are then extended with
 several additional data types and properties in order to enable 
 reproducibility.
@@ -333,8 +329,8 @@ commonly used deductive reasons.  Modeling the rules as an enumerated library
 enables quick and easy use.  During analysis, one or more rules are applied to 
 make a deduction.  This is shown in Figure \ref{deduction_model}.
 
-Using a rule-based system is based upon prior work in computational fields
-\cite{buchanan1984rule, reiter1987theory}, with systems that have been used for 
+Rule-based systems have previously been applied in computational fields
+\cite{buchanan1984rule, reiter1987theory}, including
 medical diagnostic, industrial fault detection, and e-mail spam filtering.
 Important characteristics include the system's ability to support and describe
 probabilistic reasoning, learning and tutoring, future extensions, explanations
@@ -345,42 +341,35 @@ hnco, cbcaconh, hbhaconh, picky, xeasy, sparky, ccpn}.
 It is presented in Appendix \ref{sec_library}.
 
 
-
 \subsection*{Intermediate results}
 The general outline of the solution is a model of the process of data analysis,
 consisting of a sequence of snapshots of the data set, taken at carefully chosen 
 moments during analysis, which show the full process of analysis by capturing
-all changes.  Each snapshot -- other than the first -- contains a link to
+all changes.  Each snapshot after the first contains a link to
 the previous snapshot, as well as a set of data differences.  The differences
-between snapshots provide the key value of this solution: they explicitly
-show how the data set is changed over time.
+between snapshots explicitly show how the analysis changes over time.
 Associated with each snapshot is a small amount of meta data to help describe
-the snapshot, including a timestamp, author information, and a deductive
-annotation, which describes the "why" of the changes and will be covered in
-the next section.
+it, including a timestamp, author information, and a deductive annotation.
 
-The core of the strategy is based on that used by Version Control System (VCS) 
-software tools \cite{vcs_concepts, hinsen2009vcs}, which are commonly 
-applied for managing source code of 
-software projects \cite{loeliger2012git, cvs, svn}.
+The strategy is based on that used by Version Control System (VCS) software 
+tools \cite{vcs_concepts, hinsen2009vcs}, which are commonly applied for 
+managing source code of software projects \cite{loeliger2012git, cvs, svn}.
 These tools were originally implemented in order to manage the change in 
 source code over time, while retaining the ability to easily inspect past 
 states of the code.  It was found that application of such tools led to 
 large increases in productivity, robustness, correctness, and reduced 
 faults \cite{fischer2003vcs}.
 
-While the general solution is adapted from version control software, in order
-to effectively capture intermediate NMR data sets, such that the process of
-analysis is clear and understandable, the solution must be augmented to fit
-the specific needs of the NMR domain.
-In other words, capturing meaningful intermediate snapshots is challenging; it 
+The goal is to effectively capture intermediate NMR data sets, such that the 
+process of analysis is clear and understandable.
+Capturing meaningful intermediate snapshots is challenging; it 
 is not sufficient to capture them indiscriminately.  If snapshots are captured 
 too infrequently, the situtation is not significantly different from current 
 practices: the analysis process will not be reproducible.  If too many snapshots
 are captured, reconstructing the logical dependencies will not be possible;
 in addition, the valuable information may be difficult to identify compared to
 the large amounts of useless information.  A third potential problem is 
-collecting snapshots indiscriminately -- i.e. not in a manner that corresponds
+collecting snapshots indiscriminately, such that they do not correspond
 to the actual process employed.  This, too, prevents later use of the 
 intermediate data because the process has not been correctly captured.
 
@@ -420,23 +409,14 @@ that they are useful for future perusal:
     sets.
 \end{itemize}
 
-The primary goal of capturing intermediate data sets is to 
+The goal of capturing intermediate data sets is to 
 facilitate reproducibility by modeling and saving the process of analysis.  
 A system which does so by capturing a sequence of snapshots of the data set 
 at intermediate timepoints meets the requirements for reproducibility.
 First, such a system is able to correctly recapitulate the changes over time
-due to manual and automated analysis.  For example,
-if an automated peak picker were used on a spectrum, and then the results
-manually verified and corrected, if snapshots were taken at the appropriate
-moments, the sequence of snapshots would show both the complete results of
-the automated tool, as well as every manual change made.
-% TODO should I say more here?
+due to manual and automated analysis.
 Second, by capturing the full context of each modification, the logical and 
 temporal dependencies between various features of the data set are trackable.
-% TODO what? the following doesn't make much sense
-Additionally, capturing multiple intermediates allows rich comparisons to be made 
-between snapshots.  These comparisons, combined with the deductive annotations,
-indicate the changes made with each specific deductive reason. 
 
 
 \subsection*{Extraneous results}
@@ -452,18 +432,16 @@ assignment of true peaks and GSSs.
 
 To model extraneous results, the BMRB and CCPN models \cite{bmrb, ccpn}
 were extended to support additional fields which distinguished between 
-extraneous and primary data.
-This applies to peaks, resonances, and GSSs.
-The general approach for using this model is to never directly delete
-a peak, resonance, or GSS, but rather to mark it as extraneous by modifying
-its associated category from 'signal' to 'artifact', 'noise', 'contaminant'
-etc.
+extraneous and primary data.  This applies to peaks, resonances, and GSSs.
+When using this model, one never directly deletes a peak, resonance, or GSS, 
+but rather must mark it as extraneous by modifying its associated category 
+from 'signal' to 'artifact', 'noise', or 'contaminant'.
 
-For example, while using an interactive spectral analysis such as Sparky or
+For example, while using an interactive spectral analysis tool such as Sparky or
 CCPN Analysis \cite{sparky, ccpn} for peak picking a spectrum, it is common
 to run the automated, built-in peak picker and then to manually correct the
-results by deleting some peaks and adding new ones.  This approach works
-differently; peaks are not deleted.  If the category of each of the
+results by deleting some peaks and adding new ones.  The reproducible approach 
+works differently; peaks are not deleted.  If the category of each of the
 peaks initially picked by the automated tool is 'signal', then the
 user must correct all of the categories for peaks 
 determined to be signal or noise; note that these peaks are not deleted
@@ -481,7 +459,6 @@ useful information.  They also can confound analysis if they are not properly
 recognized as sidechain peaks.  Lastly, their presence is surprising to 
 newcomers to the analysis process, as they are typically not explicitly 
 recognized as part of the standard experiments.
-
 
 
 \subsection*{Notes}
@@ -519,12 +496,7 @@ of a contradiction.
 
 \section{An implementation of the model}
 A software implementation of this model was created as an extension to the
-popular assignment program Sparky \cite{sparky}.  Sparky natively provides
-facilities for spectral viewing, peak picking, spectral analysis and 
-resonance assignment; the extension augments the native features with 
-features which facilitate reproducibility: easy capturing of snapshots,
-easy snapshot annotation with deductive reasoning, and easy capturing and
-identification of extraneous peaks and GSSs.
+popular assignment program Sparky \cite{sparky}.
 The design, implementation, and use of this program is covered in 
 detail in Section \ref{sec_sparky_extension}.
 
@@ -537,8 +509,8 @@ as covering common problems and how they can be avoided.
 
 \begin{itemize}
   \item one snapshot, one focus.  Keeping each snapshot focused on dealing
-    with a single issue helps the process of analysis to remain understandable
-    to later perusers.  This is because it makes the logical dependencies 
+    with a single issue helps the process of analysis to remain understandable.
+    This is because it makes the logical dependencies 
     more obvious; when a single snapshot contains many unrelated things, or
     is extensive enough that part of the snapshot depends on other parts, then
     it is no longer clear what the logical relationships are.  Keeping snapshots
@@ -549,17 +521,17 @@ as covering common problems and how they can be avoided.
     Rather, the value of this reproducible approach is to clearly indicate 
     major issues and modifications.  The more important and the more time and
     brain power went into making a deduction, the more annotation it typically
-    deserves -- in other words, a complicated deduction requires a complicated
+    deserves.  In other words, a complicated deduction requires a complicated
     justification.  On the other hand, if multiple peaks are quickly and
     straightforwardly identified as artifactual with a minimum of effort, 
-    only a bare minimum of annotation is needed; the deduction does not become
+    a small annotation is needed; the deduction does not become
     clearer with additional annotation.
   \item apply the correct rule(s).
   \item record uncertainty and resolution.  When in doubt or difficulty 
     during analysis, record all information pertaining to the issues, whether
     as a note or extraneous data.  Even if the problem is easily or quickly
     solved, describing it creates a record of that problem which is valuable
-    for later perusal.  Trends over such a record help to indicate more 
+    for later inspection.  Trends over such a record help to indicate more 
     large-scale problems, as well as illuminating troublesome spots for
     collaborators and learners.
 \end{itemize}
@@ -567,7 +539,7 @@ as covering common problems and how they can be avoided.
 
 
 \section{Future directions}
-The deductive library is not complete -- it does not include deductions for
+The deductive library is not complete as it does not include deductions for
 every single possible analysis or interpretation which may be performed on
 NMR data.  Examples include residual dipolar couplings, hydrogen bonds,
 and pseudocontact shift restraints.  However, the library is extensible: it
