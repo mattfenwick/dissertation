@@ -148,11 +148,11 @@ Now start Sparky and take care of tedious initial project setup.  This includes:
   \item setting the visible depth
   \item getting the axes in the correct order ("xx" and "xr")
   \item setting the aspect of each spectrum appropriately ("yt")
-  \item syncing axes of identical nuclei.  For example, the 1H axes of
+  \item syncing axes of identical nuclei.  For example, the \nmrisoh{} axes of
     an NHSQC, HNCACB, HN(CO)CACB, HNCO, and C(CO)NH-TOCSY should be synced; 
-    similarly, all their 15N axes should be synced as well.  However, the
-    13C axis of an HNCACB and an HNCO should not be synced, although the
-    13C axis of an HNCACB and a C(CO)NH-TOCSY should by synced
+    similarly, all their \nmrison{} axes should be synced as well.  However, the
+    \nmrisoc{} axis of an HNCACB and an HNCO should not be synced, although the
+    \nmrisoc{} axis of an HNCACB and a C(CO)NH-TOCSY should by synced
 \end{itemize}
 Now it is time to take a snapshot of this configuration.
 
@@ -226,8 +226,8 @@ at the bottom of the reproducibility window.
 Now set up the parameters by choosing the spectra from which peaks will
 be used as GSS roots (typically the NHSQC) and that which has the peaks to
 be assigned.  Make sure the desired dimensions are matched and set the 
-tolerances appropriately; I typically use 0.2 PPM for a 15N axis and 0.02 PPM
-for a 1H axis but this can vary based on the alignment between spectra.
+tolerances appropriately; I typically use 0.2 PPM for a \nmrison{} axis and 0.02 PPM
+for a \nmrisoh{} axis but this can vary based on the alignment between spectra.
 Finally, select all the peaks in the "from" spectrum that should be used;
 you can select all signal peaks using the "select signal peaks" drop-down.
 
