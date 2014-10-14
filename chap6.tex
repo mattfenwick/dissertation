@@ -382,33 +382,6 @@ reproducibility.
 \section{Tables}
 
 \begin{table}[h]
-    \begin{tabular}{ | c || c | c | c | c | c |}
-    \hline
-      Name              &  Dim 1        &  Dim 2        &  Dim 3        &  Is NOESY?    \\    \hline
-      NHSQC             &  H            &  N            &               &  No           \\    \hline
-      HNCO              &  H            &  N            &  C            &  No           \\    \hline
-      HNCACB            &  H            &  N            &  C            &  No           \\    \hline
-      C(CO)NH-TOCSY     &  H            &  N            &  C            &  No           \\    \hline
-      HBHA(CO)NH        &  H            &  N            &  H            &  No           \\    \hline
-      HC(CO)NH-TOCSY    &  H            &  N            &  H            &  No           \\    \hline
-      HCCH-TOCSY        &  H            &  C            &  H            &  No           \\    \hline
-      hbCBcgcdHD        &  H            &  C            &               &  No           \\    \hline
-      hbCBcgcdceHE      &  H            &  C            &               &  No           \\    \hline
-      NOESY-NHSQC       &  H            &  N            &  H            &  Yes          \\    \hline
-NOESY-CHSQC (D\textsubscript{2}O) & H   &  C            &  H            &  Yes          \\    \hline
-      Aromatic NOESY    &  H            &  H            &               &  Yes          \\    \hline
- Aromatic GNOESY-CHSQC  &  H            &  C            &  H            &  Yes          \\    \hline
-    \end{tabular}
-    \caption[Spectra used in Samp3 analysis.]
-            {Spectra used in Samp3 analysis.  The first four spectra were used
-             for sequential assignment, the next three for aliphatic sidechain
-             assignment, the next two for connecting aromatic sidechain protons
-             to the aliphatic backbone, and the last four (all NOESYs) for
-             obtaining distance restraints.}
-    \label{samp3_spectra}
-\end{table}
-
-\begin{table}
     \begin{tabular}{ | c || c | c || c| }
       \hline
                     &  Not signal   &  Signal   &  Total    \\  \hline \hline
@@ -447,6 +420,33 @@ NOESY-CHSQC (D\textsubscript{2}O) & H   &  C            &  H            &  Yes  
              produces two signals.  Only three were observed; the sidechains
              of R4, R26, R61, and R79 were not observed.}
     \label{nhsqc_signals}
+\end{table}
+
+\begin{table}
+    \begin{tabular}{ | c || c | c | c | c | c |}
+    \hline
+      Name              &  Dim 1        &  Dim 2        &  Dim 3        &  Is NOESY?    \\    \hline
+      NHSQC             &  H            &  N            &               &  No           \\    \hline
+      HNCO              &  H            &  N            &  C            &  No           \\    \hline
+      HNCACB            &  H            &  N            &  C            &  No           \\    \hline
+      C(CO)NH-TOCSY     &  H            &  N            &  C            &  No           \\    \hline
+      HBHA(CO)NH        &  H            &  N            &  H            &  No           \\    \hline
+      HC(CO)NH-TOCSY    &  H            &  N            &  H            &  No           \\    \hline
+      HCCH-TOCSY        &  H            &  C            &  H            &  No           \\    \hline
+      hbCBcgcdHD        &  H            &  C            &               &  No           \\    \hline
+      hbCBcgcdceHE      &  H            &  C            &               &  No           \\    \hline
+      NOESY-NHSQC       &  H            &  N            &  H            &  Yes          \\    \hline
+NOESY-CHSQC (D\textsubscript{2}O) & H   &  C            &  H            &  Yes          \\    \hline
+      Aromatic NOESY    &  H            &  H            &               &  Yes          \\    \hline
+ Aromatic GNOESY-CHSQC  &  H            &  C            &  H            &  Yes          \\    \hline
+    \end{tabular}
+    \caption[Spectra used in Samp3 analysis.]
+            {Spectra used in Samp3 analysis.  The first four spectra were used
+             for sequential assignment, the next three for aliphatic sidechain
+             assignment, the next two for connecting aromatic sidechain protons
+             to the aliphatic backbone, and the last four (all NOESYs) for
+             obtaining distance restraints.}
+    \label{samp3_spectra}
 \end{table}
 
 \begin{table}
