@@ -534,6 +534,7 @@ sacrifice one for the other \cite{autoassign2001, pine}.
 
 \section{Conclusions}
 
+\begin{sloppypar}
 The massive amount of data involved in a structure determination process --
 often on the order of gigabytes -- necessitates the use of computational
 tools for data management as well as efficiency of analysis.  To address
@@ -557,6 +558,7 @@ researcher to re-evaluate or re-perform an earlier stage \cite{cyana2004};
 this has been applied to interpretation of NOE-derived 
 restraints \cite{aria2003}.  Altogether, the structure determination 
 process can often take several months \cite{guerry2011automated}.
+\end{sloppypar}
 
 In general, while computational tools are able to deliver results relatively 
 quickly compared to manual analysis, they may not be able to produce more 
@@ -599,16 +601,17 @@ prevents reproducibility.
 \begin{table}[h]
     \begin{tabular}{ | c || c | c | c | c | c |}
     \hline
-      Data                                      &  Example              &  Reverse example   \\  \hline
-      FID -> spectrum                           &  Frequency-domain     &  NMRPipe, RNMRTK   \\  \hline
-      Spectrum -> peaks                         &  Sparky peak picker   &                    \\  \hline
-      Peaks -> GSSs                             &                       &                    \\  \hline
-      Sequence -> chemical shifts               &                       &  ShiftY            \\  \hline
-      Chemical shifts -> secondary structure    &  TALOS+               &                    \\  \hline
-      Chemical shifts -> tertiary structure     &  CS-ROSETTA, CHESHIRE &  SPARTA+, ShiftX   \\  \hline
-      Chemical shifts -> NOESY assignments      &  CYANA                &                    \\  \hline
-      NOESY assignments -> structure            &  CYANA                &                    \\  \hline
-      NOEs, shifts, j-couplings -> structure    &  XPLOR-NIH            &                    \\  \hline
+      Data                                      &  Example              \\  \hline
+      FID -> spectrum                           &  NMRPipe              \\  \hline
+      Spectrum -> peaks                         &  Sparky peak picker   \\  \hline
+      Peaks -> GSSs                             &  Manual analysis      \\  \hline
+      Shifts -> sequence                        &  ShiftY               \\  \hline
+      Shifts -> secondary structure             &  TALOS+               \\  \hline
+      Shifts -> tertiary structure              &  CS-ROSETTA, CHESHIRE \\  \hline
+      Tertiary structure -> shifts              &  SPARTA+, ShiftX      \\  \hline
+      Shifts -> NOESY assignments               &  CYANA                \\  \hline
+      NOESY assignments -> structure            &  CYANA                \\  \hline
+      NOEs, shifts, j-couplings -> structure    &  XPLOR-NIH            \\  \hline
     \end{tabular}
     \caption{Connections between various data types.}
     \label{data_connections}
@@ -621,13 +624,13 @@ prevents reproducibility.
 \section{Figures}
 
 \begin{figure}[h]
-  \includegraphics[scale=0.42]{figures/nmr_overview}
+  \includegraphics[scale=0.35]{figures/nmr_overview}
   \caption{An overview of the NMR process for protein structure determination.}
   \label{nmr_overview}
 \end{figure}
 
 \begin{figure}
-  \includegraphics[scale=0.35]{figures/process_timeline}
+  \includegraphics[scale=0.30]{figures/process_timeline}
   \caption{The connections between various data types.}
   \label{process_timeline}
 \end{figure}
@@ -647,7 +650,7 @@ prevents reproducibility.
 \end{figure}
 
 \begin{figure}
-  \includegraphics[scale=0.45]{figures/ss-residue}
+  \includegraphics[scale=0.40]{figures/ss-residue}
   \caption[Assignment of a GSS chain to residues]
           {Assignment of a GSS chain to residues.  The circles are residues,
            black lines are peptide bonds, squares are GSSs, red lines are 

@@ -336,6 +336,7 @@ may be incompatible with the extension.
 
 
 \section{Creating an NMR-STAR file}
+\begin{sloppypar}
 While the data is stored as standard Sparky-formatted files in a git repository
 during analysis for convenience, after analysis is complete, the project
 may be converted to a single NMR-STAR file, containing the complete history
@@ -344,6 +345,7 @@ of the project.  This conversion may be accomplished using the code found at
 version from the git repository, parses the snapshot into a data structure,
 calculates semantic diffs between successive snapshots, 
 and finally generates an NMR-STAR file containing the data.
+\end{sloppypar}
 
  
 
@@ -381,7 +383,7 @@ and finally generates an NMR-STAR file containing the data.
 \section{Figures}
 
 \begin{figure}[h]
-  \includegraphics[scale=0.6]{figures/sparky_extensions}
+  \includegraphics[scale=0.5]{figures/sparky_extensions}
   \caption{The Sparky interface, showing how to activate the reproducibility
            extension.}
   \label{sparky_extensions}

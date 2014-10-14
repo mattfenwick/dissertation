@@ -328,11 +328,13 @@ features for creating, tracking and querying the history.  Here is a code
 snippet that shows how to create and annotate a new snapshot using git; all
 commands are run from a standard shell:
 \begin{verbatim}
-# prepare two files -- peaks and parameters -- for snapshotting
+# prepare two files for snapshotting
+#    peaks and parameters
 $ git add nhsqc_peaks.str peak_picker_parameters.str
 
 # create a snapshot, and annotate with a structured reason
-$ git commit -m "{\"reason": "automated Sparky peak picker\"}"
+$ git commit -m "{\"reason": 
+                   "automated Sparky peak picker\"}"
 
 # display the history of commits in the project
 $ git log
@@ -382,7 +384,7 @@ reproducibility.
 \begin{table}[h]
     \begin{tabular}{ | c || c | c | c | c | c |}
     \hline
-      Name              &  Dimension 1  &  Dimension 2  &  Dimension 3  &  Is NOESY?    \\    \hline
+      Name              &  Dim 1        &  Dim 2        &  Dim 3        &  Is NOESY?    \\    \hline
       NHSQC             &  H            &  N            &               &  No           \\    \hline
       HNCO              &  H            &  N            &  C            &  No           \\    \hline
       HNCACB            &  H            &  N            &  C            &  No           \\    \hline
