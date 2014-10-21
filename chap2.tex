@@ -9,13 +9,6 @@
 
 \section{Protein NMR}
 
-Proteins containing spin-1/2 nuclei may be studied using NMR.  Hydrogen, 
-carbon and nitrogen are plentiful in proteins, and have isotopes of 
-spin-1/2, although the NMR-friendly isotopes, \nmrisoc{} and \nmrison{}, 
-are not the most plentiful isotopes.
-Useful biophysical characterization of proteins that may be 
-obtained using NMR includes structure, dynamics, and binding.
-
 \subsection*{Sample preparation}
 
 The first step of an NMR analysis process is to obtain a sample of the protein
@@ -38,8 +31,7 @@ a spectrometer, running sequences of radio-frequency pulses which selectively
 excite nuclei within the sample, and observing the results.  The data are a 
 superposition of decaying sinusoids of different frequencies and amplitudes;
 the frequencies correspond to the precession at the Larmor frequency
-of the various nuclei, and the decay is the result
-of the gradually return to equilibrium \cite{bloch1946nuclear}.
+of the various nuclei \cite{bloch1946nuclear}.
 
 Various pulse sequences are used to probe specific functional groups within
 the protein.  There are two major categories of pulse sequences, based on the
@@ -47,17 +39,17 @@ nature of the interactions they exploit: the first group exploits scalar
 couplings which exist between covalently-bonded nuclei, and are thus called 
 "through-bond" experiments \cite{davis1985assignment}.  
 The second group exploits cross-relaxation between proton pairs that are
-dipole-dipole coupled; these protonsare spatially close but do not have to 
+dipole-dipole coupled; these protons are spatially close but do not have to 
 be covalently bonded, and are thus called "through-space" experiments
 \cite{solomon1955relaxation}.  The data produced by these two experiments are 
 used differently.
 
 Two important parameters of data collection are the dwell time and the number
 of points collected.  The dwell time determines the range of frequencies that
-can be distinguished.  The number of points collected determines the resolution
-(the ability to distinguish between nearby, but distinct, frequencies).  Instead
-of the number of points, one can also use the acquisition time, which is the
-product of the dwell time and the number of points.
+can be distinguished.  The number of points collected is related to the digital 
+resolution (the ability to distinguish between nearby, but distinct, frequencies).  
+The acquisition time, which is the product of the dwell time and the number 
+of points, is related to the resolution.
 
 Maximizing sensitivity is helpful for later data analysis.
 Sensitivity depends on the gyromagnetic ratios of nuclei and 
@@ -98,8 +90,8 @@ closeness of resonances frequencies, and experimental quality.  In general,
 larger proteins, which have more atoms than smaller proteins and therefore
 more nuclei as well, have more resonance
 frequencies in close proximity to each other, increasing the probability of 
-overlap.  To increase resolution, data points are collected at 
-larger time intervals.  Care must be taken to avoid decreasing the sensitivity;
+overlap.  To increase resolution, data points are collected to 
+longer times.  Care must be taken to avoid decreasing the sensitivity;
 non-uniform sampling and Maximum Entropy reconstruction offer one means of so
 doing \cite{rovnyak2004accelerated, hoch1985maximum}.
 
