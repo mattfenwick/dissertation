@@ -1,22 +1,7 @@
 \chapter{Introduction}
 
-NMR (Nuclear Magnetic Resonance) spectroscopy is an experimental technique for 
-studying proteins and other biological molecules at atomic resolution.  In 
-NMR is used to collect detailed molecular data, which 
-is analyzed to get information about structure, dynamics,  
-activity, and inter-molecular interactions.  
-Since 1990, the structures of nearly 9,000 
-proteins that were solved using NMR have been deposited in the Protein Data 
-Bank (PDB) \cite{pdb}, a facility for the archival and sharing of protein-related 
-data, and NMR data is available for over 10,000 proteins in the BioMagnetic 
-Resonance Bank (BMRB) \cite{bmrb}, a facility for the archival and sharing of 
-specifically NMR-derived data.  The data collected using NMR techniques is 
-important to the field of drug design 
-\cite{stockman2002drugs, moore2003leveraging, reckel2011proteorhodopsin}.
 
-
-
-\section{Reproducibility}
+\section{What is reproducibility?}
 Reproducibility is a critical component of science.
 When the process for obtaining a result is captured in sufficient detail that
 an independent scientist can execute the same process and get the same result,
@@ -63,4 +48,74 @@ Reproducibility is important to science for several reasons \cite{borgman2012con
   \item reduces time wastage due to inability to replicate results 
         \cite{ioannidis2005most, mullard2011reliability, prinz2011reproducibility, begley2012drug}. 
 \end{itemize}
+
+
+
+\section{What is NMR?}
+NMR (Nuclear Magnetic Resonance) spectroscopy is an experimental technique for 
+studying proteins and other biological molecules at atomic resolution.  In 
+NMR is used to collect detailed molecular data, which 
+is analyzed to get information about structure, dynamics,  
+activity, and inter-molecular interactions.  
+Since 1990, the structures of nearly 9,000 
+proteins that were solved using NMR have been deposited in the Protein Data 
+Bank (PDB) \cite{pdb}, a facility for the archival and sharing of protein-related 
+data, and NMR data is available for over 10,000 proteins in the BioMagnetic 
+Resonance Bank (BMRB) \cite{bmrb}, a facility for the archival and sharing of 
+specifically NMR-derived data.  The data collected using NMR techniques is 
+important to the field of drug design 
+\cite{stockman2002drugs, moore2003leveraging, reckel2011proteorhodopsin}.
+
+
+
+\section{How do we do NMR data analysis?}
+NMR analysis is performed using a long, time-consuming process.  Many steps
+are performed with the aid of computer programs, but most (if not all) require
+some level of human intervention to verify and correct some portion of the
+results.
+
+
+
+\section{What NMR data is currently shared?}
+Typically, only the final assigned chemical shifts are shared.  Additional 
+supporting data including spin systems and resonances are not shared, nor is
+the process of analysis itself, including what tools were used, their parameters,
+and any manual modifications made.
+
+
+
+\section{NMR analysis is irreproducible}
+NMR analysis is irreproducible because the analysis process is not captured
+in full.  For an overview of the analysis process, see \cite{guerry2011automated,
+guntert2009automated, williamson2009automated}.  Briefly, a sequential process
+is used, which may include the use of computational tools; manual modifications
+are usually included as well, in order to validate, correct, and extend
+computational analysis \cite{guerry2011automated, guntert2009automated, 
+williamson2009automated}.  The manual interventions are necessary to get high-quality
+results.
+
+What necessary information is not captured from the analysis process?
+\begin{itemize}
+  \item what was done -- the tools that were used, their inputs and outputs,
+    manual interventions
+  
+  \item the state of the analysis at each point during the process.
+  
+  \item why changes were made
+  
+  \item possible alternative interpretations
+  
+  \item issues with analysis -- problems, concerns, ambiguities, uncertainties,
+    and incompletions
+\end{itemize}
+
+
+
+\section{Summary: problem and solution}
+Reproducibility is important to all scientifici disciplines.  However, NMR
+analysis is not reproducible.  The work presented here shows how NMR analysis
+is irreproducible, defines a strategy for achieving reproducibility of analysis,
+implements the strategy concretely, and applies the strategy to analyze real
+NMR data, resulting in a reproducible data set.  The result is significant 
+progress towards reproducibility.
 
